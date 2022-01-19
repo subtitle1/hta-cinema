@@ -367,7 +367,7 @@ ul{
 }
 .btn-group{
     padding-top: 30px;
-    height: 36px;
+    height: 20px;
     width: 100%;
 }
 a.button{
@@ -376,20 +376,17 @@ a.button{
     display: block;
     text-align: center;
     text-decoration: none;
+    height: 20px;
 }
 a#pagePrevious{
     width: 117px;
     float: left;
     border-radius: 0 0 50% 50%;
+    background-color: rgb(65, 64, 64);
 }
 a#pageNext{
     width: 110px;
     float: right;
     border-radius: 0 0 50% 50%;
-}
-.active{
-
-}
-.disabled{
-    
+    background-color: #06b0b3;
 }
