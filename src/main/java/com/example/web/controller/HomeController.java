@@ -13,4 +13,14 @@ public class HomeController {
 		
 		return "home";	// prefix="/WEB-INF/views/" viewName="home" suffix=".jsp"
 	}
+	
+	@GetMapping("/movie/list")
+	public String movieList() {
+		return "/movie/list";
+	}
+	
+	@GetMapping("/movie/detail")
+	public String movieDetail(int id) {
+		return "/movie/detail";
+	}
 }
