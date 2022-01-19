@@ -13,5 +13,6 @@
 	<div>
 		<img src="/resources/images/cat.png"/>
 	</div>
+	<!-- 연동 확인용 주석 -->
 </body>
 </html>
