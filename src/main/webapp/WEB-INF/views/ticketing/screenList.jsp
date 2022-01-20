@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/resources/css/final.css">
 </head>
 <body>
+<%@ include file="../common/nav.jsp" %>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <div class="col">
@@ -46,42 +47,42 @@
                         <button class="movie-name-button" type="button">큐레이션</button>
                     </div>
                     <div class="movie-list">
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button" >
                             <img src="/resources/images/전체관람자.png" alt="allpeople"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button" >
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button" >
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button">
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button">
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button">
                             <img src="/resources/imagess/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button">
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" movie-nm="" movie-no="" img-path="">
+                        <button class="movie-button" type="button">
                             <img src="/resources/images/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
                             <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
@@ -182,7 +183,7 @@
                         <button class="next-time-button" ></button>
                     </div>
                     <div class="movie-check">
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021" >
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
@@ -203,7 +204,7 @@
                                 </span>
                             </div>
                         </button>
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021">
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
@@ -224,7 +225,7 @@
                                 </span>
                             </div>
                         </button>
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021">
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
@@ -245,7 +246,7 @@
                                 </span>
                             </div>
                         </button>
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021" >
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
@@ -266,7 +267,7 @@
                                 </span>
                             </div>
                         </button>
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021" >
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
@@ -287,7 +288,7 @@
                                 </span>
                             </div>
                         </button>
-                        <button type="button"  class="btn-on" id="2201171311021" play-start-time="1725" play-de="20220117" play-seq="1" rpst-movie-no="21089201" brch-no="1311" theab-no="04" play-schdl-no="2201171311021" rest-seat-cnt="95" ctts-ty-div-cd="MVCT01" theab-popup-at="Y" theab-popup-no="1313" >
+                        <button type="button"  class="btn-on" id="2201171311021">
                             <div class="legend"></div>
                             <span class="time">
                                 <strong title="상영시작">17:25</strong>
