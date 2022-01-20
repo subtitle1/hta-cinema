@@ -5,7 +5,6 @@
 <head>
 	<title></title>
   	<meta charset="utf-8">
-<!--   	<meta name="viewport" content="width=device-width, initial-scale=1"> -->
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -36,7 +35,7 @@
 				<span><strong id="count"></strong> 개의 영화가 검색되었습니다.</span>
 			</div>
 			<div class="col-auto">
-				<input type="text" class="form-control" placeholder="영화명 검색">
+				<input id="search-input" type="text" class="form-control" placeholder="영화명 검색">
 			</div>
 			<div class="col-auto">
 				<button type="button" class="btn btn-sm mb-3 search-btn">
@@ -72,6 +71,8 @@
 		let currentPage = 1;
 		let currentMovieUrl = "https://api.themoviedb.org/3/movie/now_playing"
 		let imageUrl = "https://image.tmdb.org/t/p/w500/";
+		let searchUrl = "https://api.themoviedb.org/3/search/movie";
+		let apiKey = "935cc74a36fab18e33ea802df5ebd3f4";
 		let totalPage = 0;
 		
 		function getMovieList() {
@@ -79,10 +80,10 @@
 				type: 'get',
 				url: currentMovieUrl,
 				data: {
-					"api_key": "935cc74a36fab18e33ea802df5ebd3f4",
+					"api_key": apiKey,
 					language: "ko-KR",
 					region: "KR",
-					page: currentPage
+					page: currentPage,
 				},
 				dataType: 'json',
 				success: function(response) {
@@ -96,41 +97,45 @@
 						
 					} else {
 						totalPage = Math.ceil(resultCount/20);
-						$("#count").text(response.total_results);
+						$("#count").text(resultCount);
 					}
 					
-					let movieList = response.results;
-					$.each(movieList, function(index, movie) {
-						let poster = imageUrl+movie.poster_path; 						
-
-						let output = "<div class='col-3 mb-5' style='padding-left: 0px;'>";
-						output += "<a href='/movie/detail?id="+movie.id+"'>";
-						if (movie.poster_path) {
-							output += "<img src = '" +poster+ "'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
-						} else {
-							output += "<img src ='/resources/images/none.jpg' class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
-						}
-						output += "</a>";
-						if (movie.title) {
-							output += "<p class='mt-2'>" + movie.title + "</p>";
-						} else {
-							output += "<p class='mt-2'>"+movie.name+"</p>";
-						}
-						if (movie.release_date) {
-							output += "<span> 개봉일 | "+movie.release_date+"</span>";
-						} else {
-							output += "<span> 개봉일 |  미정</span>";
-						}
-						output += "<div class='d-flex'>";
-						output += "<button type='button' style='margin-right: 15px;' class='btn btn-outline-dark btn-like col-5 mt-1 float-end'>0</button>";
-						output += "<button type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
-						output += "</div>";
-						output += "</div>";
-						
-						$div.append(output);
-					})
+					showLists(response);
 				}
 			});	
+		}
+		
+		function showLists(response) {
+			let movieList = response.results;
+			$.each(movieList, function(index, movie) {
+				let poster = imageUrl+movie.poster_path; 						
+
+				let output = "<div class='col-3 mb-5' style='padding-left: 0px;'>";
+				output += "<a href='/movie/detail?id="+movie.id+"'>";
+				if (movie.poster_path) {
+					output += "<img src = '" +poster+ "'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
+				} else {
+					output += "<img src ='/resources/images/none.jpg' class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
+				}
+				output += "</a>";
+				if (movie.title) {
+					output += "<p class='mt-2'>" + movie.title + "</p>";
+				} else {
+					output += "<p class='mt-2'>"+movie.name+"</p>";
+				}
+				if (movie.release_date) {
+					output += "<span> 개봉일 | "+movie.release_date+"</span>";
+				} else {
+					output += "<span> 개봉일 |  미정</span>";
+				}
+				output += "<div class='d-flex'>";
+				output += "<button type='button' style='margin-right: 15px;' data-movie-no='"+movie.id+"' class='btn btn-outline-dark btn-like col-5 mt-1 float-end'><img class='me-3' src='/resources/images/like.png'>0</button>";
+				output += "<button type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
+				output += "</div>";
+				output += "</div>";
+				
+				$div.append(output);
+			});
 		}
 		
 		getMovieList();
@@ -165,6 +170,27 @@
 				this.disabled = true;
 			}
 		})
+		
+		$(".search-btn").click(function() {
+			let keyword = $("#search-input").val();
+			$.ajax({
+				type: 'get',
+				url: searchUrl,
+				data: {
+					"api_key": apiKey,
+					language: "ko-KR",
+					page: currentPage,
+					query: keyword
+				},
+				success: function(response) {
+					let movieList = response.results;
+					$("#count").text(response.total_results);
+					$div.empty();
+					$("#searchMore").disabled = true;
+					showLists(response);
+				}
+			})
+		});
 	})
 </script>
 </html>
