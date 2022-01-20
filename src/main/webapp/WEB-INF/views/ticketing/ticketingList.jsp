@@ -13,6 +13,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+<%@ include file="../common/nav.jsp" %>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <h2>빠른예매</h2>
@@ -32,7 +33,7 @@
                             -
                         </button>
                         <div class="number">
-                            <button type="button" class="now" title="성인 현재 좌석 선택 수" ticketgrpcd="TKA">
+                            <button type="button" class="now" title="성인 현재 좌석 선택 수">
                                 0
                             </button>
                         </div>
@@ -46,7 +47,7 @@
                             -
                         </button>
                         <div class="number">
-                            <button type="button" class="now" title="청소년 현재 좌석 선택 수" ticketgrpcd="TKY">
+                            <button type="button" class="now" title="청소년 현재 좌석 선택 수">
                                 0
                             </button>
                         </div>
@@ -60,7 +61,7 @@
                             -
                         </button>
                         <div class="number">
-                            <button type="button" class="now" title="우대 현재 좌석 선택 수" ticketgrpcd="TKS">
+                            <button type="button" class="now" title="우대 현재 좌석 선택 수">
                                 0
                             </button>
                         </div>
@@ -93,33 +94,33 @@
                         <p class="cate">2D(자막)</p>
                     </div>
                 </div>
-                    <div class="movie-detail-area">
-                        <p class="place">고양스타필드</p>
-                        <p class="special">MX관</p>
-                        <p class="date"><span>2022.01.22</span>
-                            <em>(토)</em>
-                        </p>
-                        <div class="other-time">
-                            <button type="button" class="now-time">
-                                "16:50~19:28"
-                                <i class="arr"></i>
-                            </button>
-                            <ul>
-                                <!--버튼클릭시 li의 visibility :visible 으로 설정 -->
-                                <li>
-                                    <button type="button" class="btn">"17:10~20:30"</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn">"17:10~20:30"</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn">"17:10~20:30"</button>
-                                </li>
-                            </ul>
-                        </div>
+                <div class="movie-detail-area">
+                    <p class="place">고양스타필드</p>
+                    <p class="special">MX관</p>
+                    <p class="date"><span>2022.01.22</span>
+                        <em>(토)</em>
+                    </p>
+                    <div class="other-time">
+                        <button type="button" class="now-time">
+                            "16:50~19:28"
+                            <i class="arr"></i>
+                        </button>
+                        <ul>
+                            <!--버튼클릭시 li의 visibility :visible 으로 설정 -->
+                            <li>
+                                <button type="button" class="btn">"17:10~20:30"</button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn">"17:10~20:30"</button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn">"17:10~20:30"</button>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="img-card">
-                        <img src="/resources/images/SXTvhvgm4fbptvsfROZJoGb0DHYqiB1V_150.jpg" alt="" class="img-movie">
+                </div>
+                <div class="img-card">
+                    <img src="/resources/images/SXTvhvgm4fbptvsfROZJoGb0DHYqiB1V_150.jpg" alt="" class="img-movie">
                 </div>
                 <div>
                     <div class="kind-seat">
@@ -128,7 +129,6 @@
                                 <div class="seat-condition-common" title="일반"><em class="seat-em">일반</em></div>
                                 <div class="seat-condition-disabled" title="장애인석"><em class="seat-em">장애인석</em></div>
                         <!--선택하면 selected class들어감 -->
-                        </ul>
                     </div>
                     <div class="choise-seat">
                         <p class="tit-seat">선택좌석</p>
@@ -152,11 +152,11 @@
                     <div class="pay">
                         <p class="tit-pay">최종결제금액</p>
                     </div>   
-                        <div class="money">
-                            <!--변경시 em태그의 숫자가 변경된다. -->
-                            <em>22,000</em>
-                            <span>원</span>
-                        </div>
+                    <div class="money">
+                        <!--변경시 em태그의 숫자가 변경된다. -->
+                        <em>22,000</em>
+                        <span>원</span>
+                    </div>
                 </div>
                 <div class="btn-group">
                     <a href="#자바스크립트" class="button" id="pagePrevious" title="이전">이전</a>
@@ -165,6 +165,7 @@
             </div>
         </div>
     </div>
+</div>
     <script type="text/javascript">
         $(function(){
             $("#show-seat").append(function(){

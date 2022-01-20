@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,9 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
-    <div class="container" style="width:1250px">
+    <div class="container" style="width:1250px ">
         <div class="head">
             <h2>빠른예매</h2>
         </div>
@@ -28,15 +28,70 @@
                         <button type="button" id="coupon-modal-show" class="btn-modal-show">메가박스 할인 쿠폰</button>
                         <button type="button" id="vipcoupon-modal-show" class="btn-modal-show">메가박스 VIP영화쿠폰</button>
             </div>
-            <div class="pay-kakao" id="pay-kakao-id">
+            <div class="pay-kakao" >
                 <h5>결제수단 선택</h5>
                 <div class="text-wrap">
+                    <div class="" id="pay-kakao-id"></div>
                     <div class="text-event"><p>1만원 이상 결제시 영화관람권 추첨 이벤트 자동응모!</p></div>
+                </div>
+                <div class="pay-wrap">
+                    <input type="radio" name="radio-kakao-pay" id="kakao-pay-radiobox">
+                    <label for="kakao-pay-radiobox">카카오페이 결제</label>
+                </div>
+                <div class="pay-story">
+                    <ul>
+                        <li>내통장결제는 본인명의의 계좌를 최초 1회등록 후 비밀번호 입력만으로 간편하게 이용할 수 있는 현금결제 서비스 입니다.</li>
+                        <li>은행 점검시간의 경우 내통장결제서비스 이용이 불가합니다.</li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="right-container">
-        
+            <div class="title-name">
+                <img src="/resources/images/12세이상관람자.png" alt="count-age" class="count-age">
+                <p class="title-text">해적:도깨비 깃발</p>
+                <p class="screen-system">2D</p>
+                <p class="screen-location">강남/4관</p>
+                <p class="screen-day">2022.01.31</p>
+                <p class="screen-time"><i class="fas fa-clock"></i>10:20~12:36</p>
+            </div>
+            <div class="pay-container">
+                <div class="kind-age">
+                    <p class="name">성인1</p>
+                    <p class="pay">14,000</p>
+                </div>
+                <div class="total">
+                    <p class="total-title">금액</p>
+                    <p class="total-pay"><em>14000</em>원</p>
+                </div>
+                <i class="fas fa-minus-circle"></i>
+                <div class="discount-total">
+                    <p class="discount-title">
+                        할인적용
+                    </p>
+                    <p class="discount-pay">
+                        <em>0</em>원
+                    </p>
+                </div>
+                <div class="discount-content">
+                    <div class="point">
+                        <p class="use-point">포인트 사용</p>
+                        <p class="point-discount"><em>3,000</em>원</p>
+                    </div>
+                </div>
+                <div class="final-pay">
+                    <p class="final-title">최종결제금액</p>
+                    <p class="final-total"><em>14,000</em>원</p>
+                </div>
+                <div class="way-pay">
+                    <p class="way-pay-title">결제수단</p>
+                    <p class="way-pay-content">카카오페이결제</p>
+                </div>
+                <div class="btn-final">
+                    <button class="btn-pre" type="button">이전</button>
+                    <button class="btn-pay" type="button">결제</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="point-modal">
@@ -48,7 +103,7 @@
             <div class="point-modal-body">
                 <ul class="dot-list">
                     <li>회원님께서 보유하고 있는 포인트 중 사용가능한 포인트 입니다.</li>
-                    <li>포인트 적립 및 사용내역은 나의 &gt 메가박스 멤버십 포인트에서 확인하세요</li>
+                    <li>포인트 적립 및 사용내역은 나의 메가박스 멤버십 포인트에서 확인하세요</li>
                 </ul>
                 <div class="usable-point">
                     <i class="fas fa-parking"></i>
@@ -179,7 +234,7 @@
                 <div class="text-center">
                    <ul class="dot-list">
                        <li>사용가능한 쿠폰만 노출됩니다.</li>
-                       <li>전체 쿠폰 목록은 나의 메가박스 &gt 할인쿠폰에서 확인 가능합니다.</li>
+                       <li>전체 쿠폰 목록은 나의 메가박스 할인쿠폰에서 확인 가능합니다.</li>
                        <li>보유하신 쿠폰은 등록 후 이용하실 수 있습니다.</li>
                    </ul>
                 </div>
@@ -297,5 +352,34 @@
             </div>
         </div>
     </div>
+    </div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		   $(".btn-pay").click(function(){
+		        var IMP = window.IMP; // 생략가능
+				IMP.init('imp28206043'); 
+				IMP.request_pay({
+					pg: 'kakao',
+					pay_method: 'card',
+					merchant_uid: 'merchant_' + new Date().getTime(),
+					name: '주문명 : 아메리카노',
+					amount: 2000,
+					buyer_name: '이름',
+					buyer_postcode: '123-456',
+					}, function (rsp) {
+						console.log(rsp);
+					if (rsp.success) {
+						var msg = '결제가 완료되었습니다.';
+						msg += '결제 금액 : ' + rsp.paid_amount;
+						// success.submit();
+					} else {
+						var msg = '결제에 실패하였습니다.';
+						msg += '에러내용 : ' + rsp.error_msg;
+					}
+					alert(msg);
+				});
+			});
+	})
+</script>
 </html>

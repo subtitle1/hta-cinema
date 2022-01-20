@@ -23,4 +23,19 @@ public class HomeController {
 	public String movieDetail(int id) {
 		return "/movie/detail";
 	}
+	
+	@GetMapping("/ticketing/screenList")
+	public String screenList() {
+		return "/ticketing/screenList";
+	}
+	
+	@GetMapping("/ticketing/ticketingList")
+	public String ticketingList() {
+		return "/ticketing/ticketingList";
+	}
+	
+	@GetMapping("/ticketing/ticketingPay")
+	public String ticketingPay() {
+		return "/ticketing/ticketingPay";
+	}
 }
