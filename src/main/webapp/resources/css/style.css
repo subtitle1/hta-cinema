@@ -11,12 +11,21 @@ a {
     font-weight: 400;
 }
 
+body {
+  min-width: 970px;
+}
+
 .container{
 	width: 1250px;
 	max-width:none!important;
 }
 
 /* navbar */
+#header {
+	border-bottom: 2px solid #000;
+	width: 2150px;
+}
+
 #navbar-2 .util-list li a {
 	color: black;
     font-size: 18px;
@@ -53,11 +62,6 @@ a {
     border-radius: inherit;
     border-bottom: 2px solid #000;
     font-size: 14px;
-}
-
-#header {
-	border-bottom: 2px solid #000;
-	width: 2115px;
 }
 
 .navbar-light button {
@@ -116,9 +120,27 @@ a {
 }
 
 #movie-head div {
-	margin-top: 450px
+	margin-top: 290px;
+    font-size: 18px;
 }
 
 .raing span {
 	color: white;
+}
+
+.ticketing {
+    position: relative;
+    top: 425px;
+    left: 288px;
+    width: 290px;
+}
+
+.review-head a {
+	text-decoration: none;
+	color: black;
+}
+
+#nav-video div span{
+	color:black;
+	font-size: 20px;
 }
