@@ -23,19 +23,19 @@
 			<div class="collapse navbar-collapse justify-content-start">
 				<ul class="navbar-nav util-list">
 					<li class="nav-item">
-					<a class="nav-link" href="#"><img src="/resources/images/ico-sitemap.png"></a>
+					<a class="nav-link" href="#"><img src="/resources/images/nav/ico-sitemap.png"></a>
 					</li>
 	
 					<li class="nav-item dropdown"><a class="nav-link" href="#"
 						id="navbarDropdown" role="button" data-bs-toggle="dropdown"
 						aria-expanded="false"> <img
-							src="/resources/images/ico-search.png">
+							src="/resources/images/nav/ico-search.png">
 					</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
 							<div class="search-box p-3">
 								<form action="">
 		     		 				<input class="form-control" type="search" name="keyword" value="" placeholder="영화를 검색하세요!" aria-label="Search">
-		      						<button class="btn btn-sm" type="button"><img src="/resources/images/ico-search.png"></button>
+		      						<button class="btn btn-sm" type="button"><img src="/resources/images/nav/ico-search.png"></button>
 		    					</form>
 							</div>
 						</ul>
@@ -55,8 +55,8 @@
 			</div>
 			<div class="collapse navbar-collapse justify-content-end">
 				<ul class="navbar-nav util-list">
-					<li class="nav-item"><a class="nav-link" href="#"><img src="/resources/images/ico-schedule.png"></a></li>
-					<li class="nav-item"><a class="nav-link" href="#"><img src="/resources/images/ico-mymega.png"></a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><img src="/resources/images/nav/ico-schedule.png"></a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><img src="/resources/images/nav/ico-mymega.png"></a></li>
 				</ul>
 			</div>
 		</div>

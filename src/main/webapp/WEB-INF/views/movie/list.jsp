@@ -39,7 +39,7 @@
 			</div>
 			<div class="col-auto">
 				<button type="button" class="btn btn-sm mb-3 search-btn">
-					<img src="/resources/images/ico-search.png">
+					<img src="/resources/images/nav/ico-search.png">
 				</button>
 			</div>
 		</form>
@@ -66,15 +66,15 @@
 </body>
 <script type="text/javascript">
 	$(function () {
+		
 		let $div = $("#movie-lists .poster");
-
 		let currentPage = 1;
 		let currentMovieUrl = "https://api.themoviedb.org/3/movie/now_playing"
 		let imageUrl = "https://image.tmdb.org/t/p/w500/";
 		let searchUrl = "https://api.themoviedb.org/3/search/movie";
 		let apiKey = "935cc74a36fab18e33ea802df5ebd3f4";
 		let totalPage = 0;
-		
+			
 		function getMovieList() {
 			$.ajax({					
 				type: 'get',
@@ -115,7 +115,7 @@
 				if (movie.poster_path) {
 					output += "<img src = '" +poster+ "'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 				} else {
-					output += "<img src ='/resources/images/none.jpg' class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
+					output += "<img src ='/resources/images/movie/none.jpg' class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 				}
 				output += "</a>";
 				if (movie.title) {
@@ -129,8 +129,8 @@
 					output += "<span> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button type='button' style='margin-right: 15px;' data-movie-no='"+movie.id+"' class='btn btn-outline-dark btn-like col-5 mt-1 float-end'><img class='me-3' src='/resources/images/like.png'>0</button>";
-				output += "<button type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
+				output += "<button  class='btn btn-like btn-outline-dark col-5 mt-1 float-end' data-no='"+movie.id+"' type='button' style='margin-right: 15px;'><img class='me-3 like-count' src='/resources/images/movie/unlike.png'>0</button>";
+				output += "<button data-no='"+movie.id+"' type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
 				output += "</div>";
 				output += "</div>";
 				
@@ -183,13 +183,26 @@
 					query: keyword
 				},
 				success: function(response) {
-					let movieList = response.results;
-					$("#count").text(response.total_results);
+					$("#searchMore").removeAttr("disabled");
 					$div.empty();
-					$("#searchMore").disabled = true;
+					let resultCount = response.total_results;
+					totalPage = Math.ceil(resultCount/20);
+					$("#count").text(resultCount);
 					showLists(response);
 				}
 			})
+		});
+		
+		// saveLike, removeLike ajax 필요
+		$(".poster").on('click', '.btn-like', function() {
+			// 영화 아이디
+			let id = $(this).attr("data-no");
+			console.log(id);
+			// saveLike ajax 시, 로그인 세션 null일 때 exception
+			$(this).find('img').attr("src", "/resources/images/movie/like.png");
+			
+			// removeLike ajax 시
+			// $(this).find('img').attr("src", "/resources/images/movie/unlike.png");
 		});
 	})
 </script>
