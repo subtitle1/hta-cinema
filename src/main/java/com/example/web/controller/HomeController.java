@@ -38,4 +38,9 @@ public class HomeController {
 	public String ticketingPay() {
 		return "/ticketing/ticketingPay";
 	}
+
+	@GetMapping("/timeTable/timeTable")
+	public String timeTable() {
+		return "/timeTable/timeTable";
+	}
 }
