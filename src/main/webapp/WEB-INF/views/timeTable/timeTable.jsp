@@ -18,7 +18,7 @@
 		<div class="inner-wrap">
 			<div>
 				<span>Home</span> >
-				<a href="/" title="예매 페이지로 이동">예매</a> >
+				<a href="#" title="예매 페이지로 이동">예매</a> >
 				<a href="/timeTable/timeTable" title="상영시간표 페이지로 이동">상영시간표</a>
 			</div>
 		</div>
@@ -34,10 +34,16 @@
 							<a href="#masterSpclBrch" title="특별관 선택" class="btn"><img src="../../resources/images/ico-tab-special.png" /> 특별관</a>
 					</div>							
 					<div class="timeMainTitle">
-						<ul>
-							<li>전체영화</li>
-							<li>큐레이션</li>
-						</ul>
+							<nav>
+								<div class="nav nav-tabs nav-justified mt-5" id="nav-tab" role="tablist">
+									<button class="nav-link active" id="nav-boxoffice-tab" data-bs-toggle="tab" data-bs-target="#nav-boxoffice" type="button"
+										role="tab" aria-controls="nav-boxoffice" aria-selected="true">박스오피스</button>
+									<button class="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab"
+										aria-controls="nav-upcoming" aria-selected="false">상영예정작</button>
+									<button class="nav-link" id="nav-trending-tab" data-bs-toggle="tab" data-bs-target="#nav-trending" type="button" role="tab"
+										aria-controls="nav-trending" aria-selected="false">인기 영화</button>
+								</div>
+							</nav>
 					</div>			
 					<div class="timeMainMovie">
 						<div class="col-3">ddd</div>
@@ -58,8 +64,16 @@
 				<h1>시간표</h1>
 			</div>
 			<div class="movieOption">
-				<span>조조할인</span>
-				<span>심야할인</span>
+				<ul>
+					<li>전체</li>
+					<li>전체</li>
+					<li>전체</li>
+					<li class="grade">
+					<div>
+						<a data-bs-toggle="modal" data-bs-target="#gradeModal" href="#" id="grade-btn" >관람등급 </a>
+					</div>
+					</li>	
+				</ul>
 			</div>
 			<div class="movieTimeList">
 				<h1></h1>
@@ -67,6 +81,34 @@
 		</div>
 	</div>
 </div>
+	<!-- 관람평 모달 -->
+	<div class="modal fade" id="gradeModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="review-btn">관람등급 안내</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="gradeTable">
+						<thead>
+							<tr>
+								<th>등급명</th>
+								<th>설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>전체 관람가</td>
+								<td>모든 연령의 고객이 관람 가능</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 <script type="text/javascript">
 
 </script>
