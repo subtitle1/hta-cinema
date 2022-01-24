@@ -3,6 +3,7 @@ package com.example.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HomeController {
@@ -12,6 +13,11 @@ public class HomeController {
 		model.addAttribute("message", "홈페이지 방문을 환영합니다.");
 		
 		return "home";	// prefix="/WEB-INF/views/" viewName="home" suffix=".jsp"
+	}
+	
+	@PostMapping("/login")
+	public String login(String id, String password) {
+		return null;
 	}
 	
 	@GetMapping("/ticketing/screenList")
