@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/resources/css/screenList.css">
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <div class="col">

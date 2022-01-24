@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.MovieScheduleMapper">
+<!-- public List<MovieScheduleDto> getAllMovieScheduler();
+	 public MovieScheduleDto getMovieSchedulerByMovieNo(int movieNo);
+ -->
+ 
+ <select id="getAllMovieScheduler" resultType="com.example.dto.MovieScheduleDto">
+ 	select 
+ 	from 
+ </select>
+ <select id="getMovieSchedulerByMovieNo" resultType="com.example.dto.MovieScheduleDto" parameterType="int">
+ 
+ </select>
+</mapper>
