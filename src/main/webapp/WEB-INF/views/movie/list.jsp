@@ -111,7 +111,7 @@
 				let poster = imageUrl+movie.poster_path; 						
 
 				let output = "<div class='col-3 mb-5' style='padding-left: 0px;'>";
-				output += "<a href='/movie/detail?id="+movie.id+"'>";
+				output += "<a href='/movie/detail?no="+movie.id+"'>";
 				if (movie.poster_path) {
 					output += "<img src = '" +poster+ "'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 				} else {
