@@ -13,7 +13,7 @@ import com.example.vo.ReviewPointType;
 
 @Controller
 public class MovieController {
-
+		
 	@Autowired
 	private ReviewService reviewService;
 	

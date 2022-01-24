@@ -14,7 +14,7 @@ import com.example.web.form.ReviewInsertForm;
 
 @Controller
 public class ReviewController {
-
+		
 	@Autowired
 	private ReviewService reviewService;
 	

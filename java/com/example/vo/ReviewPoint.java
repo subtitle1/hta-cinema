@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class ReviewPoint {
-
+		
 	private long reviewNo;
 	private int reviewPointNo;
 }

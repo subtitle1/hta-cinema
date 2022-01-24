@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Criteria {
-
+		
 	private int movieNo;
 	private int beginIndex;
 	private int endIndex;
