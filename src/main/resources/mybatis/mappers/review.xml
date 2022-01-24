@@ -42,7 +42,7 @@
 		from review_point_type
 	</select>
 	
-	<select id="getAllReviewsByMovieNo" parameterType="com.example.form.Criteria" resultType="com.example.dto.ReviewDto">
+	<select id="getAllReviewsByMovieNo" parameterType="com.example.web.form.Criteria" resultType="com.example.dto.ReviewDto">
 		select 
 			c.customer_id customerId, 
 			r.review_score reviewScore, 
