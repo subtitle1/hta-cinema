@@ -47,8 +47,8 @@
         </div>
         <div class="right-container">
             <div class="title-name">
-                <img src="/resources/images/age/12세이상관람자.png" alt="count-age" class="count-age">
-                <p class="title-text">해적:도깨비 깃발</p><!-- 영화 번호들어가야할듯 -->
+                <img src="/resources/images/12세이상관람자.png" alt="count-age" class="count-age">
+                <p class="title-text">해적:도깨비 깃발</p>
                 <p class="screen-system">2D</p>
                 <p class="screen-location">강남/4관</p>
                 <p class="screen-day">2022.01.31</p>
@@ -92,17 +92,16 @@
                 </div>
             </div>
         </div>
-        <form action="/ticketing" method="post" id="form-submit">
-        <!-- 티켓번호, 고객번호, 상영번호,총금액, 사용포인트, 적립예정포인트 예매일 -->
-        	<input type="hidden" value="" name="userName"/><!-- 유저이름 -->
-        	<input type="hidden" value="" name="userEmail" /><!-- 유저의 이메일 ,여기서 알아낼수는? 혹은 sessionUtils로 읽어오기-->
-        	<input type="hidden" value="" name="screenTitle"/><!-- 유저의 티켓팅 낸 금액 -->
-        	<input type="hidden" value="" name="ticketingToTalPay" /><!-- 유저의 티켓팅 낸 금액 -->
-        	<input type="hidden" value="" name="userDiscountPoint" /><!-- 유저의 사용포인트 -->
-        	<input type="hidden" value="" name="ticketingPay" /><!-- 티켓실제금액 ,model-->
-        	<input type="hidden" value="" name="screenTime" /><!-- 상영시간 model-->
-        	<input type="hidden" value="" name="screen-day" /><!-- 상영일 model-->
-        	<input type="hidden" value="" name="screen" /><!-- 상영번호넣기 (제목읽어와서 name으로 정해도 괜춘할듯),티켓번호는 쭉골라서 올듯 model-->
+        <form action="/login" method="post" id="form-submit">
+        	<input type="hidden" name="userName"/>
+        	<input type="hidden" name="userEmail" />
+        	<input type="hidden" name="screenTitle"/>
+        	<input type="hidden" name="ticketingToTalPay" />
+        	<input type="hidden" name="userDiscountPoint" />
+        	<input type="hidden" name="ticketingPay" />
+        	<input type="hidden" name="seatNumber" />
+        	<input type="hidden" name="screenTime" />
+        	<input type="hidden" name="countPeople" />
         </form>
     </div>
     <div id="point-modal">
