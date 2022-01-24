@@ -9,6 +9,11 @@
 <body>
 <div class="container">
 <%@include file="../common/nav.jsp"%>
+	<div class="container">
+		<div class="mt-5">
+			<h1>전체극장</h1>
+		</div>
+	</div>
 </div>
 </body>
 </html>
