@@ -1,4 +1,4 @@
-package com.example.web.form;
+package com.example.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
