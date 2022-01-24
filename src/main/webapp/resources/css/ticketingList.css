@@ -216,7 +216,7 @@ ul{
     padding: 0;
 }
 .arr{
-    background-image: url(/resources/images/bg-other-time-arr-down.png);
+    background-image: url(/resources/images/bg/bg-other-time-arr-down.png);
     background-color: rgb(39, 37, 37);
     background-size: 100%;
     float: right;
@@ -254,7 +254,7 @@ ul{
 }
 .seat-condition.special{
     background-color: #028487;
-    background-image: url(/resources/images/condition-disabled.png);
+    background-image: url(/resources/images/btn/condition-disabled.png);
     background-position: left center;
 
 }
@@ -262,33 +262,46 @@ ul{
     position: fixed;
 }
 .seat-condition-choise{
-    background-image: url(/resources/images/seat-condition-choice.png);
+    background-image: url(/resources/images/btn/seat-condition-choice.png);
     background-size: 100%;
+    text-align: left;
+    color: white;
+    font-size:1px;
     width: 18px;
     height: 17px;
     margin: 2px;
 }
 .seat-condition-finish{
-    background-image: url(/resources/images/seat-condition-finish.png);
+    background-image: url(/resources/images/btn/seat-condition-finish.png);
     background-size: 100%;
+    text-align: left;
+    color: white;
+    font-size:1px;
     width: 18px;
     height: 17px;
     margin: 2px;
 }
 .seat-condition-common{
-    background-image: url(/resources/images/seat-condition-common.png);
+    background-image: url(/resources/images/btn/seat-condition-common.png);
+    text-align: left;
+    color: white;
+    font-size:1px;
     background-size: 100%;
-    width: 18px;
+    width: 20px;
     height: 17px;
     margin: 2px;
 }
 .seat-condition-disabled{
-    background-image: url(/resources/images/seat-condition-disabled.png);
+    background-image: url(/resources/images/btn/seat-condition-disabled.png);
     background-size: 100%;
+    text-align: left;
+    color: white;
+    font-size:1px;
     width: 18px;
     height: 17px;
     margin: 2px;
 }
+
 .seat-em{
     margin-left: 20px;
     margin-bottom: 10px;
