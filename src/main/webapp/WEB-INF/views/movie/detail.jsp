@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
   	<link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <body>
+	<%@include file="../common/tags.jsp" %>
 	<%@include file="../common/nav.jsp"%>
 	<div>
 		<div class="mt-3 bg-dark movie-head">
@@ -122,8 +124,8 @@
 				</div>
 				<div class="row text-center mt-3 mb-3">
 					<div class="col-1 ">
-						<img alt="" src="/resources/images/movie/bg-photo.png"
-							style="width: 50px;"> <span>customer id</span>
+						<img alt="" src="/resources/images/movie/bg-photo.png" style="width: 50px;">
+						<span>customer id</span>
 					</div>
 					<div class="col rounded border p-3"
 						style="background-color: #f8f8fa">
@@ -173,8 +175,9 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form id="review-form" action=""> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
-						<input type="hidden" id="movie-id" name="movieNo" value="${param.id }">
+					<form id="review-form" method="post" action="/review"> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
+						<input type="hidden" id="movie-id" name="movieNo" value="${param.no }">
+						<input type="hidden" name="customerNo" value=""> <!-- 세션에 담긴 값 -->
 						<div class="text-center mt-2 mb-3">
 							<h4>영화명</h4>
 							<h4>영화 어떠셨나요?</h4>
@@ -185,15 +188,15 @@
 						
 						<div class="border p-3 bg-light mb-3">
 							<div class="star-rating">
-								<input type="radio" id="5-stars" name="rating" value="5" />
+								<input type="radio" id="5-stars" name="reviewScore" value="5" />
 								<label for="5-stars" class="star">&bigstar;</label>
-								<input type="radio" id="4-stars" name="rating" value="4" />
+								<input type="radio" id="4-stars" name="reviewScore" value="4" />
 								<label for="4-stars" class="star">&bigstar;</label>
-								<input type="radio" id="3-stars" name="rating" value="3" />
+								<input type="radio" id="3-stars" name="reviewScore" value="3" />
 								<label for="3-stars" class="star">&bigstar;</label>
-								<input type="radio" id="2-stars" name="rating" value="2" />
+								<input type="radio" id="2-stars" name="reviewScore" value="2" />
 								<label for="2-stars" class="star">&bigstar;</label> 
-								<input type="radio" id="1-star" name="rating" value="1" />
+								<input type="radio" id="1-star" name="reviewScore" value="1" />
 								<label for="1-star" class="star">&bigstar;</label>
 							</div>
 							<div class="row mt-3 p-2">
@@ -207,20 +210,10 @@
 							<div class="row mt-3 mb-3 p-2">
 								<div>
 									<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-										<input type="checkbox" name="point" value="연출" class="btn-check" id="btncheck1" autocomplete="off">
-										<label class="btn btn-outline-dark" for="btncheck1">연출</label>
-										
-										<input type="checkbox" name="point" value="스토리" class="btn-check" id="btncheck2" autocomplete="off">
-										<label class="btn btn-outline-dark" for="btncheck2">스토리</label>
-										
-										<input type="checkbox" name="point" value="영상미" class="btn-check" id="btncheck3" autocomplete="off">
-										<label class="btn btn-outline-dark" for="btncheck3">영상미</label>
-										
-										 <input type="checkbox" name="point" value="배우" class="btn-check" id="btncheck4" autocomplete="off">
-										<label class="btn btn-outline-dark" for="btncheck4">배우</label>
-										
-										 <input type="checkbox" name="point" value="OST" class="btn-check" id="btncheck5" autocomplete="off">
-										<label class="btn btn-outline-dark" for="btncheck5">OST</label>
+										<c:forEach var="point" items="${pointTypes }" varStatus="loop">
+											<input type="checkbox" name="pointNo" value="${point.pointNo }" class="btn-check" id="btncheck-${loop.count }" autocomplete="off">
+											<label class="btn btn-outline-dark" for="btncheck-${loop.count }">${point.pointName }</label>
+										</c:forEach>
 									</div>
 								</div>
 							</div>
@@ -391,20 +384,14 @@
 			}
 		})
 		
-		
-			
-		$("#reviewModal").click(function() {
-			
-		})
-		
 		// 리뷰 버튼 모달
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
 			
 			// 평점 선택자
-			let rate = $(":input[name=rating]:checked").val();
-			let allCheckBox = $(":checkbox[name=point]");
-			let checkedList = $(":checkbox[name=point]:checked");
+			let rate = $(":input[name=reviewScore]:checked").val();
+			let allCheckBox = $(":checkbox[name=pointNo]");
+			let checkedList = $(":checkbox[name=pointNo]:checked");
 			let reviewBox = $("#review-content").val();
 			
 			if (rate == null) {

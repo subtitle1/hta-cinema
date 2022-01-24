@@ -264,7 +264,7 @@ ul{
 .seat-condition-choise{
     background-image: url(/resources/images/btn/seat-condition-choice.png);
     background-size: 100%;
-    text-align: left;
+    text-align: center;
     color: white;
     font-size:1px;
     width: 18px;
@@ -274,7 +274,7 @@ ul{
 .seat-condition-finish{
     background-image: url(/resources/images/btn/seat-condition-finish.png);
     background-size: 100%;
-    text-align: left;
+    text-align: center;
     color: white;
     font-size:1px;
     width: 18px;
@@ -283,7 +283,7 @@ ul{
 }
 .seat-condition-common{
     background-image: url(/resources/images/btn/seat-condition-common.png);
-    text-align: left;
+    text-align: center;
     color: white;
     font-size:1px;
     background-size: 100%;
@@ -294,10 +294,10 @@ ul{
 .seat-condition-disabled{
     background-image: url(/resources/images/btn/seat-condition-disabled.png);
     background-size: 100%;
-    text-align: left;
+    text-align: center;
     color: white;
     font-size:1px;
-    width: 18px;
+    width: 20px;
     height: 17px;
     margin: 2px;
 }
@@ -405,4 +405,54 @@ a#pageNext{
     float: right;
     border-radius: 0 0 50% 50%;
     background-color: #06b0b3;
+}
+#document-modal{
+    background-color:rgba(0, 0, 0, 0.8); 
+    justify-content:center; 
+    align-items:center;     
+    position:fixed;      
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;             
+    display:none; 
+}
+.document-modal{
+    width:400px;            
+    border-radius:5px;       
+    overflow:hidden;        
+    height: 430px;
+    position: absolute;
+    top: calc(50vh - 210px); left: calc(50vw - 200px);
+}
+.document-modal-header{
+  width:100%;
+  height:30px;  
+  display:flex; 
+  align-items:left;
+  justify-content:left;
+  color: white;
+  font-size: 5px;
+  padding-left: 10px;
+  background-color: #743cf7;
+}
+.document-modal-body{
+    width: 400px;
+    height: 600px;
+    padding: 1px;
+    background-color: white;
+    word-break:break-word; 
+    overflow-y:auto;  
+    color: black;
+}
+.dot-list{
+	color: black;
+	font-size: 11px
+}
+.btn-document-modal{
+	 background-color: #743cf7;
+	 align-items:left;
+	 justify-content:left;
+	 color: white;
+	 border: 1px solid #743cf7;
 }

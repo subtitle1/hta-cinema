@@ -20,16 +20,6 @@ public class HomeController {
 		return null;
 	}
 	
-	@GetMapping("/movie/list")
-	public String movieList() {
-		return "/movie/list";
-	}
-	
-	@GetMapping("/movie/detail")
-	public String movieDetail(int id) {
-		return "/movie/detail";
-	}
-	
 	@GetMapping("/ticketing/screenList")
 	public String screenList() {
 		return "/ticketing/screenList";

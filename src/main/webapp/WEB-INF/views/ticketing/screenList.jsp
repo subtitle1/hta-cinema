@@ -26,16 +26,8 @@
                     <button class="pre" type="button"></button>
                     <!-- 페이지 네이션으로 입력할 것 -->
                     <!--일에 따라서 class가 바뀐다. -->
-                    <button class="mon" type="button"><strong>17.</strong>오늘</button>
-                    <button class="mon" type="button"><strong>18.</strong>내일</button>
-                    <button class="mon" type="button"><strong>19.</strong>수</button>
-                    <button class="mon" type="button"><strong>20.</strong>목</button>
-                    <button class="mon" type="button"><strong>21.</strong>금</button>
-                    <button type="button" class="sat"><strong>22.</strong>토</button>
-                    <button type="button" class="sun"><strong>23.</strong>일</button>
-                    <button class="mon" type="button"><strong>24.</strong>월</button>
-                    <button class="mon" type="button"><strong>25.</strong>화</button>
-                    <button class="mon" type="button"><strong>26.</strong>수</button>
+                   	<div class="now-day">
+                   	</div>
                     <button class="next" type="button"></button>
                     <button class="calender" type="button"></button>
                 </div>
@@ -321,4 +313,62 @@
         </div>
       </div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		const dataDate = new Date();
+		let year = dataDate.getFullYear();
+		let month = dataDate.getMonth()+1;
+		let dataDay = dataDate.getDate();
+		let dayLabel = dataDate.getDay();
+		const reserveDate = $('div.now-day');
+		
+		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
+		let thisWeek = [];
+		let button = "";
+		let spanWeekOfDay = "";
+		let spanDay = "";
+		let div = "";
+		for(let i = 0 ; i<=11 ; i++) {
+			div = document.createElement("div");
+			button = document.createElement("button");
+			spanWeekOfDay = document.createElement("span");
+			spanDay = document.createElement("strong");
+			button.setAttribute("mon");
+			spanWeekOfDay.classList = 'movie-week-of-day';
+			spanDay.classList ='movie-day';
+			let resultDay = new Date(year, month, dataDay +(i-dayLabel));
+			
+			let yyyy = resultDay.getFullYear();
+			let mm = Number(resultDay.getMonth())+1;
+			let dd = resultDay.getDate();
+			let d = resultDay.getDay();
+			
+			mm = String(mm).length === 1 ? '0'+mm : mm;
+			dd = String(dd).length === 1 ? '0'+dd : dd;
+			d = String(d).length === 1 ? '0'+d : d;
+			spanWeekOfDay.innerHTML = mm;
+			button.append(spanWeekOfDay);
+			spanDay.innerHTML = dd;
+			button.append(spanDay);
+			reserveDate.append(button);
+			
+			thisWeek[i] = yyyy + "-" + mm +'-' +dd +'-'+d ;
+		
+			
+			dayClickEvent(button);
+		}
+		
+		function dayClickEvent(button){
+			$('.mon').on('click',function(){
+				const movieDateActive = $('.mon-active');
+				movieDateActive.forEach((list) =>{
+					list.classList.remove('.mon-active');
+				})
+				button.classList.add(".mon-active");
+			})
+		}
+		
+		
+	})
+</script>
 </html>

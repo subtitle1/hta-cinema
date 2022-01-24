@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ReviewMapper">
+
+	<select id="getReviewByNo" resultType="com.example.vo.Review" parameterType="int">
+		select 
+			review_no reviewNo, 
+			customer_no customerNo, 
+			movie_no movieNo, 
+			review_score reviewScore, 
+			review_content reviewContent, 
+			review_created_date createdDate
+		from review
+		where review_no = #{value}
+	</select>
+	
+	<insert id="insertReview" parameterType="com.example.vo.Review">
+		<selectKey resultType="long" keyProperty="reviewNo" order="BEFORE">
+			select review_seq.nextval from dual
+		</selectKey>
+		insert into review 
+		(review_no, customer_no, movie_no, review_score, review_content)
+		values 
+		(#{reviewNo}, #{customerNo}, #{movieNo}, #{reviewScore}, #{reviewContent})
+	</insert>
+	
+	<insert id="insertReviewPoint" parameterType="com.example.vo.ReviewPoint">
+		insert into review_point
+		values(#{reviewNo}, #{reviewPointNo})
+	</insert>
+	
+	<select id="getReviewsTotalByMovieNo" parameterType="int">
+		select count(*)
+		from review
+		where movie_no = #{value}
+	</select>
+	
+	<select id="getAllPointTypes" resultType="com.example.vo.ReviewPointType">
+		select 
+			review_point_type_no 	as pointNo, 
+			review_point_type_name 	as pointName
+		from review_point_type
+	</select>
+	
+	<select id="getAllReviewsByMovieNo" parameterType="com.example.web.form.Criteria" resultType="com.example.dto.ReviewDto">
+		select 
+			c.customer_id customerId, 
+			r.review_score reviewScore, 
+			r.review_content reviewContent, 
+			pt.review_point_type_name reviewPoints,
+			row_number() over (order by r.review_no desc) rn
+		from 
+			customer c, review r, movie m, review_point_type pt, review_point p
+		where 
+			c.customer_no = r.customer_no
+			and m.movie_no = r.movie_no
+			and p.review_point_type_no = pt.review_point_type_no
+			and m.movie_no = #{movieNo}
+			and rn between #{beginIndex} and #{endIndex}
+	</select>
+</mapper>
