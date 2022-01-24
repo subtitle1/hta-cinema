@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class ReviewInsertForm {
-
+		
 	private int customerNo;
 	private int movieNo;
 	private int reviewScore; // 점수

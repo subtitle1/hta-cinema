@@ -14,7 +14,7 @@ import com.example.vo.ReviewPointType;
 @Service
 @Transactional
 public class ReviewService {
-
+			
 	@Autowired
 	private ReviewMapper reviewMapper;
 	

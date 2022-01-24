@@ -11,7 +11,7 @@ import com.example.vo.ReviewPointType;
 
 @Mapper
 public interface ReviewMapper {
-
+		
 	Review getReviewByNo(int reviewNo);
 	void insertReview(Review review);
 	void insertReviewPoint(ReviewPoint reviewPoint);
