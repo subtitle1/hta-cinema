@@ -121,7 +121,7 @@
 						<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="#" id="review-btn">
 						<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 					</div>
-				</div>		
+				</div>
 				<div class="row text-center mt-3 mb-3">
 					<div class="col-1 ">
 						<img alt="" src="/resources/images/movie/bg-photo.png" style="width: 50px;">
