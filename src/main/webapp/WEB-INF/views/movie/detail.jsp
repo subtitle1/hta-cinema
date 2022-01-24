@@ -15,7 +15,6 @@
 	<%@include file="../common/nav.jsp"%>
 	<div>
 		<div class="mt-3 bg-dark movie-head">
-			<input type="hidden" id="movie-id" value="${param.id }">
 			<div class="container">
 				<div class="row" id="movie-head">
 					<div class="col ms-3 mt-5 mb-5">
@@ -62,9 +61,9 @@
 				aria-labelledby="nav-main-tab">
 				<div class="row mt-3 ms-1">
 					<div class="col">
-						<p id="tagline"></p>
+						<span style="font-weight: bold; font-size: 18px" id="tagline"></span><br><br>
 						<span id="overview"></span><br>
-						<br> <span>장르: </span><span id="genre"></span> <span
+						<br><span>장르: </span><span id="genre"></span> <span
 							id="runtime"></span>분 | 개봉일: <span id="openDt"></span><br> <span>출연진:
 						</span><span id="actors"></span>
 					</div>
@@ -75,9 +74,9 @@
 							<dt>관람포인트</dt>
 							<dd>배우·연출</dd>
 						</dl>
-						<div style="margin-left: 38px;">
+						<div style="margin-left: 58px;">
 							<!--차트가 그려질 부분-->
-							<canvas id="pointGraph" width="300" height="300"></canvas>
+							<canvas id="pointGraph" width="260" height="260"></canvas>
 						</div>
 						<!-- 데이터 없을 때 -->
 						<!-- <div>
@@ -98,8 +97,8 @@
 							<dt>예매율</dt>
 							<dd>0</dd>
 						</dl>
-						<div style="margin-left: 38px;">
-							<canvas id="barGraph" width="300" height="300"></canvas>
+						<div style="margin-left: 58px;">
+							<canvas id="barGraph" width="260" height="260"></canvas>
 						</div>
 						<!-- 데이터 없을 때 -->
 						<!-- <div>
@@ -174,21 +173,56 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="">
+					<form id="review-form" action=""> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
+						<input type="hidden" id="movie-id" name="movieNo" value="${param.id }">
 						<div class="text-center mt-2 mb-3">
 							<h4>영화명</h4>
 							<h4>영화 어떠셨나요?</h4>
+						<div>
+							<span id="error-txt" class="text-danger"></span>
 						</div>
+						</div>
+						
 						<div class="border p-3 bg-light mb-3">
+							<div class="star-rating">
+								<input type="radio" id="5-stars" name="rating" value="5" />
+								<label for="5-stars" class="star">&bigstar;</label>
+								<input type="radio" id="4-stars" name="rating" value="4" />
+								<label for="4-stars" class="star">&bigstar;</label>
+								<input type="radio" id="3-stars" name="rating" value="3" />
+								<label for="3-stars" class="star">&bigstar;</label>
+								<input type="radio" id="2-stars" name="rating" value="2" />
+								<label for="2-stars" class="star">&bigstar;</label> 
+								<input type="radio" id="1-star" name="rating" value="1" />
+								<label for="1-star" class="star">&bigstar;</label>
+							</div>
 							<div class="row mt-3 p-2">
-						    	<textarea placeholder="실관람평을 남겨주세요." class="form-control" name="content" id="content" rows="3" maxlength="100"></textarea>				
+						    	<textarea id="review-content" placeholder="실관람평을 남겨주세요." class="form-control" name="content" id="content" rows="3" maxlength="100"></textarea>				
 							</div>
 						</div>
 						<div class="text-center mt-2 mb-3">
 							<h4>관람포인트는 무엇인가요?</h4>
 						</div>
-						<div class="border p-3 bg-light mb-2">
-							<div class="row mt-3 p-2">
+						<div class="border p-3 bg-light text-center">
+							<div class="row mt-3 mb-3 p-2">
+								<div>
+									<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+										<input type="checkbox" name="point" value="연출" class="btn-check" id="btncheck1" autocomplete="off">
+										<label class="btn btn-outline-dark" for="btncheck1">연출</label>
+										
+										<input type="checkbox" name="point" value="스토리" class="btn-check" id="btncheck2" autocomplete="off">
+										<label class="btn btn-outline-dark" for="btncheck2">스토리</label>
+										
+										<input type="checkbox" name="point" value="영상미" class="btn-check" id="btncheck3" autocomplete="off">
+										<label class="btn btn-outline-dark" for="btncheck3">영상미</label>
+										
+										 <input type="checkbox" name="point" value="배우" class="btn-check" id="btncheck4" autocomplete="off">
+										<label class="btn btn-outline-dark" for="btncheck4">배우</label>
+										
+										 <input type="checkbox" name="point" value="OST" class="btn-check" id="btncheck5" autocomplete="off">
+										<label class="btn btn-outline-dark" for="btncheck5">OST</label>
+									</div>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -196,7 +230,7 @@
 				<div class="modal-footer text-center">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">등록</button>
+					<button type="button" class="btn review-submit btn-dark">등록</button>
 				</div>
 			</div>
 		</div>
@@ -204,7 +238,7 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		
+		Chart.defaults.global.legend.display = false; // 범례 제거
 		// 방사형 그래프
    		let pointChart = new Chart(document.getElementById("pointGraph"), {
         type: 'radar', // 차트의 형태
@@ -218,7 +252,7 @@
             ],
             datasets: [{
             	label: '관람 포인트',
-            	data: [20, 40, 60, 80, 100],
+            	data: [20, 40, 60, 80, 100], // json으로 받아 데이터 뿌릴 곳
             	fill: true,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgb(255, 99, 132)',
@@ -247,7 +281,6 @@
                  '남성','여성'
              ],
              datasets: [{ 
-                     label: '예매율',
                      fill: false, 
                      data: [
                          100, 100 
@@ -268,6 +301,8 @@
              	scales: {
                 	yAxes: [{
                     	ticks: {
+                    		callback: function() {return ""},
+            		        backdropColor: "rgba(0, 0, 0, 0)",
                         	beginAtZero: true
                         }
                     }]
@@ -356,9 +391,44 @@
 			}
 		})
 		
-		// 리뷰 버튼 모달
-		$("#review-btn").click(function() {
+		
 			
+		$("#reviewModal").click(function() {
+			
+		})
+		
+		// 리뷰 버튼 모달
+		$(".review-submit").click(function(e) {
+			e.preventDefault();
+			
+			// 평점 선택자
+			let rate = $(":input[name=rating]:checked").val();
+			let allCheckBox = $(":checkbox[name=point]");
+			let checkedList = $(":checkbox[name=point]:checked");
+			let reviewBox = $("#review-content").val();
+			
+			if (rate == null) {
+				$("#error-txt").text("평점을 선택해 주세요.");
+				return;
+			}
+			
+			if (reviewBox == "") {
+				$("#error-txt").text("관람평을 입력해 주세요!");
+				return;
+			}
+			
+			if (checkedList.length == 0) {
+				$("#error-txt").text("관람 포인트를 선택해 주세요.");
+				return;
+			}
+			
+			if (checkedList.length > 2) {
+				$("#error-txt").text("관람포인트는 두 개까지 선택하실 수 있습니다.");
+				allCheckBox.prop('checked', false);
+				return;
+			}
+
+			$("#review-form").submit();
 		})
 	})
 </script>
