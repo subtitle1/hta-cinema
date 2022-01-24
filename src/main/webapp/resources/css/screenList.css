@@ -3,7 +3,7 @@ h2{
     margin-left: 10%;
 }
 .pre{
-    background-image: url(/resources/images/pre-arro.png);
+    background-image: url(/resources/images/btn/pre-arro.png);
     background-size: 100%;
     border: 1px solid white;
     width: 15px;
@@ -11,7 +11,7 @@ h2{
     opacity: 0.6;
 }
 .next{
-    background-image: url(/resources/images/next-arro.png);
+    background-image: url(/resources/images/btn/next-arro.png);
     background-size: 100%;
     border: 1px solid white;
     width: 15px;
@@ -69,7 +69,7 @@ strong{
     height: 28px;
     margin: 8px;
     border: 1px solid white;
-    background-image: url(/resources/images/calendar.png);
+    background-image: url(/resources/images/btn/calendar.png);
     background-size: 100%;
     opacity: 0.9;
 }
@@ -157,12 +157,12 @@ img+.del{
     display: inline;
     background: white;
     border: 1px solid white;
-    background-image: url(/resources/images/del.png);
+    background-image: url(/resources/images/btn/del.png);
     background-size: 10px;
 }
 .del{
     border: 1px solid white;
-    background-image: url(/resources/images/bg-empty-cell.png);
+    background-image: url(/resources/images/bg/bg-empty-cell.png);
     background-size:100%;
     overflow: visible;
     table-layout: fixed;
@@ -281,7 +281,7 @@ p>.detail-check{
     height: 13px;
     display: inline;
     border: 1px solid #dae2f5;
-    background-image: url(/resources/images/delet.png);
+    background-image: url(/resources/images/btn/delet.png);
     background-size: 100%;
     background-color: gray;
 
@@ -289,7 +289,7 @@ p>.detail-check{
 .detail-check{
     overflow: visible;
     table-layout: fixed;
-    background-image: url(/resources/images/bg-empty-cell-circle.png);
+    background-image: url(/resources/images/bg/bg-empty-cell-circle.png);
     opacity: 0.5;
     border: 1px solid white;
     background-size: 100%;
@@ -298,7 +298,7 @@ p>.detail-check{
 }
 .pre-time-button{
     overflow: hidden;
-    background-image: url(/resources/images/pre-arro.png);
+    background-image: url(/resources/images/btn/pre-arro.png);
     background-size: 100%;
     opacity: 0.4;
     width: 10px;

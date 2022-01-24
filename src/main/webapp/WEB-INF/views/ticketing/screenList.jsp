@@ -48,44 +48,44 @@
                     </div>
                     <div class="movie-list">
                         <button class="movie-button" type="button" >
-                            <img src="/resources/images/전체관람자.png" alt="allpeople"/>
+                            <img src="/resources/images/age/전체관람자.png" alt="allpeople"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button" >
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button" >
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button">
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button">
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button">
-                            <img src="/resources/imagess/전체관람자.png"/>
+                            <img src="/resources/imagess/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button">
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                         <button class="movie-button" type="button">
-                            <img src="/resources/images/전체관람자.png"/>
+                            <img src="/resources/images/age/전체관람자.png"/>
                             <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/ico-heart.png" alt="heart" class="buttonicon">
+                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
                     </div>
                     <div class="movie-img">
@@ -316,7 +316,7 @@
         </div>
         <div class="footer">
             <div class="advertise-footer">
-                <img src="/resources/images/광고.jpg" alt="advertisement">
+                <img src="/resources/images/btn/광고.jpg" alt="advertisement">
             </div>
         </div>
       </div>
