@@ -10,7 +10,7 @@
 					<li class="nav-item"><a href="#" class="nav-link ">고객센터</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a href="#" class="nav-link">로그인</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a></li>
 					<li class="nav-item"><a href="#" class="nav-link">회원가입</a></li>
 					<li class="nav-item"><a href="#" class="nav-link">빠른예매</a></li>
 				</ul>
@@ -61,4 +61,33 @@
 			</div>
 		</div>
 	</nav>
+</div>
+<!-- 로그인 모달 -->
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="login.do">
+					<input type="text" class="form-control" name="id" />
+					<input type="password" class="form-control mt-3" name="password" />
+					<div class="form-check mt-3">
+						<input class="form-check-input" type="checkbox" value="checked" id="flexCheckChecked" name="saveId" checked>
+						<label class="form-check-label" for="flexCheckChecked">
+							아이디 저장
+						</label>
+					</div>
+					<div class="d-grid">
+						<button type="submit" class="btn btn-primary mt-3">로그인</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				
+			</div>
+		</div>
+	</div>
 </div>
