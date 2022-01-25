@@ -39,7 +39,7 @@ public class ReviewRestController {
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		List<ReviewDto> reviews = reviewService.getAllReviewsByMovie(criteria);
 		
-		response.setStatus("OK");
+		response.setStatus(true);
 		response.setItems(Map.of("pagination", pagination, "reviews", reviews));
 		
 		return response;
