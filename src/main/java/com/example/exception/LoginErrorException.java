@@ -6,5 +6,4 @@ public class LoginErrorException extends CustomException {
 	public LoginErrorException(String message) {
 		super(message);
 	}
-	
 }

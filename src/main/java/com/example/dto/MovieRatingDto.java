@@ -1,6 +1,4 @@
-package com.example.vo;
-
-import java.util.Date;
+package com.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +9,16 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+@Builder
+@ToString
+public class MovieRatingDto {
 
-	private long no;
-	private int customerNo;
+	private int ratingNo;
+	private String ratingName;
+	private String ratingImageURL;
 	private int movieNo;
-	private int reviewScore;
-	private String reviewContent;
-	private Date createdDate;
+	private String movieName;
+
 }

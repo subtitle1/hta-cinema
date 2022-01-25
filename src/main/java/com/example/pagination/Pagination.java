@@ -1,21 +1,7 @@
 package com.example.pagination;
 
 /**
- * 페이징처리를 지원하는 클래스다.<p>
- * <ul>
- * 	<li>현재 페이지번호</li>
- * 	<li>현재 블록번호</li>
- * 	<li>총 데이터 갯수</li>
- * 	<li>총 페이지 갯수</li>
- * 	<li>총 블록 갯수</li>
- * 	<li>현재 블록의 시작 페이지번호</li>
- * 	<li>현재 블록의 끝 페이지번호</li>
- * 	<li>이전 블록의 페이지번호</li>
- * 	<li>다음 블록의 페이지번호</li>
- * 	<li>데이터조회 시작 순번</li>
- * 	<li>데이터조회 끝 순번</li>
- * <ul>
- * @author 김승희
+ * @author mars
  *
  */
 public class Pagination {
@@ -41,7 +27,7 @@ public class Pagination {
 	 * @param pageNo 요청한 페이지 번호
 	 * @param totalRecords 총 데이터 갯수
 	 */
-	public Pagination(String pageNo, int totalRecords) {
+	public Pagination(int pageNo, int totalRecords) {
 		init(pageNo, totalRecords, rowsPerPage);
 	}
 	
@@ -52,11 +38,11 @@ public class Pagination {
 	 * @param totalRecords 총 데이터 갯수
 	 * @param 한 화면당 표시할 행의 갯수
 	 */
-	public Pagination(String pageNo, int totalRecords, int rows) {
+	public Pagination(int pageNo, int totalRecords, int rows) {
 		init(pageNo, totalRecords, rows);
 	}
 	
-	private void init(String pageNo, int totalRecords, int rows) {
+	private void init(int pageNo, int totalRecords, int rows) {
 		this.totalRecords = totalRecords;
 		this.rowsPerPage = rows;
 		// 총 페이지 갯수를 계산해서 멤버변수 totalPages에 대입한다.
@@ -65,11 +51,8 @@ public class Pagination {
 		totalBlocks = (int)(Math.ceil((double)totalPages/pagesPerBlock));
 		
 		// 현재 페이지번호를 계산한다.
-		currentPageNo = 1;
-		try {
-			currentPageNo = Integer.parseInt(pageNo);
-		} catch (NumberFormatException e) {}
-		
+		currentPageNo = pageNo;
+			
 		if (currentPageNo <= 0) {			// 숫자로 변환된 현재 페이지번호가 0이거나 0보다 작으면 현재 페이지번호를 1로 설정한다.
 			currentPageNo = 1;
 		}
@@ -148,6 +131,14 @@ public class Pagination {
 	}
 	
 	/**
+	 * 조회 끝 순번을 반환한다.
+	 * @return 조회 끝 순번
+	 */
+	public int getEnd() {
+		return end;
+	}
+	
+	/**
 	 * 이전 블록의 페이지번호를 반환한다.
 	 * @return 페이지번호
 	 */
@@ -186,14 +177,12 @@ public class Pagination {
 		return nextPage;
 	}
 
-	/**
-	 * 조회 끝 순번을 반환한다.
-	 * @return 조회 끝 순번
-	 */
-	public int getEnd() {
-		return end;
+	@Override
+	public String toString() {
+		return "Pagination [rowsPerPage=" + rowsPerPage + ", pagesPerBlock=" + pagesPerBlock + ", currentPageNo="
+				+ currentPageNo + ", totalRecords=" + totalRecords + ", totalPages=" + totalPages + ", totalBlocks="
+				+ totalBlocks + ", currentBlock=" + currentBlock + ", beginPage=" + beginPage + ", endPage=" + endPage
+				+ ", prevPage=" + prevPage + ", nextPage=" + nextPage + ", begin=" + begin + ", end=" + end + "]";
 	}
-	
-	
-	
+
 }
