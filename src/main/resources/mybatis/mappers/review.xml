@@ -42,6 +42,7 @@
 		from review_point_type
 	</select>
 	
+	<!--  
 	<select id="getAllReviewsByMovieNo" parameterType="com.example.web.form.Criteria" resultType="com.example.dto.ReviewDto">
 		select 
 			c.customer_id customerId, 
@@ -58,4 +59,5 @@
 			and m.movie_no = #{movieNo}
 			and rn between #{beginIndex} and #{endIndex}
 	</select>
+	-->
 </mapper>
