@@ -12,6 +12,8 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
   	<link rel="stylesheet" href="/resources/css/style.css" />
 </head>
+<style>
+</style>
 <body>
 	<%@include file="../common/tags.jsp" %>
 	<%@include file="../common/nav.jsp"%>
@@ -115,40 +117,61 @@
 				</div>
 				<div class="row mt-3 rounded border p-3">
 					<div class="col">
-						<span>영화의 어떤 점이 좋았는지 이야기해주세요.</span>
+						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
 					<div class="col text-end review-head">
 						<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="#" id="review-btn">
 						<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 					</div>
-				</div>		
-				<div class="row text-center mt-3 mb-3">
-					<div class="col-1 ">
+				</div>
+				<div class="review-box">
+					<!-- <div class="col-1 ">
 						<img alt="" src="/resources/images/movie/bg-photo.png" style="width: 50px;">
-						<span>customer id</span>
+						<span id="customer-id">customer id</span>
 					</div>
-					<div class="col rounded border p-3"
-						style="background-color: #f8f8fa">
+					<div class="col rounded border p-3" style="background-color: #f8f8fa">
 						<div class="row">
 							<div class="col-1">
 								<span>관람평</span>
 							</div>
 							<div class="col-1">
-								<span>8</span>
+								<span id="score">8</span>
 							</div>
 							<div class="col-2">
-								<span>스토리</span> <span>배우</span>
+								<span id="point">스토리</span>
 							</div>
 							<div class="col">
-								<span>리뷰 내용 어쩌구</span>
+								<span id="content">리뷰 내용 어쩌구</span>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="tab-pane fade" id="nav-review" role="tabpanel"
 				aria-labelledby="nav-review-tab">
-				<div class="row mt-3 ms-1">..</div>
+				<div class="row mt-3 ms-1">
+					<div class="row mb-3">
+						<div class="col">
+							<nav>
+					  			<ul class="pagination justify-content-center">
+					    			<%-- <li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
+					      				<a class="page-link" href="list.do?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
+					    			</li> --%>
+				
+					    			<%-- <c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+						    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+						    				<a class="page-link" href="list.do?page=${num }" data-page="${num }">${num }</a>
+						    			</li>	    			
+					    			</c:forEach> --%>
+				
+					    			<%-- <li class="page-item ${pagination.existNext ? '' : 'disabled' }">
+					      				<a class="page-link" href="list.do?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
+					    			</li> --%>
+					  			</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="nav-video" role="tabpanel"
 				aria-labelledby="nav-video-tab">
@@ -177,7 +200,7 @@
 				<div class="modal-body">
 					<form id="review-form" method="post" action="/review"> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
 						<input type="hidden" id="movie-id" name="movieNo" value="${param.no }">
-						<input type="hidden" name="customerNo" value=""> <!-- 세션에 담긴 값 -->
+						<input type="hidden" name="customerNo" value="1"> <!-- 세션에 담긴 값 -->
 						<div class="text-center mt-2 mb-3">
 							<h4>영화명</h4>
 							<h4>영화 어떠셨나요?</h4>
@@ -211,7 +234,7 @@
 								<div>
 									<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 										<c:forEach var="point" items="${pointTypes }" varStatus="loop">
-											<input type="checkbox" name="pointNo" value="${point.pointNo }" class="btn-check" id="btncheck-${loop.count }" autocomplete="off">
+											<input type="checkbox" name="pointNo" value="${point.no }" class="btn-check" id="btncheck-${loop.count }" autocomplete="off">
 											<label class="btn btn-outline-dark" for="btncheck-${loop.count }">${point.pointName }</label>
 										</c:forEach>
 									</div>
@@ -376,7 +399,6 @@
 				$div.append(output);
 				
 				$.each(videoList, function(index, video) {
-					console.log(video);
 					let $listDiv = $(".videoLists");
 					let lists = "<iframe class='me-3' height='200px' src='https://www.youtube.com/embed/"+video+"'></iframe>";
 					$listDiv.append(lists);
@@ -416,6 +438,44 @@
 			}
 
 			$("#review-form").submit();
+		})
+		
+		// 리뷰 목록 가져오기
+		$.getJSON('/rest/review', {page: 1,	movieNo: movieId}, function(response) {
+			
+			let reviews = (response.items.reviews);
+			console.log(reviews);
+			
+			$.each(reviews, function(index, review) {
+				let $reviewBox = $(".review-box");
+				
+				let points = review.reviewPoints.map(point => point.pointName).join(", ");
+				
+				let output = "<div class='row text-center mt-3 mb-3'>"
+					output += "<div class='col-1'>"
+					output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
+					output += "<span>"+review.customerId+"</span>"
+					output += "</div>"
+					output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
+					output += "<div class='row'>"
+					output += "<div class='col-1'>"
+					output += "<span>관람평</span>"
+					output += "</div>"
+					output += "<div class='col-1'>"
+					output += "<span>"+ review.reviewScore +"</span>"
+					output += "</div>"
+					output += "<div class='col-2'>"
+					output += "<span>"+ points +"</span>"
+					output += "</div>"
+					output += "<div class='col'>"
+					output += "<span>"+review.reviewContent+"</span>"
+					output += "</div>"
+					output += "</div>"
+					output += "</div>";
+					output += "</div>";
+					
+				$reviewBox.append(output);
+			})
 		})
 	})
 </script>

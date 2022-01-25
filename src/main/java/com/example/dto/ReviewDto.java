@@ -1,6 +1,8 @@
-package com.example.vo;
+package com.example.dto;
 
-import java.util.Date;
+import java.util.List;
+
+import com.example.vo.ReviewPointType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +17,11 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class ReviewDto {
 
-	private long no;
-	private int customerNo;
-	private int movieNo;
+	private long reviewNo;
+	private String customerId;
+	private List<ReviewPointType> reviewPoints;
 	private int reviewScore;
 	private String reviewContent;
-	private Date createdDate;
 }
