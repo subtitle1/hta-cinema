@@ -23,7 +23,7 @@ public class ReviewRestController {
 
 	@Autowired
 	private ReviewService reviewService;
-	
+				
 	@GetMapping("/review")
 	public ResponseDto<Map<String, Object>> reviews(Criteria criteria) {
 		if (criteria.getPage() < 1) {
