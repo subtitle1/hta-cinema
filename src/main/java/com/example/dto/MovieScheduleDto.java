@@ -4,6 +4,17 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MovieScheduleDto {
 
 	private int movieRatingNo;
@@ -11,14 +22,21 @@ public class MovieScheduleDto {
 	private String movieRatingImageUrl;
 	private int movieNo;
 	private String movieName;
-	private int showTypeNo;
-	private String showTypeName;
-	private char showTypeSubtotle;//자막유무
-	private int showScheduleNo;
+	private int movieTicketSalesRate;
+	private long movieTotalLike;
+	private int showDayTypeNo;
+	private String showDayTypeName;
+	private int showStartTimeTypeNo;
+	private String showStartTimeTypeName;
+	private Date showStartTimeTypeTime;
+	private long showScheduleNo;
 	private int screenNo;
-	@DateTimeFormat(pattern = "yyyy-MM-dd E요일 HH:MM:ss")
-	private Date showScheDuleStartTime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd E요일 HH:MM:ss")
-	private Date showScheDuleEndTime;
-	private int showScheDuleTimeNo;//상영회차
+	private int showTypeNo;
+	private Date showScheduleStartTime;
+	private Date showScheduleEndTime;
+	private int showScheduleTimeNo;
+	private String showTypeSubtiltle;
+	private String showTypeName;
+	private int audienceTypeNo;
+	private long fee;
 }

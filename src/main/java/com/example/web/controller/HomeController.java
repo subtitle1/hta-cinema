@@ -20,10 +20,6 @@ public class HomeController {
 		return null;
 	}
 	
-	@GetMapping("/ticketing/screenList")
-	public String screenList() {
-		return "/ticketing/screenList";
-	}
 	
 	@GetMapping("/ticketing/ticketingList")
 	public String ticketingList() {
