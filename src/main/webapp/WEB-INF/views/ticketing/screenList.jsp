@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/resources/css/screenList.css">
 </head>
 <body>
+<%@ include file="../common/nav.jsp" %>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <div class="col">
@@ -38,46 +39,13 @@
                         <button class="movie-name-button" type="button">큐레이션</button>
                     </div>
                     <div class="movie-list">
-                        <button class="movie-button" type="button" >
-                            <img src="/resources/images/age/전체관람자.png" alt="allpeople"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
+                    <c:forEach var="movie" items="${movies}">
+                    	<button class="movie-button" type="button" value="${movie.movieNo}" >
+                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
+                            <span class="txt">${movie.movieName}</span>
                             <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
                         </button>
-                        <button class="movie-button" type="button" >
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button" >
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button">
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button">
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button">
-                            <img src="/resources/imagess/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button">
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                        <button class="movie-button" type="button">
-                            <img src="/resources/images/age/전체관람자.png"/>
-                            <span class="txt">[불쇼이 발레 인 시네마]백조의 호수</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
+                    </c:forEach>
                     </div>
                     <div class="movie-img">
                         <!--영화 선택하지 않았을 때 -->
@@ -332,7 +300,7 @@
 			button = document.createElement("button");
 			spanWeekOfDay = document.createElement("span");
 			spanDay = document.createElement("strong");
-			button.setAttribute("mon");
+			button.classList = "mon";
 			spanWeekOfDay.classList = 'movie-week-of-day';
 			spanDay.classList ='movie-day';
 			let resultDay = new Date(year, month, dataDay +(i-dayLabel));
@@ -366,7 +334,12 @@
 				button.classList.add(".mon-active");
 			})
 		}
-		
+		$('.movie-button').click(function(){
+			
+		})
+		$('.movie-name-button').click(function(){
+			
+		})
 		
 	})
 </script>

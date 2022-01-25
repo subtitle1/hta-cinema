@@ -126,6 +126,10 @@ strong{
     margin: 2px;
     border: 1px solid white;
 }
+.movie-button img{
+	width:15px;
+	height: 15px;
+}
 .txt{
     text-align: left;
     font-size: 12px;
