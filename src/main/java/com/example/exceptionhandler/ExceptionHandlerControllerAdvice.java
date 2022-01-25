@@ -31,7 +31,7 @@ public class ExceptionHandlerControllerAdvice {
 	public @ResponseBody ResponseDto<?> handlerMovieException(MovieTicketingErrorException e) {
 		e.printStackTrace();
 		ResponseDto<?> response = new ResponseDto<>();
-		response.setStatus("false");
+		response.setStatus(false);
 		response.setError(e.getMessage());
 		return response;
 	}

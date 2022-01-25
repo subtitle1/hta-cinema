@@ -43,7 +43,7 @@ public class TicketController {
 	public @ResponseBody ResponseDto<ShowScheduleScreen> getAllList(@PathVariable int movieNo, Model model){
 		List<ShowScheduleScreen> screens = movieticketService.AllListByMovie(movieNo);
 		ResponseDto<ShowScheduleScreen> response = new ResponseDto();
-		response.setStatus("true");
+		response.setStatus(true);
 		return response;
 	}
 }
