@@ -20,5 +20,5 @@ public class MovieRatingDto {
 	private String ratingImageURL;
 	private int movieNo;
 	private String movieName;
-
+	
 }

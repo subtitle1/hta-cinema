@@ -1,4 +1,4 @@
-package com.example.web.restController;
+package com.example.web.restcontroller;
 
 import java.util.List;
 import java.util.Map;
