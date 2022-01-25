@@ -39,11 +39,11 @@ public class TicketController {
 		return "/ticketing/screenList";
 	}
 	
-	@RequestMapping( value = "/ticketing/screenList", method = RequestMethod.GET)
-	public @ResponseBody ResponseDto<ShowScheduleScreen> getAllList(@PathVariable int movieNo, Model model){
-		List<ShowScheduleScreen> screens = movieticketService.AllListByMovie(movieNo);
-		ResponseDto<ShowScheduleScreen> response = new ResponseDto();
-		response.setStatus(true);
-		return response;
-	}
+	/*
+	 * @RequestMapping( value = "/ticketing/screenList", method = RequestMethod.GET)
+	 * public @ResponseBody ResponseDto<ShowScheduleScreen> getAllList(@PathVariable
+	 * int movieNo, Model model){ List<ShowScheduleScreen> screens =
+	 * movieticketService.AllListByMovie(movieNo); ResponseDto<ShowScheduleScreen>
+	 * response = new ResponseDto(); response.setStatus(true); return response; }
+	 */
 }

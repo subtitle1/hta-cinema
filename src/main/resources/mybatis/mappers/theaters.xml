@@ -4,7 +4,7 @@
 
 	<resultMap type="com.example.vo.Theater" id="TheaterResultMap">
 		<id column="theater_no" property="no"/>
-		<result/>
+		<result column="theater_no" property="no"/>
 	</resultMap>
 	
 	<select id="getAllTheaters" resultMap="TheaterResultMap">
