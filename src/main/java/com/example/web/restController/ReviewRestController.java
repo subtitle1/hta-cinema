@@ -20,16 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/rest")
 public class ReviewRestController {
-
+			
 	@Autowired
 	private ReviewService reviewService;
-	
+				
 	@GetMapping("/review")
 	public ResponseDto<Map<String, Object>> reviews(Criteria criteria) {
 		if (criteria.getPage() < 1) {
 			criteria.setPage(1);
 		}
-		
+				
 		int totalRecords = reviewService.getTotalRecords(criteria.getMovieNo());
 		Pagination pagination = new Pagination(criteria.getPage(), totalRecords);
 		
@@ -39,7 +39,7 @@ public class ReviewRestController {
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		List<ReviewDto> reviews = reviewService.getAllReviewsByMovie(criteria);
 		
-		response.setStatus("OK");
+		response.setStatus(true);
 		response.setItems(Map.of("pagination", pagination, "reviews", reviews));
 		
 		return response;
