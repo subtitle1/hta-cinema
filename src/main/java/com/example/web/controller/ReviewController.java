@@ -26,7 +26,7 @@ public class ReviewController {
 		
 		Review review = Review.builder()
 				.movieNo(form.getMovieNo())
-				.customerNo(form.getCustomerNo())
+				.customerNo(1)
 				.reviewScore(form.getReviewScore())
 				.reviewContent(form.getContent())
 				.build();
@@ -36,13 +36,13 @@ public class ReviewController {
 		
 		for (Integer point : pointNo) {
 			ReviewPoint reviewPoint = new ReviewPoint();
-			reviewPoint.setReviewNo(review.getReviewNo());
+			reviewPoint.setNo(review.getNo());
 			reviewPoint.setReviewPointNo(point);
 			
 			reviewPoints.add(reviewPoint);
 		}
 		reviewService.addReview(review, reviewPoints);
 		
-		return "redirect:detail?no=" + form.getMovieNo();
+		return "redirect:movie/detail?no=" + form.getMovieNo();
 	}
 }

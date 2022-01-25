@@ -15,6 +15,6 @@ import lombok.ToString;
 @Builder
 public class ReviewPoint {
 
-	private long reviewNo;
+	private long no;
 	private int reviewPointNo;
 }
