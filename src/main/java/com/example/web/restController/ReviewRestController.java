@@ -29,7 +29,7 @@ public class ReviewRestController {
 		if (criteria.getPage() < 1) {
 			criteria.setPage(1);
 		}
-		
+				
 		int totalRecords = reviewService.getTotalRecords(criteria.getMovieNo());
 		Pagination pagination = new Pagination(criteria.getPage(), totalRecords);
 		
