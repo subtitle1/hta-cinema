@@ -15,12 +15,6 @@ public class HomeController {
 		return "home";	// prefix="/WEB-INF/views/" viewName="home" suffix=".jsp"
 	}
 	
-	@PostMapping("/login")
-	public String login(String id, String password) {
-		return null;
-	}
-	
-	
 	@GetMapping("/ticketing/ticketingList")
 	public String ticketingList() {
 		return "/ticketing/ticketingList";

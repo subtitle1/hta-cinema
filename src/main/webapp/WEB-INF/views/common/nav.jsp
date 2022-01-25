@@ -81,7 +81,7 @@
 						</label>
 					</div>
 					<div class="d-grid">
-						<button type="submit" class="btn btn-primary mt-3">로그인</button>
+						<button id="btn-login" type="button" class="btn btn-primary mt-3">로그인</button>
 					</div>
 				</form>
 			</div>
@@ -91,3 +91,27 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(function() {
+		$("#btn-login").click(function(event) {
+			var id = $("[name='id']").val();
+			var password = $("[name='password']").val();
+			console.log("id: " + id);
+			console.log("password: " + password);
+			
+			$.ajax({
+				type: "post",
+				url: "/login",
+				data: {"id": id, "password": password},
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						window.location.href = '/';
+					} else {
+						alert(response.error);
+					}
+				}
+			})
+		});
+	});
+</script>
