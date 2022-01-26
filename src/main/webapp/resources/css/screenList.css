@@ -45,7 +45,8 @@ strong{
 
 .explain-button{
 	text-align: center;
-	font-size: 10px
+	font-size: 10px;
+	color: black;
 }
 .pre-arrow{
     width: 40px;
@@ -191,6 +192,11 @@ img+.del{
 
    
 }
+ul.navbar-nav {
+	list-style:none;
+    padding-left:0px;
+
+}
 .right-one{
     float: left;
     width:51%;
@@ -235,8 +241,11 @@ img+.del{
     width: 134px;
     height: 300px;
     display: inline-block;
-    vertical-align: auto;
-    
+    vertical-align: auto;   
+}
+p{
+	color: black;
+	
 }
 .theater-choies{
     width: 130px;
@@ -266,7 +275,7 @@ img+.del{
     
 }
 .check-content {
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 20px;
 }
 .detail-check-theater{
@@ -274,24 +283,24 @@ img+.del{
     border: 1px solid black;
     width: 80px;
     height: 80px;
-    margin: 5px;
+    margin-top:10px;
     text-align: center;
 }
 .detail-text{
-    background-color: rgb(171, 170, 173);
+   	color: black;
+    border-radius: 100px;
     width: 80px;
     height: 80px;
-    margin: 0px;
-    border-radius: 100px;
+    opacity: 0.8;
+	float: left;
+	background-size: 100%;
     text-align: center;
+    justify-content: center;
     font-size: medium;
     font-weight: 700;
 }
 p>.detail-check{
-    float: right;
-    width: 10px;
-    height: 13px;
-    display: inline;
+    float: center;
     border: 1px solid #dae2f5;
     background-image: url(/resources/images/btn/delet.png);
     background-size: 100%;
@@ -299,8 +308,6 @@ p>.detail-check{
 
 }
 .detail-check{
-    overflow: visible;
-    table-layout: fixed;
     background-image: url(/resources/images/bg/bg-empty-cell-circle.png);
     opacity: 0.5;
     border: 1px solid white;
