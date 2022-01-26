@@ -2,6 +2,9 @@ package com.example.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.dto.MovieRatingDto;
@@ -27,7 +31,7 @@ public class TicketController {
 
 	@Autowired
 	private MovieRatingService movieRatingService;
-	private MovieTicketService movieticketService;
+	
 	
 	@GetMapping("/ticketing/screenList")
 	public String screenList(Model model) {
@@ -39,11 +43,11 @@ public class TicketController {
 		return "/ticketing/screenList";
 	}
 	
-	/*
-	 * @RequestMapping( value = "/ticketing/screenList", method = RequestMethod.GET)
-	 * public @ResponseBody ResponseDto<ShowScheduleScreen> getAllList(@PathVariable
-	 * int movieNo, Model model){ List<ShowScheduleScreen> screens =
-	 * movieticketService.AllListByMovie(movieNo); ResponseDto<ShowScheduleScreen>
-	 * response = new ResponseDto(); response.setStatus(true); return response; }
-	 */
+	@GetMapping("/ticketing/ticketingList")
+	public String ticketingList() {
+		return "/ticketing/ticketingList";
+	}
+	
+	
+	 
 }
