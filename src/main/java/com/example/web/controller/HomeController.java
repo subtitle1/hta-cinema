@@ -15,10 +15,6 @@ public class HomeController {
 		return "home";	// prefix="/WEB-INF/views/" viewName="home" suffix=".jsp"
 	}
 	
-	@GetMapping("/ticketing/ticketingList")
-	public String ticketingList() {
-		return "/ticketing/ticketingList";
-	}
 	
 	@GetMapping("/ticketing/ticketingPay")
 	public String ticketingPay() {
