@@ -23,18 +23,11 @@ public class HomeRestController {
 	public ResponseDto<?> login(String id, String password) {
 		ResponseDto<?> response = new ResponseDto<>();
 		
-		try {
-			Customer customer = customerService.login(id, password);
-			SessionUtils.addAttribute("LOGIN_USER", customer);
-			
-			response.setStatus(true);
-			
-			return response;
-		} catch (LoginErrorException e) {
-			response.setStatus(false);
-			response.setError(e.getMessage());
-			
-			return response;
-		}
+		Customer customer = customerService.login(id, password);
+		SessionUtils.addAttribute("LOGIN_USER", customer);
+		
+		response.setStatus(true);
+		
+		return response;
 	}
 }
