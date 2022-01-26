@@ -112,7 +112,7 @@
 				</div>
 				<div class="row">
 					<h2>
-						<span id="title2"></span>에 대한 00개의 이야기가 있어요!
+						<span id="title2"></span><span id="no-review">에 대한 <span id="reviewCount"></span>개의 이야기가 있어요!</span>
 					</h2>
 				</div>
 				<div class="row mt-3 rounded border p-3">
@@ -155,12 +155,8 @@
 					</div>
 						<div class="col">
 							<nav aria-label="Page navigation example">
+								<!-- ajax 페이지네이션 -->
 								<ul class="pagination justify-content-center">
-									 <li class="page-item"><a class="page-link" href="#">이전</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">다음</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -194,7 +190,7 @@
 				<div class="modal-body">
 					<form id="review-form" method="post" action=""> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
 						<input type="hidden" id="movie-id" name="movieNo" value="${param.no }">
-						<input type="hidden" name="customerNo" value="1"> <!-- 세션에 담긴 값 -->
+						<input type="hidden" name="customerNo" value="${LOGIN_USER.no }"> <!-- 세션에 담긴 값 -->
 						<div class="text-center mt-2 mb-3">
 							<h4>영화명</h4>
 							<h4>영화 어떠셨나요?</h4>
@@ -248,6 +244,9 @@
 </body>
 <script type="text/javascript">
 	$(function() {
+		
+		var reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
+		
 		Chart.defaults.global.legend.display = false; // 범례 제거
 		// 방사형 그래프
    		let pointChart = new Chart(document.getElementById("pointGraph"), {
@@ -400,8 +399,6 @@
 			}
 		})
 		
-		getReviews();
-		
 		// 리뷰 버튼 모달, 리뷰 등록
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
@@ -411,6 +408,9 @@
 			let allCheckBox = $(":checkbox[name=pointNo]");
 			let checkedList = $(":checkbox[name=pointNo]:checked");
 			let reviewBox = $("#review-content").val();
+			let customerNo = $(":input[name=customerNo]").val();
+			
+			console.log(customerNo);
 			
 			if (rate == null) {
 				$("#error-txt").text("평점을 선택해 주세요.");
@@ -438,72 +438,125 @@
 				checkedPoints.push($(this).val());
 			});
 			
+			$(".review-box").empty();
+			reviewModal.hide();
+			
 			$.ajax({
 				type: "post",
 				url: "/rest/review",
 				data: {   
 						  movieNo: movieId, 
-						  customerNo: 1, // 로그인된 사용자로 변경해야 함
+						  customerNo: customerNo, 
 						  reviewScore: rate, 
 						  content: reviewBox, 
 						  pointNo: checkedPoints
 					   },
 				dataType:"json",
 				success: function(response) {
-						console.log(response.items);
 					if (response.status) {
-						// window.location.href = "/movie/detail?no=" +movieId;
+						getReviews();
+						
 					} else {
 						alert("ㄴㄴ");
 					}
+					
 				}
 			})
-			getReviews();
 		})
 		
 		let currentPageNo = 1;
-		function pagination() {
-					
-		}
+		
+		getReviews();
+		
 		// 리뷰 목록 가져오기
 		function getReviews() {
+			
 			$.getJSON('/rest/review', {page: currentPageNo,	movieNo: movieId}, function(response) {
-				console.log(response);
-				let reviews = (response.items.reviews);
+
+				let reviews = response.items.reviews;
+				$("#reviewCount").text(response.items.totalReviews);
 				
-				$.each(reviews, function(index, review) {
-					let $reviewBox = $(".review-box");
-					let points = review.reviewPoints.map(point => point.pointName).join(", ");
+				if (reviews == "") {
+					$("#no-review").text(" 아직 등록된 리뷰가 존재하지 않습니다.");
+				} else {
 					
-					let output = "<div class='row text-center mt-3 mb-3'>"
-						output += "<div class='col-1'>"
-						output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
-						output += "<span>"+review.customerId+"</span>"
-						output += "</div>"
-						output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
-						output += "<div class='row'>"
-						output += "<div class='col-1'>"
-						output += "<span>관람평</span>"
-						output += "</div>"
-						output += "<div class='col-1'>"
-						output += "<span>"+ review.reviewScore +"</span>"
-						output += "</div>"
-						output += "<div class='col-2'>"
-						output += "<span>"+ points +"</span>"
-						output += "</div>"
-						output += "<div class='col'>"
-						output += "<span>"+review.reviewContent+"</span>"
-						output += "</div>"
-						output += "</div>"
-						output += "</div>";
-						output += "</div>"; 
+					$.each(reviews, function(index, review) {
+						
+						let $reviewBox = $(".review-box");
+						
+						let points = review.reviewPoints.map(point => point.pointName).join(", ");
+						let idLen = review.customerId.length;
+						
+						
+						let output = "<div class='row text-center mt-3 mb-3'>"
+							output += "<div class='col-1'>"
+							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
+							output += "<span>"+review.customerId+"</span>"
+							output += "</div>"
+							output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
+							output += "<div class='row'>"
+							output += "<div class='col-1 mt-2'>"
+							output += "<span id='txt'>관람평</span>"
+							output += "</div>"
+							output += "<div class='col-1'>"
+							output += "<span id='score-txt'>"+ review.reviewScore +"</span>"
+							output += "</div>"
+							output += "<div class='col-2 mt-2'>"
+							output += "<span id='points-txt'>"+ points +"</span>"
+							output += "</div>"
+							output += "<div class='col mt-2'>"
+							output += "<span>"+review.reviewContent+"</span>"
+							output += "</div>"
+							output += "</div>"
+							output += "</div>"
+							output += "</div>"; 
+					
+						$reviewBox.append(output);
+					})
+				}
 				
-					$reviewBox.append(output);
-				})
+				let paging = response.items.pagination;
+				let pageNav = "";
+				
+				console.log(paging);
+				
+				let ul = $(".pagination");
+				if (!paging.existPrev) {
+					pageNav += "<li class='page-item'><a class='page-link disabled' href=''>이전</a></li>"
+				} else {
+					pageNav += "<li class='page-item'><a class='page-link' href='/movie/detail?page="+paging.prevPage+"'>이전</a></li>"
+				}
+				
+				if (paging.pageNo == 0) {
+					pageNav += "<li class='page-item'><a class='page-link active' href=''>1</a></li>"
+				} else {
+					for (let i = paging.beginPage; i <= paging.endPage; i++) {
+						if (paging.pageNo == currentPageNo) {
+							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='/movie/detail?page="+i+"'>"+i+"</a></li>"
+						} else {
+							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='/movie/detail?page="+i+"'>"+i+"</a></li>"
+						}
+					}
+				}
+				
+				if (!paging.existNext) {
+					pageNav += "<li class='page-item'><a class='page-link disabled' href=''>다음</a></li>"
+				} else {
+					pageNav += "<li class='page-item'><a class='page-link' href='/movie/detail?page="+paging.nextPage+"'>다음</a></li>"
+				}
+				
+				ul.html(pageNav);
 			})
 		}
 		
-		
+		// 수정 필요
+		$(".pagination").on('click', '.page-link', function(e) {
+			e.preventDefault();
+			currentPageNo = $(this).attr("data-page");
+			console.log(currentPageNo);
+			$(".review-box").empty();
+			getReviews();
+		})
 	})
 </script>
 </html>

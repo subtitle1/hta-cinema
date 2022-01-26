@@ -41,11 +41,20 @@
  			show.movie_no as movieNo, 
  			sc.screen_total_seat as screenTotalSeat,
  			show.show_schedule_start_time as showScheduleStartTime, 
- 			show.show_schedule_end_time as showScheduleEndTime
-		from theater t, region r, screen sc, show_schedule show
+ 			show.show_schedule_end_time as showScheduleEndTime,
+ 			mr.movie_rating_no as movieRatingNo,
+ 			mr.movie_rating_name as movieRatingName,
+ 			m.movie_name as movieName,
+ 			st.show_type_no as showTypeNo,
+ 			st.show_type_name as showTypeName,
+ 			st.show_type_subtitle as showTypeSubTitle
+		from theater t, region r, screen sc, show_schedule show, movie m, movie_rating mr, show_type st
 		where t.region_no = r.region_no
 		and sc.theater_no = t.theater_no
 		and show.screen_no = sc.screen_no
+		and show.movie_no = m.movie_no
+		and m.movie_rating_no = mr.movie_rating_no
+		and show.show_type_no = st.show_type_no
 		and show.movie_no = #{movieNo}
 		and t.theater_no = #{theaterNo}
  	</select>
@@ -62,12 +71,21 @@
  			show.movie_no as movieNo, 
  			sc.screen_total_seat as screenTotalSeat,
  			show.show_schedule_start_time as showScheduleStartTime, 
- 			show.show_schedule_end_time as showScheduleEndTime
-		from special_screen s, theater t, region r, screen sc, show_schedule show
+ 			show.show_schedule_end_time as showScheduleEndTime,
+ 			mr.movie_rating_no as movieRatingNo,
+ 			mr.movie_rating_name as movieRatingName,
+ 			m.movie_name as movieName,
+ 			st.show_type_no as showTypeNo,
+ 			st.show_type_name as showTypeName,
+ 			st.show_type_subtitle as showTypeSubTitle
+		from special_screen s, theater t, region r, screen sc, show_schedule show, movie m, movie_rating mr, show_type st
 		where s.special_screen_no = sc.special_screen_no
 		and t.region_no = r.region_no
 		and sc.theater_no = t.theater_no
 		and show.screen_no = sc.screen_no
+		and show.movie_no = m.movie_no
+		and m.movie_rating_no = mr.movie_rating_no
+		and show.show_type_no = st.show_type_no
 		and show.movie_no = #{movieNo}
 		and s.special_no = #{specialNo}
  	</select>

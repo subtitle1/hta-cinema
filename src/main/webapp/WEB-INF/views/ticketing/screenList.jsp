@@ -7,6 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/resources/css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -50,16 +51,16 @@
                         <!--<p>모든영화<br>
                         목록에서 영화를 선택하세요</p>-->
                        <!--영화를 하나라도 선택했을 때--> 
-                        <div class="choice-list" id="choiceMovieList">
+                        <div class="choice-list" id="choiceMovieList-0">
                             <img src="#">
                             <!--영화 이미지 소스가 들어간다. 선택된 영화에만 button이 출력된다. -->
                             <button type="button" class="del"></button>
                         </div>
-                        <div class="choice-list" id="choiceMovieList">
+                        <div class="choice-list" id="choiceMovieList-1">
                              <!--영화 이미지 소스가 들어간다.-->
                              <button type="button" class="del"></button>
                         </div>
-                        <div class="choice-list" id="choiceMovieList">
+                        <div class="choice-list" id="choiceMovieList-2">
                              <!--영화 이미지 소스가 들어간다.-->
                             <button type="button" class="del"></button>
                         </div>
@@ -76,52 +77,25 @@
                          	<div class="explain-button"><p>영화를 선택하세요</p></div>
                         </div>
                         <div class="theater-choies">
-                            <button class="theater-choies-button">강남</button>
-                            <button class="theater-choies-button">강남대로(씨티)</button>
-                            <button class="theater-choies-button">강동</button>
-                            <button class="theater-choies-button">군자</button>
-                            <button class="theater-choies-button">동대문</button>
-                            <button class="theater-choies-button">강남</button>
-                            <button class="theater-choies-button">강남대로(씨티)</button>
-                            <button class="theater-choies-button">강동</button>
-                            <button class="theater-choies-button">군자</button>
-                            <button class="theater-choies-button">동대문</button>
-                            <button class="theater-choies-button">강남</button>
-                            <button class="theater-choies-button">강남대로(씨티)</button>
-                            <button class="theater-choies-button">강동</button>
-                            <button class="theater-choies-button">군자</button>
-                            <button class="theater-choies-button">동대문</button>
                         </div>
                     </div>
                     <div class="theater-choies-check">
-                        <!--선택안했을 경우
-                        <p class="check-content">전체극장<br>
+                        <p class="check-content" style="flex">전체극장<br>
                             목록에서 극장을 선택하세요
-                        </p> -->
+                        </p>
                         <!--선택했을 경우 클릭하면 입력되고 아니면 열리지 않는다.-->
-                        <div class="check-theater">
-                            <div class="detail-check-theater">
-                                <p class="detail-text"><button type="button" class="detail-check"></button><br>
-                                "목동"
-                                </p>
-                            </div>
+                        <div class="check-theater" style="none">
                         </div>
-                        <div class="check-theater">
-                            <div class="detail-check-theater">
-                                <button type="button" class="detail-check"></button>
-                            </div>
+                        <div class="check-theater" style="none">
                         </div>
-                        <div class="check-theater">
-                            <div class="detail-check-theater">
-                                <button type="button" class="detail-check"></button>
-                            </div>
+                        <div class="check-theater" style="none">
                         </div>
                     </div>
                 </div>
                 <div class="right-one">
                     <h3>시간</h3>
                     <div class="time-check">
-                        <button class="pre-time-button" ></button>
+                        <button class="pre-time-button" onload="showClock()" ></button>
                         <button class="time-check-button" data-time="">13</button>
                         <button class="time-check-button" data-time="">14</button>
                         <button class="time-check-button" data-time="">15</button>
@@ -380,7 +354,7 @@
 		$('.movie-button').click(function(){
 			let movieNo = $(this).val();
 			let $div = $('.all-theater-list');
-			
+			let $divP = $('')
 			$.getJSON("/rest/screenList",{movieNo: movieNo},function(response){
 				
 				$('.explain-button p').text("");
@@ -391,24 +365,107 @@
 			})
 			
 		})
-		let itemsArray = [];
 		$('div.all-theater-list').on('click','button.list-theater-button',function(){
-			let theaterNo = $(this).attr('data-theater');
-			let movieNo = $(this).attr('data-movieno');
-			
+			let theaterNo =$('button.list-theater-button').attr('data-theater');
+			let movieNo =$('button.list-theater-button').attr('data-movieno');
+			let text = $(this);
+			let $theaterNames = $('div.theater-choies');
 			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				itemsArray = response.items;
-				let $buttons = $('div.theater-choies');
-				$.each(response.items, function(index, theater){
-					let output = "<button class='theater-choies-button'>"+theater.theaterName+"</button>";
-					$buttons.append(output);
+				
+				$.each(response.items,function(index, screen){
+					let check = $('button.theater-choies-button').attr('data-values');
+					if(check == screen.theaterNo){
+						$theaterNames.empty();
+					}
+					let output ="<button type='button' class='theater-choies-button' data-values="+screen.theaterNo+">"+screen.theaterName+"</button>";
+					$theaterNames.append(output);
 				})
 			})
 		})
+		//극장관 클릭하면 아래에 조회된다. 
 		$('div.theater-choies').on('click','button.theater-choies-button',function(){
+			let theaterNo =$('button.list-theater-button').attr('data-theater');
+			let movieNo =$('button.list-theater-button').attr('data-movieno');
+			$('p.check-content').css('display','none');
+			$('div.check-theater').css('display','flex');
+			let text = $(this);
+			let total = 0;
 			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
+				$.each(response.items, function(index, theater){
+					let $buttons = $('div.check-theater:eq('+total+')');
+					let check = $('button.detail-check').attr('data-value');
+					let $list  = $('div.theater-choies');
+					let $movie = $('div.movie-check');
+					console.log(response.items);
+					if($buttons.length==3){
+						alert("선택한 범위를 벗어났습니다.");
+					}
+					if(check==theater.theaterNo){
+						$buttons.empty();
+					} else {
+						//아래에 출력되는 값
+						let output ="<div class='detail-check-theater'>";
+                    	output += "<button type='button' class='detail-check' data-value="+theater.theaterNo+" style=width:0px;height:0px;'></button>";
+						output += "<p class='detail-text'>"+theater.theaterName+"</p></div>";
+						let textAttr = text.attr('data-value');
+						let listput = "<div class='check-theater'>"+theater.theaterName+"</div>"
+						$buttons.append(output);
+						total++;
+						//스케쥴에 출력되는 값 --> 나중에 시간설정 후 옮겨 놓을 것 
+						let input ="<button type='button'  class='btn-on' id="+theater.showScheduleStartTime+" >";
+                        input += "<div class='legend'></div>";
+                        input += "<span class='time'>";
+                        input +="<strong title='상영시작'>"+theater.showScheduleStartTime+"</strong>";
+                        input +="<em title='상영종료'>"+theater.showScheduleEndTime+"</em>";
+                        input +="</span>";
+                        input +="<span class='title'>";
+                        input +="<strong title="+theater.movieNo+">"+theater.movieName"</strong>";
+                        input +="<em>"+theater.showTypeName+(theater.showTypeSubTitle)+"</em>";   
+                        input +="</span>";
+                        input +="<div class='info'>";
+                        input +="<span class='theater' title='극장'>";
+                        input +=" "+theaterName+"<br>";       
+                        input +=" "+screenName+"";      
+                        input +="</span>"; 
+                        input +="<span class='seat'>";    
+                        input +="<strong class='now' title='잔여좌석'>"+screenTotalSeat+"</strong>";      
+                        input +="<em class='all' title='"+screenTotalSeat+"'>/"+screenTotalSeat+"</em>";      
+                        input +="</span>";   
+                        input +="</div>";
+                        input +="</button>";
+                        $movie.append(input);
+					}
+				})
+			})
+		})
+		
+		$('div.check-theater').on('click','button.detail-check',function(){
+			let theaterNo = $(this).attr('data-theater');
+			let movieNo = $(this).attr('data-movieno');
+			
+			$.getJSON("/rest/list",{movieNo: movieNo, theaterNo: theaterNo},function(response){
 				
 			})
+				})
+		function showClock(){
+			let currentDate = new Date();
+			let divClock = $('div.time-check');
+			let msg = "현재시간 : ";
+			msg += currentDate.getHours()+"시";
+			msg += currentDate.getMinutes()+"분";
+			msg += currentDate.getSeconde()+"초";
+			setTimeout(slowClock,1000);//1초마다 갱신
+			return msg;
+		}
+		let button = "";
+		$('div.time-check').append(function(){
+			button = document.createElement("button");
+			button.attr('class','time-check-button');
+			let currentDate = new Date();
+			let msg = Number(crrentDate.getHours());
+			for(let i=msg; i<10; i++){
+				
+			}
 		})
 	})
 </script>
