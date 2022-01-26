@@ -30,7 +30,8 @@ public class ReviewService {
 		return reviewMapper.getAllPointTypes();
 	}
 	
-	public void addReview(Review review, List<ReviewPoint> pointTypes) {
+	// todo 레스트 형식으로 바꾸기
+	public Review addReview(Review review, List<ReviewPoint> pointTypes) {
 		reviewMapper.insertReview(review);
 		
 		for (ReviewPoint point : pointTypes) {
@@ -38,6 +39,8 @@ public class ReviewService {
 			point.setReviewPointNo(point.getReviewPointNo());
 			reviewMapper.insertReviewPoint(point);
 		}
+		
+		return reviewMapper.getReviewByNo(review.getNo());
 	}
 	
 	public int getTotalRecords(int movieNo) {

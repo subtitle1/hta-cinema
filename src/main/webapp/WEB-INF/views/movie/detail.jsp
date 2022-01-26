@@ -151,23 +151,17 @@
 				aria-labelledby="nav-review-tab">
 				<div class="row mt-3 ms-1">
 					<div class="row mb-3">
+					<div class="review-box">
+					</div>
 						<div class="col">
-							<nav>
-					  			<ul class="pagination justify-content-center">
-					    			<%-- <li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
-					      				<a class="page-link" href="list.do?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
-					    			</li> --%>
-				
-					    			<%-- <c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-						    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-						    				<a class="page-link" href="list.do?page=${num }" data-page="${num }">${num }</a>
-						    			</li>	    			
-					    			</c:forEach> --%>
-				
-					    			<%-- <li class="page-item ${pagination.existNext ? '' : 'disabled' }">
-					      				<a class="page-link" href="list.do?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
-					    			</li> --%>
-					  			</ul>
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									 <li class="page-item"><a class="page-link" href="#">이전</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">다음</a></li>
+								</ul>
 							</nav>
 						</div>
 					</div>
@@ -198,7 +192,7 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form id="review-form" method="post" action="/review"> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
+					<form id="review-form" method="post" action=""> <!-- 영화id, 평점, 관람평, 관람포인트 넘겨야 함 -->
 						<input type="hidden" id="movie-id" name="movieNo" value="${param.no }">
 						<input type="hidden" name="customerNo" value="1"> <!-- 세션에 담긴 값 -->
 						<div class="text-center mt-2 mb-3">
@@ -406,7 +400,9 @@
 			}
 		})
 		
-		// 리뷰 버튼 모달
+		getReviews();
+		
+		// 리뷰 버튼 모달, 리뷰 등록
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
 			
@@ -436,47 +432,78 @@
 				allCheckBox.prop('checked', false);
 				return;
 			}
-
-			$("#review-form").submit();
+			
+			let checkedPoints = [];
+			$(":checkbox[name=pointNo]:checked").each(function(index) {
+				checkedPoints.push($(this).val());
+			});
+			
+			$.ajax({
+				type: "post",
+				url: "/rest/review",
+				data: {   
+						  movieNo: movieId, 
+						  customerNo: 1, // 로그인된 사용자로 변경해야 함
+						  reviewScore: rate, 
+						  content: reviewBox, 
+						  pointNo: checkedPoints
+					   },
+				dataType:"json",
+				success: function(response) {
+						console.log(response.items);
+					if (response.status) {
+						// window.location.href = "/movie/detail?no=" +movieId;
+					} else {
+						alert("ㄴㄴ");
+					}
+				}
+			})
+			getReviews();
 		})
 		
-		// 리뷰 목록 가져오기
-		$.getJSON('/rest/review', {page: 1,	movieNo: movieId}, function(response) {
-			
-			let reviews = (response.items.reviews);
-			console.log(reviews);
-			
-			$.each(reviews, function(index, review) {
-				let $reviewBox = $(".review-box");
-				
-				let points = review.reviewPoints.map(point => point.pointName).join(", ");
-				
-				let output = "<div class='row text-center mt-3 mb-3'>"
-					output += "<div class='col-1'>"
-					output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
-					output += "<span>"+review.customerId+"</span>"
-					output += "</div>"
-					output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
-					output += "<div class='row'>"
-					output += "<div class='col-1'>"
-					output += "<span>관람평</span>"
-					output += "</div>"
-					output += "<div class='col-1'>"
-					output += "<span>"+ review.reviewScore +"</span>"
-					output += "</div>"
-					output += "<div class='col-2'>"
-					output += "<span>"+ points +"</span>"
-					output += "</div>"
-					output += "<div class='col'>"
-					output += "<span>"+review.reviewContent+"</span>"
-					output += "</div>"
-					output += "</div>"
-					output += "</div>";
-					output += "</div>";
+		let currentPageNo = 1;
+		function pagination() {
 					
-				$reviewBox.append(output);
+		}
+		// 리뷰 목록 가져오기
+		function getReviews() {
+			$.getJSON('/rest/review', {page: currentPageNo,	movieNo: movieId}, function(response) {
+				console.log(response);
+				let reviews = (response.items.reviews);
+				
+				$.each(reviews, function(index, review) {
+					let $reviewBox = $(".review-box");
+					let points = review.reviewPoints.map(point => point.pointName).join(", ");
+					
+					let output = "<div class='row text-center mt-3 mb-3'>"
+						output += "<div class='col-1'>"
+						output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
+						output += "<span>"+review.customerId+"</span>"
+						output += "</div>"
+						output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
+						output += "<div class='row'>"
+						output += "<div class='col-1'>"
+						output += "<span>관람평</span>"
+						output += "</div>"
+						output += "<div class='col-1'>"
+						output += "<span>"+ review.reviewScore +"</span>"
+						output += "</div>"
+						output += "<div class='col-2'>"
+						output += "<span>"+ points +"</span>"
+						output += "</div>"
+						output += "<div class='col'>"
+						output += "<span>"+review.reviewContent+"</span>"
+						output += "</div>"
+						output += "</div>"
+						output += "</div>";
+						output += "</div>"; 
+				
+					$reviewBox.append(output);
+				})
 			})
-		})
+		}
+		
+		
 	})
 </script>
 </html>
