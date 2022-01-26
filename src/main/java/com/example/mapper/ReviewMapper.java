@@ -13,7 +13,7 @@ import com.example.web.form.Criteria;
 @Mapper
 public interface ReviewMapper {
 
-	Review getReviewByNo(int reviewNo);
+	Review getReviewByNo(long reviewNo);
 	void insertReview(Review review);
 	void insertReviewPoint(ReviewPoint reviewPoint);
 	int getTotalReviewsByMovieNo(int movieNo);

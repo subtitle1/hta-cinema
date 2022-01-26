@@ -18,31 +18,24 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	@PostMapping("/review")
-	public String addReview(ReviewInsertForm form) {
-		
-		// loginException 추가해야 됨
-		// 고객테이블/티켓테이블 조인, 티켓테이블의 영화 취소여부가 N이면 리뷰등록 ㄱㄴ
-		
-		Review review = Review.builder()
-				.movieNo(form.getMovieNo())
-				.customerNo(1)
-				.reviewScore(form.getReviewScore())
-				.reviewContent(form.getContent())
-				.build();
-		
-		List<ReviewPoint> reviewPoints = new ArrayList<>();
-		List<Integer> pointNo = form.getPointNo();
-		
-		for (Integer point : pointNo) {
-			ReviewPoint reviewPoint = new ReviewPoint();
-			reviewPoint.setNo(review.getNo());
-			reviewPoint.setReviewPointNo(point);
-			
-			reviewPoints.add(reviewPoint);
-		}
-		reviewService.addReview(review, reviewPoints);
-		
-		return "redirect:movie/detail?no=" + form.getMovieNo();
-	}
+	/*
+	 * @PostMapping("/review") public String addReview(ReviewInsertForm form) {
+	 * 
+	 * // loginException 추가해야 됨 // 고객테이블/티켓테이블 조인, 티켓테이블의 영화 취소여부가 N이면 리뷰등록 ㄱㄴ
+	 * 
+	 * Review review = Review.builder() .movieNo(form.getMovieNo()) .customerNo(1)
+	 * .reviewScore(form.getReviewScore()) .reviewContent(form.getContent())
+	 * .build();
+	 * 
+	 * List<ReviewPoint> reviewPoints = new ArrayList<>(); List<Integer> pointNo =
+	 * form.getPointNo();
+	 * 
+	 * for (Integer point : pointNo) { ReviewPoint reviewPoint = new ReviewPoint();
+	 * reviewPoint.setNo(review.getNo()); reviewPoint.setReviewPointNo(point);
+	 * 
+	 * reviewPoints.add(reviewPoint); } reviewService.addReview(review,
+	 * reviewPoints);
+	 * 
+	 * return "redirect:movie/detail?no=" + form.getMovieNo(); }
+	 */
 }
