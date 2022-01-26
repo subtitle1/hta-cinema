@@ -20,7 +20,10 @@
 	
 	<select id="getCustomerById" parameterType="string" resultMap="CustomerResultMap">
 		select 
-			* 
+			customer_no, customer_grade_no, customer_id, customer_password, customer_name, 
+			customer_phone_number, customer_email, customer_street_address, customer_birth_date, 
+			customer_gender, customer_current_point, customer_created_date, customer_deleted, 
+			customer_deleted_date 
 		from 
 			customer 
 		where 

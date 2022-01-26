@@ -15,11 +15,22 @@
 	<title>HTA CINEMA</title>
 </head>
 <body>
-<%@include file="common/nav.jsp"%>
-	<h1>홈페이지</h1>
-	<p><c:out value="${message }" /></p>
-	<div>
-		<img src="/resources/images/cat.png"/>
+<%@include file="/WEB-INF/views/common/nav.jsp"%>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-4">
+				<h2 class="text-center">HTA CINEMA 홈페이지</h2>
+				<h5 class="text-center">
+					<c:if test="${not empty LOGIN_USER }">
+						<c:out value="${LOGIN_USER.name }님 " />
+						<c:out value="${message }" />
+					</c:if>
+				</h5>
+				<div class="d-flex justify-content-center">
+					<img src="/resources/images/cat.png"/>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

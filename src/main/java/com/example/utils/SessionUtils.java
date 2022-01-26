@@ -1,5 +1,7 @@
 package com.example.utils;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 /**
@@ -47,5 +49,9 @@ public class SessionUtils {
 	 */
 	public static Object getAttribute(String name) {
 		return RequestContextHolder.getRequestAttributes().getAttribute(name, RequestAttributes.SCOPE_SESSION);
+	}
+	
+	public static void sessionInvalidate() {
+		((HttpSession)RequestContextHolder.getRequestAttributes().getSessionMutex()).invalidate();
 	}
 }
