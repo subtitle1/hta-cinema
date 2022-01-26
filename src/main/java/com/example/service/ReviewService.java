@@ -30,7 +30,6 @@ public class ReviewService {
 		return reviewMapper.getAllPointTypes();
 	}
 	
-	// todo 레스트 형식으로 바꾸기
 	public Review addReview(Review review, List<ReviewPoint> pointTypes) {
 		reviewMapper.insertReview(review);
 		
