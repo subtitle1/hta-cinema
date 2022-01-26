@@ -13,6 +13,6 @@ import lombok.Setter;
 @Builder
 public class MyMovie {
 
-	private int customer_no;
-	private int movie_no;
+	private int customerNo;
+	private int movieNo;
 }
