@@ -49,8 +49,8 @@
 	
 	<select id="getAllRegion" resultType="com.example.vo.Region">
 		select
-			region_no,
-			region_name
+			region_no	as no,
+			region_name as name
 		from
 			region
 	</select>
