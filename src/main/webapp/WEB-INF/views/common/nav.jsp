@@ -1,17 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="tags.jsp" %>
 <div id="header">
 	<nav class="navbar navbar-expand-lg navbar-light bg-top" id="navbar-top">
 		<div class="container p-0">
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a href="#" class="nav-link ">VIP LOUNGE</a></li>
-					<li class="nav-item"><a href="#" class="nav-link ">멤버십</a></li>
-					<li class="nav-item"><a href="#" class="nav-link ">고객센터</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">VIP LOUNGE</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">멤버십</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">고객센터</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a></li>
-					<li class="nav-item"><a href="#" class="nav-link">회원가입</a></li>
+					<c:if test="${empty LOGIN_USER }">
+						<li class="nav-item"><a href="modal-login-form" class="nav-link" data-bs-toggle="modal" data-bs-target="#modal-login-form">로그인</a></li>
+						<li class="nav-item"><a href="#" class="nav-link">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty LOGIN_USER }">
+						<li class="nav-item"><a href="/logout" class="nav-link">로그아웃</a></li>
+					</c:if>
 					<li class="nav-item"><a href="#" class="nav-link">빠른예매</a></li>
 				</ul>
 			</div>
@@ -47,7 +53,7 @@
 					<li class="nav-item"><a class="nav-link" href="/movie/list">영화</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">예매</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">극장</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" style="font-family: 'Alfa Slab One'; font-weight: 400;">HTA CINEMA</a></li>
+					<li class="nav-item"><a class="nav-link" href="/" style="font-family: 'Alfa Slab One'; font-weight: 400;">HTA CINEMA</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">스토어</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">혜택</a></li>
@@ -63,55 +69,4 @@
 	</nav>
 </div>
 <!-- 로그인 모달 -->
-<div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">로그인</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form method="post" action="login.do">
-					<input type="text" class="form-control" name="id" />
-					<input type="password" class="form-control mt-3" name="password" />
-					<div class="form-check mt-3">
-						<input class="form-check-input" type="checkbox" value="checked" id="flexCheckChecked" name="saveId" checked>
-						<label class="form-check-label" for="flexCheckChecked">
-							아이디 저장
-						</label>
-					</div>
-					<div class="d-grid">
-						<button id="btn-login" type="button" class="btn btn-primary mt-3">로그인</button>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				
-			</div>
-		</div>
-	</div>
-</div>
-<script type="text/javascript">
-	$(function() {
-		$("#btn-login").click(function(event) {
-			var id = $("[name='id']").val();
-			var password = $("[name='password']").val();
-			console.log("id: " + id);
-			console.log("password: " + password);
-			
-			$.ajax({
-				type: "post",
-				url: "/login",
-				data: {"id": id, "password": password},
-				dataType: "json",
-				success: function(response) {
-					if (response.status) {
-						window.location.href = '/';
-					} else {
-						alert(response.error);
-					}
-				}
-			})
-		});
-	});
-</script>
+<%@include file="loginFormModal.jsp"%>
