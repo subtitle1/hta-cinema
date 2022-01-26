@@ -25,17 +25,13 @@ public class TheaterService {
 		return theaterMapper.getTheaterByNo(no);
 	}
 	
-	public List<Theater> getTheaterByRegion(int regionNo){
-		regionNo=10;
-		return theaterMapper.getTheatersByRegion(regionNo);
-	}
-	
 	public Map<String, List<Theater>> getAllTheaters() {
 		Map<String, List<Theater>> result = new HashMap<>();
 		
 		List<Region> regions = theaterMapper.getAllRegion();
 		for(Region region: regions) {
-			
+			List<Theater> theaters = theaterMapper.getTheatersByRegion(region.no);
+			result.put(region.name, theaters );
 		}
 		// 지역 테이블을 조회한다.
 				// List<Region> 지역들 = 
@@ -46,6 +42,11 @@ public class TheaterService {
 				// }
 		
 		return result;
+	}
+	
+	public List<Region> getAllRegion(){
+		List<Region> regions = theaterMapper.getAllRegion();
+		return regions;
 	}
 	
 }

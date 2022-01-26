@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +9,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <link rel="stylesheet" href="/resources/css/screenList.css">
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
+	<%@include file="../common/tags.jsp" %>
+	<%@include file="../common/nav.jsp"%>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <div class="col">
@@ -23,20 +24,17 @@
         <div class="col-10">
             <div class="my-box">
                 <div class="day">
-                    <button class="pre" type="button"></button>
                     <!-- 페이지 네이션으로 입력할 것 -->
                     <!--일에 따라서 class가 바뀐다. -->
+                    <div class="month"></div>
                    	<div class="now-day">
                    	</div>
-                    <button class="next" type="button"></button>
-                    <button class="calender" type="button"></button>
                 </div>
                 <div class="movie-container">
                 <div class="left-one">
                     <h3>영화</h3>
                     <div class="movie-name">
                         <button class="movie-name-button" type="button">전체</button>
-                        <button class="movie-name-button" type="button">큐레이션</button>
                     </div>
                     <div class="movie-list">
                     <c:forEach var="movie" items="${movies}">
@@ -75,12 +73,7 @@
                     </div>
                     <div class="list-theater-detail">
                         <div class="all-theater-list">
-                            <button class="list-theater-button">선호극장(count수)</button>
-                            <button class="list-theater-button">서울(count수)</button>
-                            <button class="list-theater-button">경기</button>
-                            <button class="list-theater-button">인천</button>
-                            <button class="list-theater-button">대전/충청/세종</button>
-                            <button class="list-theater-button">부산/대구/경상</button>
+                         	<div class="explain-button"><p>영화를 선택하세요</p></div>
                         </div>
                         <div class="theater-choies">
                             <button class="theater-choies-button">강남</button>
@@ -279,14 +272,21 @@
             </div>
         </div>
       </div>
+      <form action="/ticketing/ticketingList" method="post" id="form-post-List">
+      	<input type="hidden" name="ticketingday" value="" />
+      </form>
 </body>
 <script type="text/javascript">
 	$(function(){
+		
 		const dataDate = new Date();
 		let year = dataDate.getFullYear();
-		let month = dataDate.getMonth()+1;
+		let month = dataDate.getMonth();
 		let dataDay = dataDate.getDate();
 		let dayLabel = dataDate.getDay();
+		let dayNumber = Number(dataDay);
+		$('div.month').text((Number(month)+1)+"월");
+		
 		const reserveDate = $('div.now-day');
 		
 		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
@@ -295,16 +295,17 @@
 		let spanWeekOfDay = "";
 		let spanDay = "";
 		let div = "";
-		for(let i = 0 ; i<=11 ; i++) {
+		for(let i = dayNumber ; i<=dayNumber+11 ; i++) {
+			
 			div = document.createElement("div");
 			button = document.createElement("button");
+			spanWeekOfMonth = document.createElement("span");
 			spanWeekOfDay = document.createElement("span");
 			spanDay = document.createElement("strong");
-			button.classList = "mon";
+			spanWeekOfMonth.classList="movie-week-of-month";
 			spanWeekOfDay.classList = 'movie-week-of-day';
 			spanDay.classList ='movie-day';
-			let resultDay = new Date(year, month, dataDay +(i-dayLabel));
-			
+			let resultDay = new Date(year, month, i);
 			let yyyy = resultDay.getFullYear();
 			let mm = Number(resultDay.getMonth())+1;
 			let dd = resultDay.getDate();
@@ -313,34 +314,102 @@
 			mm = String(mm).length === 1 ? '0'+mm : mm;
 			dd = String(dd).length === 1 ? '0'+dd : dd;
 			d = String(d).length === 1 ? '0'+d : d;
-			spanWeekOfDay.innerHTML = mm;
+			spanWeekOfMonth.innerHTML = mm;
+			spanWeekOfDay.innerHTML = dd;
+			
 			button.append(spanWeekOfDay);
-			spanDay.innerHTML = dd;
+			if(d == '01'){
+				d=weekOfDay[1];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '02'){
+				d=weekOfDay[2];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '03'){
+				d=weekOfDay[3];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '04'){
+				d=weekOfDay[4];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '05'){
+				d=weekOfDay[5];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '06'){
+				d=weekOfDay[6];
+				button.classList ="mon sat";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			} else if(d == '00'){
+				d=weekOfDay[0];
+				button.classList="mon sun";
+				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+			}
+			if(i===dayNumber){
+				button.classList = "active";
+				//해당날짜는 버튼이 눌려있게 설정함
+				$('input[name=ticketingday]').val(dayNumber);
+			}
+			spanDay.innerHTML = d;
 			button.append(spanDay);
 			reserveDate.append(button);
 			
+			
 			thisWeek[i] = yyyy + "-" + mm +'-' +dd +'-'+d ;
-		
-			
-			dayClickEvent(button);
 		}
-		
-		function dayClickEvent(button){
-			$('.mon').on('click',function(){
-				const movieDateActive = $('.mon-active');
-				movieDateActive.forEach((list) =>{
-					list.classList.remove('.mon-active');
-				})
-				button.classList.add(".mon-active");
-			})
-		}
+		//날짜 클릭시 활성화 버튼과 hidden으로 data값 전송
+		$('div.now-day').on('click','button.mon',function(){
+			let $btnActive = $(this);
+			let dataAttr = $(this).attr('data-day');
+			$btnActive.attr('class','active');
+			$('input[name=ticketingday]').val(dataAttr);
+			if($('button.active').length===2){
+				$('.active').attr('class','mon');
+				$('input[name=ticketingday]').val("");
+			}
+		})
+		//날짜 클릭했으면 활성화버튼 해제 
+		$('div.now-day').on('click','button.active',function(){
+			let $btnMon = $(this);
+			$btnMon.attr('class','mon');
+			$('input[name=ticketingday]').val("");
+		})
+		//영화버튼 클릭시 극장 정보 가져오기
 		$('.movie-button').click(function(){
+			let movieNo = $(this).val();
+			let $div = $('.all-theater-list');
+			
+			$.getJSON("/rest/screenList",{movieNo: movieNo},function(response){
+				
+				$('.explain-button p').text("");
+				$.each(response.items,function(index, screen){
+					let output ="<button class='list-theater-button' data-movieNo="+screen.movieNo+" data-theater="+screen.theaterNo+">"+screen.regionName+"</button>"
+					$div.append(output);
+				})
+			})
 			
 		})
-		$('.movie-name-button').click(function(){
+		let itemsArray = [];
+		$('div.all-theater-list').on('click','button.list-theater-button',function(){
+			let theaterNo = $(this).attr('data-theater');
+			let movieNo = $(this).attr('data-movieno');
 			
+			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
+				itemsArray = response.items;
+				let $buttons = $('div.theater-choies');
+				$.each(response.items, function(index, theater){
+					let output = "<button class='theater-choies-button'>"+theater.theaterName+"</button>";
+					$buttons.append(output);
+				})
+			})
 		})
-		
+		$('div.theater-choies').on('click','button.theater-choies-button',function(){
+			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
+				
+			})
+		})
 	})
 </script>
 </html>

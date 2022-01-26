@@ -18,6 +18,7 @@ public class MovieTicketService {
 
 	@Autowired
 	private MovieScheduleMapper movieDao;
+	@Autowired
 	private ShowScheduleScreenMapper showDao;
 	
 	public List<MovieScheduleDto> getAllMovieScheduler(String day){
@@ -38,6 +39,5 @@ public class MovieTicketService {
 	public List<ShowScheduleScreen> ListBySpectialNo(int movieNo, int spectialNo){
 		return showDao.ListBySpectialNo(movieNo, spectialNo);
 	}
-	
 	}
 

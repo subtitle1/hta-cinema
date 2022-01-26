@@ -23,13 +23,8 @@ public class TheaterController {
 		
 		Map<String, List<Theater>> theaters = theaterService.getAllTheaters();
 		
-		//List<Theater> theaters = theaterService.getAllTheaters();
+		//List<Theater> theaterist= theaterService.getAllTheaters();
 		model.addAttribute("theaters", theaters);
-		return "theater/list";
-	}
-	
-	@GetMapping("/theater/th")
-	public String th() {
-		return "theater/th";
+		return "/theater/list";
 	}
 }

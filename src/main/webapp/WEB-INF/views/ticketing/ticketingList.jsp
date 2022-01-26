@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +12,8 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
+<%@include file="../common/tags.jsp" %>
+<%@include file="../common/nav.jsp"%>
     <div class="container" style="width: 1250px;">
         <div class="row mb-3">
             <h2>빠른예매</h2>

@@ -15,17 +15,12 @@ public class HomeController {
 		
 		return "home";	// prefix="/WEB-INF/views/" viewName="home" suffix=".jsp"
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout() {
 		SessionUtils.sessionInvalidate();
 		
 		return "redirect:/";
-	}
-	
-	@GetMapping("/ticketing/ticketingList")
-	public String ticketingList() {
-		return "/ticketing/ticketingList";
 	}
 	
 	@GetMapping("/ticketing/ticketingPay")

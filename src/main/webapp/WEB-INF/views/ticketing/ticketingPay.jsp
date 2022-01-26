@@ -14,6 +14,7 @@
     <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
+<%@include file="../common/tags.jsp" %>
 <%@include file="../common/nav.jsp"%>
     <div class="container" style="width:1250px ">
         <div class="head">

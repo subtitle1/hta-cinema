@@ -95,18 +95,12 @@
 					<li class="tab-link" style="width: 12.5%" data-tab="tab-6">메뉴_6</li>
 					<li class="tab-link" style="width: 12.5%" data-tab="tab-7">메뉴_7</li>
 				</ul>
-			
-							<c:forEach var="theaterList" items="${theaters }">
-								<li style="width: 23%"><a href="theater/detail.jsp?no="></a></li>
-							</c:forEach>
-			
 				<div id="tab-1" class="tab-content current">
 					<ul>
 						
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
+						<c:forEach var="theater" items="${theaters.get("서울")}">
+							<li style="width: 23%"><a href="theater/detail.jsp?no=">${theater.Name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-2" class="tab-content">
