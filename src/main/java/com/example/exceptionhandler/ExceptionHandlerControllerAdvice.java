@@ -35,10 +35,14 @@ public class ExceptionHandlerControllerAdvice {
 		response.setError(e.getMessage());
 		return response;
 	}
+	
 	@ExceptionHandler(LoginErrorException.class)
-	public String handlerLoginException(LoginErrorException e, Model model) { 
-		e.printStackTrace();
-		model.addAttribute("error", e.getMessage());
-		return "loginForm";//나중에 loginForm에 연결한다. 
+	public @ResponseBody ResponseDto<?> handlerLoginException(LoginErrorException e) { 
+		ResponseDto<?> response = new ResponseDto<>();
+		
+		response.setStatus(false);
+		response.setError(e.getMessage());
+		
+		return response;
 	}
 }

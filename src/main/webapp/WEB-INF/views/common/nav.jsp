@@ -69,4 +69,6 @@
 	</nav>
 </div>
 <!-- 로그인 모달 -->
-<%@include file="loginFormModal.jsp"%>
+<c:if test="${empty LOGIN_USER }">
+	<%@include file="loginFormModal.jsp"%>
+</c:if>
