@@ -27,19 +27,14 @@ public class TheaterService {
 	
 	public Map<String, List<Theater>> getAllTheaters() {
 		Map<String, List<Theater>> result = new HashMap<>();
+		result.put("seoul", theaterMapper.getTheatersByRegion(10));
+		result.put("kyungki", theaterMapper.getTheatersByRegion(11));
+		result.put("incheon", theaterMapper.getTheatersByRegion(12));
+		result.put("daejeon", theaterMapper.getTheatersByRegion(13));
+		result.put("busan", theaterMapper.getTheatersByRegion(14));
+		result.put("kwangju", theaterMapper.getTheatersByRegion(15));
+		result.put("kangwon", theaterMapper.getTheatersByRegion(16));
 		
-		List<Region> regions = theaterMapper.getAllRegion();
-		for(Region region: regions) {
-			List<Theater> theaters = theaterMapper.getTheatersByRegion(region.no);
-			result.put(region.name, theaters );
-		}
-		// 지역 테이블을 조회한다.
-				// List<Region> 지역들 = 
-				// for (Region region : 지역들) {
-				//		지역번호 조회
-				//		List<Theater> theaters = 지역번호의 극장들
-				//		result.put(지역명, theaters)
-				// }
 		
 		return result;
 	}

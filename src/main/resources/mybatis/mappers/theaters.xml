@@ -3,8 +3,12 @@
 <mapper namespace="com.example.mapper.TheaterMapper">
 
 	<resultMap type="com.example.vo.Theater" id="TheaterResultMap">
-		<id column="theater_no" property="no"/>
-		<result column="theater_no" property="no"/>
+		<id column="theater_no" 				property="no"/>
+		<result column="theater_name" 			property="name"/>
+		<result column="theater_street_address" property="streetAddress"/>
+		<result column="theater_longitude" 		property="longitude"/>
+		<result column="theater_latitude" 		property="latitude"/>
+		<result column="region_no" 				property="regionNo"/>
 	</resultMap>
 	
 	<select id="getAllTheaters" resultMap="TheaterResultMap">
