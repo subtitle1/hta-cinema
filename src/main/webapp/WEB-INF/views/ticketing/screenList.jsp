@@ -397,7 +397,6 @@
 			let movieNo = $(this).attr('data-movieno');
 			
 			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				itemsArray = response.items;
 				let $buttons = $('div.theater-choies');
 				$.each(response.items, function(index, theater){
 					let output = "<button class='theater-choies-button'>"+theater.theaterName+"</button>";
@@ -406,8 +405,14 @@
 			})
 		})
 		$('div.theater-choies').on('click','button.theater-choies-button',function(){
+			let theaterNo =$('button.list-theater-button').attr('data-theater');
+			let movieNo =$('button.list-theater-button').attr('data-movieno');
 			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				
+				let $buttons = $('div.detail-check-theater');
+				$.each(response.items, function(index, theater){
+					let optput = "<p class='detail-text'>"
+					$buttons.append(output);
+				})
 			})
 		})
 	})
