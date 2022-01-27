@@ -1,5 +1,9 @@
 package com.example.dto;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,5 +24,7 @@ public class MovieRatingDto {
 	private String ratingImageURL;
 	private int movieNo;
 	private String movieName;
-	
+	private long showScheduleNo;
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
+	private Date showScheduleStartTime;
 }

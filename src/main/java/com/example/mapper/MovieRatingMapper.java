@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import java.util.List;
 
+
 import com.example.dto.MovieRatingDto;
 
 public interface MovieRatingMapper {

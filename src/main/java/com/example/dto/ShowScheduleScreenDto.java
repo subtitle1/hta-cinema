@@ -2,7 +2,6 @@ package com.example.dto;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -19,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class ShowScheduleScreen {
+public class ShowScheduleScreenDto {
 
 	private int movieNo;
 	private int theaterNo;
@@ -32,9 +31,9 @@ public class ShowScheduleScreen {
 	private int specialScreenNo;
 	private long showScheduleNo;
 	private String specialScreenName;
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone="Asia/Seoul")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
 	private Date showScheduleStartTime;
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone="Asia/Seoul")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
 	private Date showScheduleEndTime;
 	private int movieRatingNo;
 	private String movieRatingName;

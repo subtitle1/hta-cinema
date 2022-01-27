@@ -18,7 +18,12 @@ h2{
     height: 15px;
     opacity: 0.6;
 }
-
+.theater-spacial-button:active{
+	background-color: gray;
+}
+.theater-all-button:active{
+	background-color: gray;
+}
 .mon{
     background-color:white;
     border: 1px white;
@@ -373,14 +378,15 @@ p>.detail-check{
     box-shadow: inset 0px 0px 5px white;
 }
 .legend{
-    width: 30px;
+    width: 40px;
 }
 .time{
     float: left;
-    width: 15%;
+    width: 10%;
+    display: inline-block;
 }
 .title{
-    float: left;
+    float: center;
     width: 32%;
     text-align: left;
 }
@@ -388,6 +394,7 @@ em{
     font-style: normal;
     font-size: smaller;
     color: gray;
+    display: inline-block;
 }
 strong{
     font-size: medium;
