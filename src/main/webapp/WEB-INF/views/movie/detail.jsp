@@ -10,6 +10,8 @@
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
+  	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <style>
@@ -120,8 +122,15 @@
 						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
 					<div class="col text-end review-head">
-						<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="#" id="review-btn">
-						<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
+						<c:choose>
+							<c:when test="${not empty LOGIN_USER }">
+								<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="#" id="review-btn" >
+								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
+							</c:when>
+							<c:otherwise>
+								<img alt="" src="/resources/images/movie/ico-story-write.png"> <span class="text-secondary"> 관람평 쓰기</span>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<div class="review-box">
@@ -178,27 +187,23 @@
 	</div>
 
 	<!-- 관람평 모달 -->
-	<div class="modal fade" id="reviewModal" tabindex="-1"
-		aria-labelledby="review-btn" aria-hidden="true">
+	<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="review-btn" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="review-btn">관람평 작성하기</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<h5 class="modal-title">관람평 작성하기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form id="review-form" method="post" action="">
 						<input type="hidden" id="movie-id" name="movieNo" value="${param.no }">
-						<input type="hidden" name="customerNo" value="${LOGIN_USER.no }">
 						<div class="text-center mt-2 mb-3">
 							<h4 class="title2">영화명</h4>
 							<h4>영화 어떠셨나요?</h4>
-						<div>
-							<span id="error-txt" class="text-danger" style="font-weight: bold"></span>
+							<div>
+								<span id="error-txt" class="text-danger" style="font-weight: bold"></span>
+							</div>
 						</div>
-						</div>
-						
 						<div class="border p-3 bg-light mb-3">
 							<div class="star-rating">
 								<input type="radio" id="5-stars" name="reviewScore" value="5" />
@@ -242,10 +247,35 @@
 		</div>
 	</div>
 </body>
+
+<!-- 오류 모달창 -->
+<div class="modal fade" id="modal-info-error" tabindex="-1"	aria-labelledby="오류 메세지 모달창" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">알림</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+			</div>
+			<div class="modal-body d-flex justify-content-center">
+				<span id="span-error"></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 	$(function() {
 		
-		var reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
+		var reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"), {
+			keyboard: false
+		});
+		
+		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
+			keyboard: false
+		});
 		
 		Chart.defaults.global.legend.display = false; // 범례 제거
 		// 방사형 그래프
@@ -348,7 +378,6 @@
 				$("#genre").text(genres+" /");
 				$("#runtime").text(movie.runtime);
 				$("#openDt").text(movie.release_date);
-				
 			},
 			error: function() {
 				let $div1 = $("#movie-head");
@@ -399,6 +428,17 @@
 			}
 		})
 		
+		// 관람평 작성 버튼을 클릭했을 때 로그인 된 유저가 있는지 조회해서, 없으면 에러 모달창을 띄운다.
+		$("#review-btn").click(function() {
+			let customerNo = $(":input[name=customerNo]").val();
+			
+			if (customerNo == "") {
+				reviewModal.dispose();
+				$("#span-error").text("로그인 후 사용 가능합니다.");
+				errorModal.show();
+			}
+		})
+		
 		// 리뷰 버튼 모달, 리뷰 등록
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
@@ -408,7 +448,7 @@
 			let allCheckBox = $(":checkbox[name=pointNo]");
 			let checkedList = $(":checkbox[name=pointNo]:checked");
 			let reviewBox = $("#review-content").val();
-			let customerNo = $(":input[name=customerNo]").val();
+			
 			
 			if (rate == null) {
 				$("#error-txt").text("평점을 선택해 주세요.");
@@ -444,7 +484,6 @@
 				url: "/rest/review",
 				data: {   
 						  movieNo: movieId, 
-						  customerNo: customerNo, 
 						  reviewScore: rate, 
 						  content: reviewBox, 
 						  pointNo: checkedPoints
@@ -455,7 +494,9 @@
 						getReviews();
 						
 					} else {
-						alert("ㄴㄴ");
+						console.log(response);
+						$("#span-error").text(response.error);
+						errorModal.show();
 					}
 				}
 			})

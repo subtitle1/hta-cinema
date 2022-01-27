@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +7,8 @@
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<link rel="stylesheet" href="/resources/css/movieList.css" />
+  	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
   	<link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <head>		
@@ -75,7 +76,9 @@
 		let searchUrl = "https://api.themoviedb.org/3/search/movie";
 		let apiKey = "935cc74a36fab18e33ea802df5ebd3f4";
 		let totalPage = 0;
-			
+		
+		getMovieList();
+		
 		function getMovieList() {
 			$.ajax({					
 				type: 'get',
@@ -88,6 +91,7 @@
 				},
 				dataType: 'json',
 				success: function(response) {
+
 					let resultCount = response.total_results;
 					
 					if (resultCount > 100) {
@@ -108,22 +112,26 @@
 		
 		function showLists(response) {
 			let movieList = response.results;
-			let likeCount = 0;
+			
 			$.each(movieList, function(index, movie) {
 				
-				/* $.ajax({
+				let count = 0;
+				
+				$.ajax({
 					type: 'get',
 					url: "/rest/count",
 					data: {movieNo: movie.id},
 					dataType: 'json',
+					async: false, // 서버로부터 값이 오지 않으면 다음으로 넘어가지 않음
 					success: function(response) {
-						likeCount = response;
+						count = response.likeCount;
 					}
-				}); */
+				});
 				
 				let poster = imageUrl+movie.poster_path; 						
-
-				let output = "<div class='col-3 mb-5' style='padding-left: 0px;'>";
+				let output = "";
+				
+				output += "<div class='col-3 mb-5' style='padding-left: 0px;'>";
 				output += "<a href='/movie/detail?no="+movie.id+"'>";
 				if (movie.poster_path) {
 					output += "<img src = '" +poster+ "'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
@@ -134,32 +142,32 @@
 				if (movie.title) {
 					output += "<p class='mt-2'>" + movie.title + "</p>";
 				} else {
-					output += "<p class='mt-2'>"+movie.name+"</p>";
+					output += "<p class='mt-2'>"+ movie.name +"</p>";
 				}
 				if (movie.release_date) {
-					output += "<span> 개봉일 | "+movie.release_date+"</span>";
+					output += "<span> 개봉일 | "+ movie.release_date +"</span>";
 				} else {
 					output += "<span> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button class='btn id='btn-"+ movie.id +"' btn-outline-dark col-5 mt-1 float-end' data-no='"+movie.id+"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+likeCount+"</span></button>";
-				output += "<button data-no='"+movie.id+"' type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
+				output += "<button id='btn-"+ movie.id +"' class='btn btn-outline-dark btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+count+"</span></button>";
+				output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
 				output += "</div>";
 				output += "</div>";
 				
 				$div.append(output);
+				
 			});
 		}
-		
-		getMovieList();
 		
 		function refreshMovie() {
 			$("#searchMore").removeAttr("disabled");
 			currentPage = 1;
 			$div.empty();
+			showMyMovies();
 			getMovieList();
 		}
-
+		
 		$('#nav-boxoffice-tab').click(function() {
 			currentMovieUrl = "https://api.themoviedb.org/3/movie/now_playing";
 			refreshMovie();
@@ -206,8 +214,8 @@
 			})
 		});
 		
-		// ajax로 사용자가 하트 누른 영화 번호 받아오기
-		// data-no의 속성이 받아온 영화번호와 같으면 img src를 like.png로!
+		showMyMovies();
+
 		function showMyMovies() {
 			$.ajax({
 				type: "get",
@@ -216,21 +224,11 @@
 				success: function(response) {
 					let movieNo = (response.items.map(item => item.movieNo));
 					$.each(movieNo, function(index, movie) {
-						console.log(movie);
-						
-						// 진행중
-						
-						/* let button = $(".btn-like").attr("data-no");
-						console.log(button); */
-						if ($("button.btn-like").data("no") == movie) {
-						}
+						$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
 					})
 				}
 			})
 		};
-		
-		showMyMovies();
-		
 		
 		// 좋아요 기능
 		$(".poster").on('click', '.btn-like', function() {

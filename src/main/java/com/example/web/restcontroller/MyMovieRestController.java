@@ -52,9 +52,7 @@ public class MyMovieRestController {
 	
 	@GetMapping("/myMovies") 
 	public ResponseDto<List<MyMovie>> myMovies(int customerNo) {
-		/*if (user == null) {
-			throw new CartErrorException("장바구니 아이템 삭제는 로그인 후 사용가능합니다.");
-		}*/
+		
 		ResponseDto<List<MyMovie>> response = new ResponseDto<>();
 		List<MyMovie> movies = myMovieService.getMyMovies(customerNo);
 		

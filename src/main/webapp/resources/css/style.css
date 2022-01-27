@@ -13,12 +13,6 @@ a {
     font-weight: 500px;
 }
 
-body {
-	/*
- 	 min-width: 970px;
- 	 */
-}
-
 .container{
 	min-width: 1250px;
 }
@@ -26,7 +20,6 @@ body {
 /* navbar */
 #header {
 	border-bottom: 2px solid #000;
-	/*width: 1902px;*/
 }
 
 #navbar-2 .util-list li a {
@@ -87,111 +80,4 @@ body {
 
 a {
 	word-break: keep-all;
-}
-
-/* movie list */
-.nav-tabs .nav-link {
-	font-family: Noto Sans KR;
-	
-	color: black;
-    font-size: 18px;
-}
-
-.search-btn {
-	position: absolute;
-	margin-left: -55px;
-	top: 344.5px;
-	color: #4f5b66;
-}
-
-#movie-lists .poster p, span {
-	margin-bottom: 0;
-	color: black;
-}
-
-#movie-lists .poster p {
-	font-size: 20px;
-	color: black;
-}
-
-#movie-lists .btn-like {
-	border-color: #ebebeb;
-}
-
-/* movie detail */
-#movie-head h1, p{
-	color: white;
-}
-
-#title {
-	font-size: 50px;
-	font-weight: bold;
-}
-
-#original-title {
-	font-size: 20px;
-}
-
-#movie-head div {
-	margin-top: 290px;
-    font-size: 18px;
-}
-
-.raing span {
-	color: white;
-}
-
-.ticketing {
-    position: relative;
-    top: 425px;
-    left: 288px;
-    width: 290px;
-}
-
-.review-head a {
-	text-decoration: none;
-	color: black;
-}
-
-#nav-video div span{
-	color:black;
-	font-size: 20px;
-}
-
-#info-lists span, dt, dd, h2, a {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-
-/* 리뷰 모달 */
-
-#reviewModal h4, h5, span {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-
-.star-rating {
-	border: 0;
-	display: flex;
-	flex-direction: row-reverse;
-	font-size: 2em;
-	justify-content: auto;
-	text-align: center;
-	width: 5em;
-	margin-left: 137px;
-}
-
-.star-rating input {
-	display: none;
-}
-
-.star-rating label {
-	color: rgb(128, 128, 128);
-	cursor: pointer;
-}
-
-.star-rating :checked ~ label {
-	color: rgb(255, 212, 59);
-}
-
-.star-rating :hover ~ label {
-	color: rgb(250, 176, 5);
 }
