@@ -1,5 +1,12 @@
 package com.example.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Region {
 
 	public int no;
@@ -14,12 +21,11 @@ public class Region {
 		return name;
 	}
 	public void setName(String name) {
-		
-		if(name == "대전") {
+		if(name.equals("대전")) {
 			this.name = name + "/충청/세종";
-		} else if(name =="부산") {
+		} else if(name.equals("부산")) {
 			this.name = name + "/대구/경상";
-		} else if(name =="광주") {
+		} else if(name.equals("광주")) {
 			this.name = name + "/전라";
 		} else {
 			this.name = name;

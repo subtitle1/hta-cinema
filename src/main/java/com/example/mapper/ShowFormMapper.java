@@ -3,6 +3,7 @@ package com.example.mapper;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +22,6 @@ public interface ShowFormMapper {
 	public List<AudienceType> getAudienceType(int no);
 	public List<FeeType> getFeeType(ScreenListInsertForm form);
 	public MovieScheduleDto getScheduleList(ScreenListInsertForm form);
+	
 	
 }

@@ -20,11 +20,9 @@
  			s.screen_name as screenName, 
  			s.screen_total_seat_row as screenTotalSeatRow, 
  			s.screen_total_seat_column as sceenTotalSeatCoulumn,
- 			s.screen_total_seat as screenTotalSeat,
- 			ns.nonexiseat_seat_no as nonexistentSeatNo
- 		from screen s, show_schedult sc, nonexistent_seat_no ns
- 		where s.screen_no = ns.screen_no
- 		and sc.screen_no = s.screen_no
+ 			s.screen_total_seat as screenTotalSeat
+ 		from screen s, show_schedule sc
+ 		where sc.screen_no = s.screen_no
  		and sc.screen_no = #{screenNo}
  		and sc.movie_no = #{movieNo}
  		and sc.show_type_no = #{showTypeNo}

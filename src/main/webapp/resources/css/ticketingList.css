@@ -104,10 +104,9 @@ li{
     float: right;
     width: 20%;
     margin: auto;
-    height: 500px;
+    height: 530px;
     border: 1px solid black;
     margin-right: 10%;
-    position: relative;
 }
 .screen-seat{
     border-left: 1px solid rgb(180, 179, 179);
@@ -140,11 +139,13 @@ li{
     float:left;
 
 }
+
 .movie-container{
     border-radius: 6px;
     background-color: rgb(53, 47, 47);;
     padding: 8px;
-    clear: right;
+   	top: -530px;
+    position: relative;
 }
 .movie-detail-area{
     clear:both;
@@ -206,7 +207,6 @@ li{
     position: sticky;
     background-attachment:fixed
 }
-/*
 li{
 
     visibility: hidden;
@@ -216,7 +216,6 @@ ul{
     margin: 0;
     padding: 0;
 }
-*/
 .arr{
     background-image: url(/resources/images/bg/bg-other-time-arr-down.png);
     background-color: rgb(39, 37, 37);
@@ -239,11 +238,10 @@ ul{
     width: 50%;
  
 }
-/*
 *{
     box-sizing: border-box;
 }
-*/
+
 .kind-seat{
     font-size: 10px;
     color: white;

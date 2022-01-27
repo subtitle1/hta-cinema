@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.MovieRatingDto;
 import com.example.dto.MovieScheduleDto;
+import com.example.exception.MovieTicketingErrorException;
 import com.example.mapper.MovieRatingMapper;
 import com.example.mapper.ShowFormMapper;
 import com.example.vo.AudienceType;
@@ -44,7 +46,12 @@ public class MovieRatingService {
 		return showDto.getFeeType(form);
 	}
 	public MovieScheduleDto getScheduleList(ScreenListInsertForm form) {
-		return showDto.getScheduleList(form);
+		MovieScheduleDto movies = showDto.getScheduleList(form);
+		if(movies == null) {
+			throw new MovieTicketingErrorException("해당하는 영화가 존재하지 않습니다.");
+		} else {
+			return movies;
+		}
 	}
 
 }
