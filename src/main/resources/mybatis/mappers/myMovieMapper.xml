@@ -36,4 +36,9 @@
 		where movie_no = #{value}
 	</select>
 	
+	<select id="getMyMovies" parameterType="int" resultType="com.example.vo.MyMovie">
+		select movie_no movieNo
+		from my_movie
+		where customer_no = #{value}
+	</select>
 </mapper>
