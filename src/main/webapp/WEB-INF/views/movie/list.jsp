@@ -16,6 +16,7 @@
 </head>
 <body>
 <%@include file="../common/nav.jsp"%>
+	<input type="hidden" name="customerNo" value="${LOGIN_USER.no }">
 	<div class="container">
 		<div class="mt-5">
 			<h1>전체 영화</h1>
@@ -107,7 +108,19 @@
 		
 		function showLists(response) {
 			let movieList = response.results;
+			let likeCount = 0;
 			$.each(movieList, function(index, movie) {
+				
+				/* $.ajax({
+					type: 'get',
+					url: "/rest/count",
+					data: {movieNo: movie.id},
+					dataType: 'json',
+					success: function(response) {
+						likeCount = response;
+					}
+				}); */
+				
 				let poster = imageUrl+movie.poster_path; 						
 
 				let output = "<div class='col-3 mb-5' style='padding-left: 0px;'>";
@@ -129,7 +142,7 @@
 					output += "<span> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button  class='btn btn-like btn-outline-dark col-5 mt-1 float-end' data-no='"+movie.id+"' type='button' style='margin-right: 15px;'><img class='me-3 like-count' src='/resources/images/movie/unlike.png'>0</button>";
+				output += "<button class='btn id='btn-"+ movie.id +"' btn-outline-dark col-5 mt-1 float-end' data-no='"+movie.id+"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+likeCount+"</span></button>";
 				output += "<button data-no='"+movie.id+"' type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
 				output += "</div>";
 				output += "</div>";
@@ -193,16 +206,65 @@
 			})
 		});
 		
-		// saveLike, removeLike ajax 필요
+		// ajax로 사용자가 하트 누른 영화 번호 받아오기
+		// data-no의 속성이 받아온 영화번호와 같으면 img src를 like.png로!
+		function showMyMovies() {
+			$.ajax({
+				type: "get",
+				url: "/rest/myMovies",
+				data: {customerNo: 1},
+				success: function(response) {
+					let movieNo = (response.items.map(item => item.movieNo));
+					$.each(movieNo, function(index, movie) {
+						console.log(movie);
+						
+						// 진행중
+						
+						/* let button = $(".btn-like").attr("data-no");
+						console.log(button); */
+						if ($("button.btn-like").data("no") == movie) {
+						}
+					})
+				}
+			})
+		};
+		
+		showMyMovies();
+		
+		
+		// 좋아요 기능
 		$(".poster").on('click', '.btn-like', function() {
-			// 영화 아이디
-			let id = $(this).attr("data-no");
-			console.log(id);
-			// saveLike ajax 시, 로그인 세션 null일 때 exception
-			$(this).find('img').attr("src", "/resources/images/movie/like.png");
 			
-			// removeLike ajax 시
-			// $(this).find('img').attr("src", "/resources/images/movie/unlike.png");
+			let movieNo = $(this).attr("data-no");
+			let userNo = 1; // 로그인된 사용자로 수정
+			let button = $(this);
+			let unlike = "/resources/images/movie/unlike.png";
+			let like = "/resources/images/movie/like.png";
+			
+			if (button.find('img').attr('src') == unlike) {
+				
+				$.ajax({
+					type: "post",
+					url: "/rest/like",
+					data: {customerNo: userNo, movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", like);
+					}
+				})
+			} else {
+				$.ajax({
+					type: "delete",
+					url: "/rest/like",
+					data: {customerNo: userNo, movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", unlike);
+					}
+				})
+			}
 		});
 	})
 </script>
