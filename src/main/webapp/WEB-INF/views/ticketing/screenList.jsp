@@ -6,8 +6,10 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/resources/css/style.css" />
+    <link rel="stylesheet" href="/resources/css/common.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -74,9 +76,15 @@
                     </div>
                     <div class="list-theater-detail">
                         <div class="all-theater-list">
-                         	<div class="explain-button"><p>영화를 선택하세요</p></div>
+                         	<div class="explain-button">
+                         		<p style="display:flex">영화를 선택하세요</p>
+                         		<c:forEach var="region" items="${regions }">
+	                        		<button class='list-theater-button' data-region='${region.no }' style="display:none">${region.name }</button>
+	                        	</c:forEach>
+                         	</div>
                         </div>
                         <div class="theater-choies">
+                        
                         </div>
                     </div>
                     <div class="theater-choies-check">
@@ -85,10 +93,7 @@
                         </p>
                         <!--선택했을 경우 클릭하면 입력되고 아니면 열리지 않는다.-->
                         <div class="check-theater" style="display:none;">
-                        </div>
-                        <div class="check-theater" style="display:none;">
-                        </div>
-                        <div class="check-theater" style="display:none;">
+                        
                         </div>
                     </div>
                 </div>
@@ -192,9 +197,8 @@
 				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
 			}
 			if(i===dayNumber){
-				button.classList = "active";
+				button.classList="mon active";
 				//해당날짜는 버튼이 눌려있게 설정함
-				$('input[name=ticketingday]').val(dayNumber);
 			}
 			spanDay.innerHTML = d;
 			button.append(spanDay);
@@ -207,7 +211,7 @@
 		$('div.now-day').on('click','button.mon',function(){
 			let $btnActive = $(this);
 			let dataAttr = $(this).attr('data-day');
-			$btnActive.attr('class','active');
+			$btnActive.toggleClass('active');
 			if($('button.active').length===2){
 				$('.active').attr('class','mon');
 			}
@@ -216,33 +220,43 @@
 		$('div.now-day').on('click','button.active',function(){
 			let $btnMon = $(this);
 			$btnMon.attr('class','mon');
-			$('input[name=ticketingday]').val("");
 		})
 		//영화버튼 클릭시 극장 정보 가져오기
 		$('button.movie-button').click(function(){
-			$(this).attr('class','active');
-			let movieNo = $(this).val();
-			let $div = $('.all-theater-list');
-			let $divP = $('')
-			$.getJSON("/rest/screenList",{movieNo: movieNo},function(response){
-				let dataAttr = $('button.list-theater-button').text();
-				$('.explain-button p').text("");
-				$.each(response.items,function(index, screen){
-					if(dataAttr !== screen.regionName) { //또 같은 지역명 클릭시 출력되지 않는다. 
-						let output ="<button class='list-theater-button'data-movieNo="+screen.movieNo+" data-theater="+screen.theaterNo+">"+screen.regionName+"</button>"
-						$div.append(output);
-						$('input[name=movieNo]').val(movieNo);
-					}
+			let valueNo = $(this).val();
+			let attrNo = $(this).attr('class');
+			$('.explain-button p').css('display','none');
+			$('button.list-theater-button').css('display','flex');
+			if(attrNo.match('active') == 'active'){
+				$(this).removeClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+			//아래에 클릭시 이미지가 뜨도록 	
+		})
+		//해당하는 극장명이 출력된다. 
+		$('button.list-theater-button').click(function(){
+			$(this).toggleClass('active')
+			let $dataAttr = $('div.theater-choies');
+			$dataAttr.empty();
+			let regionNo = $(this).attr('data-region');
+			$.getJSON("/rest/theater",{regionNo: regionNo},function(response){
+				$.each(response.items,function(index, theater){
+						let output ="<button class='list-theater-button' data-theater="+theater.no+" title="+theater.name+">"+theater.name+"</button>"
+						 $dataAttr.append(output);
 				})
 			})
-			
 		})
-		$('div.all-theater-list').on('click','button.list-theater-button',function(){
-			let theaterNo =$('button.list-theater-button').attr('data-theater');
-			let movieNo =$('button.list-theater-button').attr('data-movieno');
+		//극장명을 클릭하면	
+		$('div.theater-choies').on('click','button.list-theater-button',function(){
+			let $btn = $(this);
+			$btn.toggleClass('active');
+			let theaterNo =$btn.attr('data-theater');
+			let movieNo =$('button.movie-button.active').val();
 			let timeNo = $('.time-check-button:eq(0)').text();
+			let regionNo = $('.list-theater-button.active').attr('data-region');
 			let $theaterNames = $('div.theater-choies');
-			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo,timeNo: timeNo },function(response){
+			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo, timeNo: timeNo },function(response){
 					console.log(response.items);
 				$.each(response.items,function(index,theater){
 					let $list  = $('div.theater-choies');
@@ -259,15 +273,15 @@
 						$list.append(listputs)
 						
 						//스케쥴에 출력되는 값 --> 나중에 시간설정 후 옮겨 놓을 것 
-						let input ="<button type='button'  class='btn-on' id="+theater.showScheduleStartTime+" >";
+						let input ="<button type='button'  class='btn-on' value="+theater.showScheduleStartTime+" >";
 		                input += "<div class='legend' data-screenNo="+theater.screenNo+"></div>";
 		                input += "<span class='time'>";
-		                input +="<strong title='상영시작 data-time="+theater.showScheduleStartTime+"'>"+theater.showScheduleStartTime+"</strong>";
+		                input +="<strong title='상영시작' data-time="+theater.showScheduleStartTime+"'>"+theater.showScheduleStartTime+"</strong>";
 		                input +="<em title='상영종료'>~"+theater.showScheduleEndTime+"</em>";
 		                input +="</span>";
 		                input +="<span class='title' data-regionNo="+theater.regionNo+">";
 		                input +="<strong data-movieNo="+theater.movieNo+">"+theater.movieName+"</strong>";
-		                input +="<em data-ratinNo="+theater.movieRatingNo+" data-showTypeNo="+theater.showTypeNo+">"+theater.showTypeName+theater.showTypeSubTitle+"</em>";   
+		                input +="<em data-ratingNo="+theater.movieRatingNo+" data-showTypeNo="+theater.showTypeNo+">"+theater.showTypeName+theater.showTypeSubTitle+"</em>";   
 		                input +="</span>";
 		                input +="<div class='info'>";
 		                input +="<span class='theater' data-theaterNo="+theater.theaterNo+" title='극장'>";
@@ -285,21 +299,7 @@
 			})
 		})
 		})
-		$('div.theater-choies').on('click','button.theater-choies-button',function(){
-			$('p.check-content').css('display','none');
-			$('div.check-theater').css('display','flex');
-			let total = 0;
-			let $buttons = $('div.check-theater:eq('+total+')');
-			let check = $('button.detail-check').attr('data-value');
-			let text = $(this).text;
-	
-				//아래에 출력되는 값
-				let output ="<div class='detail-check-theater'>";
-            	output += "<button type='button' class='detail-check' style=width:0px;height:0px;'></button></div>";
-				$buttons.append(output);
-				total++;
-			
-		})
+		
 		$('div.time-check').append(function(){
 			let currentDate = new Date();
 			let msg = Number(currentDate.getHours());
@@ -318,51 +318,24 @@
 		})
 		//버튼 클릭시 정보저장하기
 		$('div.movie-check').on('click','button.btn-on',function(e){
-			let nowday = $('button.active').attr('data-day');
-			let day = $('button.active').text();
-			let movieNo = $('button.btn-on').attr('data-movieno');
-			let theaterNo = $('button.btn-on').attr('data-theaterNo');
-			let dataTime = $('button.btn-on').attr('data-time');
-			let regionNo = $('button.btn-on').attr('data-regionNo');
-			let ratinNo = $('button.btn-on').attr('data-ratinNo');
-			let screenNo = $('button.btn-on').attr('data-screenNo');
-			let showTypeNo = $('button.btn-on').attr("data-showTypeNo");
-			console.log(nowday);
-			console.log(day);
-			console.log(movieNo);
-			console.log(theaterNo);
-			console.log(regionNo);
-			console.log(screenNo);
-			console.log(ratinNo);
-			console.log(showTypeNo);
-			if(nowday == null){
-				alert("날짜를 선택해주세요");
-				return;
-			}
-			if(movieNo == null){
-				alert("영화를 선택해주세요");
-				return;
-			}
-			if(theaterNo == null) {
-				alert("극장을 선택해주세요");
-				return;
-			}
-			listTicketing();
+			 let $movie= $(this);
+			 let movieNo = $movie.find('.title strong').attr('data-movieno');
+			 let theaterNo = $movie.find('.theater').attr('data-theaterno');
+			 let ratingNo = $movie.find('.title em').attr('data-ratingNo');
+			 let showTypeNo = $movie.find('.title em').attr('data-showtypeno');
+			 let screenNo = $movie.find('.legend').attr('data-screenno');
+			 let regionNo = $movie.find('.title').attr('data-regionno');
+			 let dayNo = $('button.mon.active').attr('data-day');
+			 $('input[name=movieNo]').attr('value',movieNo);
+			 $('input[name=theaterNo]').attr('value',theaterNo);
+			 $('input[name=ratingNo]').attr('value',ratingNo);
+			 $('input[name=time]').val($movie.val());
+		     $('input[name=showTypeNo]').attr('value',showTypeNo);
+		     $('input[name=screenNo]').attr('value',screenNo);
+		     $('input[name=regionNo]').attr('value',regionNo);
+		     $('input[name=day]').attr('value',dayNo);
+		     $('#form-post-List').submit();
 		})
-		
-		function listTicketing(){
-			$('[input=ticketingDay]').val(nowday);
-			$('[input=movieNo]').val(movieNo);
-			$('[input=day]').val(day);
-			$('[input=theaterNo]').val(theaterNo);
-			$('[input=time]').val(dataTime);
-			$('[input=ratingNo]').val(ratinNo);
-			$('[input=screenNo]').val(screenNo);
-			$('[input=regionNo]').val(regionNo);
-			$('[input=showTypeNo]').val(showTypeNo);
-			
-			$('#form-post-List').submit();
-		}
 	})
 </script>
 </html>

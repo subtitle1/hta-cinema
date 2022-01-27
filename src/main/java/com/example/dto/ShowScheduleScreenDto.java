@@ -41,5 +41,7 @@ public class ShowScheduleScreenDto {
 	private int showTypeNo;
 	private String showTypeName;
 	private String showTypeSubTitle;
+	private String screenTotalSeatRow;
+	private int sceenTotalSeatCoulumn;
 	
 }

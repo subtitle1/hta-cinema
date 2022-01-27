@@ -1,77 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.MovieScheduleMapper">
-<!-- public List<MovieScheduleDto> getAllMovieScheduler(String day);
-	public MovieScheduleDto getMovieSchedulerByMovieNo(int movieNo, String day);
+<!--	public List<Theater> getAllMovieScheduler(int regionNo);
  -->
- 
- <select id="getAllMovieScheduler" resultType="com.example.dto.MovieScheduleDto" parameterType="string">
- 	select
-		r.movie_rating_no as movieRatingNo,
-		r.movie_rating_name as movieRatingName, 
-		r.movie_rating_image_url as movieRatingImageUrl,
-		m.movie_no as movieNo,
-		m.movie_name as movieName,
-		m.movie_ticket sales_rate as movieTicketSalesRate, 
-		m.movie_total_like as movieTotalLike,
-		d.show_day_type_no as showDayTypeNo, 
-		d.show_day_type_name as showDayTypeName,
-		p.show_start_time_type_no as showStartTimeTypeNo, 
-		p.show_start_time_type_name as showStartTimeTypeName,
-		p.show_srart_time_type_time as showStartTimeTypeTime, 
-		s.show_schedule_no as showScheduleNo, 
-		s.screen_no as screenNo, 
-		s.show_type_no as showTypeNo, 
-		s.show_schedule_start_time as showScheduleStartTime, 
-		s.show_schedule_end_time as showScheduleEndTime, 
-		s.show_schedule_time_no as showScheduleTimeNo, 
-		t.show_type_name as showTypeName, 
-		t.show_type_subtitle as showTypeSubtiltle, 
-		f.audience_type_no as audienceTypeNo, 
-		f.fee as fee
-	from movie m, movie_rating r, show_daty_type d, show_schedule s, show_type t, fee_type f,show_start_time_type p
-	where m.movie_rating_no = r.movie_rating_no
-		and m.movie_no = s.movie_no
-		and s.show_type_no = f.show_type_no
-		and f.show_day_type_no = d.show_day_type_no
-		and t.show_type_no = s.show_type_no
-		and p.show_start_time_type_no = f.show_start_time_type_no
-		and show_day_type_name '%' || #{value} || '%'
-	order by movie_no desc
- </select>
- <select id="getMovieSchedulerByMovieNo" resultType="com.example.dto.MovieScheduleDto" parameterType="int">
- 	select
-		r.movie_rating_no as movieRatingNo,
-		r.movie_rating_name as movieRatingName, 
-		r.movie_rating_image_url as movieRatingImageUrl,
-		m.movie_no as movieNo,
-		m.movie_name as movieName,
-		m.movie_ticket sales_rate as movieTicketSalesRate, 
-		m.movie_total_like as movieTotalLike,
-		d.show_day_type_no as showDayTypeNo, 
-		d.show_day_type_name as showDayTypeName,
-		p.show_start_time_type_no as showStartTimeTypeNo, 
-		p.show_start_time_type_name as showStartTimeTypeName,
-		p.show_srart_time_type_time as showStartTimeTypeTime, 
-		s.show_schedule_no as showScheduleNo, 
-		s.screen_no as screenNo, 
-		s.show_type_no as showTypeNo, 
-		s.show_schedule_start_time as showScheduleStartTime, 
-		s.show_schedule_end_time as showScheduleEndTime, 
-		s.show_schedule_time_no as showScheduleTimeNo, 
-		t.show_type_name as showTypeName, 
-		t.show_type_subtitle as showTypeSubtiltle, 
-		f.audience_type_no as audienceTypeNo, 
-		f.fee as fee
-	from movie m, movie_rating r, show_daty_type d, show_schedule s, show_type t, fee_type f,show_start_time_type p
-	where m.movie_rating_no = r.movie_rating_no
-		and m.movie_no = s.movie_no
-		and s.show_type_no = f.show_type_no
-		and f.show_day_type_no = d.show_day_type_no
-		and t.show_type_no = s.show_type_no
-		and p.show_start_time_type_no = f.show_start_time_type_no
-		and s.show_day_type_no = #{dayNo}
-		and m.movie_no = #{movieNo}
-	order by movie_no desc
- </select>
+ 	<select id="getAllMovieScheduler" parameterType="int" resultType="com.example.vo.Theater">
+ 		select
+ 		 t.theater_no as no,
+ 		 t.theater_name as name
+		from theater t,region r
+		where t.region_no =r.region_no
+		and r.region_no =  #{value}
+ 	</select>
 </mapper>
