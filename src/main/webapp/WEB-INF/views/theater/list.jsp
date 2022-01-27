@@ -10,7 +10,25 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	 <link rel="stylesheet" href="/resources/css/style.css" />
+	 <link rel="stylesheet" href="/resources/css/common.css" />
 	 <style type="text/css">
+			button {
+			height: 32px;
+				    padding: 0 12px;
+				    line-height: 30px;
+				    font-size: .9333em;
+    display: inline-block;
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    border-radius: 4px;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+    border: 1px solid #503396;
+    vertical-align: middle;
+    background-color: #fff;
+}
+	 		
 			
 			ul.tabs{
 				margin: 0px;
@@ -79,7 +97,7 @@
 </head>
 <body>
 <div class="container">
-<%@include file="../common/nav.jsp"%>
+<%@include file="/WEB-INF/views/common/nav.jsp"%>
 
 
 			<div class="mt-5">
@@ -147,7 +165,7 @@
 				</div>
 				<div class="my-fav-theater">
 					나의 선호영화관 정보
-					<a href="" id="moveLogin" title="로그인하기"> <button> 로그인하기</button> </a>
+					<a href="" id="moveLogin"><button class="login">로그인하기</button></a>
 				</div>
 			</div>
 </div>
