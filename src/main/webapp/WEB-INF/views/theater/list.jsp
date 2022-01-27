@@ -87,74 +87,62 @@
 			</div>
 			<div class="wrap">
 				<ul class="tabs">
-					<li class="tab-link current" style="width: 12.5%" data-tab="tab-1">메뉴_하나</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-2">메뉴_둘</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-3">메뉴_셋</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-4">메뉴_4</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-5">메뉴_5</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-6">메뉴_6</li>
-					<li class="tab-link" style="width: 12.5%" data-tab="tab-7">메뉴_7</li>
+					<li class="tab-link current" style="width: 11.8%" data-tab="tab-1">서울</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-2">경기</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-3">인천</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-4">대전</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-5">부산</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-6">광주</li>
+					<li class="tab-link" style="width: 11.8%" data-tab="tab-7">강원</li>
 				</ul>
 				<div id="tab-1" class="tab-content current">
 					<ul>
 						
-						<c:forEach var="theater" items="${theaters.get("서울")}">
-							<li style="width: 23%"><a href="theater/detail.jsp?no=">${theater.Name}</a></li>
+						<c:forEach var="theater" items="${theaters.seoul}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-2" class="tab-content">
 					<ul>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
-						<li style="width: 23%">asdasd</li>
+						<c:forEach var="theater" items="${theaters.kyungki}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-3" class="tab-content">
 					<ul>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>zxczxczxc</li>
-						<li>201</li>
+						<c:forEach var="theater" items="${theaters.incheon}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-4" class="tab-content">
 					<ul>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>zxczxczxc</li>
-						<li>201</li>
+						<c:forEach var="theater" items="${theaters.daejeon}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-5" class="tab-content">
 					<ul>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>zxczxczxc</li>
-						<li>201</li>
+						<c:forEach var="theater" items="${theaters.busan}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-6" class="tab-content">
 					<ul>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>zxczxczxc</li>
-						<li>201</li>
+						<c:forEach var="theater" items="${theaters.kwangju}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-7" class="tab-content">
 					<ul>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>asdasd</li>
-						<li>zxczxczxc</li>
-						<li>201</li>
+						<c:forEach var="theater" items="${theaters.kangwon}">
+							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div class="my-fav-theater">
