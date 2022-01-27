@@ -12,8 +12,8 @@
 					<input type="text" class="form-control" name="id" maxlength="12" />
 					<input type="password" class="form-control mt-3" name="password" maxlength="12" />
 					<div class="form-check mt-3">
-						<input class="form-check-input" type="checkbox" value="checked" id="flexCheckChecked" name="saveId" checked>
-						<label class="form-check-label" for="flexCheckChecked">
+						<input class="form-check-input" type="checkbox" value="" id="form-check-saveId" name="saveId">
+						<label class="form-check-label" for="form-check-saveId">
 							아이디 저장
 						</label>
 					</div>
@@ -44,6 +44,66 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+		let userInputId = getCookie("userInputId");
+		let setCookieYN = getCookie("setCookieYN");
+		
+		if(setCookieYN == 'Y') {
+	        $("#form-check-saveId").prop("checked", true);
+	    } else {
+	        $("#form-check-saveId").prop("checked", false);
+	    }
+		
+		$("[name='id']").val(userInputId);
+
+		//쿠키값 설장하기
+		function setCookie(cookieName, value, exdays){
+		    var exdate = new Date();
+		    exdate.setDate(exdate.getDate() + exdays);
+		    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + 
+		    exdate.toGMTString());
+		    document.cookie = cookieName + "=" + cookieValue;
+		}
+
+		//쿠키값 삭제하기
+		function deleteCookie(cookieName){
+		    var expireDate = new Date();
+		    expireDate.setDate(expireDate.getDate() - 1);
+		    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+		}
+
+		//쿠키값 가져오기
+		function getCookie(cookie_name) {
+		    var x, y;
+		    var val = document.cookie.split(';');
+		    
+		    for (var i = 0; i < val.length; i++) {
+		        x = val[i].substr(0, val[i].indexOf('='));
+		        y = val[i].substr(val[i].indexOf('=') + 1);
+		        x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+		        
+		        if (x == cookie_name) {
+		          return unescape(y); // unescape로 디코딩 후 값 리턴
+		        }
+		    }
+		}
+		// 출처: https://ktko.tistory.com/entry/Cookie를-이용하여-아이디-저장하기 [KTKO 개발 블로그와 여행 일기]
+		
+		// 아이디 저장 체크박스를 확인한다.
+		// 체크되어 있다면 쿠키에 아이디와 쿠키설정여부를 저장한다.
+		// 체크되어 있지 않다면 쿠키에서 아이디와 쿠키설정여부를 삭제한다.
+		function checkSaveIdChecked() {
+			if ($("#form-check-saveId").prop("checked")) {
+				let userInputId = $("[name='id']").val();
+				
+				setCookie("userInputId", userInputId, 3); 
+	            setCookie("setCookieYN", "Y", 3);
+			} else {
+				deleteCookie("userInputId");
+	            deleteCookie("setCookieYN");
+			}
+		}
+		
+		// id와 password 입력폼이 비어있는지 확인하고, 하나라도 비어있으면 로그인 버튼을 비활성화한다.
 		function checkInputValueEmpty() {
 			if (($("[name='id']").val() === "") || ($("[name='password']").val() === "")) {
 				$("#btn-login").attr("disabled", true);
@@ -53,11 +113,9 @@
 		}
 		
 		$("[name='id']").keyup(function(event) {
-			console.log("input-id keyup")
 			checkInputValueEmpty();
 		});
 		$("[name='password']").keyup(function(event) {
-			console.log("input-password keyup")
 			checkInputValueEmpty();
 		});
 		
@@ -73,9 +131,15 @@
 				dataType: "json",
 				success: function(response) {
 					if (response.status) {
+						checkSaveIdChecked();
+						
 						window.location.reload();
 					} else {
+						$("[name='id']").val("");
+						$("[name='password']").val("");
+						$("#btn-login").attr("disabled", true);
 						$("#span-login-error-message").text(response.error);
+						
 						$("#btn-call-login-error").trigger("click");
 					}
 				}
