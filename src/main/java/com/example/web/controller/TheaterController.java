@@ -13,18 +13,28 @@ import com.example.service.TheaterService;
 import com.example.vo.Theater;
 
 @Controller
+@RequestMapping("/theater")
 public class TheaterController {
 	
 	@Autowired
 	TheaterService theaterService;
 
-	@GetMapping("/theater/list")
+	@GetMapping("/list")
 	public String theaterlist(Model model) {
 		
 		Map<String, List<Theater>> theaters = theaterService.getAllTheaters();
 		
-		//List<Theater> theaterist= theaterService.getAllTheaters();
 		model.addAttribute("theaters", theaters);
 		return "/theater/list";
+	}
+	@GetMapping("/detail")
+	public String detail() {
+		
+		return "/theater/detail";
+	}
+	@GetMapping("/th")
+	public String th() {
+		
+		return "/theater/th";
 	}
 }
