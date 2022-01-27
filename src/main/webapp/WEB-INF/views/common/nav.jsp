@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp" %>
+
 <div id="header">
-	<nav class="navbar navbar-expand-lg navbar-light bg-top" id="navbar-top">
-		<div class="container p-0">
+	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-top p-0" id="navbar-top">
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a href="#" class="nav-link">VIP LOUNGE</a></li>
@@ -21,11 +22,9 @@
 					<li class="nav-item"><a href="#" class="nav-link">빠른예매</a></li>
 				</ul>
 			</div>
-		</div>
-	</nav>
+		</nav>
 	
-	<nav class="navbar navbar-expand-lg navbar-light" id="navbar-2">
-		<div class="container p-0">
+		<nav class="navbar navbar-expand-lg navbar-light" id="navbar-2">
 			<div class="collapse navbar-collapse justify-content-start">
 				<ul class="navbar-nav util-list">
 					<li class="nav-item">
@@ -53,7 +52,10 @@
 					<li class="nav-item"><a class="nav-link" href="/movie/list">영화</a></li>
 					<li class="nav-item"><a class="nav-link" href="/ticketing/screenList">예매</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">극장</a></li>
+					<!-- 
 					<li class="nav-item"><a class="nav-link" href="/" style="font-family: 'Alfa Slab One'; font-weight: 400;">HTA CINEMA</a></li>
+					 -->
+					<li class="nav-item"><a class="nav-link m-0 pt-0" href="/"><img id="img-logo" src="/resources/images/nav/logo-htacinema.png"></a></li>
 					<li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">스토어</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">혜택</a></li>
@@ -65,8 +67,8 @@
 					<li class="nav-item"><a class="nav-link" href="#"><img src="/resources/images/nav/ico-mymega.png"></a></li>
 				</ul>
 			</div>
-		</div>
-	</nav>
+		</nav>
+	</div>
 </div>
 <!-- 로그인 모달 -->
 <c:if test="${empty LOGIN_USER }">

@@ -14,18 +14,19 @@ a {
 }
 
 body {
-  min-width: 970px;
+	/*
+ 	 min-width: 970px;
+ 	 */
 }
 
 .container{
-	width: 1250px;
-	max-width:none!important;
+	min-width: 1250px;
 }
 
 /* navbar */
 #header {
 	border-bottom: 2px solid #000;
-	width: 1902px;
+	/*width: 1902px;*/
 }
 
 #navbar-2 .util-list li a {
@@ -46,8 +47,8 @@ body {
 	font-weight: bold;
 	color: black;
     font-size: 20px;
-    padding-left: 45px;
-    padding-right: 45px;
+    margin-left: 35px;
+    margin-right: 35px;
 } 
 
 .navbar-light .search-box {
@@ -76,6 +77,16 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     border: none;
+}
+
+#img-logo {
+	display: block;
+	margin: auto;
+	width: 70%;
+}
+
+a {
+	word-break: keep-all;
 }
 
 /* movie list */
