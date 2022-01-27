@@ -198,11 +198,14 @@
     <script type="text/javascript">
         $(function(){
         	
-            $("#show-seat").append(function(){     	
-	            let noSeat = ["A1","B1","C1","D1","F1","G1","A2","A3","S4","S5","S6","S7"]; //빈 좌석
+            $("#show-seat").append(function(){    
+            	let noSeat = [];//빈 좌석
+            	<c:forEach var="nonSeatNo" items="${schedul.nonexistentSeatNo}">
+	             noSeat.push("nonSeatNo");
+	            </c:forEach>
 	            let disabled =["A10","B10","B11"]; //장애인석
-	            let seatcolumn = 'G';	//열의좌석 꺼내왔을 때 변수에 저장
-	            let seatrow = 28;		//행의좌석 꺼내왔을 때 변수에 저장
+	            let seatcolumn =${schedul.screenTotalSeatRow};	//열의좌석 꺼내왔을 때 변수에 저장
+	            let seatrow = ${schedul.sceenTotalSeatCoulumn};		//행의좌석 꺼내왔을 때 변수에 저장
 	            let max = new Map();
           		max.set("A",0);
           		max.set("B",1);

@@ -170,31 +170,31 @@
 			if(d == '01'){
 				d=weekOfDay[1];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '02'){
 				d=weekOfDay[2];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '03'){
 				d=weekOfDay[3];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '04'){
 				d=weekOfDay[4];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '05'){
 				d=weekOfDay[5];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '06'){
 				d=weekOfDay[6];
 				button.classList ="mon sat";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			} else if(d == '00'){
 				d=weekOfDay[0];
 				button.classList="mon sun";
-				button.setAttribute('data-day',yyyy+mm+dd+d+'요일');
+				button.setAttribute('data-day',yyyy+mm+dd+d);
 			}
 			if(i===dayNumber){
 				button.classList="mon active";
@@ -334,6 +334,7 @@
 		     $('input[name=screenNo]').attr('value',screenNo);
 		     $('input[name=regionNo]').attr('value',regionNo);
 		     $('input[name=day]').attr('value',dayNo);
+		     console.log($('#form-post-List'));
 		     $('#form-post-List').submit();
 		})
 	})
