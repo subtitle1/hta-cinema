@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.service.MovieService;
+import com.example.vo.Movie;
 
 @RestController
 @RequestMapping("/rest")
@@ -16,10 +17,7 @@ public class MovieRestController {
 	private MovieService movieService;
 	
 	@GetMapping("/count")
-	public int likeCount(int movieNo) {
-		
-		int count = movieService.getLikeCount(movieNo);
-		
-		return count;
+	public Movie likeCount(int movieNo) {
+		return movieService.getLikeCount(movieNo);
 	}
 }
