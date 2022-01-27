@@ -14,7 +14,16 @@ public class Region {
 		return name;
 	}
 	public void setName(String name) {
-		this.name = name;
+		
+		if(name == "대전") {
+			this.name = name + "/충청/세종";
+		} else if(name =="부산") {
+			this.name = name + "/대구/경상";
+		} else if(name =="광주") {
+			this.name = name + "/전라";
+		} else {
+			this.name = name;
+		}
 	}
 	@Override
 	public String toString() {

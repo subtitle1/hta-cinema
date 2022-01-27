@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,26 +21,19 @@ import lombok.ToString;
 @ToString
 public class MovieScheduleDto {
 
-	private int movieRatingNo;
-	private String movieRatingName;
-	private String movieRatingImageUrl;
-	private int movieNo;
-	private String movieName;
-	private int movieTicketSalesRate;
-	private long movieTotalLike;
-	private int showDayTypeNo;
-	private String showDayTypeName;
-	private int showStartTimeTypeNo;
-	private String showStartTimeTypeName;
-	private Date showStartTimeTypeTime;
-	private long showScheduleNo;
+	private long showScheDuleNo;
 	private int screenNo;
+	private int movieNo;
 	private int showTypeNo;
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
 	private Date showScheduleStartTime;
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
 	private Date showScheduleEndTime;
-	private int showScheduleTimeNo;
-	private String showTypeSubtiltle;
-	private String showTypeName;
-	private int audienceTypeNo;
-	private long fee;
+	private int theaterNo;
+	private String screenName;
+	private String screenTotalSeatRow;
+	private int sceenTotalSeatCoulumn;
+	private int screenTotalSeat;
+	private String nonexistentSeatNo;
+	
 }

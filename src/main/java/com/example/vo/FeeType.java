@@ -17,7 +17,7 @@ public class FeeType {
 
 	private int showTypeNo;
 	private int showDayTypeNo;
-	private int showStartTypeNo;
+	private String showStartTypeNo;
 	private int audienceTypeNo;
 	private int fee;
 	

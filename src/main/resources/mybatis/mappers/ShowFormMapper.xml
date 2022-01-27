@@ -3,11 +3,69 @@
 <mapper namespace="com.example.mapper.ShowFormMapper">
 <!-- 
 	public ShowStartTimeType getStartTimeType(int starTime);
-	public void insertStartTimType(Date startTime);
 	public ShowDayType getShowDayType(int no);
 	public List<AudienceType> getAudienceType(int no);
-	public void insertFeeType(FeeType fee);
-	public List<FeeType>getFeeType(int no);
-	
+	public List<FeeType> getFeeType(int no);
+	public MovieScheduleDto getScheduleList(ScreenListInsertForm form);
  -->
+ 	<select id="getScheduleList" parameterType="com.example.web.form.ScreenListInsertForm" resultType="com.example.dto.MovieScheduleDto">
+ 		select 
+ 			sc.show_schedule_no as showScheDuleNo, 
+ 			sc.screen_no as screenNo, 
+ 			sc.movie_no as movieNo, 
+ 			sc.show_type_no as showTypeNo, 
+ 			sc.show_schedule_start_time as showScheduleStartTime,
+ 			sc.show_schedule_end_time as showScheduleEndTime,
+ 			s.theater_no as theaterNo, 
+ 			s.screen_name as screenName, 
+ 			s.screen_total_seat_row as screenTotalSeatRow, 
+ 			s.screen_total_seat_column as sceenTotalSeatCoulumn,
+ 			s.screen_total_seat as screenTotalSeat,
+ 			ns.nonexiseat_seat_no as nonexistentSeatNo
+ 		from screen s, show_schedult sc, nonexistent_seat_no ns
+ 		where s.screen_no = ns.screen_no
+ 		and sc.screen_no = s.screen_no
+ 		and sc.screen_no = #{screenNo}
+ 		and sc.movie_no = #{movieNo}
+ 		and sc.show_type_no = #{showTypeNo}
+ 		and s.theater_no = #{theaterNo}
+ 	</select>
+ 	<select id="getStartTimeType" parameterType="string" resultType="com.example.vo.ShowStartTimeType">
+ 		select
+ 			show_start_time_type_no as no,
+ 			show_start_time_type_name as name,
+ 			show_start_time_type_time as startTime
+ 		from show_start_time_type
+ 		  <![CDATA[
+        	where to_char(show_start_time_type_time,'HH24:MI') >= #{value}
+    		]]>
+ 	</select>
+ 	<select id="getShowDayType" parameterType="string" resultType="com.example.vo.ShowDayType">
+ 		select 
+ 		show_day_type_no as no, 
+ 		show_day_type_name as name
+ 		from show_day_type
+ 		where show_day_type_name like '%' || #{value} || '%'
+ 	</select>
+ 	<select id="getAudienceType" parameterType="int" resultType="com.example.vo.AudienceType">
+ 		select 
+ 		audience_type_no, 
+ 		audience_type_name
+ 		from audience_type
+ 		where audience_type_no = #{value}
+ 	</select>
+ 	<select id="getFeeType"  parameterType="com.example.web.form.ScreenListInsertForm" resultType="com.example.vo.FeeType">
+ 		select 
+ 			show_type_no as showTypeNo, 
+ 			show_day_type_no as showDayTypeNo, 
+ 			show_start_time_type_no as showStartTypeNo, 
+ 			audience_type_no as audienceTypeNo, 
+ 			fee as fee
+ 		from fee_type
+ 		where show_type_no = #{showTypeNo}
+ 		and show_day_type_no = #{showDayTypeNo}
+ 			 <![CDATA[
+        and to_char(show_start_time_type_time,'HH24:MI') >= #{showStartTypeNo}
+    		]]>
+ 	</select>
 </mapper>

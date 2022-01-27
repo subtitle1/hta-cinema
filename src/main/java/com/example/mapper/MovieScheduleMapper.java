@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.MovieScheduleDto;
+import com.example.vo.Theater;
 
 public interface MovieScheduleMapper {
 
-	public List<MovieScheduleDto> getAllMovieScheduler(String day);
-	public MovieScheduleDto getMovieSchedulerByMovieNo(@Param("movieNo")int movieNo,@Param("dayNo")int dayNo);
+	public List<Theater> getAllMovieScheduler(int regionNo);
 	
 }

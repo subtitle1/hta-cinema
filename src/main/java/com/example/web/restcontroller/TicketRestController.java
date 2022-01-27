@@ -20,6 +20,7 @@ import com.example.dto.ShowScheduleScreenDto;
 import com.example.service.MovieTicketService;
 import com.example.vo.Region;
 import com.example.vo.SpecialScreen;
+import com.example.vo.Theater;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,7 @@ public class TicketRestController {
 	private MovieTicketService movieticketService;
 	
 	  @GetMapping("/screenList")
-	  public ResponseDto<?>getAllList(@RequestParam("movieNo") int movieNo){
+	  public ResponseDto<?>getAllList(@RequestParam("movieNo")int movieNo){
 	  List<ShowScheduleScreenDto> screens = movieticketService.AllListByMovie(movieNo); 
 	  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
 	  response.setStatus(true);
@@ -58,6 +59,14 @@ public class TicketRestController {
 		  response.setStatus(true);
 		  response.setItems(theater);
 		  log.info("시간은"+theater);
+		  return response;
+	  }
+	  @GetMapping("/theater")
+	  public ResponseDto<?>getRegionBytheaterNo(@RequestParam(required=false, value="regionNo", defaultValue="10" ) int regionNo) {
+		  List<Theater> theaters =  movieticketService.listByRegionNo(regionNo);
+		  ResponseDto<List<Theater>> response = new ResponseDto<>();
+		  response.setStatus(true);
+		  response.setItems(theaters);
 		  return response;
 	  }
 	  

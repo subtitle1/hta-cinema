@@ -18,6 +18,10 @@ h2{
     height: 15px;
     opacity: 0.6;
 }
+button.mon:active{
+	background-color: gray;
+}
+
 .theater-spacial-button:active{
 	background-color: gray;
 }
@@ -310,6 +314,7 @@ p>.detail-check{
     background-image: url(/resources/images/btn/delet.png);
     background-size: 100%;
     background-color: gray;
+    color: black;
 
 }
 .detail-check{
@@ -413,7 +418,6 @@ strong{
     height: 10%;
     width: 50px;
     border: 1px solid black;
-    float: right;
 }
 .now{
     font-style: normal;

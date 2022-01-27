@@ -12,8 +12,10 @@ import com.example.dto.MovieScheduleDto;
 import com.example.dto.ShowScheduleScreenDto;
 import com.example.mapper.MovieScheduleMapper;
 import com.example.mapper.ShowScheduleScreenMapper;
+import com.example.mapper.TheaterMapper;
 import com.example.vo.Region;
 import com.example.vo.SpecialScreen;
+import com.example.vo.Theater;
 
 @Service
 @Transactional
@@ -23,13 +25,11 @@ public class MovieTicketService {
 	private MovieScheduleMapper movieDao;
 	@Autowired
 	private ShowScheduleScreenMapper showDao;
+	@Autowired
+	private TheaterMapper theaterDao;
+	@Autowired
+	private MovieScheduleMapper schedulDao;
 	
-	public List<MovieScheduleDto> getAllMovieScheduler(String day){
-		return movieDao.getAllMovieScheduler(day);
-	}
-	public MovieScheduleDto getMovieSchedulerByMovieNo(int movieNo, int dayNo) {
-		return movieDao.getMovieSchedulerByMovieNo(movieNo, dayNo);
-	}
 	public List<ShowScheduleScreenDto> AllListByMovie(int movieNo){
 		return showDao.AllListByMovie(movieNo);
 	}
@@ -38,6 +38,13 @@ public class MovieTicketService {
 	}
 	public List<ShowScheduleScreenDto> ListByTheaterNo(int movieNo, int theaterNo){
 		return showDao.ListByTheaterNo(movieNo, theaterNo);
+	}
+	
+	public List<Region> listByRegion(){
+		return theaterDao.getAllRegion();
+	}
+	public List<Theater> listByRegionNo(int regionNo){
+		return schedulDao.getAllMovieScheduler(regionNo);
 	}
 	}
 
