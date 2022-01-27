@@ -23,6 +23,11 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/findIdPassword")
+	public String findIdPassword() {
+		return "/customer/findIdPassword";
+	}
+	
 	@GetMapping("/ticketing/ticketingPay")
 	public String ticketingPay() {
 		return "/ticketing/ticketingPay";
