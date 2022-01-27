@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ShowFormMapper">
+<!-- 
+	public ShowStartTimeType getStartTimeType(int starTime);
+	public void insertStartTimType(Date startTime);
+	public ShowDayType getShowDayType(int no);
+	public List<AudienceType> getAudienceType(int no);
+	public void insertFeeType(FeeType fee);
+	public List<FeeType>getFeeType(int no);
+	
+ -->
+</mapper>

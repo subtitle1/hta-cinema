@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.dto.MovieRatingDto;
 import com.example.dto.ResponseDto;
-import com.example.dto.ShowScheduleScreen;
+import com.example.dto.ShowScheduleScreenDto;
 import com.example.service.MovieRatingService;
 import com.example.service.MovieTicketService;
+import com.example.vo.ShowDayType;
+import com.example.web.form.ScreenListInsertForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +42,7 @@ public class TicketController {
 		List<MovieRatingDto> movies = movieRatingService.getAllList();
 		log.info(movies.toString());
 		model.addAttribute("movies", movies);
+		model.addAttribute("movies", movies);
 		log.info(model.toString());
 		return "/ticketing/screenList";
 	}
@@ -48,6 +52,11 @@ public class TicketController {
 		return "/ticketing/ticketingList";
 	}
 	
+	@PostMapping("/ticketing/ticketingList")
+	public String postTicketingList(ScreenListInsertForm form) {
+		
+		return "/ticketing/ticketingList";
+	}
 	
 	 
 }

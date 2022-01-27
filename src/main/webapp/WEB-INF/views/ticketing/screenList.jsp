@@ -70,7 +70,7 @@
                     <h3>극장</h3>
                     <div class="theater-list">
                         <button class="theater-all-button">전체</button>
-                        <button class="theater-spacial-button">특별관</button>
+                        <div class="theater-spacial-button"></div>
                     </div>
                     <div class="list-theater-detail">
                         <div class="all-theater-list">
@@ -80,161 +80,23 @@
                         </div>
                     </div>
                     <div class="theater-choies-check">
-                        <p class="check-content" style="flex">전체극장<br>
+                        <p class="check-content" style="display:flex;">전체극장<br>
                             목록에서 극장을 선택하세요
                         </p>
                         <!--선택했을 경우 클릭하면 입력되고 아니면 열리지 않는다.-->
-                        <div class="check-theater" style="none">
+                        <div class="check-theater" style="display:none;">
                         </div>
-                        <div class="check-theater" style="none">
+                        <div class="check-theater" style="display:none;">
                         </div>
-                        <div class="check-theater" style="none">
+                        <div class="check-theater" style="display:none;">
                         </div>
                     </div>
                 </div>
                 <div class="right-one">
                     <h3>시간</h3>
                     <div class="time-check">
-                        <button class="pre-time-button" onload="showClock()" ></button>
-                        <button class="time-check-button" data-time="">13</button>
-                        <button class="time-check-button" data-time="">14</button>
-                        <button class="time-check-button" data-time="">15</button>
-                        <button class="time-check-button" data-time="">16</button>
-                        <button class="time-check-button" data-time="">17</button>
-                        <button class="time-check-button" data-time="">18</button>
-                        <button class="time-check-button" data-time="">19</button>
-                        <button class="time-check-button" data-time="">20</button>
-                        <button class="time-check-button" data-time="">21</button>
-                        <button class="time-check-button" data-time="">22</button>
-                        <button class="next-time-button" ></button>
                     </div>
                     <div class="movie-check">
-                        <button type="button"  class="btn-on" id="2201171311021" >
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
-                        <button type="button"  class="btn-on" id="2201171311021">
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
-                        <button type="button"  class="btn-on" id="2201171311021">
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
-                        <button type="button"  class="btn-on" id="2201171311021" >
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
-                        <button type="button"  class="btn-on" id="2201171311021" >
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
-                        <button type="button"  class="btn-on" id="2201171311021">
-                            <div class="legend"></div>
-                            <span class="time">
-                                <strong title="상영시작">17:25</strong>
-                                <em title="상영종료">~20:13</em>
-                            </span>
-                            <span class="title">
-                                <strong title="하우스 오브 구찌">하우스 오브 구찌</strong>
-                                <em>2D(자막)</em>
-                            </span>
-                            <div class="info">
-                                <span class="theater" title="극장">
-                                    상봉<br>
-                                    6층 4관[백신패스관]
-                                </span>
-                                <span class="seat">
-                                    <strong class="now" title="잔여 좌석">95</strong>
-                                    <em class="all" title="전체 좌석">/154</em>
-                                </span>
-                            </div>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -247,7 +109,15 @@
         </div>
       </div>
       <form action="/ticketing/ticketingList" method="post" id="form-post-List">
-      	<input type="hidden" name="ticketingday" value="" />
+      	<input type="hidden" name="ticketingDay" value="" />
+      	<input type="hidden" name="day" value="" />
+      	<input type="hidden" name="movieNo" value="" />
+      	<input type="hidden" name="theaterNo" value="" />
+      	<input type="hidden" name="time" value="" />
+      	<input type="hidden" name="ratingNo" value="" />
+      	<input type="hidden" name="showTypeNo" value="" />
+      	<input type="hidden" name="screenNo" value="" />
+      	<input type="hidden" name="regionNo" value="" />
       </form>
 </body>
 <script type="text/javascript">
@@ -338,10 +208,8 @@
 			let $btnActive = $(this);
 			let dataAttr = $(this).attr('data-day');
 			$btnActive.attr('class','active');
-			$('input[name=ticketingday]').val(dataAttr);
 			if($('button.active').length===2){
 				$('.active').attr('class','mon');
-				$('input[name=ticketingday]').val("");
 			}
 		})
 		//날짜 클릭했으면 활성화버튼 해제 
@@ -351,16 +219,20 @@
 			$('input[name=ticketingday]').val("");
 		})
 		//영화버튼 클릭시 극장 정보 가져오기
-		$('.movie-button').click(function(){
+		$('button.movie-button').click(function(){
+			$(this).attr('class','active');
 			let movieNo = $(this).val();
 			let $div = $('.all-theater-list');
 			let $divP = $('')
 			$.getJSON("/rest/screenList",{movieNo: movieNo},function(response){
-				
+				let dataAttr = $('button.list-theater-button').text();
 				$('.explain-button p').text("");
 				$.each(response.items,function(index, screen){
-					let output ="<button class='list-theater-button' data-movieNo="+screen.movieNo+" data-theater="+screen.theaterNo+">"+screen.regionName+"</button>"
-					$div.append(output);
+					if(dataAttr !== screen.regionName) { //또 같은 지역명 클릭시 출력되지 않는다. 
+						let output ="<button class='list-theater-button'data-movieNo="+screen.movieNo+" data-theater="+screen.theaterNo+">"+screen.regionName+"</button>"
+						$div.append(output);
+						$('input[name=movieNo]').val(movieNo);
+					}
 				})
 			})
 			
@@ -368,105 +240,129 @@
 		$('div.all-theater-list').on('click','button.list-theater-button',function(){
 			let theaterNo =$('button.list-theater-button').attr('data-theater');
 			let movieNo =$('button.list-theater-button').attr('data-movieno');
-			let text = $(this);
+			let timeNo = $('.time-check-button:eq(0)').text();
 			let $theaterNames = $('div.theater-choies');
-			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				
-				$.each(response.items,function(index, screen){
-					let check = $('button.theater-choies-button').attr('data-values');
-					if(check == screen.theaterNo){
-						$theaterNames.empty();
-					}
-					let output ="<button type='button' class='theater-choies-button' data-values="+screen.theaterNo+">"+screen.theaterName+"</button>";
-					$theaterNames.append(output);
-				})
-			})
-		})
-		//극장관 클릭하면 아래에 조회된다. 
-		$('div.theater-choies').on('click','button.theater-choies-button',function(){
-			let theaterNo =$('button.list-theater-button').attr('data-theater');
-			let movieNo =$('button.list-theater-button').attr('data-movieno');
-			$('p.check-content').css('display','none');
-			$('div.check-theater').css('display','flex');
-			let text = $(this);
-			let total = 0;
-			$.getJSON("/rest/theaterList",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				$.each(response.items, function(index, theater){
-					let $buttons = $('div.check-theater:eq('+total+')');
-					let check = $('button.detail-check').attr('data-value');
+			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo,timeNo: timeNo },function(response){
+					console.log(response.items);
+				$.each(response.items,function(index,theater){
 					let $list  = $('div.theater-choies');
 					let $movie = $('div.movie-check');
-					console.log(response.items);
-					if($buttons.length==3){
-						alert("선택한 범위를 벗어났습니다.");
-					}
-					if(check==theater.theaterNo){
-						$buttons.empty();
+					if(theater.showTypeSubTitle == 'Y'){
+						theater.showTypeSubTitle = "자막(O)";
 					} else {
-						//아래에 출력되는 값
-						let output ="<div class='detail-check-theater'>";
-                    	output += "<button type='button' class='detail-check' data-value="+theater.theaterNo+" style=width:0px;height:0px;'></button>";
-						output += "<p class='detail-text'>"+theater.theaterName+"</p></div>";
-						let textAttr = text.attr('data-value');
-						let listput = "<div class='check-theater'>"+theater.theaterName+"</div>"
-						$buttons.append(output);
-						total++;
+						theater.showTypeSubTitle = "자막(X)";
+					}
+					if(response.items == null){
+						alert("해당하는 시간의 시간표가 존재하지 않습니다.");
+					}
+						let listputs="<button class='theater-choies-button'>"+theater.theaterName+"</button>";
+						$list.append(listputs)
+						
 						//스케쥴에 출력되는 값 --> 나중에 시간설정 후 옮겨 놓을 것 
 						let input ="<button type='button'  class='btn-on' id="+theater.showScheduleStartTime+" >";
-                        input += "<div class='legend'></div>";
-                        input += "<span class='time'>";
-                        input +="<strong title='상영시작'>"+theater.showScheduleStartTime+"</strong>";
-                        input +="<em title='상영종료'>"+theater.showScheduleEndTime+"</em>";
-                        input +="</span>";
-                        input +="<span class='title'>";
-                        input +="<strong title="+theater.movieNo+">"+theater.movieName"</strong>";
-                        input +="<em>"+theater.showTypeName+(theater.showTypeSubTitle)+"</em>";   
-                        input +="</span>";
-                        input +="<div class='info'>";
-                        input +="<span class='theater' title='극장'>";
-                        input +=" "+theaterName+"<br>";       
-                        input +=" "+screenName+"";      
-                        input +="</span>"; 
-                        input +="<span class='seat'>";    
-                        input +="<strong class='now' title='잔여좌석'>"+screenTotalSeat+"</strong>";      
-                        input +="<em class='all' title='"+screenTotalSeat+"'>/"+screenTotalSeat+"</em>";      
-                        input +="</span>";   
-                        input +="</div>";
-                        input +="</button>";
-                        $movie.append(input);
-					}
-				})
+		                input += "<div class='legend' data-screenNo="+theater.screenNo+"></div>";
+		                input += "<span class='time'>";
+		                input +="<strong title='상영시작 data-time="+theater.showScheduleStartTime+"'>"+theater.showScheduleStartTime+"</strong>";
+		                input +="<em title='상영종료'>~"+theater.showScheduleEndTime+"</em>";
+		                input +="</span>";
+		                input +="<span class='title' data-regionNo="+theater.regionNo+">";
+		                input +="<strong data-movieNo="+theater.movieNo+">"+theater.movieName+"</strong>";
+		                input +="<em data-ratinNo="+theater.movieRatingNo+" data-showTypeNo="+theater.showTypeNo+">"+theater.showTypeName+theater.showTypeSubTitle+"</em>";   
+		                input +="</span>";
+		                input +="<div class='info'>";
+		                input +="<span class='theater' data-theaterNo="+theater.theaterNo+" title='극장'>";
+		                input +=""+theater.theaterName+"<br>";       
+		                input +=""+theater.screenName;      
+		                input +="</span>"; 
+		                input +="<span class='seat'>";    
+		                input +="<strong class='now' title='잔여좌석'>"+theater.screenTotalSeat+"</strong>";      
+		                input +="<em class='all' title='"+theater.screenTotalSeat+"'>/"+theater.screenTotalSeat+"</em>";      
+		                input +="</span>";   
+		                input +="</div>";
+		                input +="</button>";
+		                $movie.append(input);
+					
 			})
 		})
-		
-		$('div.check-theater').on('click','button.detail-check',function(){
-			let theaterNo = $(this).attr('data-theater');
-			let movieNo = $(this).attr('data-movieno');
+		})
+		$('div.theater-choies').on('click','button.theater-choies-button',function(){
+			$('p.check-content').css('display','none');
+			$('div.check-theater').css('display','flex');
+			let total = 0;
+			let $buttons = $('div.check-theater:eq('+total+')');
+			let check = $('button.detail-check').attr('data-value');
+			let text = $(this).text;
+	
+				//아래에 출력되는 값
+				let output ="<div class='detail-check-theater'>";
+            	output += "<button type='button' class='detail-check' style=width:0px;height:0px;'></button></div>";
+				$buttons.append(output);
+				total++;
 			
-			$.getJSON("/rest/list",{movieNo: movieNo, theaterNo: theaterNo},function(response){
-				
-			})
-				})
-		function showClock(){
-			let currentDate = new Date();
-			let divClock = $('div.time-check');
-			let msg = "현재시간 : ";
-			msg += currentDate.getHours()+"시";
-			msg += currentDate.getMinutes()+"분";
-			msg += currentDate.getSeconde()+"초";
-			setTimeout(slowClock,1000);//1초마다 갱신
-			return msg;
-		}
-		let button = "";
+		})
 		$('div.time-check').append(function(){
-			button = document.createElement("button");
-			button.attr('class','time-check-button');
 			let currentDate = new Date();
-			let msg = Number(crrentDate.getHours());
-			for(let i=msg; i<10; i++){
-				
+			let msg = Number(currentDate.getHours());
+			for(let i = msg; i<msg+10; i++){
+				let button = "";
+				let $time = $('div.time-check');
+				button = document.createElement("button");
+				button.classList='time-check-button';
+				if(i > 24) {
+					button.innerHTML=Number();
+				} else {
+					button.innerHTML=Number(i);
+					$time.append(button);
+				}
 			}
 		})
+		//버튼 클릭시 정보저장하기
+		$('div.movie-check').on('click','button.btn-on',function(e){
+			let nowday = $('button.active').attr('data-day');
+			let day = $('button.active').text();
+			let movieNo = $('button.btn-on').attr('data-movieno');
+			let theaterNo = $('button.btn-on').attr('data-theaterNo');
+			let dataTime = $('button.btn-on').attr('data-time');
+			let regionNo = $('button.btn-on').attr('data-regionNo');
+			let ratinNo = $('button.btn-on').attr('data-ratinNo');
+			let screenNo = $('button.btn-on').attr('data-screenNo');
+			let showTypeNo = $('button.btn-on').attr("data-showTypeNo");
+			console.log(nowday);
+			console.log(day);
+			console.log(movieNo);
+			console.log(theaterNo);
+			console.log(regionNo);
+			console.log(screenNo);
+			console.log(ratinNo);
+			console.log(showTypeNo);
+			if(nowday == null){
+				alert("날짜를 선택해주세요");
+				return;
+			}
+			if(movieNo == null){
+				alert("영화를 선택해주세요");
+				return;
+			}
+			if(theaterNo == null) {
+				alert("극장을 선택해주세요");
+				return;
+			}
+			listTicketing();
+		})
+		
+		function listTicketing(){
+			$('[input=ticketingDay]').val(nowday);
+			$('[input=movieNo]').val(movieNo);
+			$('[input=day]').val(day);
+			$('[input=theaterNo]').val(theaterNo);
+			$('[input=time]').val(dataTime);
+			$('[input=ratingNo]').val(ratinNo);
+			$('[input=screenNo]').val(screenNo);
+			$('[input=regionNo]').val(regionNo);
+			$('[input=showTypeNo]').val(showTypeNo);
+			
+			$('#form-post-List').submit();
+		}
 	})
 </script>
 </html>

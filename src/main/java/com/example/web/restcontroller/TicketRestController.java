@@ -1,10 +1,14 @@
 package com.example.web.restcontroller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.ResponseDto;
-import com.example.dto.ShowScheduleScreen;
+import com.example.dto.ShowScheduleScreenDto;
 import com.example.service.MovieTicketService;
+import com.example.vo.Region;
+import com.example.vo.SpecialScreen;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,19 +33,31 @@ public class TicketRestController {
 	
 	  @GetMapping("/screenList")
 	  public ResponseDto<?>getAllList(@RequestParam("movieNo") int movieNo){
-	  List<ShowScheduleScreen> screens = movieticketService.AllListByMovie(movieNo); 
-	  ResponseDto<List<ShowScheduleScreen>> response = new ResponseDto<>();
+	  List<ShowScheduleScreenDto> screens = movieticketService.AllListByMovie(movieNo); 
+	  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
 	  response.setStatus(true);
 	  response.setItems(screens);
 	  return response;
 	  }
 	  
 	  @GetMapping("/theaterList")
-	  public ResponseDto<?>getAllListBytheaterNo(@RequestParam("movieNo") int movieNo, @RequestParam("theaterNo") int theaterNo){
-		  List<ShowScheduleScreen> theaters = movieticketService.ListByTheaterNo(movieNo,theaterNo);
-		  ResponseDto<List<ShowScheduleScreen>> response = new ResponseDto<>();
+	  public ResponseDto<?>getAllListBytheaterNo(@RequestParam("movieNo") int movieNo, @RequestParam("theaterNo") int theaterNo, @RequestParam("timeNo") int timeNo){
+		  List<ShowScheduleScreenDto> theaters = movieticketService.ListByTheaterNo(movieNo,theaterNo);
+		  List<ShowScheduleScreenDto> theater = new ArrayList<>();
+		  for(ShowScheduleScreenDto sc :theaters) {
+			  DateFormat dateFormat = new SimpleDateFormat("HH");
+			  String startTime = dateFormat.format(sc.getShowScheduleStartTime());
+			  int time = Integer.parseInt(startTime);
+			  log.info("시간은"+time);
+			  log.info("시간은"+timeNo);
+			 if(time>=timeNo) {
+				 theater.add(sc);
+			 } 
+		  }
+		  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
 		  response.setStatus(true);
-		  response.setItems(theaters);
+		  response.setItems(theater);
+		  log.info("시간은"+theater);
 		  return response;
 	  }
 	  
