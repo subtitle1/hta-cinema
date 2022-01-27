@@ -52,10 +52,7 @@
 					<li class="nav-item"><a class="nav-link" href="/movie/list">영화</a></li>
 					<li class="nav-item"><a class="nav-link" href="/ticketing/screenList">예매</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">극장</a></li>
-					<!-- 
 					<li class="nav-item"><a class="nav-link" href="/" style="font-family: 'Alfa Slab One'; font-weight: 400;">HTA CINEMA</a></li>
-					 -->
-					<li class="nav-item"><a class="nav-link m-0 pt-0" href="/"><img id="img-logo" src="/resources/images/nav/logo-htacinema.png"></a></li>
 					<li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">스토어</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">혜택</a></li>
