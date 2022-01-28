@@ -7,10 +7,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.ReviewDto;
+import com.example.exception.ReviewErrorException;
 import com.example.mapper.ReviewMapper;
 import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
@@ -32,12 +34,16 @@ public class ReviewService {
 	
 	public Review addReview(Review review, List<ReviewPoint> pointTypes) {
 		
-		reviewMapper.insertReview(review);
-		
-		for (ReviewPoint point : pointTypes) {
-			point.setNo(review.getNo());
-			point.setReviewPointNo(point.getReviewPointNo());
-			reviewMapper.insertReviewPoint(point);
+		try {
+			reviewMapper.insertReview(review);
+			
+			for (ReviewPoint point : pointTypes) {
+				point.setNo(review.getNo());
+				point.setReviewPointNo(point.getReviewPointNo());
+				reviewMapper.insertReviewPoint(point);
+			}
+		} catch (DataAccessException e) {
+			throw new ReviewErrorException("이미 작성한 관람평이 있습니다.");
 		}
 		
 		return reviewMapper.getReviewByNo(review.getNo());
@@ -61,6 +67,12 @@ public class ReviewService {
 			
 			review.setReviewPoints(points);
 		}
+		
+		logger.info(reviews);
 		return reviews;
+	}
+	
+	public Review getMyReviewByMovieNo(int customerNo, int movieNo) {
+		return reviewMapper.getMyReviewByMovieNo(customerNo, movieNo);
 	}
 }

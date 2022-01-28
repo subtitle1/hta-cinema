@@ -71,4 +71,18 @@
       		and r.review_no = p.review_no
       		and r.review_no = #{value}
 	</select>
+	
+	<select id="getMyReviewByMovieNo" resultType="com.example.vo.Review">
+		select 
+			review_no no, 
+			customer_no customerNo, 
+			movie_no movieNo, 
+			review_score reviewScore, 
+			review_content reviewContent, 
+			review_created_date createdDate
+		from review
+		where 
+			customer_no = #{customerNo}
+        	and movie_no = #{movieNo}
+	</select>
 </mapper>
