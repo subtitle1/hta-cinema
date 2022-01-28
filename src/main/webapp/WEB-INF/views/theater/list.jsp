@@ -14,7 +14,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="/resources/css/style.css" />
+<link rel="stylesheet" href="/resources/css/navbar.css" />
 <link rel="stylesheet" href="/resources/css/common.css" />
 <style type="text/css">
 button {
@@ -109,7 +109,7 @@ li {
 <body>
 	<div class="container">
 	<%@include file="../common/tags.jsp" %>
-	<%@include file="../common/nav.jsp"%>
+	<%@include file="../common/navbar.jsp"%>
 
 		<div class="mt-5">
 			<h1>전체극장</h1>

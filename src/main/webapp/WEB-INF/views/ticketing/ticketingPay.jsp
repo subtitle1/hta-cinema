@@ -7,7 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <link rel="stylesheet" href="/resources/css/ticketingPay.css">
-    <link rel="stylesheet" href="/resources/css/style.css" />
+    <link rel="stylesheet" href="/resources/css/navbar.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,7 +17,7 @@
 </head>
 <body>
 <%@include file="../common/tags.jsp" %>
-<%@include file="../common/nav.jsp"%>
+<%@include file="../common/navbar.jsp"%>
     <div class="container" style="width:1250px ">
         <div class="head">
             <h2>빠른예매</h2>

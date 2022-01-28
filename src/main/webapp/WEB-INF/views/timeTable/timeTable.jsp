@@ -12,7 +12,7 @@
   	<link rel="stylesheet" href="/resources/css/timeTable.css" />     
 </head>
 <body>
-<%-- <%@include file="../common/nav.jsp"%> --%>
+<%-- <%@include file="../common/navbar.jsp"%> --%>
 <div class="container">
 	<div class="mt-5">
 		<div class="inner-wrap">
