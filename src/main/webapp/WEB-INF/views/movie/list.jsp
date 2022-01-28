@@ -7,9 +7,10 @@
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
+  	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/style.css" />
+  	<link rel="stylesheet" href="/resources/css/common.css" />
 </head>
 <head>		
 <meta charset="UTF-8">
@@ -17,7 +18,6 @@
 </head>
 <body>
 <%@include file="../common/nav.jsp"%>
-	<input type="hidden" name="customerNo" value="${LOGIN_USER.no }">
 	<div class="container">
 		<div class="mt-5">
 			<h1>전체 영화</h1>
@@ -34,7 +34,7 @@
 		</nav>
 		<form class="row ms-3 mt-3 g-3 d-flex justify-content-between">
 			<div class="col mt-3">
-				<span><strong id="count"></strong> 개의 영화가 검색되었습니다.</span>
+				<span id="search-txt"><strong id="count"></strong> 개의 영화가 검색되었습니다.</span>
 			</div>
 			<div class="col-auto">
 				<input id="search-input" type="text" class="form-control" placeholder="영화명 검색">
@@ -61,13 +61,36 @@
 		</div>
 		<div class="mt-1 mb-3">
 		<div class="container">
-			<button id="searchMore" class="btn btn-outline-dark col-sm-12">더 보기</button>
+			<button id="searchMore" class="btn btn-light col-sm-12">더보기
+				<img alt="" src="/resources/images/movie/ico-btn-more-arr.png">
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- 오류 모달 -->
+<div class="modal fade" id="modal-info-error" tabindex="-1"	aria-labelledby="오류 메세지 모달창" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">알림</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+			</div>
+			<div class="modal-body d-flex justify-content-center">
+				<span id="span-error"></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary"	data-bs-dismiss="modal">닫기</button>
+			</div>
 		</div>
 	</div>
 </div>
 </body>
 <script type="text/javascript">
 	$(function () {
+		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
+			keyboard: false
+		});
 		
 		let $div = $("#movie-lists .poster");
 		let currentPage = 1;
@@ -140,18 +163,18 @@
 				}
 				output += "</a>";
 				if (movie.title) {
-					output += "<p class='mt-2'>" + movie.title + "</p>";
+					output += "<p class='mt-2 title-txt'>" + movie.title + "</p>";
 				} else {
-					output += "<p class='mt-2'>"+ movie.name +"</p>";
+					output += "<p class='mt-2 title-txt'>"+ movie.name +"</p>";
 				}
 				if (movie.release_date) {
-					output += "<span> 개봉일 | "+ movie.release_date +"</span>";
+					output += "<span class='openDt-txt'> 개봉일 | "+ movie.release_date +"</span>";
 				} else {
-					output += "<span> 개봉일 |  미정</span>";
+					output += "<span class='openDt-txt'> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button id='btn-"+ movie.id +"' class='btn btn-outline-dark btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+count+"</span></button>";
-				output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-outline-dark col-5 mt-1 float-end'>예매</button>";
+				output += "<button id='btn-"+ movie.id +"' class='btn btn-light btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'>"+count+"</button>";
+				output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
 				output += "</div>";
 				output += "</div>";
 				
@@ -159,6 +182,23 @@
 				
 			});
 		}
+		
+		showMyMovies();
+
+		function showMyMovies() {
+			$.ajax({
+				type: "get",
+				url: "/rest/myMovies",
+				success: function(response) {
+					if (response.status) {
+						let movieNo = (response.items.map(item => item.movieNo));
+						$.each(movieNo, function(index, movie) {
+							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
+						})
+					} else {}
+				}
+			})
+		};
 		
 		function refreshMovie() {
 			$("#searchMore").removeAttr("disabled");
@@ -214,27 +254,10 @@
 			})
 		});
 		
-		showMyMovies();
-
-		function showMyMovies() {
-			$.ajax({
-				type: "get",
-				url: "/rest/myMovies",
-				data: {customerNo: 1},
-				success: function(response) {
-					let movieNo = (response.items.map(item => item.movieNo));
-					$.each(movieNo, function(index, movie) {
-						$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
-					})
-				}
-			})
-		};
-		
 		// 좋아요 기능
 		$(".poster").on('click', '.btn-like', function() {
 			
 			let movieNo = $(this).attr("data-no");
-			let userNo = 1; // 로그인된 사용자로 수정
 			let button = $(this);
 			let unlike = "/resources/images/movie/unlike.png";
 			let like = "/resources/images/movie/like.png";
@@ -244,9 +267,15 @@
 				$.ajax({
 					type: "post",
 					url: "/rest/like",
-					data: {customerNo: userNo, movieNo: movieNo},
+					data: {movieNo: movieNo},
 					datType: "json",
 					success: function(response) {
+						if (response.error) {
+							$("#span-error").text(response.error);
+							errorModal.show();
+							return;
+						}
+						
 						button.find('span').text(response.items.likeCount);
 						button.find('img').attr("src", like);
 					}
@@ -255,7 +284,7 @@
 				$.ajax({
 					type: "delete",
 					url: "/rest/like",
-					data: {customerNo: userNo, movieNo: movieNo},
+					data: {movieNo: movieNo},
 					datType: "json",
 					success: function(response) {
 						button.find('span').text(response.items.likeCount);

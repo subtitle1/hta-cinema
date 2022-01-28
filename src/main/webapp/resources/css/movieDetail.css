@@ -31,6 +31,8 @@
     top: 425px;
     left: 288px;
     width: 290px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .review-head a {
@@ -44,6 +46,10 @@
 }
 
 #info-lists span, dt, dd, h2, a {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+#review-btn {
 	font-family: 'Nanum Gothic', sans-serif;
 }
 

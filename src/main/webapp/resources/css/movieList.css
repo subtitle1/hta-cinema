@@ -30,9 +30,41 @@
 
 #movie-lists .btn-like {
 	border-color: #ebebeb;
+	background-color: white;
 }
 
 .poster {
 	margin-left: 0px;
 	margin-right: 0px;
+}
+
+#searchMore {
+	border: 1px solid #eaeaea;
+	background-color: white;
+	font-size: 14px;
+}
+
+#no-review {
+	font-size: 18px;
+}
+
+#tagline {
+	font-weight: bold; 
+	font-size: 18px;
+	color: #503396;
+}
+
+.search-txt {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+.title-txt {
+	width: 270px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.openDt-txt {
+	font-family: 'Nanum Gothic', sans-serif;
 }

@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.ReviewDto;
-import com.example.exception.LoginErrorException;
-import com.example.mapper.CustomerMapper;
 import com.example.mapper.ReviewMapper;
-import com.example.vo.Customer;
 import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
 import com.example.vo.ReviewPointType;
@@ -28,9 +25,6 @@ public class ReviewService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
-	
-	@Autowired
-	private CustomerMapper customerMapper;
 	
 	public List<ReviewPointType> getAllPointTypes() {
 		return reviewMapper.getAllPointTypes();
