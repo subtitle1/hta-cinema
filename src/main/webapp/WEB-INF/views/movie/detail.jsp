@@ -13,6 +13,7 @@
   	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/style.css" />
+  	<link rel="stylesheet" href="/resources/css/common.css" />
 </head>
 <style>
 </style>
@@ -34,8 +35,7 @@
 					<div class="col mt-5 mb-5">
 						<img class="rounded float-end" id="poster" src=""
 							style="width: 18rem;">
-						<button type='button'
-							class='ticketing btn btn-primary mt-3 float-end'>예매하러 가기</button>
+						<button type='button' class='ticketing btn btn-primary mt-3 float-end'>예매</button>
 					</div>
 				</div>
 			</div>
@@ -45,11 +45,11 @@
 	<div class="container">
 		<div>
 			<nav>
-				<div class="nav nav-tabs nav-justified mt-5" id="nav-tab"
-					role="tablist">
+				<div class="nav nav-tabs nav-justified mt-5" id="nav-tab" role="tablist">
 					<button class="nav-link active" id="nav-main-tab"
 						data-bs-toggle="tab" data-bs-target="#nav-main" type="button"
-						role="tab" aria-controls="nav-main" aria-selected="true">주요정보</button>
+						role="tab" aria-controls="nav-main" aria-selected="true">주요정보
+					</button>
 					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-review" type="button" role="tab"
 						aria-controls="nav-review" aria-selected="false">실관람평</button>
@@ -67,10 +67,9 @@
 				aria-labelledby="nav-main-tab">
 				<div class="row mt-3 ms-1">
 					<div class="col">
-						<span style="font-weight: bold; font-size: 18px" id="tagline"></span><br><br>
+						<span id="tagline"></span><br><br>
 						<span id="overview"></span><br>
-						<br><span>장르: </span><span id="genre"></span> <span
-							id="runtime"></span>분 | 개봉일: <span id="openDt"></span><br> <span>출연진:
+						<br><span>장르: </span><span id="genre"></span> <span id="runtime"></span>분 | 개봉일: <span id="openDt"></span><br> <span>출연진:
 						</span><span id="actors"></span>
 					</div>
 				</div>
@@ -117,7 +116,7 @@
 						<span class="title2"></span><span id="no-review">에 대한 <span id="reviewCount"></span>개의 이야기가 있어요!</span>
 					</h4>
 				</div>
-				<div class="row mt-3 rounded border p-3">
+				<div class="row mt-3 rounded border p-3 mb-3">
 					<div class="col">
 						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
@@ -128,7 +127,7 @@
 								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 							</c:when>
 							<c:otherwise>
-								<img alt="" src="/resources/images/movie/ico-story-write.png"> <span class="text-secondary"> 관람평 쓰기</span>
+								<img alt="" src="/resources/images/movie/ico-story-write.png"><span class="text-secondary"> 관람평 쓰기</span>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -428,17 +427,6 @@
 			}
 		})
 		
-		// 관람평 작성 버튼을 클릭했을 때 로그인 된 유저가 있는지 조회해서, 없으면 에러 모달창을 띄운다.
-		$("#review-btn").click(function() {
-			let customerNo = $(":input[name=customerNo]").val();
-			
-			if (customerNo == "") {
-				reviewModal.dispose();
-				$("#span-error").text("로그인 후 사용 가능합니다.");
-				errorModal.show();
-			}
-		})
-		
 		// 리뷰 버튼 모달, 리뷰 등록
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
@@ -448,7 +436,6 @@
 			let allCheckBox = $(":checkbox[name=pointNo]");
 			let checkedList = $(":checkbox[name=pointNo]:checked");
 			let reviewBox = $("#review-content").val();
-			
 			
 			if (rate == null) {
 				$("#error-txt").text("평점을 선택해 주세요.");
@@ -491,6 +478,7 @@
 				dataType:"json",
 				success: function(response) {
 					if (response.status) {
+						console.log(response);
 						getReviews();
 						
 					} else {
@@ -513,7 +501,8 @@
 				let reviews = response.items.reviews;
 				
 				if (reviews == "") {
-					$("#no-review").text(" 아직 등록된 리뷰가 존재하지 않습니다.");
+					$("#no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
+					$("#review-header").text("첫번째 관람평의 주인공이 되어 보세요.");
 				} else {
 					
 					$.each(reviews, function(index, review) {
