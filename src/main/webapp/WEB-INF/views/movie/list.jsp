@@ -11,6 +11,7 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
+  	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <head>		
 <meta charset="UTF-8">
