@@ -91,7 +91,15 @@
 			    border-radius: 0 0 10px 10px;
 			    background-color: #ecf0f4;
 			}
-
+			.tab .class="theaterName" ul li:nth-child(2):after {
+			    position: absolute;
+			    content: '';
+			    left: 0;
+			    top: 0;
+			    width: 1px;
+			    height: 1000%;
+			    background: #e0e0e0;
+			}
 			
 	 </style>
 </head>
@@ -117,50 +125,53 @@
 					<ul>
 						
 						<c:forEach var="theater" items="${theaters.seoul}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-2" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.kyungki}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-3" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.incheon}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-4" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.daejeon}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 				<div id="tab-5" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.busan}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
+						<::after></::after>
 					</ul>
 				</div>
 				<div id="tab-6" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.kwangju}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
+						<::after></::after>
 					</ul>
 				</div>
 				<div id="tab-7" class="tab-content">
 					<ul>
 						<c:forEach var="theater" items="${theaters.kangwon}">
-							<li style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
+							<li class="theaterName" style="width: 23.6%"><a href="theater/detail.jsp?no=">${theater.name}</a></li>
 						</c:forEach>
+						<::after></::after>
 					</ul>
 				</div>
 				<div class="my-fav-theater">
