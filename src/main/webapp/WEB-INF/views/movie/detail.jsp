@@ -14,6 +14,7 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
+  	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <style>
 </style>
@@ -244,7 +245,7 @@
 				<div class="modal-footer text-center">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn review-submit btn-dark">등록</button>
+					<button type="button" class="btn review-submit btn-primary">등록</button>
 				</div>
 			</div>
 		</div>
