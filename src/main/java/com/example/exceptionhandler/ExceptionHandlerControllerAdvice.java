@@ -10,6 +10,7 @@ import com.example.dto.ResponseDto;
 import com.example.exception.CustomException;
 import com.example.exception.LoginErrorException;
 import com.example.exception.MovieTicketingErrorException;
+import com.example.exception.ReviewErrorException;
 
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice {
@@ -38,6 +39,16 @@ public class ExceptionHandlerControllerAdvice {
 	
 	@ExceptionHandler(LoginErrorException.class)
 	public @ResponseBody ResponseDto<?> handlerLoginException(LoginErrorException e) { 
+		ResponseDto<?> response = new ResponseDto<>();
+		
+		response.setStatus(false);
+		response.setError(e.getMessage());
+		
+		return response;
+	}
+	
+	@ExceptionHandler(ReviewErrorException.class)
+	public @ResponseBody ResponseDto<?> ReviewExceptionHandler(ReviewErrorException e) {
 		ResponseDto<?> response = new ResponseDto<>();
 		
 		response.setStatus(false);

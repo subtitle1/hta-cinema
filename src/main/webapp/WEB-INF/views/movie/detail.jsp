@@ -27,6 +27,9 @@
 					<div class="col ms-3 mt-5 mb-5">
 						<h1 id="title"></h1>
 						<p id="original-title"></p>
+						<button id='btn-${param.no }' class='btn btn-outline-light btn-like col-2 float-end' data-no='${param.no }' type='button'>
+							<img class='me-3' src='/resources/images/movie/unlike.png'><span style="color:white;" id="likeCount"></span>
+						</button>
 						<div class="raing">
 							<p>예매율</p>
 							<img alt="" src="/resources/images/movie/ico-ticket-gray.png">
@@ -65,7 +68,7 @@
 		<div id="info-lists" class="tab-content" id="nav-tabContent">
 			<div class="tab-pane fade show active" id="nav-main" role="tabpanel"
 				aria-labelledby="nav-main-tab">
-				<div class="row mt-3 ms-1">
+				<div class="row mt-5 mb-5 ms-1">
 					<div class="col">
 						<span id="tagline"></span><br><br>
 						<span id="overview"></span><br>
@@ -113,10 +116,36 @@
 				</div>
 				<div class="row">
 					<h4>
-						<span class="title2"></span><span id="no-review">에 대한 <span id="reviewCount"></span>개의 이야기가 있어요!</span>
+						<span class="title2"></span><span id="no-review">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
 					</h4>
 				</div>
 				<div class="row mt-3 rounded border p-3 mb-3">
+					<div class="col">
+						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
+					</div>
+					<div class="col text-end review-head">
+						<c:choose>
+							<c:when test="${not empty LOGIN_USER }">
+								<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="" id="review-btn" >
+								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
+							</c:when>
+							<c:otherwise>
+								<img alt="" src="/resources/images/movie/ico-story-write.png"><span class="text-secondary"> 관람평 쓰기</span>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+				<!-- 관람평 -->
+				<div class="review-box">
+				</div>
+			</div>
+			<div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+				<div class="mt-4">
+					<h4>
+						<span class="title2"></span><span id="no-review">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
+					</h4>
+				</div>
+				<div class="row mt-4 rounded border p-3 mb-3" style="margin-left: 0px; margin-right: 11px;">
 					<div class="col">
 						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
@@ -132,33 +161,8 @@
 						</c:choose>
 					</div>
 				</div>
-				<div class="review-box">
-					<!-- <div class="col-1 ">
-						<img alt="" src="/resources/images/movie/bg-photo.png" style="width: 50px;">
-						<span id="customer-id">customer id</span>
-					</div>
-					<div class="col rounded border p-3" style="background-color: #f8f8fa">
-						<div class="row">
-							<div class="col-1">
-								<span>관람평</span>
-							</div>
-							<div class="col-1">
-								<span id="score">8</span>
-							</div>
-							<div class="col-2">
-								<span id="point">스토리</span>
-							</div>
-							<div class="col">
-								<span id="content">리뷰 내용 어쩌구</span>
-							</div>
-						</div>
-					</div> -->
-				</div>
-			</div>
-			<div class="tab-pane fade" id="nav-review" role="tabpanel"
-				aria-labelledby="nav-review-tab">
 				<div class="row mt-3 ms-1">
-					<div class="row mb-3">
+					<div class="row">
 					<div class="review-box">
 					</div>
 						<div class="col">
@@ -247,24 +251,8 @@
 	</div>
 </body>
 
-<!-- 오류 모달창 -->
-<div class="modal fade" id="modal-info-error" tabindex="-1"	aria-labelledby="오류 메세지 모달창" aria-hidden="true">
-	<div class="modal-dialog modal-sm modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">알림</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
-			</div>
-			<div class="modal-body d-flex justify-content-center">
-				<span id="span-error"></span>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">닫기</button>
-			</div>
-		</div>
-	</div>
-</div>
-
+<!-- 오류 모달 -->
+<%@include file="../common/errorModal.jsp"%>
 <script type="text/javascript">
 	$(function() {
 		
@@ -427,6 +415,26 @@
 			}
 		})
 		
+		// 관람평 쓰기 버튼 클릭 시
+		$("#review-btn").click(function() {
+			$.ajax({
+				type: "get",
+				url: "/rest/myReview",
+				data: {movieNo: movieId},
+				dataType: 'json',
+				async: false,
+				success: function (response) {
+					console.log(response);
+					if (response.movieNo == movieId) {
+						$("#span-error").text("이미 작성한 관람평이 있습니다.");
+						errorModal.show();
+					} else {
+						reviewModal.show();
+					}
+				}
+			})
+		})
+		
 		// 리뷰 버튼 모달, 리뷰 등록
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
@@ -478,11 +486,9 @@
 				dataType:"json",
 				success: function(response) {
 					if (response.status) {
-						console.log(response);
 						getReviews();
 						
 					} else {
-						console.log(response);
 						$("#span-error").text(response.error);
 						errorModal.show();
 					}
@@ -493,20 +499,33 @@
 		let currentPageNo = 1;
 		getReviews();
 		
-		// 리뷰 목록 가져오기
+		// 리뷰 목록 출력
 		function getReviews() {
 			
 			$.getJSON('/rest/review', {page: currentPageNo,	movieNo: movieId}, function(response) {
-
 				let reviews = response.items.reviews;
 				
+				// 리뷰가 없을 때
 				if (reviews == "") {
 					$("#no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
-					$("#review-header").text("첫번째 관람평의 주인공이 되어 보세요.");
+					$("#review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
+				// 리뷰가 있을 때
 				} else {
+					// 사용자가 작성한 리뷰가 있는지 조회
+					let reviewNo = 0;
+					
+					$.ajax({
+						type: "get",
+						url: "/rest/myReview",
+						data: {movieNo: movieId},
+						dataType: 'json',
+						async: false,
+						success: function (response) {
+							reviewNo = response.no;
+						}
+					});
 					
 					$.each(reviews, function(index, review) {
-						
 						let $reviewBox = $(".review-box");
 						let points = review.reviewPoints.map(point => point.pointName).join(", ");
 						
@@ -517,12 +536,13 @@
 						let maskedId = review.customerId.substring(0, length);
 						maskedId += "**";
 						
+						// rest로 회원정보 조회, response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
 						let output = "<div class='row text-center mt-3 mb-3'>"
 							output += "<div class='col-1'>"
 							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
 							output += "<span>"+maskedId+"</span>"
 							output += "</div>"
-							output += "<div class='col rounded border p-3' style='background-color: #f8f8fa'>"
+							output += "<div id='review-"+review.reviewNo+"' data-review-no='"+review.reviewNo+"' class='col rounded border p-3' style='background-color: #f8f8fa'>"
 							output += "<div class='row'>"
 							output += "<div class='col-1 mt-2'>"
 							output += "<span id='txt'>관람평</span>"
@@ -536,18 +556,39 @@
 							output += "<div class='col mt-2'>"
 							output += "<span>"+review.reviewContent+"</span>"
 							output += "</div>"
+							output += "<div class='col-1 dropstart util-btn-"+review.reviewNo+"' data-util-no='"+review.reviewNo+"'>"
+							output += "</div>"
 							output += "</div>"
 							output += "</div>"
 							output += "</div>"; 
 					
 						$reviewBox.append(output);
-					})
+					});
+					
+					
+					// 내가 작성한 리뷰에만 버튼 보이게 하기
+					let myReview = $("#review-"+reviewNo).data("review-no");
+				
+					let utilbtn = "";
+					let $btnDiv = $(".util-btn-"+reviewNo);
+					
+					if (myReview == reviewNo) {
+						utilbtn += `<button type='button' class='btn util-btn dropdown-toggle' id='utils' data-bs-toggle='dropdown' aria-expanded='false'>
+										<img src='/resources/images/movie/btn-alert.png'>
+									</button>
+									<ul class='dropdown-menu' aria-labelledby='utils'>
+										<button type='button' class='dropdown-item edit' href='#'>수정</button>
+										<button type='button' class='dropdown-item delete' href='#'>수정</button>
+									</ul>`
+									
+						$btnDiv.append(utilbtn);
+					}
 				}
 				
 				let paging = response.items.pagination;
 				let pageNav = "";
 				
-				$("#reviewCount").text(paging.totalRecords);
+				$(".reviewCount").text(paging.totalRecords);
 				let ul = $(".pagination");
 				
 				// 이전 페이지
@@ -559,7 +600,7 @@
 				
 				// 현재 페이지
 				if (paging.pageNo == 0) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href='#'>1</a></li>"
 				} else {
 					for (let i = paging.beginPage; i <= paging.endPage; i++) {
 						if (currentPageNo == i) {
@@ -585,6 +626,85 @@
 			currentPageNo = $(this).attr("data-page");
 			$(".review-box").empty();
 			getReviews();
+		})
+		
+		// 영화 좋아요 개수 출력
+		$.ajax({
+			type: 'get',
+			url: "/rest/count",
+			data: {movieNo: movieId},
+			dataType: 'json',
+			success: function(response) {
+				$("#likeCount").text(response.likeCount);
+			}
+		})
+		
+		// 좋아요
+		$("#btn-"+movieId).click(function() {
+			
+			let movieNo = $(this).attr("data-no");
+			let button = $(this);
+			let unlike = "/resources/images/movie/unlike.png";
+			let like = "/resources/images/movie/like.png";
+			
+			if (button.find('img').attr('src') == unlike) {
+				
+				$.ajax({
+					type: "post",
+					url: "/rest/like",
+					data: {movieNo: movieId},
+					datType: "json",
+					success: function(response) {
+						if (response.error) {
+							$("#span-error").text(response.error);
+							errorModal.show();
+							return;
+						}
+						
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", like);
+					}
+				})
+			} else {
+				$.ajax({
+					type: "delete",
+					url: "/rest/like",
+					data: {movieNo: movieId},
+					datType: "json",
+					success: function(response) {
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", unlike);
+					}
+				})
+			}
+		});
+		
+		showMyMovies();
+
+		// 로그인 시 하트 표시
+		function showMyMovies() {
+			$.ajax({
+				type: "get",
+				url: "/rest/myMovies",
+				success: function(response) {
+					if (response.status) {
+						let movieNo = (response.items.map(item => item.movieNo));
+						$.each(movieNo, function(index, movie) {
+							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
+						})
+					} else {}
+				}
+			})
+		};
+		
+		// 리뷰 수정
+		$(".review-box").on('click', '.edit', function() {
+			reviewModal.show();
+		})
+		
+		// 리뷰 삭제
+		$(".review-box").on('click', '.delete', function() {
+			//
 		})
 	})
 </script>
