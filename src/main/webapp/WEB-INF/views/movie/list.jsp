@@ -9,7 +9,7 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
-  	<link rel="stylesheet" href="/resources/css/style.css" />
+  	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
 </head>
 <head>		
@@ -17,7 +17,7 @@
 <title>HTA CINEMA</title>
 </head>
 <body>
-<%@include file="../common/nav.jsp"%>
+<%@include file="../common/navbar.jsp"%>
 	<div class="container">
 		<div class="mt-5">
 			<h1>전체 영화</h1>

@@ -9,8 +9,8 @@
 			</div>
 			<div class="modal-body">
 				<form method="post" action="login.do">
-					<input type="text" class="form-control" name="id" maxlength="12" />
-					<input type="password" class="form-control mt-3" name="password" maxlength="12" />
+					<input type="text" class="form-control" name="id" placeholder="아이디" maxlength="12" />
+					<input type="password" class="form-control mt-3" name="password" placeholder="비밀번호" maxlength="12" />
 					<div class="form-check mt-3">
 						<input class="form-check-input" type="checkbox" value="" id="form-check-saveId" name="saveId">
 						<label class="form-check-label" for="form-check-saveId">
@@ -18,10 +18,15 @@
 						</label>
 					</div>
 					<div class="d-grid">
-						<button id="btn-login" type="button" class="btn btn-primary mt-3" disabled>로그인</button>
+						<button id="btn-login" type="button" class="btn btn-primary btn-lg mt-3" disabled>로그인</button>
 					</div>
 				</form>
 				<button id="btn-call-login-error" data-bs-target="#modal-login-error" data-bs-toggle="modal" hidden></button>
+				<div class="container-a mt-3">
+					<a class="link-secondary" href="/findIdPassword">ID/PW 찾기</a>
+					<span class="divide-a-tag mx-3"></span>
+					<a class="link-secondary" href="#">회원가입</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -36,7 +41,7 @@
 			<div class="modal-body">
 				<span id="span-login-error-message"></span>
 				<div class="d-flex justify-content-center mt-3">
-					<button class="btn btn-primary" data-bs-target="#modal-login-form" data-bs-toggle="modal">확인</button>
+					<button id="btn-ok" class="btn btn-primary" data-bs-target="#modal-login-form" data-bs-toggle="modal">확인</button>
 				</div>
 			</div>
 		</div>
@@ -135,15 +140,18 @@
 						
 						window.location.reload();
 					} else {
-						$("[name='id']").val("");
-						$("[name='password']").val("");
-						$("#btn-login").attr("disabled", true);
 						$("#span-login-error-message").text(response.error);
 						
 						$("#btn-call-login-error").trigger("click");
 					}
 				}
 			});
+		});
+		
+		$("#btn-ok").click(function(event) {
+			$("[name='id']").val("");
+			$("[name='password']").val("");
+			$("#btn-login").attr("disabled", true);
 		});
 	});
 </script>

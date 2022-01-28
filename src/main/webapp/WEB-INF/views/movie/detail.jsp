@@ -12,14 +12,14 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
   	<link rel="stylesheet" href="/resources/css/movieDetail.css" />
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
-  	<link rel="stylesheet" href="/resources/css/style.css" />
+  	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
 </head>
 <style>
 </style>
 <body>
 	<%@include file="../common/tags.jsp" %>
-	<%@include file="../common/nav.jsp"%>
+	<%@include file="../common/navbar.jsp"%>
 	<div>
 		<div class="mt-3 bg-dark movie-head">
 			<div class="container">

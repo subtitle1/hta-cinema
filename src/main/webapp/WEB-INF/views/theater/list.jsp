@@ -10,7 +10,7 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	 <link rel="stylesheet" href="/resources/css/style.css" />
+	 <link rel="stylesheet" href="/resources/css/navbar.css" />
 	 <link rel="stylesheet" href="/resources/css/common.css" />
 	 <style type="text/css">
 			button {
@@ -105,7 +105,7 @@
 </head>
 <body>
 <div class="container">
-<%@include file="/WEB-INF/views/common/nav.jsp"%>
+<%@include file="/WEB-INF/views/common/navbar.jsp"%>
 
 
 			<div class="mt-5">
