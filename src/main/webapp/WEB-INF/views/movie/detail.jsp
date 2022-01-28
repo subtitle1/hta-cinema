@@ -578,7 +578,7 @@
 									</button>
 									<ul class='dropdown-menu' aria-labelledby='utils'>
 										<button type='button' class='dropdown-item edit' href='#'>수정</button>
-										<button type='button' class='dropdown-item delete' href='#'>수정</button>
+										<button type='button' class='dropdown-item delete' href='#'>삭제</button>
 									</ul>`
 									
 						$btnDiv.append(utilbtn);
@@ -593,36 +593,37 @@
 				
 				// 이전 페이지
 				if (!paging.existPrev) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href='#'>이전</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>이전</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' href='#'>이전</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' href=''>이전</a></li>"
 				}
 				
 				// 현재 페이지
 				if (paging.pageNo == 0) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href='#'>1</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
 				} else {
 					for (let i = paging.beginPage; i <= paging.endPage; i++) {
 						if (currentPageNo == i) {
-							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='#'>"+i+"</a></li>"
+							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href=''>"+i+"</a></li>"
 						} else {
-							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='#'>"+i+"</a></li>"
+							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href=''>"+i+"</a></li>"
 						}
 					}
 				}
 				
 				// 다음 페이지
 				if (!paging.existNext) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href='#'>다음</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>다음</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' href='#'>다음</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' href=''>다음</a></li>"
 				}
 				ul.html(pageNav); // dom에 새로 생성한 html 컨텐츠가 추가되는 순간!
 			})
 		}
 		
 		// 페이지 버튼 클릭 시
-		$(".pagination").on('click', '.page-link', function() {
+		$(".pagination").on('click', '.page-link', function(e) {
+			e.preventDefault();
 			currentPageNo = $(this).attr("data-page");
 			$(".review-box").empty();
 			getReviews();
