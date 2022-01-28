@@ -3,6 +3,7 @@ package com.example.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.ReviewDto;
 import com.example.vo.Review;
@@ -20,4 +21,6 @@ public interface ReviewMapper {
 	List<ReviewPointType> getAllPointTypes();
 	List<ReviewDto> getAllReviewsByMovieNo(Criteria criteria);
 	List<ReviewPointType> getPointNamesByReviewNo(long reviewNo);
+	Review getMyReviewByMovieNo(@Param("customerNo") int customerNo, 
+			                  @Param("movieNo") int movieNo);
 }

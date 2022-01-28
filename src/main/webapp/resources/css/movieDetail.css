@@ -18,7 +18,7 @@
 }
 
 #movie-head div {
-	margin-top: 290px;
+	margin-top: 310px;
     font-size: 18px;
 }
 
@@ -51,6 +51,12 @@
 
 #review-btn {
 	font-family: 'Nanum Gothic', sans-serif;
+}
+
+.btn-outline-light{
+	margin-right: 525px;
+    position: absolute;
+    width: 100px;
 }
 
 /* 리뷰 모달 */
@@ -88,11 +94,46 @@
 }
 
 /* review */
-.title2, #txt, #score-txt, #points-txt {
+.title2, #txt, #score-txt, #points-txt, .reviewCount {
 	color: #503396;
 	font-weight: bold;
 }
 
 #score-txt {
 	font-size: 27px;
+}
+
+/* 페이지네이션 */
+.page-item.active .page-link {
+    background: #01738b;
+    border-color: #01738b;
+    color: #fff;
+}
+
+.page-item .page-link {
+    color: #01738b;
+}
+
+/* 드롭다운 */
+.dropstart .dropdown-toggle::before {
+	display: inline-block;
+    margin-left: 0;
+    vertical-align: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.dropdown-toggle {
+	margin-left: 43px;
+}
+
+.btn:focus {
+	outline: 0;
+    box-shadow: 0; 
+}
+
+.dropdown-item {
+	font-family: 'Nanum Gothic', sans-serif;
 }
