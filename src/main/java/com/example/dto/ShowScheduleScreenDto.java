@@ -35,13 +35,14 @@ public class ShowScheduleScreenDto {
 	private Date showScheduleStartTime;
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="HH:mm", timezone="Asia/Seoul")
 	private Date showScheduleEndTime;
+	private int showScheduleTimeNo;
 	private int movieRatingNo;
 	private String movieRatingName;
 	private String movieName;
 	private int showTypeNo;
 	private String showTypeName;
 	private String showTypeSubTitle;
-	private String screenTotalSeatRow;
+	private int screenTotalSeatRow;
 	private int sceenTotalSeatCoulumn;
 	
 }

@@ -1,5 +1,7 @@
 package com.example.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class FeeType {
+public class PointHistory {
 
-	private int showTypeNo;
-	private int showDayTypeNo;
-	private int showStartTypeNo;
-	private int audienceTypeNo;
-	private long fee;
-	
+	private Date pointHistoryDate;
+	private long customerNo;
+	private int pointHistoryTypeDetailNo;
+	private long pointHistoryPoint;
 }

@@ -3,8 +3,11 @@ package com.example.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.utils.SessionUtils;
+import com.example.vo.Customer;
+import com.example.web.form.InsertTicketForm;
 
 @Controller
 public class HomeController {
@@ -27,14 +30,16 @@ public class HomeController {
 	public String findIdPassword() {
 		return "/customer/findIdPassword";
 	}
-	
-	@GetMapping("/ticketing/ticketingPay")
-	public String ticketingPay() {
-		return "/ticketing/ticketingPay";
-	}
+
 
 	@GetMapping("/timeTable/timeTable")
 	public String timeTable() {
 		return "/timeTable/timeTable";
+	}
+	@PostMapping("/")
+	public String postHome(InsertTicketForm form) {
+		Customer customer = (Customer)SessionUtils.getAttribute("LOGIN_USER");
+		
+		return "redirect:/home";
 	}
 }

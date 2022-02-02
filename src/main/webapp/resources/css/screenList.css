@@ -18,15 +18,15 @@ h2{
     height: 15px;
     opacity: 0.6;
 }
-button.mon:active{
-	background-color: gray;
+button.mon.active{
+	background-color: #CBD9DB;
 }
 
-.theater-spacial-button:active{
-	background-color: gray;
+.theater-spacial-button.active{
+	background-color: #CBD9DB;
 }
-.theater-all-button:active{
-	background-color: gray;
+.theater-all-button.active{
+	background-color: #CBD9DB;
 }
 .mon{
     background-color:white;
@@ -137,20 +137,30 @@ strong{
     box-shadow: inset 0px 0px 5px white;
 }
 .movie-button{
-    display: inline-block;
     vertical-align: sub;
-    height: 13%;
+    text-align: left;
+    align-items: left;
+    width: 90%;
+    height: 18%;
     background: white;
     margin: 2px;
     border: 1px solid white;
+    display: black;
+}
+.movie-button.active{
+	background: #CBD9DB;
+	height: 18%;
 }
 .movie-button img{
 	width:15px;
 	height: 15px;
+	align-items: left;
+	display: block;
 }
 .txt{
     text-align: left;
-    font-size: 12px;
+    font-size: 15px;
+    display: black;
 }
 .buttonicon {
     width: 11px;
@@ -268,6 +278,9 @@ p{
     border: 1px solid white;
     background-color: white;
     height: 11%;
+}
+.list-theater-button.active{
+	background-color: #CBD9DB;
 }
 .list-theater-button{
     font-size: 14px;

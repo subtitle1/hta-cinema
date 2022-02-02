@@ -13,12 +13,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class FeeType {
+public class TicketSeat {
 
-	private int showTypeNo;
-	private int showDayTypeNo;
-	private int showStartTypeNo;
-	private int audienceTypeNo;
-	private long fee;
+	private String no;
+	private long ticketNo;
 	
 }
