@@ -2,11 +2,13 @@ package com.example.web.restcontroller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/rest")
+@Transactional
 public class TicketRestController {
 	
 	@Autowired
@@ -42,24 +45,34 @@ public class TicketRestController {
 	  }
 	  
 	  @GetMapping("/theaterList")
-	  public ResponseDto<?>getAllListBytheaterNo(@RequestParam("movieNo") int movieNo, @RequestParam("theaterNo") int theaterNo, @RequestParam("timeNo") int timeNo){
+	  public ResponseDto<?>getAllListBytheaterNo(@RequestParam("movieNo") int movieNo, @RequestParam("theaterNo") int theaterNo, @RequestParam("timeNo") int timeNo, @RequestParam("dayNm") int day){
 		  List<ShowScheduleScreenDto> theaters = movieticketService.ListByTheaterNo(movieNo,theaterNo);
 		  List<ShowScheduleScreenDto> theater = new ArrayList<>();
-		  for(ShowScheduleScreenDto sc :theaters) {
-			  DateFormat dateFormat = new SimpleDateFormat("HH");
-			  String startTime = dateFormat.format(sc.getShowScheduleStartTime());
-			  int time = Integer.parseInt(startTime);
-			  log.info("시간은"+time);
-			  log.info("시간은"+timeNo);
-			 if(time>=timeNo) {
-				 theater.add(sc);
-			 } 
-		  }
 		  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
-		  response.setStatus(true);
-		  response.setItems(theater);
-		  log.info("시간은"+theater);
-		  return response;
+		  LocalDate now = LocalDate.now();
+		  int dayOfMonth = now.getDayOfMonth();
+		  if(dayOfMonth != day) {
+			  response.setItems(theaters);
+			  response.setStatus(true);
+			  return response;
+			  
+		  } else {
+		  
+			  for(ShowScheduleScreenDto sc :theaters) {
+				  DateFormat dateFormat = new SimpleDateFormat("HH");
+				  String startTime = dateFormat.format(sc.getShowScheduleStartTime());
+				  int time = Integer.parseInt(startTime);
+				  log.info("시간은"+time);
+				  log.info("시간은"+timeNo);
+				 if(time>=timeNo) {
+					 theater.add(sc);
+				 } 
+			  }
+			  response.setStatus(true);
+			  response.setItems(theater);
+			  log.info("시간은"+theater);
+			  return response;
+		  }
 	  }
 	  @GetMapping("/theater")
 	  public ResponseDto<?>getRegionBytheaterNo(@RequestParam(required=false, value="regionNo", defaultValue="10" ) int regionNo) {

@@ -1,4 +1,4 @@
-package com.example.vo;
+package com.example.web.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +13,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class FeeType {
-
-	private int showTypeNo;
+public class TicketForm {
+	private String showTime;
 	private int showDayTypeNo;
-	private int showStartTypeNo;
-	private int audienceTypeNo;
-	private long fee;
-	
+	private int showTypeNo;
+	private int screenNo;
+	private int movieNo;
+	private int theaterNo;
+	private String day;
+	private String ticketingDay;
 }

@@ -11,14 +11,11 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class FeeType {
+@Builder
+public class PointHistoryTypeDetail {
 
-	private int showTypeNo;
-	private int showDayTypeNo;
-	private int showStartTypeNo;
-	private int audienceTypeNo;
-	private long fee;
-	
+	private int no;
+	private String name;
+	private String detailName;
 }

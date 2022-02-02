@@ -1,11 +1,11 @@
-package com.example.vo;
+package com.example.web.form;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -13,9 +13,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class NonExistentSeat {
+public class TicketAdienceTypeForm {
 
-	private String no;
-	private int screenNo;
-	
+	private long ticketNo;
+	private int audienceTypeNo;
 }

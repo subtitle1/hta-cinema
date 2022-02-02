@@ -50,21 +50,34 @@
         </div>
         <div class="right-container">
             <div class="title-name">
-                <img src="/resources/images/12세이상관람자.png" alt="count-age" class="count-age">
-                <p class="title-text">해적:도깨비 깃발</p>
-                <p class="screen-system">2D</p>
-                <p class="screen-location">강남/4관</p>
-                <p class="screen-day">2022.01.31</p>
-                <p class="screen-time"><i class="fas fa-clock"></i>10:20~12:36</p>
+                <img src="${movie.ratingImageURL}" alt="count-age" class="count-age">
+                <p class="title-text">${movie.movieName}</p>
+              		<p class="screen-system">예매 좌석 정보
+                	<c:forEach var="seat" items="${ticketSeat }">
+                	<c:if test="${not empty seat.no }">
+                		(${seat.no})
+                	</c:if>
+                	</c:forEach>
+               		 </p>
+                <p class="screen-location">${theater.name }/${screen.name }</p>
+                <p class="screen-day">${showTime.name }</p>
+                <p class="screen-time"><i class="fas fa-clock"></i></p>
             </div>
             <div class="pay-container">
                 <div class="kind-age">
-                    <p class="name">성인1</p>
-                    <p class="pay">14,000</p>
+	                	<p class="name">
+	               <c:if test="${not empty audult}">${audult }</c:if>
+                	<c:if test="${not empty baby}">${baby }</c:if>
+                	<c:if test="${not empty old}">${old }</c:if>
+                	 </p>
+                	<c:forEach var="number" items="${ticketAudience }">
+                		<p class="name" data-audienceTypeNo="${number.audienceTypeNo }" data-thicketNo="${number.ticketNo }">${number.totalNumber}</p>
+                	</c:forEach>
+                    <p class="pay">${ticket.ticketTotalAmount }</p>
                 </div>
                 <div class="total">
                     <p class="total-title">금액</p>
-                    <p class="total-pay"><em>14000</em>원</p>
+                    <p class="total-pay"><em>${ticket.ticketTotalAmount }</em>원</p>
                 </div>
                 <i class="fas fa-minus-circle"></i>
                 <div class="discount-total">
@@ -77,13 +90,13 @@
                 </div>
                 <div class="discount-content">
                     <div class="point">
-                        <p class="use-point">포인트 사용</p>
-                        <p class="point-discount"><em>3,000</em>원</p>
+                        <p class="use-point">포인트 적립</p>
+                        <p class="point-discount"><em>${ticket.ticketExpectedEarningPoint }</em>원</p>
                     </div>
                 </div>
                 <div class="final-pay">
                     <p class="final-title">최종결제금액</p>
-                    <p class="final-total"><em>14,000</em>원</p>
+                    <p class="final-total"><em>${ticket.ticketTotalAmount }</em>원</p>
                 </div>
                 <div class="way-pay">
                     <p class="way-pay-title">결제수단</p>
@@ -91,20 +104,33 @@
                 </div>
                 <div class="btn-final">
                     <button class="btn-pre" type="button">이전</button>
-                    <button class="btn-pay" type="button">결제</button>
+                    <c:choose>
+                    <c:when test="${not empty LOGIN_USER }">
+                    	 <button class="btn-pay" type="button">결제</button>
+                    </c:when>
+                    <c:otherwise>
+                     	<button class="btn-pay" type="button" disabled="disabled">결제</button>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
-        <form action="/login" method="post" id="form-submit">
-        	<input type="hidden" name="userName"/>
-        	<input type="hidden" name="userEmail" />
-        	<input type="hidden" name="screenTitle"/>
-        	<input type="hidden" name="ticketingToTalPay" />
-        	<input type="hidden" name="userDiscountPoint" />
-        	<input type="hidden" name="ticketingPay" />
-        	<input type="hidden" name="seatNumber" />
-        	<input type="hidden" name="screenTime" />
-        	<input type="hidden" name="countPeople" />
+        <form action="/" method="post" id="form-submit">
+        	<input type="hidden" name="theater"  value="${theater }"/>
+        	<input type="hidden" name="screen"  value="${screen }"/>
+        	<input type="hidden" name="movie"  value="${movie }"/>
+        	<input type="hidden" name="ticketingToTalPay"  value="" />
+        	<input type="hidden" name="userDiscountPoint"  value="" />
+        	<input type="hidden" name="ticketingPay"  value="${ticket.ticketTotalAmount }" />
+        	<input type="hidden" name="seatNumber" value="${ticketSeat }"/>
+        	<input type="hidden" name="userPoint"  value="${ticket.ticketExpectedEarningPoint }"/>
+        	<input type="hidden" name="adult"  value="${audult }" />
+        	<input type="hidden" name="baby"  value="${baby }" />
+        	<input type="hidden" name="old"  value="${old }" />
+        	<input type="hidden" name="showTime"  value="${showTime }" />
+        	<input type="hidden" name="ticket"  value="${ticket }" />
+        	<input type="hidden" name="fee"  value="${fee }" />
+        	<input type="hidden" name="startTime"  value="${startTime }" />
         </form>
     </div>
     <div id="point-modal">
@@ -121,16 +147,29 @@
                 <div class="usable-point">
                     <i class="fas fa-parking"></i>
                     사용가능한 멤버십 포인트
-                    <span><em>0</em>P</span>
+                    <span><em>${ticket.ticketUsedPoint}</em>P</span>
                 </div>
                 <div class="total-point">
-                    <div class="point-wrap">
-                    <!-- 값이 존재하면 생성되도록 -->
-                        <div class="block" data-point="12000"><button class="btn-block">12000</button></div>
-                        <div class="block" data-point="12000"><button class="btn-block">12000</button></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                    </div>
+	                    <c:choose>
+		                     <c:when test="${not empty ticket.ticketUsedPoint}">
+		                     <div class="point-wrap">
+		                    	 <div class="block" data-point="${ticket.ticketUsedPoint }"><button class="btn-block">${ticket.ticketUsedPoint }</button></div>
+		                     	 <div class="block" data-point="" ></div>
+			                     <div class="block" data-point=""></div>
+			                     <div class="block" data-point=""></div>
+		                     </div>
+		                    </c:when>
+		                     <c:otherwise>
+		                     <div class="point-wrap">
+		                     	<div class="block" data-point="" ></div>
+				                <div class="block" data-point=""></div>
+				                <div class="block" data-point=""></div>
+				                <div class="block" data-point=""></div>
+			                </div>
+	                     </c:otherwise>
+	                    </c:choose>
+	                    <!-- 값이 존재하면 생성되도록 -->
+	                    
                     <div class="point-wrap">
                         <div class="block" data-point="" ></div>
                         <div class="block" data-point=""></div>
@@ -138,7 +177,7 @@
                         <div class="block" data-point=""></div>
                     </div>
                     <div class="text-right">
-                        <p>총 <em>0</em>P/ <em>0</em>매</p>
+                        <p>총 <em>${ticket.ticketUsedPoint }</em>P/ <em>1</em>매</p>
                     </div>
                 </div>
                 <div class="button-list">
@@ -275,21 +314,14 @@
 					merchant_uid: 'merchant_' + new Date().getTime(),
 					name:$('p.title-text').text(),
 					amount: $('p.total-pay>em').text(),
-					buyer_name: '이름',//Username
-					buyer_email: '123-456', //User이메일
-					buyer_tel:''//User전화번호
+					buyer_name: '${LOGIN_USER.name}',//Username
+					buyer_email: '${LOGIN_USER.email}', //User이메일
+					buyer_tel:'${LOGIN_USER.phoneNumber}'//User전화번호
 					}, function (rsp) {
 					if (rsp.success) {
 					 let data = rsp;
-					 $("input[name=userName]").value=data.buyer_name
-					 $("input[name=userEmail]").value=data.buyer_email
-					 $("input[name=screenTitle]").value=data.name
-					 $("input[name=ticketingToTalPay]").value=data.paid_amount
-					 $("input[name=userDiscountPoint]").value = $('p.discount-pay>em').text();
-					 $("input[name=ticketingPay]").value=$('p.total-pay>em').text();
-					 $("input[name=seatNumber]").value = ""//넘어오는 값으로 받는다.
-					 $("input[name=screenTime]").value = $('p.screen-time').text();
-					 $("input[name=countPeople]").value=$('p.name').text();
+					 $("input[name=ticketingToTalPay]").value = $('p.discount-pay>em').text();
+					 $("input[name=userDiscountPoint]").value=$('p.total-pay>em').text();
 					 $('#form-submit').submit(); //클릭하면 정보가 넘어가게 설정, form 만들어야한다. 
 					} else {
 						var msg = '결제에 실패하였습니다.';

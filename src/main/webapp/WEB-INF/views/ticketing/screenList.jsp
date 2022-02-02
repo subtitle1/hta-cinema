@@ -210,10 +210,12 @@
 		//날짜 클릭시 활성화 버튼과 hidden으로 data값 전송
 		$('div.now-day').on('click','button.mon',function(){
 			let $btnActive = $(this);
-			let dataAttr = $(this).attr('data-day');
-			$btnActive.toggleClass('active');
-			if($('button.active').length===2){
-				$('.active').attr('class','mon');
+			let dataAttr = $btnActive.attr('data-day');
+			if($btnActive.hasClass('active')){
+				$('button.mon').removeClass('active');
+			} else{
+				$('button.mon').removeClass('active');
+				$btnActive.addClass('active');
 			}
 		})
 		//날짜 클릭했으면 활성화버튼 해제 
@@ -221,22 +223,24 @@
 			let $btnMon = $(this);
 			$btnMon.attr('class','mon');
 		})
+		
 		//영화버튼 클릭시 극장 정보 가져오기
 		$('button.movie-button').click(function(){
-			let valueNo = $(this).val();
-			let attrNo = $(this).attr('class');
+			let $movieButton = $(this);
+			let valueNo = $movieButton.val();
+			let attrNo =  $movieButton.attr('class');
 			$('.explain-button p').css('display','none');
 			$('button.list-theater-button').css('display','flex');
-			if(attrNo.match('active') == 'active'){
-				$(this).removeClass('active');
-			} else {
-				$(this).addClass('active');
+			if($movieButton.hasClass('active')){
+				$('button.movie-button').removeClass('active');
+			} else{
+				$('button.movie-button').removeClass('active');
+				$movieButton.addClass('active');
 			}
 			//아래에 클릭시 이미지가 뜨도록 	
 		})
 		//해당하는 극장명이 출력된다. 
 		$('button.list-theater-button').click(function(){
-			$(this).toggleClass('active')
 			let $dataAttr = $('div.theater-choies');
 			$dataAttr.empty();
 			let regionNo = $(this).attr('data-region');
@@ -249,14 +253,23 @@
 		})
 		//극장명을 클릭하면	
 		$('div.theater-choies').on('click','button.list-theater-button',function(){
+			let $dataAttr = $('div.movie-check');
+			$dataAttr.empty();
 			let $btn = $(this);
-			$btn.toggleClass('active');
+			if($btn.hasClass('active')){
+				$('button.list-theater-button').removeClass('active');
+			} else{
+				$('button.list-theater-button').removeClass('active');
+				$btn.addClass('active');
+			}
+			let day = $('button.mon.active').find('span.movie-week-of-day').text();
+			let dayNm = parseInt(day);
 			let theaterNo =$btn.attr('data-theater');
 			let movieNo =$('button.movie-button.active').val();
 			let timeNo = $('.time-check-button:eq(0)').text();
 			let regionNo = $('.list-theater-button.active').attr('data-region');
 			let $theaterNames = $('div.theater-choies');
-			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo, timeNo: timeNo },function(response){
+			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo, timeNo: timeNo, dayNm:dayNm},function(response){
 					console.log(response.items);
 				$.each(response.items,function(index,theater){
 					let $list  = $('div.theater-choies');
@@ -299,23 +312,61 @@
 			})
 		})
 		})
-		
+		//시간출력하는 부분
 		$('div.time-check').append(function(){
 			let currentDate = new Date();
 			let msg = Number(currentDate.getHours());
-			for(let i = msg; i<msg+10; i++){
-				let button = "";
-				let $time = $('div.time-check');
-				button = document.createElement("button");
-				button.classList='time-check-button';
-				if(i > 24) {
-					button.innerHTML=Number();
-				} else {
-					button.innerHTML=Number(i);
-					$time.append(button);
+				for(let i = msg; i<msg+10; i++){
+					let button = "";
+					let $time = $('div.time-check');
+					button = document.createElement("button");
+					button.classList='time-check-button';
+					if(i > 24) {
+						button.innerHTML=Number();
+					} else {
+						button.innerHTML=Number(i);
+						$time.append(button);
+					}
 				}
+			})
+		function timeAppend(event) {
+			let day = $('div.mon.active').find('span.movie-week-of-day').text();
+			let dayNm = parseInt(day);
+			let mday = Number(currentDate.getDate());
+			if(dayNm != mday){
+				for(let i = 1; i<25; i++){
+					let button = "";
+					let $time = $('div.time-check');
+					button = document.createElement("button");
+					button.classList='time-check-button';
+					if(i > 24) {
+						button.innerHTML=Number();
+					} else if(i>10){
+						button.innerHTML=Number(""+i);
+						$time.append(button);
+					} else {
+						button.innerHTML=Number(i);
+						$time.append(button);
+					}
 			}
-		})
+			} else {
+				let currentDate = new Date();
+				let msg = Number(currentDate.getHours());
+					for(let i = msg; i<msg+10; i++){
+						let button = "";
+						let $time = $('div.time-check');
+						button = document.createElement("button");
+						button.classList='time-check-button';
+						if(i > 24) {
+							button.innerHTML=Number();
+						} else {
+							button.innerHTML=Number(i);
+							$time.append(button);
+						}
+					}
+			}
+
+		}
 		//버튼 클릭시 정보저장하기
 		$('div.movie-check').on('click','button.btn-on',function(e){
 			 let $movie= $(this);
@@ -335,6 +386,7 @@
 		     $('input[name=regionNo]').attr('value',regionNo);
 		     $('input[name=day]').attr('value',dayNo);
 		     console.log($('#form-post-List'));
+		     
 		     $('#form-post-List').submit();
 		})
 	})

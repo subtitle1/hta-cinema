@@ -1,4 +1,3 @@
-
 h2{
     margin-left: 10%;
     width: 90%;
@@ -20,6 +19,14 @@ h2{
     height: 2px;
     
 }
+
+.btn{
+	color:white;
+	display:block;
+	background-color: gray;
+	width:120px;
+	height:300px;
+}
 .reset-button{
     text-align: right;
     float: right;
@@ -38,13 +45,6 @@ h2{
     width: 2px;
     height: 2px;
 }
-.check-people{
-    float: left;
-    width: 60%;
-    height: 40px;
-    border-top: 1px solid rgb(238, 241, 255);
-    background-color: rgb(238, 241, 255);
-}
 .special{
     font-size: 10px;
     float: left;
@@ -59,19 +59,34 @@ em{
     text-decoration: none;
 }
 .all-check-people{
-    display: flex;
-    width: 60%;
+	display: flex;
+    width: 70%;
     margin-left: 10%;
     margin-top: 25px;
     border-left: 1px solid rgb(197, 196, 196);
     border-right: 1px solid rgb(197, 196, 196);
-    position: relative;
+    height: 10%;
+	top: 20px;
+}
+.check-people-box{
+	position:relative;
+	display: flex;
+	width:10px;
+	margin-left: 10%;
+}
+.check-people{
+	float:left;
+    display:block;
+    clear:both;
+    width: 20%;
+    height: 40px;
+    border-top: 1px solid rgb(238, 241, 255);
+    background-color: rgb(238, 241, 255);
 }
 .txt{
     float: left;
     text-align: center;
     font-size: small;
-    margin-left: 30px;
     margin-right: 20px;
     margin-top: 10px;
 }
@@ -103,16 +118,20 @@ li{
 .movie-container{
     float: right;
     width: 20%;
-    margin: auto;
-    height: 530px;
+    height: 500px;
     border: 1px solid black;
     margin-right: 10%;
+    border-radius: 6px;
+    background-color: rgb(53, 47, 47);
+    padding: 8px;
+    position: relative;
+    top: -550px;
 }
 .screen-seat{
     border-left: 1px solid rgb(180, 179, 179);
     border-right: 1px solid rgb(180, 179, 179) ;
-    margin-left: 10%;
     width: 60%;
+     margin-left: 10%;
     display: block;
 }
 .seat-wrapper{
@@ -124,9 +143,10 @@ li{
     float:left;
 }
 #seat-layout{
-    width: 100%;
-    height: 300px;
+    width: 90%;
+    height: 500px;
     position: relative;
+    margin-left: 10%;
     overflow: auto;
     cursor: pointer;
 
@@ -140,13 +160,6 @@ li{
 
 }
 
-.movie-container{
-    border-radius: 6px;
-    background-color: rgb(53, 47, 47);;
-    padding: 8px;
-   	top: -530px;
-    position: relative;
-}
 .movie-detail-area{
     clear:both;
     float: left;
@@ -156,7 +169,7 @@ li{
 }
 .tit{
     color: white;
-    font-size: 15px;
+    font-size: 10px;
     float: left;
 }
 .cate{
@@ -207,10 +220,7 @@ li{
     position: sticky;
     background-attachment:fixed
 }
-li{
 
-    visibility: hidden;
-}
 ul{
     list-style-type: none;
     margin: 0;
@@ -229,7 +239,8 @@ ul{
     background-color: rgb(39, 37, 37);
     font-size: 10px;
     text-align:left;
-    position: sticky;
+    position: absolute;
+    color: white;
    
 }
 .other-time{
@@ -329,9 +340,10 @@ ul{
     margin-bottom: 30px;
 }
 .pay-area{
-    clear: both;
-    height: 40px;
-    padding-top: 60px;
+    display: block;
+    height: 20px;
+    float: left;
+    width: 100%;
 }
 .pay{
     height: 20px;
@@ -383,9 +395,10 @@ ul{
     float: right;
 }
 .btn-group{
-    padding-top: 30px;
-    height: 20px;
-    width: 100%;
+    padding-top: 70px;
+    height: 10px;
+    width: 110%;
+    padding-right: 13px;
 }
 a.button{
     color: white;
@@ -393,26 +406,36 @@ a.button{
     display: block;
     text-align: center;
     text-decoration: none;
-    height: 20px;
+    height: 30px;
+    width: 50%;
 }
 a#pagePrevious{
-    width: 117px;
     float: left;
-    border-radius: 0 0 50% 50%;
-    background-color: rgb(65, 64, 64);
+    border-radius: 0 0 0 10px;
+    background-color: rgb(61, 61, 61);
+    color: white;
+    border: 1px solid rgb(61, 61, 61);
 }
 a#pageNext{
-    width: 110px;
     float: right;
-    border-radius: 0 0 50% 50%;
-    background-color: #06b0b3;
+   	border-radius: 0 0 10px 0;
+    background-color: #028487;
+    color: white;
+    border: 1px solid #028487;
+}
+a#pageNext-1{
+	float: right;
+   	border-radius: 0 0 10px 0;
+    background-color: #028487;
+    color: white;
+    border: 1px solid #028487;
 }
 #document-modal{
     background-color:rgba(0, 0, 0, 0.8); 
     justify-content:center; 
     align-items:center;     
     position:fixed;      
-    top:0;
+    top:-100px;
     left:0;
     right:0;
     bottom:0;             
@@ -439,7 +462,7 @@ a#pageNext{
 }
 .document-modal-body{
     width: 400px;
-    height: 600px;
+    height: 500px;
     padding: 1px;
     background-color: white;
     word-break:break-word; 
@@ -448,7 +471,7 @@ a#pageNext{
 }
 .dot-list{
 	color: black;
-	font-size: 11px
+	font-size: 15px
 }
 .btn-document-modal{
 	 background-color: #743cf7;
@@ -457,3 +480,4 @@ a#pageNext{
 	 color: white;
 	 border: 1px solid #743cf7;
 }
+	

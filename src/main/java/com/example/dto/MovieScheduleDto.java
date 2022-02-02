@@ -14,11 +14,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
+@Setter
 public class MovieScheduleDto {
 
 	private long showScheDuleNo;
