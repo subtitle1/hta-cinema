@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.annotation.LoginedUser;
 import com.example.dto.ResponseDto;
-import com.example.exception.LoginErrorException;
+import com.example.exception.ErrorException;
 import com.example.service.MyMovieService;
 import com.example.vo.Customer;
 import com.example.vo.MyMovie;
@@ -28,7 +28,7 @@ public class MyMovieRestController {
 	public ResponseDto<Map<String, Object>> like(@LoginedUser Customer customer, int movieNo) {
 		
 		if (customer == null) {
-			throw new LoginErrorException("로그인이 필요한 서비스입니다.");
+			throw new ErrorException("로그인이 필요한 서비스입니다.");
 		}
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();

@@ -29,4 +29,25 @@
 		where 
 			customer_id = #{value}
 	</select>
+	
+	<select id="getCustomerByCriteria" parameterType="com.example.dto.CustomerCriteria" resultMap="CustomerResultMap">
+		select 
+			customer_no, customer_grade_no, customer_id, customer_password, customer_name, 
+			customer_phone_number, customer_email, customer_street_address, customer_birth_date, 
+			customer_gender, customer_current_point, customer_created_date, customer_deleted, 
+			customer_deleted_date 
+		from 
+			customer 
+		where 
+			customer_name = #{name} 
+			and customer_phone_number = #{phoneNumber} 
+			<choose>
+				<when test="id == null">
+					and customer_birth_date = #{birthDate}
+				</when>
+				<otherwise>
+					and customer_id = #{id}
+				</otherwise>
+			</choose>
+	</select>
 </mapper>

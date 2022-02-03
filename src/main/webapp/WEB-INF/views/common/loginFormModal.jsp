@@ -8,9 +8,10 @@
 				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form method="post" action="login.do">
+				<form id = "form-login">
 					<input type="text" class="form-control" name="id" placeholder="아이디" maxlength="12" />
 					<input type="password" class="form-control mt-3" name="password" placeholder="비밀번호" maxlength="12" />
+				</form>
 					<div class="form-check mt-3">
 						<input class="form-check-input" type="checkbox" value="" id="form-check-saveId" name="saveId">
 						<label class="form-check-label" for="form-check-saveId">
@@ -20,7 +21,6 @@
 					<div class="d-grid">
 						<button id="btn-login" type="button" class="btn btn-primary btn-lg mt-3" disabled>로그인</button>
 					</div>
-				</form>
 				<button id="btn-call-login-error" data-bs-target="#modal-login-error" data-bs-toggle="modal" hidden></button>
 				<div class="container-a mt-3">
 					<a class="link-secondary" href="/findIdPassword">ID/PW 찾기</a>
@@ -31,17 +31,17 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="modal-login-error" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginErrirModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-login-error" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginErrorModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="loginErrirModalLabel">알림</h5>
-				<button type="button" class="btn-close btn-close-white" data-bs-target="#modal-login-form" data-bs-toggle="modal" aria-label="Close"></button>
+				<h5 class="modal-title" id="loginErrorModalLabel">알림</h5>
+				<button type="button" class="btn-close btn-close-white btn-ok" data-bs-target="#modal-login-form" data-bs-toggle="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<span id="span-login-error-message"></span>
 				<div class="d-flex justify-content-center mt-3">
-					<button id="btn-ok" class="btn btn-primary" data-bs-target="#modal-login-form" data-bs-toggle="modal">확인</button>
+					<button class="btn btn-primary btn-ok" data-bs-target="#modal-login-form" data-bs-toggle="modal">확인</button>
 				</div>
 			</div>
 		</div>
@@ -49,6 +49,10 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+		let idInput = $("[name='id']");
+		let passwordInput = $("[name='password']");
+		
+		// 출처: https://ktko.tistory.com/entry/Cookie를-이용하여-아이디-저장하기 [KTKO 개발 블로그와 여행 일기]
 		let userInputId = getCookie("userInputId");
 		let setCookieYN = getCookie("setCookieYN");
 		
@@ -58,7 +62,7 @@
 	        $("#form-check-saveId").prop("checked", false);
 	    }
 		
-		$("[name='id']").val(userInputId);
+		idInput.val(userInputId);
 
 		//쿠키값 설장하기
 		function setCookie(cookieName, value, exdays){
@@ -91,14 +95,14 @@
 		        }
 		    }
 		}
-		// 출처: https://ktko.tistory.com/entry/Cookie를-이용하여-아이디-저장하기 [KTKO 개발 블로그와 여행 일기]
+		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		// 아이디 저장 체크박스를 확인한다.
 		// 체크되어 있다면 쿠키에 아이디와 쿠키설정여부를 저장한다.
 		// 체크되어 있지 않다면 쿠키에서 아이디와 쿠키설정여부를 삭제한다.
 		function checkSaveIdChecked() {
 			if ($("#form-check-saveId").prop("checked")) {
-				let userInputId = $("[name='id']").val();
+				let userInputId = idInput.val();
 				
 				setCookie("userInputId", userInputId, 3); 
 	            setCookie("setCookieYN", "Y", 3);
@@ -110,29 +114,42 @@
 		
 		// id와 password 입력폼이 비어있는지 확인하고, 하나라도 비어있으면 로그인 버튼을 비활성화한다.
 		function checkInputValueEmpty() {
-			if (($("[name='id']").val() === "") || ($("[name='password']").val() === "")) {
-				$("#btn-login").attr("disabled", true);
+			if ((idInput.val() === "") || (passwordInput.val() === "")) {
+				$("#btn-login").prop("disabled", true);
 			} else {
-				$("#btn-login").attr("disabled", false);
+				$("#btn-login").prop("disabled", false);
 			}
 		}
 		
-		$("[name='id']").keyup(function(event) {
+		// 아이디와 비밀번호 input에서 키보드 입력이 있을 때마다 checkInputValueEmpty() 함수를 실행한다.
+		idInput.keyup(function(event) {
 			checkInputValueEmpty();
 		});
-		$("[name='password']").keyup(function(event) {
+		passwordInput.keyup(function(event) {
 			checkInputValueEmpty();
+		});
+		
+		// 아이디 input에서 엔터키를 누르면 비밀번호 input으로 포커스가 이동한다.
+		idInput.keyup(function(event) {
+			if (event.keyCode === 13) {
+				passwordInput.focus();
+			}
+		});
+		// 비밀번호 input에서 엔터키를 누르면 로그인 버튼이 클릭되어 로그인 form이 제출된다.
+		passwordInput.keyup(function(event) {
+			if (event.keyCode === 13) {
+				$("#btn-login").trigger("click");
+			}
 		});
 		
 		// 로그인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 서버에 아이디와 비밀번호를 전송하고 서버에서 로그인 처리 결과를 받아온다.
 		$("#btn-login").click(function(event) {
-			let id = $("[name='id']").val();
-			let password = $("[name='password']").val();
-			
+			let jsonLoginForm = $("#form-login").serializeArray();
+
 			$.ajax({
 				type: "post",
 				url: "/login",
-				data: {"id": id, "password": password},
+				data: jsonLoginForm,
 				dataType: "json",
 				success: function(response) {
 					if (response.status) {
@@ -140,18 +157,19 @@
 						
 						window.location.reload();
 					} else {
-						$("#span-login-error-message").text(response.error);
-						
+						document.getElementById("span-login-error-message").innerHTML = response.error;
+
 						$("#btn-call-login-error").trigger("click");
 					}
 				}
 			});
 		});
 		
-		$("#btn-ok").click(function(event) {
-			$("[name='id']").val("");
-			$("[name='password']").val("");
-			$("#btn-login").attr("disabled", true);
+		// 로그인 에러 모달의 확인이나 닫기 버튼을 클릭했을 때 실행되며, 아이디/비밀번호 input의 값을 초기화하고 로그인 버튼을 비활성화한다.
+		$(".btn-ok").click(function(event) {
+			idInput.val("");
+			passwordInput.val("");
+			$("#btn-login").prop("disabled", true);
 		});
 	});
 </script>
