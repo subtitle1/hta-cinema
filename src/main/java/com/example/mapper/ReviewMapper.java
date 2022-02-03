@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.dto.PointStatDto;
 import com.example.dto.ReviewDto;
 import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
@@ -22,5 +23,14 @@ public interface ReviewMapper {
 	List<ReviewDto> getAllReviewsByMovieNo(Criteria criteria);
 	List<ReviewPointType> getPointNamesByReviewNo(long reviewNo);
 	Review getMyReviewByMovieNo(@Param("customerNo") int customerNo, 
-			                  @Param("movieNo") int movieNo);
+            					@Param("movieNo") int movieNo);
+	List<ReviewPoint> getReviewPointsByReviewNo(long reviewNo);
+	void updateReview(Review review);
+	void updateReviewPoint(List<ReviewPoint> reviewPoints);
+	void deleteReviewPoints(long reviewNo);
+	void deleteReview(long reviewNo);
+	int getReviewPointCount(@Param("movieNo") int movieNo, 
+							@Param("pointNo") int pointNo);
+	int getReviewScore(int movieNo);
+	String getPointNameByPointNo(int pointNo);
 }

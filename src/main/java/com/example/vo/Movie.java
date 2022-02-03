@@ -16,6 +16,6 @@ public class Movie {
 	private int no;
 	private int movieRatingNo;
 	private String movieName;
-	private int movieSalesRate;
+	private double movieSalesRate;
 	private int likeCount;
 }

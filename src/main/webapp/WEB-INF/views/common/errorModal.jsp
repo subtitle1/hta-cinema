@@ -11,7 +11,7 @@
 				<span id="span-error"></span>
 			</div>
 			<div class="modal-footer d-flex justify-content-center">
-				<button type="button" class="btn btn-sm btn-secondary"	data-bs-dismiss="modal">닫기</button>
+				<button type="button" id="submit" class="btn btn-sm btn-primary">확인</button>
 			</div>
 		</div>
 	</div>
