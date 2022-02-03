@@ -50,22 +50,36 @@
 					</div>
 					<div class="col-9 align-self-center">
 						<input type="password" class="form-control" id="input-newPassword" name="newPassword" 
-						placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="10" data-bs-toggle="tooltip" 
-						data-bs-placement="top" data-bs-trigger="manual" 
+						placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
+						data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
 						title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
 					</div>
 				</div>
+				<div id="div-password-error" class="row p-0 row-other" hidden>
+					<div class="col-3 m-0 ps-3 py-3 col-label"></div>
+					<div class="col-9 align-self-center">
+						<span class="error">비밀번호는 영문, 숫자, 특수기호 중 2가지 이상을 조합해야 하며 10자리 이상 16자리 이하여야 합니다.</span>
+					</div>
+				</div>
 			</form>
-			<div class="row mb-3 p-0 row-other">
+			<div class="row p-0 row-other">
 				<div class="col-3 m-0 ps-3 py-3 col-label">
 					<label for="input-check-newPassword">새 비밀번호 확인</label>
 				</div>
 				<div class="col-9 align-self-center">
 					<input type="password" class="form-control" id="input-newPassword-check" 
-					placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="10" />
+					placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
+					data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
+					title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
 				</div>
 			</div>
-			<div class="row mb-4">
+			<div id="div-match-error" class="row p-0 row-other" hidden>
+				<div class="col-3 m-0 ps-3 py-3 col-label"></div>
+				<div class="col-9 align-self-center">
+					<span class="error">비밀번호와 비밀번호 확인의 입력값이 일치하지 않습니다.</span>
+				</div>
+			</div>
+			<div class="row mt-3 mb-4">
 				<div class="col px-0 mx-0">
 					<ul>
 						<li>비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합 10자리 이상으로 설정해주세요.</li>
@@ -83,32 +97,90 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		});
+		const engReg = /[a-zA-Z]/;
+		const numReg = /[0-9]/;
+		const specialReg = /[~!@#$%^&*+=?_-]/;
+		const allowedReg = /^[a-zA-Z0-9~!@#$%^&*+=?_-]+$/;
 		
-		let engReg = /[a-zA-Z]/;
-		let numReg = /[0-9]/;
-		let specialReg = /[~!@#$%^&*+=?_-]/;
-		let allowedReg = /^[a-zA-Z0-9~!@#$%^&*+=?_-]+$/;
+		const newPasswordInput = $("#input-newPassword");
+		const newPasswordCheckInput = $("#input-newPassword-check");
+		const passwordErrorDiv = $("#div-password-error");
+		const matchErrorDiv = $("#div-match-error");
 		
-		let newPasswordInput = $("#input-newPassword");
-		let newPasswordCheckInput = $("#input-newPassword-check");
+		const savedValue = {newPasswordInputSavedValue: "", newPasswordCheckInputSavedValue: ""};
 		
-		newPasswordInput.keyup(function(event1) {
-			let value = newPasswordInput.val();
-			console.log("allowedReg: " + allowedReg.test(value));
-			/*
-			console.log("lastInput: " + lastInput);
-			console.log("eng: " + engReg.test(lastInput));
-			console.log("num: " + numReg.test(lastInput));
-			console.log("special: " + specialReg.test(lastInput));
-			if (!(engReg.test(lastInput) || numReg.test(lastInput) || specialReg.test(lastInput))) {
-				console.log("잘못된 입력");
-				newPasswordInput.val(newPasswordInput.val().slice(0, -1));
+		const newPasswordInputTooltip = new bootstrap.Tooltip(newPasswordInput);
+		const newPasswordCheckInputTooltip = new bootstrap.Tooltip(newPasswordCheckInput);
+		
+		function showErrorMessage(divElement, flag) {
+			if (flag) {
+				divElement.prev().removeClass("row-other");
+				divElement.prop("hidden", false);
+			} else {
+				divElement.prev().addClass("row-other");
+				divElement.prop("hidden", true);
 			}
-			*/
+		}
+		
+		function checkNewPasswordInputValueMatch() {
+			if (newPasswordCheckInput.val() === "" || newPasswordInput.val() === newPasswordCheckInput.val()) {
+				showErrorMessage(matchErrorDiv, false);
+			} else {
+				showErrorMessage(matchErrorDiv, true);
+			}
+		}
+		
+		function passwordCommonValidation(inputElement, savedValueKey, tooltip) {
+			const value = inputElement.val();
+			console.log("allowedReg.test: " + allowedReg.test(value));
+			
+			if (allowedReg.test(value) || value === "") {
+				savedValue[savedValueKey] = value;
+			} else {
+				inputElement.val(savedValue[savedValueKey]);
+				tooltip.show();
+				setTimeout(function() {
+					tooltip.hide();
+				}, 3000);
+				console.log("savedValue: " + savedValue[savedValueKey]);
+				clearTimeout();
+			}
+			
+			checkNewPasswordInputValueMatch();
+		}
+		
+		function passwordValidation(inputElement) {
+			const value = inputElement.val();
+			
+			if (!(value.length >= 10 && value.length <= 16)) {
+				showErrorMessage(passwordErrorDiv, true);
+				return;
+			}
+			
+			let totalCombination = 0;
+			if (engReg.test(value)) {
+				totalCombination++;
+			}
+			if (numReg.test(value)) {
+				totalCombination++;
+			}
+			if (specialReg.test(value)) {
+				totalCombination++;
+			}
+			console.log("totalCombination: " + totalCombination);
+			if (totalCombination < 2) {
+				showErrorMessage(passwordErrorDiv, true);
+			} else {
+				showErrorMessage(passwordErrorDiv, false);
+			}
+		}
+		
+		newPasswordInput.keyup(function(event) {
+			passwordCommonValidation($(this), "newPasswordInputSavedValue", newPasswordInputTooltip);
+			passwordValidation($(this));
+		});
+		newPasswordCheckInput.keyup(function(event) {
+			passwordCommonValidation($(this), "newPasswordCheckInputSavedValue", newPasswordCheckInputTooltip);
 		});
 	});
 </script>
