@@ -23,6 +23,9 @@ public class TheaterDto {
 	private int theaterPublicTransportationNo;
 	private int publicTransportationTypeNo;
 	private int facilityTypeNo;
+	private String facilityTypeName;
 	private int screenNo;
 	private int showScheduleNo;
+	private String publicTransportationTypeName;
+	private String theaterPublicTransportationContent;
 }
