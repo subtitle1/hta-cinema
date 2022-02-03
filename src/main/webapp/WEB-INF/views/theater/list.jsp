@@ -15,7 +15,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/resources/css/navbar.css" />
-<link rel="stylesheet" href="/resources/css/common.css" />
 <style type="text/css">
 button {
 	height: 32px;
