@@ -127,7 +127,7 @@ public class ReviewRestController {
 	public ResponseDto<Map<String, Object>> update(@LoginedUser Customer customer, ReviewEditForm form) {
 
 		if (customer == null) {
-			throw new LoginErrorException("로그인이 필요한 서비스입니다.");
+			throw new ErrorException("로그인이 필요한 서비스입니다.");
 		}
 		
 		Review review = new Review();
