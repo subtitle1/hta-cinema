@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.annotation.LoginedUser;
 import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
 import com.example.web.form.InsertTicketForm;
@@ -38,5 +39,4 @@ public class HomeController {
 	public String timeTable() {
 		return "/timeTable/timeTable";
 	}
-	
 }

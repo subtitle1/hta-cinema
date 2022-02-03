@@ -26,7 +26,6 @@ public interface ReviewMapper {
             					@Param("movieNo") int movieNo);
 	List<ReviewPoint> getReviewPointsByReviewNo(long reviewNo);
 	void updateReview(Review review);
-	void updateReviewPoint(List<ReviewPoint> reviewPoints);
 	void deleteReviewPoints(long reviewNo);
 	void deleteReview(long reviewNo);
 	int getReviewPointCount(@Param("movieNo") int movieNo, 

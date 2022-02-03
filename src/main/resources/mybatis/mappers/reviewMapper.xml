@@ -76,15 +76,6 @@
 		where review_no = #{no}
 	</update>
 	
-	<update id="updateReviewPoint" parameterType="com.example.vo.ReviewPoint">
-		<foreach collection="list" item="item" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
-			update review_point
-				set
-					review_point_type_no = #{item.pointNo}
-			where review_no = #{item.no}
-		</foreach>
-	</update>
-	
 	<delete id="deleteReviewPoints" parameterType="long">
 		delete from 
 			review_point
