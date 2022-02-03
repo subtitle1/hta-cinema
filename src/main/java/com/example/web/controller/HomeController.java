@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.annotation.LoginedUser;
 import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
 import com.example.web.form.InsertTicketForm;
@@ -36,6 +37,7 @@ public class HomeController {
 	public String timeTable() {
 		return "/timeTable/timeTable";
 	}
+	
 	@PostMapping("/")
 	public String postHome(InsertTicketForm form) {
 		Customer customer = (Customer)SessionUtils.getAttribute("LOGIN_USER");

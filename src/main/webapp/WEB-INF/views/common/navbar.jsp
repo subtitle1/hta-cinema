@@ -9,7 +9,7 @@
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a href="#" class="nav-link">VIP LOUNGE</a></li>
 					<li class="nav-item"><a href="#" class="nav-link">멤버십</a></li>
-					<li class="nav-item"><a href="#" class="nav-link">고객센터</a></li>
+					<li class="nav-item"><a href="/supports" class="nav-link">고객센터</a></li>
 				</ul>
 				<ul class="navbar-nav">
 					<c:if test="${empty LOGIN_USER }">

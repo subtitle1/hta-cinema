@@ -125,15 +125,14 @@ public class ReviewService {
 
 		reviewMapper.updateReview(savedReview);
 		
-		/*for (ReviewPoint point : points) {
-			ReviewPoint savedPoint = new ReviewPoint(); 
-			savedPoint.setNo(review.getNo());
-			savedPoint.setPointNo(point.getPointNo());
-			
-			reviewMapper.updateReviewPoint(savedPoint);
-		}*/
+		// 기존 리뷰 포인트 삭제 후 insert
+		reviewMapper.deleteReviewPoints(review.getNo());
 		
-		reviewMapper.updateReviewPoint(points);
+		for (ReviewPoint point : points) {
+			point.setNo(review.getNo());
+			point.setPointNo(point.getPointNo());
+			reviewMapper.insertReviewPoint(point); 
+		} 
 		
 		return savedReview;
 	}

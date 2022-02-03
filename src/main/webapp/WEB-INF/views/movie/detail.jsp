@@ -14,6 +14,7 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
+  	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <style>
 </style>
@@ -635,8 +636,9 @@
 						  pointNo: checkedPoints
 					   },
 					success: function(response) {
-						console.log(response);
 						$(".review-box").empty();
+						showPointGraph();
+						getScore();
 						getReviews();
 					}
 				});
@@ -685,12 +687,9 @@
 						let points = review.reviewPoints.map(point => point.pointName);
 						
 						// 아이디 끝자리 비공개
-						let originId = review.customerId;
-						let idLen = originId.length;
-						let length = idLen - 2;
-						let maskedId = review.customerId.substring(0, length);
-						maskedId += "**";
-						
+						let id = review.customerId;
+						let maskedId = id.substring(0, id.length - 2) + "**";
+
 						// rest로 회원정보 조회, response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
 						let output = "<div class='row review-start text-center mt-3 mb-3'>"
 							output += "<div class='col-1'>"

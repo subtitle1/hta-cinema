@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title></title>
   	<meta charset="utf-8">
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -93,7 +92,6 @@
 				type: "get",
 				url: "/rest/myMovies",
 				success: function(response) {
-					console.log(response);
 					if (response.status) {
 						let movieNo = (response.items.map(item => item.movieNo));
 						$.each(movieNo, function(index, movie) {

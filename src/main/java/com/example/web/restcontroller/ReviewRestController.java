@@ -106,23 +106,6 @@ public class ReviewRestController {
 		return response;
 	}
 	
-	/*
-	@PostMapping("/updatedReview")
-	public ResponseDto<Map<String, Object>> update(@LoginedUser Customer customer, Review review, List<ReviewPoint> points) {
-
-		if (customer == null) {
-			throw new LoginErrorException("로그인이 필요한 서비스입니다.");
-		}
-		
-		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
-		Review updatedReview = reviewService.updateReview(review, points);
-		
-		response.setStatus(true);
-		response.setItems(Map.of("review", updatedReview, "points", points));
-		
-		return response;
-	}*/
-	
 	@PostMapping("/updatedReview")
 	public ResponseDto<Map<String, Object>> update(@LoginedUser Customer customer, ReviewEditForm form) {
 
