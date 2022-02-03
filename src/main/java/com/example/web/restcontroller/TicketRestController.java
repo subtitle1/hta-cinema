@@ -23,6 +23,7 @@ import com.example.service.MovieTicketService;
 import com.example.vo.Region;
 import com.example.vo.SpecialScreen;
 import com.example.vo.Theater;
+import com.example.web.form.InsertTicketForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,4 +84,10 @@ public class TicketRestController {
 		  return response;
 	  }
 	  
+	  @PostMapping("/ticketing/complete")
+	  public @ResponseBody void getTicketPay(String form) {
+		  
+		  log.info("받은 데이터"+form);
+		 
+	  }
 }
