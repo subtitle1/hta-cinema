@@ -18,8 +18,6 @@ public class MyMovieService {
 	
 	public MyMovie upLike(int customerNo, int movieNo) {
 		
-		// 유저 번호로 정보 조회
-		
 		MyMovie liker = new MyMovie();
 		liker.setCustomerNo(customerNo);
 		liker.setMovieNo(movieNo);

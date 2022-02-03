@@ -88,6 +88,22 @@
 		
 		getMovieList();
 		
+		function showMyMovies() {
+			$.ajax({
+				type: "get",
+				url: "/rest/myMovies",
+				success: function(response) {
+					console.log(response);
+					if (response.status) {
+						let movieNo = (response.items.map(item => item.movieNo));
+						$.each(movieNo, function(index, movie) {
+							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
+						})
+					}
+				}
+			})
+		};
+		
 		function getMovieList() {
 			$.ajax({					
 				type: 'get',
@@ -114,6 +130,7 @@
 						$("#count").text(resultCount);
 					}
 					
+					showMyMovies();
 					showLists(response);
 				}
 			});	
@@ -159,7 +176,7 @@
 					output += "<span class='openDt-txt'> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button id='btn-"+ movie.id +"' class='btn btn-light btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'>"+count+"</button>";
+				output += "<button id='btn-"+ movie.id +"' class='btn btn-light btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+count+"</span></button>";
 				output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
 				output += "</div>";
 				output += "</div>";
@@ -168,23 +185,6 @@
 				
 			});
 		}
-		
-		showMyMovies();
-
-		function showMyMovies() {
-			$.ajax({
-				type: "get",
-				url: "/rest/myMovies",
-				success: function(response) {
-					if (response.status) {
-						let movieNo = (response.items.map(item => item.movieNo));
-						$.each(movieNo, function(index, movie) {
-							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
-						})
-					} else {}
-				}
-			})
-		};
 		
 		function refreshMovie() {
 			$("#searchMore").removeAttr("disabled");
@@ -259,9 +259,13 @@
 						if (response.error) {
 							$("#span-error").text(response.error);
 							errorModal.show();
+							
+							$("#submit").click(function() {
+								errorModal.hide();
+							})
+							
 							return;
 						}
-						
 						button.find('span').text(response.items.likeCount);
 						button.find('img').attr("src", like);
 					}

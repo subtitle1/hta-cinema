@@ -17,7 +17,7 @@
 </head>
 <style>
 </style>
-<body>
+<body id="body">
 	<%@include file="../common/tags.jsp" %>
 	<%@include file="../common/navbar.jsp"%>
 	<div>
@@ -28,16 +28,22 @@
 						<h1 id="title"></h1>
 						<p id="original-title"></p>
 						<button id='btn-${param.no }' class='btn btn-outline-light btn-like col-2 float-end' data-no='${param.no }' type='button'>
-							<img class='me-3' src='/resources/images/movie/unlike.png'><span style="color:white;" id="likeCount"></span>
+							<img class='me-3' src='/resources/images/movie/unlike.png'><span style="color:white;" id="likeCount">0</span>
 						</button>
-						<div class="raing">
-							<p>예매율</p>
-							<img alt="" src="/resources/images/movie/ico-ticket-gray.png">
+						<div class="row" style="margin-top: 310px;">
+							<div class="col-2 score-top">
+								<p>관람 평점</p>
+								<span class="score">-</span>
+							</div>
+							<div class="col-2 rating-top">
+								<p>예매율</p>
+								<img alt="" src="/resources/images/movie/ico-ticket-gray.png">
+								<span>-</span>
+							</div>
 						</div>
 					</div>
 					<div class="col mt-5 mb-5">
-						<img class="rounded float-end" id="poster" src=""
-							style="width: 18rem;">
+						<img class="rounded float-end" id="poster" src="" style="width: 18rem;">
 						<button type='button' class='ticketing btn btn-primary mt-3 float-end'>예매</button>
 					</div>
 				</div>
@@ -55,10 +61,12 @@
 					</button>
 					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-review" type="button" role="tab"
-						aria-controls="nav-review" aria-selected="false">실관람평</button>
+						aria-controls="nav-review" aria-selected="false">실관람평
+					</button>
 					<button class="nav-link" id="nav-video-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-video" type="button" role="tab"
-						aria-controls="nav-video" aria-selected="false">예고편</button>
+						aria-controls="nav-video" aria-selected="false">예고편
+					</button>
 				</div>
 			</nav>
 		</div>
@@ -76,57 +84,68 @@
 						</span><span id="actors"></span>
 					</div>
 				</div>
-				<div class="row border p-4 mt-5 mb-5">
+				<div id="all-movie-graph" class="row border p-4 mt-5 mb-5">
 					<div class="col border-end" style="text-align: center;">
 						<dl>
 							<dt>관람포인트</dt>
-							<dd>배우·연출</dd>
+							<dd id="rank">-</dd>
 						</dl>
-						<div style="margin-left: 58px;">
-							<!--차트가 그려질 부분-->
-							<canvas id="pointGraph" width="260" height="260"></canvas>
+						<div class="d-flex justify-content-center">
+							<!-- 관람포인트 차트 -->
+							<div id="point-graph">
+								<canvas id="pointGraph" width="260" height="260"></canvas>
+							</div>
+							<!-- 데이터 없을 때 -->
+							<div class="no-graph1">
+								<img alt="" src="/resources/images/movie/no-graph01.jpg">
+							</div>
 						</div>
-						<!-- 데이터 없을 때 -->
-						<!-- <div>
-							<img alt="" src="/resources/images/movie/no-graph01.jpg">
-						</div> -->
 					</div>
+					<!-- 평점 그래프 -->
 					<div class="col border-end" style="text-align: center;">
 						<dl>
 							<dt>실관람 평점</dt>
-							<dd>0</dd>
+							<dd class="score">0</dd>
 						</dl>
-						<div>
+						<div id="score-circle" class="mt-5 d-flex justify-content-center">
+							<div class="circle">
+								<em class="score">0</em>
+							</div>
+						</div>
+						<div class="no-graph2">
 							<img alt="" src="/resources/images/movie/no-graph02.jpg">
 						</div>
 					</div>
 					<div class="col" style="text-align: center;">
 						<dl>
 							<dt>예매율</dt>
-							<dd>0</dd>
+							<dd>0%</dd>
 						</dl>
-						<div style="margin-left: 58px;">
-							<canvas id="barGraph" width="260" height="260"></canvas>
+						<div class="d-flex justify-content-center">
+							<div id="bar-graph">
+								<canvas id="barGraph" width="260" height="260"></canvas>
+							</div>
+							<!-- 데이터 없을 때 -->
+							<!-- <div class="no-graph3">
+								<img alt="" src="/resources/images/movie/no-graph03.jpg">
+							</div>  -->
 						</div>
-						<!-- 데이터 없을 때 -->
-						<!-- <div>
-							<img alt="" src="/resources/images/movie/no-graph03.jpg">
-						</div> -->
 					</div>
 				</div>
 				<div class="row">
 					<h4>
-						<span class="title2"></span><span id="no-review">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
+						<span class="title2"></span><span class="no-review" style="font-size: 18px;">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
 					</h4>
 				</div>
+				
 				<div class="row mt-3 rounded border p-3 mb-3">
 					<div class="col">
-						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
+						<span class="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
 					<div class="col text-end review-head">
 						<c:choose>
 							<c:when test="${not empty LOGIN_USER }">
-								<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="" id="review-btn" >
+								<a data-bs-toggle="modal" data-bs-target="" href="" id="review-btn" >
 								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 							</c:when>
 							<c:otherwise>
@@ -142,17 +161,28 @@
 			<div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
 				<div class="mt-4">
 					<h4>
-						<span class="title2"></span><span id="no-review">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
+						<span class="title2"></span><span class="no-review" style="font-size: 18px;">에 대한 <span class="reviewCount"></span>개의 이야기가 있어요!</span>
 					</h4>
 				</div>
-				<div class="row mt-4 rounded border p-3 mb-3" style="margin-left: 0px; margin-right: 11px;">
+				<div class="row">
+					<div class="movie-sorting text-end">
+						<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+						    <input type="radio" class="btn-check" name="option" value="date" id="date" autocomplete="off" checked>
+						    <label class="btn btn-outline-dark btn-sm" for="date">최신순</label>
+						
+						    <input type="radio" class="btn-check" name="option" value="rate" id="rate" autocomplete="off">
+						    <label class="btn btn-outline-dark btn-sm" for="rate">평점순</label>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4 rounded border p-3 mb-3" style="margin-left: 0px; margin-right: 0px;">
 					<div class="col">
-						<span id="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
+						<span class="review-header">영화의 어떤 점이 좋았는지 이야기해주세요.</span>
 					</div>
 					<div class="col text-end review-head">
 						<c:choose>
 							<c:when test="${not empty LOGIN_USER }">
-								<a data-bs-toggle="modal" data-bs-target="#reviewModal" href="#" id="review-btn" >
+								<a data-bs-toggle="modal" data-bs-target="" href="#" id="review-btn" >
 								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 							</c:when>
 							<c:otherwise>
@@ -178,7 +208,7 @@
 			<div class="tab-pane fade" id="nav-video" role="tabpanel"
 				aria-labelledby="nav-video-tab">
 				<div class="row mt-3">
-					<h1>예고편</h1>
+					<span style="font-weight: bold">메인 예고편</span>
 				</div>
 				<div class="row mt-3 mb-3 main"></div>
 				<div class="row mt-3 mb-3">
@@ -221,7 +251,7 @@
 								<label for="1-star" class="star">&bigstar;</label>
 							</div>
 							<div class="row mt-3 p-2">
-						    	<textarea id="review-content" placeholder="실관람평을 남겨주세요." class="form-control" name="content" id="content" rows="3" maxlength="100"></textarea>				
+						    	<textarea id="review-content" placeholder="실관람평을 남겨주세요." class="form-control" name="reviewContent" id="content" rows="3" maxlength="100"></textarea>				
 							</div>
 						</div>
 						<div class="text-center mt-2 mb-3">
@@ -232,8 +262,10 @@
 								<div>
 									<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 										<c:forEach var="point" items="${pointTypes }" varStatus="loop">
-											<input type="checkbox" name="pointNo" value="${point.no }" class="btn-check" id="btncheck-${loop.count }" autocomplete="off">
-											<label class="btn btn-outline-dark" for="btncheck-${loop.count }">${point.pointName }</label>
+											<div class="review-point-circle">
+												<input type="checkbox" name="pointNo" value="${point.no }" class="btn-check" id="btncheck-${loop.count }" autocomplete="off">
+												<label class="circle-box" for="btncheck-${loop.count }">${point.pointName }</label>
+											</div>
 										</c:forEach>
 									</div>
 								</div>
@@ -242,19 +274,23 @@
 					</form>
 				</div>
 				<div class="modal-footer text-center">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn review-submit btn-dark">등록</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn review-submit btn-primary">등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</body>
-
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
 <script type="text/javascript">
 	$(function() {
+
+		let movieId = $("#movie-id").val();
+		let detailUrl = "https://api.themoviedb.org/3/movie/" + movieId;
+		let imageUrl = "https://image.tmdb.org/t/p/w500/";
+		let actorUrl = "https://api.themoviedb.org/3/movie/"+ movieId +"/credits";
+		let videoUrl = "https://api.themoviedb.org/3/movie/"+ movieId +"/videos";
+		let reviewNo = 0;
 		
 		var reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"), {
 			keyboard: false
@@ -264,41 +300,96 @@
 			keyboard: false
 		});
 		
-		Chart.defaults.global.legend.display = false; // 범례 제거
-		// 방사형 그래프
-   		let pointChart = new Chart(document.getElementById("pointGraph"), {
-        type: 'radar', // 차트의 형태
-        data: { // 차트에 들어갈 데이터
-            labels: [
-            	'ost',
-                '연출',
-                '스토리',
-                '영상미',
-                '배우'
-            ],
-            datasets: [{
-            	label: '관람 포인트',
-            	data: [20, 40, 60, 80, 100], // json으로 받아 데이터 뿌릴 곳
-            	fill: true,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)'
-            }],
-        },
-      	options: {
-      		responsive: false,
-			scale: {
-        		   ticks: {
-        		        callback: function() {return ""},
-        		        backdropColor: "rgba(0, 0, 0, 0)"
-        		   }
-        	 	}
-       		}
-    	});
+		showPointGraph();
 		
+		Chart.defaults.global.legend.display = false; // 차트 범례 제거
+		// 포인트 차트 데이터
+		function showPointGraph() {
+			$.ajax({
+				type: "get",
+				url: "/rest/pointCounts",
+				data: {movieNo : movieId},
+				dataType: 'json',
+				success: function(response) {
+					$(".no-graph1").empty();
+					
+					// 순서대로 차트에 뿌릴 통계
+					let stats = response.items.map(item => item.stat);
+					
+					// 포인트 랭킹
+					let rank = response.items.map(function(stat) {
+						let results = {
+							no: stat.pointNo,
+							name: stat.pointName,
+							stat: stat.stat
+						};
+						return results;
+					})
+					.sort((a, b) => b.stat - a.stat)
+					.filter((item, index) => index < 2);
+					
+					$("#rank").text(rank[0].name+" · "+rank[1].name);
+					
+					let pointChart = new Chart(document.getElementById("pointGraph"), {
+				        type: 'radar', // 차트의 형태
+				        data: { // 차트에 들어갈 데이터
+				            labels: [
+				            	'ost',
+				                '연출',
+				                '스토리',
+				                '영상미',
+				                '배우'
+				            ],
+				            datasets: [{
+				            	data: [stats[0], stats[1], stats[2], stats[3], stats[4]],
+				            	fill: true,
+				                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+				                borderColor: 'rgba(153, 102, 255, 1)',
+				                pointBackgroundColor: 'rgba(153, 102, 255, 1)',
+				                pointBorderColor: '#fff',
+				                pointHoverBackgroundColor: '#fff',
+				                pointHoverBorderColor: 'rgba(153, 102, 255, 1)'
+				            }],
+				        },
+				      	options: {
+							scale: {
+			        		   ticks: {
+			        			    beginAtZero: true,
+			        				max: 100,
+			        				min: 10,
+			        				stepSize: 20,
+			        		        callback: function() {return ""},
+			        		   }
+			        	 	}
+				       	}
+				    });
+				},
+				error: function() {
+					$("#point-graph").empty();
+				}
+			})
+		}
+		
+		getScore();
+		
+		// 영화 평점
+		function getScore() {
+			$.ajax({
+				type: "get",
+				url: "/rest/movieScore",
+				data: {movieNo : movieId},
+				dataType: 'json',
+				success: function(response) {
+					$(".no-graph2").remove();
+					$(".score").text(response);
+				},
+				error: function() {
+					$("#score-circle").remove();
+				}
+			})
+		}
+   		
+   		// 방사형 그래프
    		let barChart = new Chart(document.getElementById("barGraph"), {
    		type: 'bar',
         data: { 
@@ -336,11 +427,6 @@
          	}
      	});
    		
-		let movieId = $("#movie-id").val();
-		let detailUrl = "https://api.themoviedb.org/3/movie/" + movieId;
-		let imageUrl = "https://image.tmdb.org/t/p/w500/";
-		let actorUrl = "https://api.themoviedb.org/3/movie/"+ movieId +"/credits";
-		let videoUrl = "https://api.themoviedb.org/3/movie/"+ movieId +"/videos";
 		
 		// 1. 영화 상세 정보를 가져오는 url
 		$.ajax({
@@ -415,8 +501,13 @@
 			}
 		})
 		
+		// 리뷰 삽입인지 수정인지 정의해 줄 전역변수
+		let action = '';
+		
 		// 관람평 쓰기 버튼 클릭 시
 		$("#review-btn").click(function() {
+			action = 'create';
+			
 			$.ajax({
 				type: "get",
 				url: "/rest/myReview",
@@ -424,18 +515,52 @@
 				dataType: 'json',
 				async: false,
 				success: function (response) {
-					console.log(response);
-					if (response.movieNo == movieId) {
+					if (response.items.movieNo == movieId) {
 						$("#span-error").text("이미 작성한 관람평이 있습니다.");
 						errorModal.show();
-					} else {
-						reviewModal.show();
-					}
+						
+						$("#submit").click(function() {
+							errorModal.hide();
+						})
+					} 
+				},
+				error: function() {
+					reviewModal.show();
 				}
 			})
 		})
 		
-		// 리뷰 버튼 모달, 리뷰 등록
+		// 리뷰 수정 버튼 클릭 시
+		$(".review-box").on('click', '.edit', function() {
+			action = 'modify';
+
+			$.ajax({
+				type: "get",
+				url: "/rest/myReview",
+				data: {movieNo: movieId},
+				dataType: 'json',
+				success: function(response) {
+					
+					let reviewScore = response.items.review.reviewScore;
+					let reviewContent = response.items.review.reviewContent;
+					let reviewPoints = response.items.review.reviewPoints.map(point => point.no);
+
+					// 리뷰 수정 시 이전에 입력, 선택했던 값 출력
+					$(":input[name=reviewScore][value="+reviewScore+"]").prop("checked", true);
+					$("#review-content").text(response.items.review.reviewContent);
+					$(":input[name=pointNo]").each(function() {
+						reviewPoints.forEach(function(item) {
+							$(":input[name=pointNo][value="+item+"]").prop("checked", true);
+						})
+					});
+				}
+			});
+			
+			$(".modal-footer").find('.btn-primary').text("수정");
+			reviewModal.show();
+		});
+		
+		// 리뷰 등록 / 혹은 수정 시
 		$(".review-submit").click(function(e) {
 			e.preventDefault();
 			
@@ -474,45 +599,75 @@
 			$(".review-box").empty();
 			reviewModal.hide();
 			
-			$.ajax({
-				type: "post",
-				url: "/rest/review",
-				data: {   
+			if (action == 'create') {
+				$.ajax({
+					type: "post",
+					url: "/rest/review",
+					data: {   
+							  movieNo: movieId, 
+							  reviewScore: rate, 
+							  reviewContent: reviewBox, 
+							  pointNo: checkedPoints
+						   },
+					dataType:"json",
+					success: function(response) {
+						if (response.status) {
+							showPointGraph();
+							getScore();
+							getReviews();
+						} 
+						else {
+							$("#span-error").text(response.error);
+							errorModal.show();
+						}
+					}
+				})
+			} else if (action == 'modify') {
+				$.ajax({
+					type: "post",
+					url: "/rest/updatedReview",
+					dataType: "json",
+					data: {
+						  no: reviewNo,
 						  movieNo: movieId, 
 						  reviewScore: rate, 
-						  content: reviewBox, 
+						  reviewContent: reviewBox, 
 						  pointNo: checkedPoints
 					   },
-				dataType:"json",
-				success: function(response) {
-					if (response.status) {
+					success: function(response) {
+						console.log(response);
+						$(".review-box").empty();
 						getReviews();
-						
-					} else {
-						$("#span-error").text(response.error);
-						errorModal.show();
 					}
-				}
-			})
+				});
+			}
 		})
 		
 		let currentPageNo = 1;
 		getReviews();
 		
+		// 최신순, 평점순 정렬
+		$(":input[name=option]").click(function() {
+			let order = $("[name=option]:checked").val();
+			
+			currentPageNo = 1;
+			$(".review-box").empty();
+			getReviews();
+		})
+		
 		// 리뷰 목록 출력
 		function getReviews() {
-			
-			$.getJSON('/rest/review', {page: currentPageNo,	movieNo: movieId}, function(response) {
+			let order = $("[name=option]:checked").val();
+			$.getJSON('/rest/review', {page: currentPageNo, option: order, movieNo: movieId}, function(response) {
 				let reviews = response.items.reviews;
 				
 				// 리뷰가 없을 때
 				if (reviews == "") {
-					$("#no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
-					$("#review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
+					$(".no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
+					$(".review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
 				// 리뷰가 있을 때
 				} else {
 					// 사용자가 작성한 리뷰가 있는지 조회
-					let reviewNo = 0;
 					
 					$.ajax({
 						type: "get",
@@ -521,13 +676,13 @@
 						dataType: 'json',
 						async: false,
 						success: function (response) {
-							reviewNo = response.no;
+							reviewNo = response.items.review.reviewNo;
 						}
 					});
 					
 					$.each(reviews, function(index, review) {
 						let $reviewBox = $(".review-box");
-						let points = review.reviewPoints.map(point => point.pointName).join(", ");
+						let points = review.reviewPoints.map(point => point.pointName);
 						
 						// 아이디 끝자리 비공개
 						let originId = review.customerId;
@@ -537,23 +692,29 @@
 						maskedId += "**";
 						
 						// rest로 회원정보 조회, response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
-						let output = "<div class='row text-center mt-3 mb-3'>"
+						let output = "<div class='row review-start text-center mt-3 mb-3'>"
 							output += "<div class='col-1'>"
 							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
 							output += "<span>"+maskedId+"</span>"
 							output += "</div>"
 							output += "<div id='review-"+review.reviewNo+"' data-review-no='"+review.reviewNo+"' class='col rounded border p-3' style='background-color: #f8f8fa'>"
 							output += "<div class='row'>"
-							output += "<div class='col-1 mt-2'>"
+							output += "<div class='col-1 mt-3'>"
 							output += "<span id='txt'>관람평</span>"
 							output += "</div>"
-							output += "<div class='col-1'>"
+							output += "<div class='col-1 mt-1'>"
 							output += "<span id='score-txt'>"+ review.reviewScore +"</span>"
 							output += "</div>"
-							output += "<div class='col-2 mt-2'>"
-							output += "<span id='points-txt'>"+ points +"</span>"
-							output += "</div>"
-							output += "<div class='col mt-2'>"
+							if (points[1] == null) {
+								output += "<div class='col-2 mt-3'>"
+								output += "<span id='points-txt'>"+ points[0] +"</span>"
+								output += "</div>"
+							} else {
+								output += "<div class='col-2 mt-1'>"
+								output += "<span id='points-txt'>"+ points[0] +"</span><br><span id='points-txt'>"+ points[1] +"</span>"
+								output += "</div>"
+							}
+							output += "<div class='col mt-3'>"
 							output += "<span>"+review.reviewContent+"</span>"
 							output += "</div>"
 							output += "<div class='col-1 dropstart util-btn-"+review.reviewNo+"' data-util-no='"+review.reviewNo+"'>"
@@ -564,7 +725,6 @@
 					
 						$reviewBox.append(output);
 					});
-					
 					
 					// 내가 작성한 리뷰에만 버튼 보이게 하기
 					let myReview = $("#review-"+reviewNo).data("review-no");
@@ -577,7 +737,7 @@
 										<img src='/resources/images/movie/btn-alert.png'>
 									</button>
 									<ul class='dropdown-menu' aria-labelledby='utils'>
-										<button type='button' class='dropdown-item edit' href='#'>수정</button>
+										<button id='edit-btn' type='button' class='dropdown-item edit' href='#'>수정</button>
 										<button type='button' class='dropdown-item delete' href='#'>삭제</button>
 									</ul>`
 									
@@ -593,9 +753,9 @@
 				
 				// 이전 페이지
 				if (!paging.existPrev) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>이전</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>이전</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' href=''>이전</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"' href='javascript:void(0)'>이전</a></li>"
 				}
 				
 				// 현재 페이지
@@ -604,18 +764,18 @@
 				} else {
 					for (let i = paging.beginPage; i <= paging.endPage; i++) {
 						if (currentPageNo == i) {
-							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href=''>"+i+"</a></li>"
+							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
 						} else {
-							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href=''>"+i+"</a></li>"
+							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
 						}
 					}
 				}
 				
 				// 다음 페이지
 				if (!paging.existNext) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>다음</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>다음</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' href=''>다음</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"' href='javascript:void(0)'>다음</a></li>"
 				}
 				ul.html(pageNav); // dom에 새로 생성한 html 컨텐츠가 추가되는 순간!
 			})
@@ -654,11 +814,16 @@
 					type: "post",
 					url: "/rest/like",
 					data: {movieNo: movieId},
-					datType: "json",
+					dataType: "json",
 					success: function(response) {
 						if (response.error) {
 							$("#span-error").text(response.error);
 							errorModal.show();
+							
+							$("#submit").click(function() {
+								errorModal.hide();
+							})
+							
 							return;
 						}
 						
@@ -671,7 +836,7 @@
 					type: "delete",
 					url: "/rest/like",
 					data: {movieNo: movieId},
-					datType: "json",
+					dataType: "json",
 					success: function(response) {
 						button.find('span').text(response.items.likeCount);
 						button.find('img').attr("src", unlike);
@@ -687,26 +852,44 @@
 			$.ajax({
 				type: "get",
 				url: "/rest/myMovies",
+				dataType: "json",
 				success: function(response) {
 					if (response.status) {
 						let movieNo = (response.items.map(item => item.movieNo));
 						$.each(movieNo, function(index, movie) {
 							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
 						})
-					} else {}
+					}
 				}
 			})
 		};
 		
-		// 리뷰 수정
-		$(".review-box").on('click', '.edit', function() {
-			reviewModal.show();
-		})
-		
 		// 리뷰 삭제
 		$(".review-box").on('click', '.delete', function() {
-			//
+			
+			let review = $(this);
+			
+			$("#span-error").text("정말 삭제하시겠습니까?");
+			errorModal.show();
+			
+			$("#submit").click(function() {
+				errorModal.hide();
+				
+				$.ajax({
+					type: "delete",
+					url: "/rest/review",
+					data: {reviewNo: reviewNo},
+					dataType: "json",
+					success: function(response) {
+						$(".review-box").empty();
+						showPointGraph();
+						getScore();
+						getReviews();
+					}
+				})
+			})
 		})
+		
 	})
 </script>
 </html>

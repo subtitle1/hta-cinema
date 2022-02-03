@@ -1,4 +1,6 @@
-package com.example.vo;
+package com.example.web.form;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +15,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReviewPoint {
+public class ReviewEditForm {
 
 	private long no;
-	private int pointNo;
+	private int movieNo;
+	private int reviewScore;
+	private String reviewContent;
+	private List<Integer> pointNo;
 }

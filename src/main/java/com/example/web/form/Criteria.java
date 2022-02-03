@@ -15,6 +15,7 @@ public class Criteria {
 
 	private int page;
 	private int movieNo;
+	private String option;
 	private int beginIndex;
 	private int endIndex;
 }
