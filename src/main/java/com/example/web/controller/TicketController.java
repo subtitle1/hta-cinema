@@ -54,6 +54,7 @@ import com.example.vo.Theater;
 import com.example.vo.Ticket;
 import com.example.vo.TicketAudience;
 import com.example.vo.TicketSeat;
+import com.example.web.form.InsertTicketForm;
 import com.example.web.form.ScreenListInsertForm;
 import com.example.web.form.ScreenListInsertForm.ScreenListInsertFormBuilder;
 import com.example.web.form.TicketForm;
@@ -116,7 +117,7 @@ public class TicketController {
 		Date time = new Date();
 		String year = format.format(time);
 		String month = ticket.getTicketingDay().substring(0, ticket.getTicketingDay().length()-2);
-		String day = ticket.getTicketingDay().substring(ticket.getTicketingDay().length()-1, ticket.getTicketingDay().length());
+		String day = ticket.getTicketingDay().substring(ticket.getTicketingDay().length()-2, ticket.getTicketingDay().length());
 		String totalDay = year+"-"+month+"-"+day;
 		
 		model.addAttribute("screens", screens);
@@ -186,7 +187,6 @@ public class TicketController {
 		Screen screen = ticketService.getScreenByNo(forms.getScreenNo());
 		Theater theater = ticketService.getTheaterByNo(screen.getTheaterNo());
 		MovieRatingDto movieRating = movieRatingService.getListByMovieNo(forms.getMovieNo());
-		model.addAttribute("point",customer.getCurrentPoint());
 		model.addAttribute("fee", form.getFeeByForm());
 		model.addAttribute("movie", movieRating);
 		model.addAttribute("showTime", form.getShowDayByForm());
@@ -279,6 +279,8 @@ public class TicketController {
 		redirect.addAttribute("formByPay",jsonStr);
 		return "redirect:/ticketing/ticketingPay";
 	}
+	
+	
 	
 	 
 }

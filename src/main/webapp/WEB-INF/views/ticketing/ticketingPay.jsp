@@ -119,8 +119,6 @@
         	<input type="hidden" name="theater"  value="${theater }"/>
         	<input type="hidden" name="screen"  value="${screen }"/>
         	<input type="hidden" name="movie"  value="${movie }"/>
-        	<input type="hidden" name="ticketingToTalPay"  value="" />
-        	<input type="hidden" name="userDiscountPoint"  value="" />
         	<input type="hidden" name="ticketingPay"  value="${ticket.ticketTotalAmount }" />
         	<input type="hidden" name="seatNumber" value="${ticketSeat }"/>
         	<input type="hidden" name="userPoint"  value="${ticket.ticketExpectedEarningPoint }"/>
@@ -147,13 +145,13 @@
                 <div class="usable-point">
                     <i class="fas fa-parking"></i>
                     사용가능한 멤버십 포인트
-                    <span><em>${ticket.ticketUsedPoint}</em>P</span>
+                    <span><em>${LOGIN_USER.currentPoint}</em>P</span>
                 </div>
                 <div class="total-point">
 	                    <c:choose>
-		                     <c:when test="${not empty ticket.ticketUsedPoint}">
+		                     <c:when test="${not empty LOGIN_USER.currentPoint}">
 		                     <div class="point-wrap">
-		                    	 <div class="block" data-point="${ticket.ticketUsedPoint }"><button class="btn-block">${ticket.ticketUsedPoint }</button></div>
+		                    	 <div class="block" data-point="${LOGIN_USER.currentPoint }"><button class="btn-block">${LOGIN_USER.currentPoint }</button></div>
 		                     	 <div class="block" data-point="" ></div>
 			                     <div class="block" data-point=""></div>
 			                     <div class="block" data-point=""></div>
@@ -177,7 +175,14 @@
                         <div class="block" data-point=""></div>
                     </div>
                     <div class="text-right">
-                        <p>총 <em>${ticket.ticketUsedPoint }</em>P/ <em>1</em>매</p>
+                    <c:choose>
+                    	<c:when test="${not empty LOGIN_USER.currentPoint}">
+                    		 <p>총 <em>${LOGIN_USER.currentPoint }</em>P/ <em>1</em>매</p>
+                    	</c:when>
+                    	<c:otherwise>
+                    		 <p>총 <em>${LOGIN_USER.currentPoint }</em>P/ <em>0</em>매</p>
+                    	</c:otherwise>
+                    </c:choose>
                     </div>
                 </div>
                 <div class="button-list">
@@ -298,12 +303,32 @@
     </div>
     </div>
 </body>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
 	$(function(){
 		   $(".btn-pay").click(function(){
 				if($('#userPhone')!== null) {
 					if($('#userBirth')!==null){
 						$('button.button-request').attr('disabled','false');
+						let arr = new Array();
+						let obj = new Object();
+						obj.theater=$("input[name=theater]").val();
+						obj.screen=$("input[name=screen]").val();
+						obj.movie=$("input[name=movie]").val();
+						obj.ticketingToTalPay=$('p.final-total>em').text();
+						obj.userDiscountPoint=$('p.point-discount>em').text();
+						obj.ticketingPay=$("input[name=ticketingPay]").val();
+						obj.seatNumber=$("input[name=seatNumber]").val();
+						obj.userPoint=$("input[name=userPoint]").val();
+						obj.adult=$("input[name=adult]").val();
+						obj.baby=$("input[name=baby]").val();
+						obj.old=$("input[name=old]").val();
+						obj.showTime=$("input[name=showTime]").val();
+						obj.ticket=$("input[name=ticket]").val();
+						obj.fee=$("input[name=fee]").val();
+						obj.startTime=$("input[name=startTime]").val();
+						arr.push(obj);
+						
 					}
 				}
 		        let IMP = window.IMP; // 생략가능
@@ -318,19 +343,44 @@
 					buyer_email: '${LOGIN_USER.email}', //User이메일
 					buyer_tel:'${LOGIN_USER.phoneNumber}'//User전화번호
 					}, function (rsp) {
-					if (rsp.success) {
 					 let data = rsp;
 					 $("input[name=ticketingToTalPay]").value = $('p.discount-pay>em').text();
 					 $("input[name=userDiscountPoint]").value=$('p.total-pay>em').text();
-					 $('#form-submit').submit(); //클릭하면 정보가 넘어가게 설정, form 만들어야한다. 
-					} else {
-						var msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : ' + rsp.error_msg;
-					}
-					alert(msg);
-				});
-			});
-		   
+					 $.ajax({
+						 type:"POST",
+						 url:"/rest/ticketing/complete",
+						 contentType: "application/json; charset=UTF-8",
+						 data: JSON.stringify({
+							uid:rsp.imp_uid,
+							price:rsp.paid_amount,
+							data:[
+								{"theater":$("input[name=theater]").val()},
+								{"obj.screen":$("input[name=screen]").val()},
+								{"movie":$("input[name=movie]").val()},
+								{"ticketingToTalPay":$('p.final-total>em').text()},
+								{"userDiscountPoint":$('p.point-discount>em').text()},
+								{"ticketingPay":$("input[name=ticketingPay]").val()},
+								{"seatNumber":$("input[name=seatNumber]").val()},
+								{"userPoint":$("input[name=userPoint]").val()},
+								{"adult":$("input[name=adult]").val()},
+								{"baby":$("input[name=baby]").val()},
+								{"old":$("input[name=old]").val()},
+								{"showTime":$("input[name=showTime]").val()},
+								{"ticket":$("input[name=ticket]").val()},
+								{"fee":$("input[name=fee]").val()},
+								{"startTime":$("input[name=startTime]").val()}
+								]						 
+					 })
+						 }).done(function(data){
+							 console.log(data);
+							 alert('결제완료');
+							 location.href="/";						 
+						 })
+					 
+				
+					})
+		   });
+		   				
 		   $('#point-modal-show').click(function(){
 			   $('#point-modal').css("display","flex");
 		   });
@@ -345,6 +395,21 @@
 			    	return;
 			    } else {
 			    	 $('p.discount-pay>em').text(a);
+			    	 let total = $('p.final-total>em').text();
+			    	 let minus = parseInt($('p.discount-pay>em').text());
+			    	 let numberTotal = total*1;
+			    	 let currentTotal = numberTotal-minus
+			    	 if(currentTotal >= 0){
+			    		 $('p.final-total>em').text(currentTotal);
+			    	 } else {
+			    		 $('p.final-total>em').text(0);
+			    	 }
+			    	 let point = parseInt(currentTotal*0.05);
+			    	 if(point >= 0){
+			    		 $('p.point-discount>em').text(point);
+			    	 } else {
+			    		 $('p.point-discount>em').text(0);
+			    	 }
 					 $('#point-modal').css('display','none');
 			    }
 			});
