@@ -125,8 +125,7 @@
 							</div>
 						</div>
 						<div class="row p-0 row-other" hidden>
-							<div class="col-3 m-0 ps-3 py-3 col-label">
-							</div>
+							<div class="col-3 m-0 ps-3 py-3 col-label"></div>
 							<div class="col-9 align-self-center">
 								<span class="error">인증번호가 일치하지 않습니다.</span>
 							</div>
@@ -218,7 +217,6 @@
 				noticeModal.show();
 			} else {
 				targetDiv.removeClass("row-other");
-				
 				targetDiv.next().prop("hidden", false);
 			}
 		});
