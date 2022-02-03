@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.annotation.LoginedUser;
 import com.example.dto.ResponseDto;
 import com.example.dto.ReviewDto;
-import com.example.exception.LoginErrorException;
+import com.example.exception.ErrorException;
 import com.example.pagination.Pagination;
 import com.example.service.ReviewService;
 import com.example.vo.Customer;
@@ -58,7 +58,7 @@ public class ReviewRestController {
 	public ResponseDto<Map<String, Object>> save(@LoginedUser Customer customer, ReviewInsertForm form) {
 		
 		if (customer == null) {
-			throw new LoginErrorException("로그인이 필요한 서비스입니다.");
+			throw new ErrorException("로그인이 필요한 서비스입니다.");
 		}
 		
 		log.info(customer.toString());

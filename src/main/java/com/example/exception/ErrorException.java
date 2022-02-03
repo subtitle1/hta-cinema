@@ -1,9 +1,9 @@
 package com.example.exception;
 
-public class LoginErrorException extends CustomException {
+public class ErrorException extends CustomException {
 	private static final long serialVersionUID = -843452749540633107L;
 
-	public LoginErrorException(String message) {
+	public ErrorException(String message) {
 		super(message);
 	}
 }
