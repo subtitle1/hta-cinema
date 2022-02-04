@@ -79,7 +79,7 @@
 					</form>
 				</div>
 				<div class="tab-pane" id="findPassword" role="tabpanel" aria-labelledby="findPassword-tab">
-					<form id="form-findPassword" action="/customer/findPassword" method="post">
+					<form id="form-findPassword" action="/customer/resetPasswordForm" method="post">
 						<input type="hidden" name="find" value="password" />
 						<div class="row mt-4">
 							<div class="col p-0">
