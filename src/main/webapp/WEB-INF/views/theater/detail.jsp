@@ -24,28 +24,21 @@
 	display: inherit;
 }
 
-
-
 .region-tab {
 	width: 100%;
-	background-color: #234254;
 	border-radius: 5px;
 	color: #fff;
 	padding: 20px;
 	cursor: pointer;
-	display: inline-block;
 	padding: 5px 10px;
 }
 
 .theater-menu{
-	display: inline-block;
 	position: relative;
 	/*
 	background-image: url('resources/images/theater/theater-menu.jpg')
 	*/
 }
-
-
 
 .tab-content {
 
@@ -58,9 +51,6 @@
 	width: 100px;
 }
 
-
-
-
 .region-tab li{
 	display: inline-block;
 	position: relative;
@@ -69,16 +59,13 @@
 	position: absolute;
 	display: none;
 	color: #000;
-	background-color: yellow;
-	padding: 20px;
+	padding: 50px;
 	border-radius: 10px;
-	width: 100px;
+	width: 1100px;
 }
 .info-content.current {
 	display: inherit;
 }
-
-
 
 .theater-menu li {
 	display: inline-block;
@@ -89,15 +76,56 @@
 	width:100%;
 }
 
-
 .list-tab .row{
 	background-color: yellow;
 	width: 100%;
 }
 
 .list-tab{
-	background-image: url('') 
+	background-image: url('/resources/images/theater/theater-menu.jpg') 
 }
+
+.movie-name{
+	overflow: hidden;
+    padding: 40px 0 0 0;
+    text-align: center;
+    color: #fff;
+    font-size: 3.0666em;
+    font-weight: 400;
+    line-height: 1.1;
+    text-shadow: 2px 2px 10px rgb(0 0 0 / 70%);
+}
+
+.inner-wrap {
+    width: 1100px;
+    margin: 0 auto;
+}
+.pt40 {
+    padding-top: 40px!important;
+}
+
+.info-tab li{
+	display: inline-block;
+	position: relative;
+	width: 32%;
+	border: 1px solid #503396;
+	padding-right: 0px;
+    float: left;
+}
+
+.tab-info.current{
+    border-bottom: 0;
+}
+
+
+.info-tab{
+	cursor: pointer;
+}
+
+.contents-wrap{
+	margin-top: 50px;
+}
+
 
 </style>
 </head>
@@ -138,24 +166,40 @@
 				<div id="tab-7" class="tab-content">7</div>
 				</li>
 			</ul>
-			
+			<h2 class=movie-name>영화이름</h2>
 		</div>
 		
 		
-		 <div class="info">
+		 <div class="inner-wrap pt40">
 		 	<ul class="info-tab">
 		 		<li class="tab-info current" data-tab="info-1">극장정보</li>
 		 		<li class="tab-info" data-tab="info-2">상영시간표</li>
 		 		<li class="tab-info" data-tab="info-3">관람료</li>
 		 	</ul>
-		 	<div id="info-1" class="info-content current">
-		 		보유시설	대중교통
-		 	</div>
-		 	<div id="info-2" class="info-content">
-		 		상영시간표
-		 	</div>
-		 	<div id="info-3" class="info-content">
-		 		관람료 표
+		 	<div class="contents-wrap">
+			 	<div id="info-1" class="info-content current">
+			 		<div class="theater-info-text">
+			 			<p class="big">
+							"남의 중심! 강남 소비문화의 중심지인 지하철 2호선 , 신분당선  - 강남역과 연결"<br>
+							"로맨틱 멀티플렉스! 젊은 도시 강남이 한 눈에 보이는 최상의 View를 제공"
+			 			</p>
+			 			<p>(프라다)가 선택한 수려한 디자인의 상영관 의자를 체험해보세요!</p>
+			 			<div class=detail-info-wrap">
+			 				<h2 class="tit small mt70">시설안내</h2>
+			 				<h3 class="tit small">보유시설</h3>
+			 				<p>시설 출력</p>
+			 				
+			 				<h2 class="tit small mt70">교통안내</h2>
+			 				<h3 class="tit small">약도</h3>
+			 			</div>
+			 		</div>
+			 	</div>
+			 	<div id="info-2" class="info-content">
+			 		상영시간표
+			 	</div>
+			 	<div id="info-3" class="info-content">
+			 		관람료 표
+			 	</div>
 		 	</div>
 		 </div>
 	</div>

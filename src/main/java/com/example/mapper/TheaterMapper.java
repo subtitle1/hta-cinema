@@ -16,4 +16,5 @@ public interface TheaterMapper {
 	List<Theater> getTheatersByRegion(int regionNo);
 	List<Region> getAllRegion();
 	TheaterDto getTheaterDetail(int no);
+	
 }
