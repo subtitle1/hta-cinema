@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.mapper.QnaMapper;
+import com.example.vo.Qna;
+import com.example.vo.QnaImage;
 import com.example.vo.QnaType;
 
 @Transactional
@@ -18,5 +20,15 @@ public class QnaService {
 	
 	public List<QnaType> getAllCategories() {
 		return qnaMapper.getAllCategories();
+	}
+	
+	public void addQna(Qna qna, List<QnaImage> images) {
+		
+		qnaMapper.insertQna(qna);
+		
+		for (QnaImage image : images) {
+			image.setQnaNo(qna.getNo());
+			qnaMapper.insertQnaImage(image);
+		}
 	}
 }

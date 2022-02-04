@@ -18,16 +18,14 @@
 <%@include file="../common/tags.jsp" %>
 <%@include file="../common/navbar.jsp"%>
 <div class="container">
-	<nav style="box-sizing: border-box;">
+	<div class="menu mt-5">
 		<div>
-			<div class="row">
-				<div class="col p-0 page-title">
-					<h1>고객센터</h1>
-				</div>
+			<div class="col p-0 page-title text-center">
+				<h3>고객센터</h3>
 			</div>
 		</div>
 		<div class="row mypage">
-			<div class="col-2 p-0 aside">
+			<div class="col p-0 aside text-center mt-3">
 				<ul class="nav flex-column p-0">
 					<li class=""><a href="#" class="nav-link p-0">고객센터 메인</a></li>
 				</ul>
@@ -41,9 +39,14 @@
 					<li class=""><a href="#" class="nav-link p-0">이용약관</a></li>
 				</ul>
 			</div>
+			<div class="text-center mt-3 mb-3">
+				<span>HTA CINEMA 고객센터</span>
+				<span>10:30~18:30</span>
+			</div>
 		</div>
-	</nav>
-	<div class="supports offset-md-1 col-9 p-0">
+	</div>
+	
+	<div class="supports">
 		<div class="border rounded p-4">
 			<div class="row">
 				<div class="col bolck-content">
@@ -53,7 +56,7 @@
 					</a>
 				</div>
 				<div class="col bolck-content">
-					<a href="#"><img alt="" src="/resources/images/supports/ico-oneandone.png">
+					<a href="/supports/inquiry"><img alt="" src="/resources/images/supports/ico-oneandone.png">
 						<p class="mt-3">1:1 문의</p>
 						<p>해결되지 않은 문제가 있나요?<br>
 						일대일로 문의 주세요.
