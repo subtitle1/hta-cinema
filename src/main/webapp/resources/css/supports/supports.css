@@ -3,11 +3,11 @@
 a, p {
 	color: black;
 	text-decoration: none;
+	font-family: 'Nanum Gothic', sans-serif;
 }
 
-.page-title h1 {
-    margin-top: 50px;
-    font-family: 'Noto Sans KR';
+.page-title h3 {
+    margin-top: 30px;
     font-weight: 700;
     font-size: 32px;
 }
@@ -38,8 +38,8 @@ a, p {
 
 .supports {
 	position: absolute;
-	top: 15%;
-	margin-left: 150px;
+	top: 13%;
+    margin-left: 230px;
 }
 
 .form-select {
@@ -54,4 +54,19 @@ a, p {
 
 .table th {
 	background-color: #f7f8f9;
+}
+
+.menu {
+    display: block;
+    width: 200px;
+    background-color: #f2f4f5;
+    border-radius: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden; /* 반응형 애니메이션용 */
+}
+
+.menu div {
+    line-height: 1.5;
+    font-size: 1em;
 }
