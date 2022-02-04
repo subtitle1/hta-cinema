@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.CustomerCriteria;
 import com.example.dto.ResponseDto;
+import com.example.exception.ErrorException;
 import com.example.service.CustomerService;
+import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
 
 @RestController
@@ -36,6 +38,19 @@ public class CustomerRestController {
 		}
 		response.setStatus(true);
 		
+		return response;
+	}
+	
+	@PostMapping("/customer/resetPassword")
+	public ResponseDto<Customer> restPassword(String id, String newPassword) {
+		ResponseDto<Customer> response = new ResponseDto<Customer>();
+		
+		if (SessionUtils.getAttribute("CUSTOMER_ID") == null) {
+			throw new ErrorException("잘못된 접근입니다.");
+		}
+		
+		customerService.updatePassword(id, newPassword);
+		SessionUtils.sessionInvalidate();
 		return response;
 	}
 }

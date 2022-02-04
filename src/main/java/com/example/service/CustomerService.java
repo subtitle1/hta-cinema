@@ -30,12 +30,24 @@ public class CustomerService {
 	public Customer findIdPassword(CustomerCriteria criteria) {
 		Customer customer = customerMapper.getCustomerByCriteria(criteria);
 		
-		if(customer == null) {
-			 throw new ErrorException("해당정보로 가입된 사용자를 찾을수 없습니다.<br>"
+		if (customer == null) {
+			 throw new ErrorException("해당정보로 가입된 사용자를 찾을 수 없습니다.<br>"
 			 		+ "<br>"
 			 		+ "탈퇴여부 및 재가입 가능한 일자를 확인하고 싶으시면 본인인증을 통하여 확인 가능합니다.");
 		}
 		
 		return customer;
+	}
+	
+	public void updatePassword(String id, String password) {
+		Customer customer = customerMapper.getCustomerById(id);
+		
+		if (customer == null) {
+			throw new ErrorException("해당정보로 가입된 사용자를 찾을 수 없습니다.");
+		}
+		
+		customer.setPassword(password);
+		
+		customerMapper.updateCustomer(customer);
 	}
 }

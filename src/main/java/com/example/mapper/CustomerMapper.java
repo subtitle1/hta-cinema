@@ -9,4 +9,5 @@ import com.example.vo.Customer;
 public interface CustomerMapper {
 	Customer getCustomerById(String id);
 	Customer getCustomerByCriteria(CustomerCriteria criteria);
+	Customer updateCustomer(Customer customer);
 }
