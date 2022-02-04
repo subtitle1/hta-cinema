@@ -1,5 +1,7 @@
 package com.example.web.form;
 
+import java.util.List;
+
 import com.example.vo.FeeType;
 import com.example.vo.Movie;
 import com.example.vo.Screen;
@@ -23,9 +25,9 @@ import lombok.ToString;
 @ToString
 public class InsertTicketForm {
 
-	private Theater theater;
-	private Screen screen;
-	private Movie movie;
+	private String theater;
+	private String screen;
+	private String movie;
 	private int ticketingToTalPay;//실제계산총액
 	private int userDiscountPoint;//사용자 할인받은금액
 	private int ticketingPay;//사용자 티켓 총 금액(할인전)
@@ -35,7 +37,7 @@ public class InsertTicketForm {
 	private String adult;
 	private String baby;
 	private String old;
-	private ShowDayType showTime;
-	private Ticket ticket;
-	private FeeType fee;
+	private String showTime;
+	private String ticket;
+	private String fee;
 }

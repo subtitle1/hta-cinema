@@ -280,7 +280,12 @@ public class TicketController {
 		return "redirect:/ticketing/ticketingPay";
 	}
 	
-	
-	
+	 @PostMapping("/ticketing/complete")
+	  public String getTicketPay(InsertTicketForm form) {
+		  System.out.println(form);
+		  log.info("받은 데이터"+form);
+		  //값 들어온거 확인함 redirect로 home갈 수 있도록 설정예정
+		  return "redirect:/home";
+	 }
 	 
 }
