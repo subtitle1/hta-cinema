@@ -188,6 +188,7 @@
 			$("#searchMore").removeAttr("disabled");
 			currentPage = 1;
 			$div.empty();
+			$("#search-input").val('');
 			showMyMovies();
 			getMovieList();
 		}
