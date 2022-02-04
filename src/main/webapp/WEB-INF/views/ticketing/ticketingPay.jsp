@@ -115,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <form action="/" method="post" id="form-submit">
+        <form action="/ticketing/complete" method="post" id="form-submit">
         	<input type="hidden" name="theater"  value="${theater }"/>
         	<input type="hidden" name="screen"  value="${screen }"/>
         	<input type="hidden" name="movie"  value="${movie }"/>
@@ -374,9 +374,9 @@
 						 }).done(function(data){
 							 console.log(data);
 							 alert('결제완료');
-							 location.href="/";						 
+							 $('#form-submit').submit();			 
 						 })
-					 
+					 location.lef
 				
 					})
 		   });
