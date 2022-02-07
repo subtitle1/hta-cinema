@@ -45,9 +45,7 @@ public class CustomerService {
 		if (customer == null) {
 			throw new ErrorException("해당정보로 가입된 사용자를 찾을 수 없습니다.");
 		}
-		
 		customer.setPassword(password);
-		
 		customerMapper.updateCustomer(customer);
 	}
 }

@@ -25,7 +25,7 @@
 				<div class="container-a mt-3">
 					<a class="link-secondary" href="/findIdPassword">ID/PW 찾기</a>
 					<span class="divide-a-tag mx-3"></span>
-					<a class="link-secondary" href="#">회원가입</a>
+					<a class="link-secondary" href="/customer/signUp">회원가입</a>
 				</div>
 			</div>
 		</div>
