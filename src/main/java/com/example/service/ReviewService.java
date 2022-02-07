@@ -46,18 +46,21 @@ public class ReviewService {
 	public Review addReview(Review review, List<ReviewPoint> points) {
 		try {
 			reviewMapper.insertReview(review);
-		 
-			for (ReviewPoint point : points) {
-				point.setNo(review.getNo());
-				point.setPointNo(point.getPointNo());
-				reviewMapper.insertReviewPoint(point); 
-			} 
+			setReviewPoints(review, points); 
 		
 		} catch (DataAccessException e) {
 			throw new ReviewErrorException("이미 작성한 관람평이 있습니다."); 
 		}
 		
 		return reviewMapper.getReviewByNo(review.getNo());
+	}
+
+	private void setReviewPoints(Review review, List<ReviewPoint> points) {
+		for (ReviewPoint point : points) {
+			point.setNo(review.getNo());
+			point.setPointNo(point.getPointNo());
+			reviewMapper.insertReviewPoint(point); 
+		}
 	}
 	
 	public int getTotalRecords(int movieNo) {
@@ -126,12 +129,7 @@ public class ReviewService {
 		
 		// 기존 리뷰 포인트 삭제 후 insert
 		reviewMapper.deleteReviewPoints(review.getNo());
-		
-		for (ReviewPoint point : points) {
-			point.setNo(review.getNo());
-			point.setPointNo(point.getPointNo());
-			reviewMapper.insertReviewPoint(point); 
-		} 
+		setReviewPoints(review, points); 
 		
 		return savedReview;
 	}

@@ -146,7 +146,7 @@
 					<div class="col text-end review-head">
 						<c:choose>
 							<c:when test="${not empty LOGIN_USER }">
-								<a data-bs-toggle="modal" data-bs-target="" href="" id="review-btn" >
+								<a data-bs-toggle="modal" data-bs-target="" href="" class="review-btn" >
 								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 							</c:when>
 							<c:otherwise>
@@ -182,7 +182,7 @@
 					<div class="col text-end review-head">
 						<c:choose>
 							<c:when test="${not empty LOGIN_USER }">
-								<a data-bs-toggle="modal" data-bs-target="" href="#" id="review-btn" >
+								<a data-bs-toggle="modal" data-bs-target="" href="#" class="review-btn" >
 								<img alt="" src="/resources/images/movie/ico-story-write.png"> 관람평 쓰기 </a>
 							</c:when>
 							<c:otherwise>
@@ -504,7 +504,7 @@
 		let action = '';
 		
 		// 관람평 쓰기 버튼 클릭 시
-		$("#review-btn").click(function() {
+		$(".review-btn").click(function() {
 			action = 'create';
 			
 			$.ajax({
