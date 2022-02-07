@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div class="modal fade" id="modal-notice" data-bs-backdrop="static" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
+	<div id="modal-dialog" class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="noticeModalLabel">알림</h5>

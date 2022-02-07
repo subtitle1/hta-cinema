@@ -22,6 +22,7 @@
 	<script type="text/javascript" src="/resources/js/customer/emailValidation.js"></script>
 </head>
 <body>
+<%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
 	<div class="container">
 		<div class="content-wrap mx-auto">
 			<div class="row">
@@ -36,7 +37,7 @@
 					<span>회원정보를 입력해주세요.</span>
 				</div>
 			</div>
-			<form>
+			<form id="form-signUp">
 				<div class="row p-0 row-top">
 					<div class="col-3 m-0 ps-3 py-3 col-label">
 						<label for="input-id">아이디</label>
@@ -169,14 +170,22 @@ $(function() {
 	const phoneNumberErrorDiv = $("#div-phoneNumber-error");
 	const emailErrorDiv = $("#div-email-error");
 	
-	const passwordInputTooltip = new bootstrap.Tooltip(passwordInput);
-	const passwordCheckInputTooltip = new bootstrap.Tooltip(passwordCheckInput);
-	
 	const checkIdDuplicateButton = $("#btn-check-id-duplicate");
 	const signUpButton = $("#btn-signUp");
 	
+	const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
+		keyboard: false
+	});
+	const noticeModalSpan = document.getElementById("span-notice-message");
+	$("#modal-dialog").addClass("modal-sm");
+	
+	const passwordInputTooltip = new bootstrap.Tooltip(passwordInput);
+	const passwordCheckInputTooltip = new bootstrap.Tooltip(passwordCheckInput);
+	
+	let checkIdDuplicateFlag = false;
+	
 	function isAllFlagTrue() {
-		return idLengthAndCombinationValidationFlag 
+		return idLengthAndCombinationValidationFlag && checkIdDuplicateFlag 
 			&& passwordLengthAndCombinationValidationFlag && passwordValueMatchValidationFlag 
 			&& nameInput.val() !== "" 
 			&& birthDateInput.val() !== "" 
@@ -220,12 +229,20 @@ $(function() {
 			dataType: "json",
 			success: function(response) {
 				if (response.status) {
-					alert("통신성공:" + response.items);
+					let {items:{isIdDuplicate, message}} = response;
+					
+					console.log("isIdDuplicate: " + isIdDuplicate);
+					console.log("message" + message);
+					checkIdDuplicateFlag = !isIdDuplicate;
+					noticeModalSpan.innerHTML = message;
 				} else {
-					alert("실패");
+					noticeModalSpan.innerHTML = "통신 실패";
 				}
+				noticeModal.show();
 			}
 		});
+		
+		enableSignUpButton(isAllFlagTrue());
 	});
 	
 	// 비밀번호와 비밀번호 확인에 키보드 입력이 있을 때마다 실행된다.
@@ -268,6 +285,26 @@ $(function() {
 	emailInput.keyup(function() {
 		showErrorDiv(emailErrorDiv, !emailValidation($(this)));
 		enableSignUpButton(isAllFlagTrue());
+	});
+	
+	signUpButton.click(function() {
+		const jsonSignUpForm = ${"#form-signUp"}.serializeArray();
+		
+		$.ajax({
+			type: "post",
+			url: "/customer/signUp",
+			data: jsonSignUpForm,
+			dataType: "json",
+			success: function(response) {
+				if (response.status) {
+					noticeModalElement.innerHTML = response.items;
+					$("#modal-notice button").addClass("btn-redirect-home");
+				} else {
+					noticeModalElement.innerHTML = response.error;
+				}
+				noticeModal.show();
+			}
+		});
 	});
 });
 </script>

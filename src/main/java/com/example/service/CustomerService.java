@@ -50,7 +50,7 @@ public class CustomerService {
 	}
 	
 	// 같은 아이디가 존재하면 true를 반환한다.
-	public boolean checkIdDuplicate(String id) {
+	public boolean isIdDuplicate(String id) {
 		Customer customer = customerMapper.getCustomerById(id);
 		
 		return customer != null;

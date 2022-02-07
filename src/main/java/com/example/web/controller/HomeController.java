@@ -28,12 +28,6 @@ public class HomeController {
 		
 		return "redirect:/";
 	}
-	
-	@GetMapping("/findIdPassword")
-	public String findIdPassword() {
-		return "/customer/findIdPassword";
-	}
-
 
 	@GetMapping("/timeTable/timeTable")
 	public String timeTable() {
