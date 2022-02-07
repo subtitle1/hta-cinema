@@ -5,9 +5,11 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>HTA CINEMA</title>
     <link rel="stylesheet" href="/resources/css/ticketingList.css">
     <link rel="stylesheet" href="/resources/css/navbar.css" />
+    <link rel="stylesheet" href="/resources/css/common.css" />
+  	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -211,7 +213,10 @@
             	<c:forEach var="emptys" items="${emptySeat }">
             		noSeat.push("${emptys.no}")
                 </c:forEach>
-	            let disabled =["A10","B10","B11"]; //장애인석
+            	let disabled = new Array();//예약마감좌석
+            	<c:forEach var="noEamptys" items="${noEamptySeat }">
+            		disabled.push("${noEamptys.no}");
+            	</c:forEach>
 	            let seatrow = $('div.ptag').attr('data-row');	//열의좌석 꺼내왔을 때 변수에 저장seatcolumn
 	            let seatcolumn = $('div.ptag').attr('data-column');		//행의좌석 꺼내왔을 때 변수에 저장seatrow
 	            console.log(seatrow);
@@ -310,10 +315,11 @@
 					 input = document.createElement('input');
 	       			 mapping(input,disabledColumn[i],disabledRow[j]);
 	       			input.type = "button";
-	       			input.setAttribute('class','seat-condition-disabled');
+	       			input.setAttribute('class','seat-condition-finish');
 	                 $(input).css('position','absolute');
 	                 $(input).css('width','22px');
 	                 $(input).css('heigh','18px');
+	                 $(input).css('disabled','disabled');
 	                 $(input).css('top',addTop+'px');
 	                 $(input).css('left',addLefts+'px');
 	                 $(input).css('margin','2px');
@@ -341,7 +347,6 @@
     	   let now2 = $('button.now:eq(1)').text();
     	   let now3 = $('button.now:eq(2)').text();
     	   let totalnow = parseInt(now1) + parseInt(now2) + parseInt(now3);
-    	   console.log(totalnow);
     	   if(totalnow == '4'){
     		 $('p.dot-list').text('관람인원이 많습니다.코로나로 영화관은 4인까지 가능합니다.');
     		 $('#document-modal').css('display','flex');
@@ -523,15 +528,17 @@
 	       $('input.seat-condition-choise').attr('class','seat-condition-common');
     	   $('div.seat-all').text('-');
     	   $('div.seat-all').attr('class','seat-position');
+    	   totalSeat = 0;
        })
        
        let totalSeat = 0;
+       
        $('div#show-seat').on("click","input[type=button].seat-condition-common",function(){
     	   let $seat = $(this);
     	   let now1 = $('button.now:eq(0)').text();
-    	   let now2 = $('button.now:eq(1)').text();
-    	   let now3 = $('button.now:eq(2)').text();
-    	   let totalnow = parseInt(now1) + parseInt(now2) + parseInt(now3);
+     	   let now2 = $('button.now:eq(1)').text();
+     	   let now3 = $('button.now:eq(2)').text();
+     	   let totalnow = parseInt(now1) + parseInt(now2) + parseInt(now3);
     	   let titleSeat = $('.seat-position').attr('title');
     	   if(totalSeat==totalnow){
     		   $('p.dot-list').text('관람인원을 확인하세요.');
@@ -539,14 +546,14 @@
     		   return;
     	   }
     	   if(titleSeat.match('구매가능')=="구매가능"){
-    			$('div.seat-position:eq(0)').attr("선택완료좌석");
-    			$('div.seat-position:eq(0)').text($seat.val());
-    			$('div.seat-position:eq(0)').attr('class','seat-all');
-    			$seat.attr('class','seat-condition-choise');
-    			$seat.css('color','gray');
-    			$('input[name=seat-No'+totalSeat+']').val($seat.val());
-    			totalSeat++;
-    	   } 
+      			$('div.seat-position:eq(0)').attr("선택완료좌석");
+      			$('div.seat-position:eq(0)').text($seat.val());
+      			$('div.seat-position:eq(0)').attr('class','seat-all');
+      			$seat.attr('class','seat-condition-choise');
+      			$seat.css('color','gray');
+      			$('input[name=seat-No'+totalSeat+']').val($seat.val());
+      			totalSeat++;
+    	   }
        })
        $('div#show-seat').on("click","input[type=button].seat-condition-choise",function(){
     	   let $choiesSeat = $(this);
@@ -633,10 +640,6 @@
         	 let old = $('input[name=old]').val();
         	 let oldCount = $('input[name=oldCount]').val();
         	 let array = [];
-        	 console.log(ticketingPay);
-        	 console.log(adultCount);
-        	 console.log(babyCount);
-        	 console.log(oldCount);
         	 array.push($('div.seat-all:eq(0)').text());
         	 array.push($('div.seat-all:eq(1)').text());
         	 array.push($('div.seat-all:eq(2)').text());

@@ -11,8 +11,17 @@
 	public void insertTicketAudience(TicketAudience audience);
 	public void insertTicetSeat(TicketSeat seat);
 	public AudienceType getAudienceTypeNameByOne(String name);
+	public TicketSeat getTicketSeatByNo(String no);
+	public TicketSeat ticketSeatByNo(long ticketNo);
  -->
- 
+ <select id="ticketSeatBySeat" parameterType="com.example.vo.TicketSeat" resultType="com.example.vo.TicketSeat">
+ 	select 
+ 		ticket_no as ticketNo, 
+ 		ticket_seat_no as no
+ 	from ticket_seat  
+ 	where ticket_seat_no = #{no}
+ 	and ticket_no = #{ticketNo}
+ </select>
 <select id="getStartType" parameterType="string" resultType="com.example.vo.ShowStartTimeType">
 	 	 select *
  	from (
@@ -71,6 +80,18 @@
  	and show_start_time_type no = #{showStartTimeNo}
  	and audience_type_no = #{audienceTypeNo}
  </select>
+ <!-- public Movie getMovieByNo(int movieNo); -->
+ <select id="getMovieByNo" parameterType="int" resultType="com.example.vo.Movie">
+ 	select movie_audience_total_number as movieAudienceTotalNumber
+ 	from movie
+ 	where movie_no = ${value}
+ </select>
+ <!-- public void countUpdateTotalNumber(int movieNo);//영화관람자수 증가 -->
+	<update id="countUpdateTotalNumber" parameterType="com.example.vo.Movie">
+		update table movie
+		set movie_audience_total_number = #{movieAudienceTotalNumber}
+		where movie_no = #{no}
+	</update>
  <select id="getAllFeeTypeByNo" parameterType="int" resultType="com.example.vo.FeeType" >
 	select 
  	show_type_no as showTypeNo,  
@@ -139,13 +160,6 @@
   	from ticket_audience
   	where ticket_no = #{ticketNo}
   	and audience_type_no =#{audienceTypeNo}
-  </select>
-  <select id="ticketSeatByNo" parameterType="long" resultType="com.example.vo.TicketSeat" >
-  	select 
-  	ticket_seat_no as no, 
-  	ticket_no as ticketNo
-  	from ticket_seat_no
-  	where ticket_no
   </select>
   <select id="ticketByscheduleNo" parameterType="long" resultType="com.example.vo.Ticket">
   select 

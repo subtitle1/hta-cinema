@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -26,7 +27,10 @@ import com.example.vo.ShowDayType;
 import com.example.vo.ShowSchedule;
 import com.example.vo.ShowStartTimeType;
 import com.example.vo.ShowType;
+import com.example.vo.Ticket;
+import com.example.vo.TicketSeat;
 import com.example.web.form.ScreenListInsertForm;
+import com.example.web.form.TicketNoFrom;
 
 @Service
 @Transactional
@@ -100,5 +104,8 @@ public class MovieRatingService {
 			 } 
 		  }
 		 return schedule;
+	}
+	public List<TicketSeat> getTicketNoByScheduleNo(TicketNoFrom form) {
+		return showDto.getTicketNoByScheduleNo(form);
 	}
 }

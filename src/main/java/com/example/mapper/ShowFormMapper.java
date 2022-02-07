@@ -5,6 +5,7 @@ package com.example.mapper;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +18,10 @@ import com.example.vo.ShowDayType;
 import com.example.vo.ShowSchedule;
 import com.example.vo.ShowStartTimeType;
 import com.example.vo.ShowType;
+import com.example.vo.Ticket;
+import com.example.vo.TicketSeat;
 import com.example.web.form.ScreenListInsertForm;
+import com.example.web.form.TicketNoFrom;
 
 @Mapper
 public interface ShowFormMapper {
@@ -34,5 +38,6 @@ public interface ShowFormMapper {
 	public ShowType getShowTypeByShowTypeNo(int showTypeNo);//상영관정보를 조회한다. 
 	public Screen getScreenByNo(int screenNo, int theaterNo);//상영관좌석을 조회한다.
 	public List<NonExistentSeat> getNonExistentSeat(int screenNo);//빈좌석을 조회한다. 
+	public List<TicketSeat> getTicketNoByScheduleNo(TicketNoFrom form);//스케쥴번호를 이용하여 티켓번호를 조회한다.
 	public List<ShowSchedule> getShowSchduleByNo(int movieNo, int screenNo, int showTypeNo);//상영스케쥴에 대해서 조회한다.
 }

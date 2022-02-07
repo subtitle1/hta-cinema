@@ -137,4 +137,15 @@
 	 	from nonexistent_seat
 	 	where screen_no = #{value}
 	 </select>
+	 <!-- 	public Ticket getTicketNoByScheduleNo(int scheduleNo);//스케쥴번호를 이용하여 티켓번호를 조회한다. -->
+	 <select id="getTicketNoByScheduleNo" parameterType="com.example.web.form.TicketNoFrom" resultType="com.example.vo.TicketSeat">
+		select 
+	    t.ticket_no as TicketNo, 
+	    ts.ticket_seat_no as no
+		from show_schedule s, ticket t, ticket_seat ts
+		where s.show_schedule_no = t.show_schedule_no
+		and t.ticket_no = ts.ticket_no
+		and s.show_schedule_no = #{showScheduleNo}
+		and s.movie_no = #{movieNo}
+	 </select>
 </mapper>

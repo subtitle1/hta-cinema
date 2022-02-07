@@ -2,6 +2,7 @@ package com.example.web.controller;
 
 import java.text.DateFormat;
 
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ import com.example.web.form.InsertTicketForm;
 import com.example.web.form.ScreenListInsertForm;
 import com.example.web.form.ScreenListInsertForm.ScreenListInsertFormBuilder;
 import com.example.web.form.TicketForm;
+import com.example.web.form.TicketNoFrom;
 import com.example.web.form.TicketingForm;
 import com.example.web.form.TicketingPayForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -119,6 +121,8 @@ public class TicketController {
 		String month = ticket.getTicketingDay().substring(0, ticket.getTicketingDay().length()-2);
 		String day = ticket.getTicketingDay().substring(ticket.getTicketingDay().length()-2, ticket.getTicketingDay().length());
 		String totalDay = year+"-"+month+"-"+day;
+		TicketNoFrom ticketForm = TicketNoFrom.builder().movieNo(ticket.getMovieNo()).showScheduleNo(screens.getShowScheDuleNo()).build();
+		List<TicketSeat> findTicketSeat = movieRatingService.getTicketNoByScheduleNo(ticketForm);
 		
 		model.addAttribute("screens", screens);
 		model.addAttribute("ratied", movieRated);
@@ -128,10 +132,12 @@ public class TicketController {
 		model.addAttribute("audience", audience);
 		model.addAttribute("showType", showType);
 		model.addAttribute("ticketingDay",totalDay); //일자
+		model.addAttribute("noEamptySeat",findTicketSeat); //예약된 좌석
 		
 		log.info("movieRated"+movieRated);
 		log.info("emptySeat 비어있는좌석"+emptySeat);
 		log.info("realySeat 남아있는좌석"+realySeat);
+		log.info("noEamptySeat 예약좌석"+findTicketSeat);
 		log.info("days"+days);
 		log.info("audience"+audience);
 		log.info("screens"+screens);
@@ -229,7 +235,7 @@ public class TicketController {
 	public String postTicketingPay(TicketingForm form, RedirectAttributes redirect) throws JsonProcessingException {
 		Customer customer = (Customer)SessionUtils.getAttribute("LOGIN_USER");
 		if(customer == null) {
-			 return "redirect:/common/loginFormModal";
+			 throw new CustomException("로그인을 다시 진행하세요");
 		} 
 		TicketingForm ticket = TicketingForm.builder().adult(form.getAdult()).adultCount(form.getAdultCount()).baby(form.getBaby()).babyCount(form.getBabyCount())
 				.old(form.getOld()).oldCount(form.getOldCount()).movieNo(form.getMovieNo()).screenNo(form.getScreenNo()).ticketingPay(form.getTicketingPay())
@@ -237,6 +243,7 @@ public class TicketController {
 				.showScheDuleNo(form.getShowScheDuleNo()).showNo(form.getShowNo()).seat1(form.getSeat1()).seat2(form.getSeat2())
 				.seat3(form.getSeat3()).seat4(form.getSeat4()).date(form.getDate()).dayName(form.getDayName()).build();
 		log.info("폼입력 값" + ticket);
+		//현재값을 뿌리기 위해 조회하는 값이다. 
 		ShowDayType showDay = ticketService.getShowDayType(ticket.getDayName());
 		ShowStartTimeType startTime = ticketService.getStartType(ticket.getShowScheduleStartTime());
 		List<AudienceType> audiences = ticketService.getAudienceTypeName(ticket.getAdult(),ticket.getBaby(),ticket.getOld());
@@ -245,7 +252,7 @@ public class TicketController {
 		Ticket tickets = Ticket.builder().showScheduleNo(ticket.getShowScheDuleNo()).customerNo(customer.getNo()).ticketTotalAmount(totalpay)
 				.ticketExpectedEarningPoint(countPoint).ticketUsedPoint(0).build();
 		//나중에 totalPay와 point, EarningPoint변경예정
-		
+		//티켓을 저장한다.
 		Ticket findTicket = ticketService.saveTicket(tickets);
 		List<FeeType> fees = new ArrayList<>();
 		for(AudienceType audience : audiences) {
@@ -258,10 +265,27 @@ public class TicketController {
 		TicketSeat seats2 = TicketSeat.builder().ticketNo(findTicket.getNo()).no(ticket.getSeat2()).build();
 		TicketSeat seats3 = TicketSeat.builder().ticketNo(findTicket.getNo()).no(ticket.getSeat3()).build();
 		TicketSeat seats4 = TicketSeat.builder().ticketNo(findTicket.getNo()).no(ticket.getSeat4()).build();
-		seatsKind.add(seats1);
-		seatsKind.add(seats2);
-		seatsKind.add(seats3);
-		seatsKind.add(seats4);
+		//ticketSeat을 구매한 것을 저장한다. 그리고 좌석예약수에 맞춰 예약 인원수를 증가한다.
+		if(!seats1.getNo().isEmpty()) {
+			TicketSeat seat1 = ticketService.saveTicketSeat(seats1);
+			seatsKind.add(seat1);
+			ticketService.updateMovieTotalNumber(form.getMovieNo());
+		} 
+		if(!seats2.getNo().isEmpty()) {
+			TicketSeat seat2 = ticketService.saveTicketSeat(seats2);
+			seatsKind.add(seat2);
+			ticketService.updateMovieTotalNumber(form.getMovieNo());
+		} 
+		if(!seats3.getNo().isEmpty()) {
+			TicketSeat seat3 = ticketService.saveTicketSeat(seats3);
+			seatsKind.add(seat3);
+			ticketService.updateMovieTotalNumber(form.getMovieNo());
+		}
+		if(!seats4.getNo().isEmpty()) {
+			TicketSeat seat4 = ticketService.saveTicketSeat(seats4);
+			seatsKind.add(seat4);
+			ticketService.updateMovieTotalNumber(form.getMovieNo());
+		}
 		log.info("관람자구분" + fees);
 		log.info("일정조회" + showDay);
 		log.info("시작시간조회" + startTime);
@@ -278,14 +302,9 @@ public class TicketController {
 		String jsonStr = mapper.writeValueAsString(formByPay);
 		redirect.addAttribute("formByPay",jsonStr);
 		return "redirect:/ticketing/ticketingPay";
+		//결제를 진행하지 않으면 좌석과 티켓이 취소되는 스케쥴러 구현해야함 2-5
 	}
 	
-	 @PostMapping("/ticketing/complete")
-	  public String getTicketPay(InsertTicketForm form) {
-		  System.out.println(form);
-		  log.info("받은 데이터"+form);
-		  //값 들어온거 확인함 redirect로 home갈 수 있도록 설정예정
-		  return "redirect:/home";
-	 }
+
 	 
 }

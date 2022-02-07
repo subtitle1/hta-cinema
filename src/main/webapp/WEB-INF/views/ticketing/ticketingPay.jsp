@@ -5,9 +5,11 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>HTA CINEMA</title>
     <link rel="stylesheet" href="/resources/css/ticketingPay.css">
     <link rel="stylesheet" href="/resources/css/navbar.css" />
+    <link rel="stylesheet" href="/resources/css/common.css" />
+  	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -344,39 +346,31 @@
 					buyer_tel:'${LOGIN_USER.phoneNumber}'//User전화번호
 					}, function (rsp) {
 					 let data = rsp;
+					 console.log(uid);
+					 	console.log(price)
 					 $("input[name=ticketingToTalPay]").value = $('p.discount-pay>em').text();
 					 $("input[name=userDiscountPoint]").value=$('p.total-pay>em').text();
 					 $.ajax({
 						 type:"POST",
 						 url:"/rest/ticketing/complete",
 						 contentType: "application/json; charset=UTF-8",
-						 data: JSON.stringify({
+						 data: JSON({
 							uid:rsp.imp_uid,
 							price:rsp.paid_amount,
 							data:[
-								{"theater":$("input[name=theater]").val()},
-								{"obj.screen":$("input[name=screen]").val()},
-								{"movie":$("input[name=movie]").val()},
+							
 								{"ticketingToTalPay":$('p.final-total>em').text()},
 								{"userDiscountPoint":$('p.point-discount>em').text()},
-								{"ticketingPay":$("input[name=ticketingPay]").val()},
-								{"seatNumber":$("input[name=seatNumber]").val()},
-								{"userPoint":$("input[name=userPoint]").val()},
-								{"adult":$("input[name=adult]").val()},
-								{"baby":$("input[name=baby]").val()},
-								{"old":$("input[name=old]").val()},
-								{"showTime":$("input[name=showTime]").val()},
-								{"ticket":$("input[name=ticket]").val()},
-								{"fee":$("input[name=fee]").val()},
-								{"startTime":$("input[name=startTime]").val()}
-								]						 
+							
+								]			
+						 //포인트 적립과 총금액을 update해야함
+						 //스케쥴러로 계산안되면 취소작업해야함.
 					 })
 						 }).done(function(data){
 							 console.log(data);
 							 alert('결제완료');
-							 $('#form-submit').submit();			 
 						 })
-					 location.lef
+					 location.href="/";
 				
 					})
 		   });
