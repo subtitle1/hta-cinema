@@ -28,10 +28,11 @@ public class TheaterController {
 		return "/theater/list";
 	}
 	@GetMapping("/detail")
-	public String detail() {
+	public String detail(int no) {
 		
 		return "/theater/detail";
 	}
+	
 	@GetMapping("/th")
 	public String th() {
 		
