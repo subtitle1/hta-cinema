@@ -1,7 +1,6 @@
 package com.example.web.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +43,7 @@ public class QnaController {
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
 				QnaImage image = new QnaImage();
-				String fileName = file.getOriginalFilename();
+				String fileName = System.currentTimeMillis() + file.getOriginalFilename();
 				
 				image.setImageUrl(fileName);
 				images.add(image);
