@@ -83,4 +83,10 @@ public class TicketRestController {
 		  response.setItems(theaters);
 		  return response;
 	  }
+	  @PostMapping("/ticketing/complete")
+	  public void getTicketPay(InsertTicketForm form) {
+			  System.out.println(form);
+			  log.info("받은 데이터"+form);
+			 
+		 }
 }

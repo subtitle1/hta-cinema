@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.exception.MovieTicketingErrorException;
 import com.example.mapper.TheaterMapper;
 import com.example.mapper.TicketingMapper;
 import com.example.vo.AudienceType;
 import com.example.vo.FeeType;
+import com.example.vo.Movie;
 import com.example.vo.Screen;
 import com.example.vo.ShowDayType;
 import com.example.vo.ShowStartTimeType;
@@ -20,8 +22,11 @@ import com.example.vo.TicketAudience;
 import com.example.vo.TicketSeat;
 import com.example.web.form.TicketAdienceTypeForm;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class TicketingServiece {
 
 	@Autowired
@@ -57,19 +62,21 @@ public class TicketingServiece {
 			return audiences;
 		}
 	}
+	public Movie getMovieTotalNumberByNo(int movieNo) {
+		return ticketDto.getMovieByNo(movieNo);
+	}
+	public void updateMovieTotalNumber(int movieNo){
+		Movie findMovie = ticketDto.getMovieByNo(movieNo); 
+		long number = findMovie.getMovieAudienceTotalNumber() + 1;
+		findMovie.setMovieAudienceTotalNumber(number);
+	}
 	public TicketSeat saveTicketSeat(TicketSeat seat) {
-		if(seat.getNo() == null) {
-			return null;
+		TicketSeat ticket = ticketDto.ticketSeatBySeat(seat);//동일한 좌석이 존재하면 저장하지 않기 위해 조회한다.
+		if(ticket == null) {
+			ticketDto.insertTicetSeat(seat);
+			return ticketDto.ticketSeatBySeat(seat);
 		} else {
-			TicketSeat seatBuilder = TicketSeat.builder().no(seat.getNo()).ticketNo(seat.getTicketNo()).build();
-			TicketSeat seats = ticketDto.ticketSeatByNo(seatBuilder.getTicketNo());
-
-			if(seats == null) {
-				ticketDto.insertTicetSeat(seatBuilder);
-				return ticketDto.ticketSeatByNo(seatBuilder.getTicketNo());
-			} else {
-				return seats;
-			}
+		   throw new MovieTicketingErrorException("예약된 좌석입니다.");
 		}
 	}
 	public ShowStartTimeType getStartType(String time) {
