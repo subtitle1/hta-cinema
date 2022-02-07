@@ -1,5 +1,7 @@
 package com.example.web.restcontroller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,10 +65,18 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/checkIdDuplicate")
-	public ResponseDto<Boolean> checkIdDuplicate(String id) {
-		ResponseDto<Boolean> response = new ResponseDto<>();
+	public ResponseDto<HashMap<String, Object>> checkIdDuplicate(String id) {
+		ResponseDto<HashMap<String, Object>> response = new ResponseDto<>();
+		HashMap<String, Object> items = new HashMap<>();
 		
-		response.setItems(customerService.checkIdDuplicate(id));
+		if (customerService.isIdDuplicate(id)) {
+			items.put("isIdDuplicate", true);
+			items.put("message", "이미 사용중인 ID입니다.");
+		} else {
+			items.put("isIdDuplicate", false);
+			items.put("message", "사용가능한 ID입니다.");
+		}
+		response.setItems(items);
 		response.setStatus(true);
 		
 		return response;
