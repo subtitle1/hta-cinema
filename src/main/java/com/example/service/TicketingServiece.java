@@ -67,7 +67,7 @@ public class TicketingServiece {
 	}
 	public void updateMovieTotalNumber(int movieNo){
 		Movie findMovie = ticketDto.getMovieByNo(movieNo); 
-		long number = findMovie.getMovieAudienceTotalNumber() + 1;
+		long number = (long)(findMovie.getMovieAudienceTotalNumber() + 1);
 		findMovie.setMovieAudienceTotalNumber(number);
 	}
 	public TicketSeat saveTicketSeat(TicketSeat seat) {
@@ -111,7 +111,7 @@ public class TicketingServiece {
 	}
 	public FeeType getFeeTypeByNo(int showTypeNo, int dayTypeNo, int showStartTimeNo, int audienceTypeNo) {
 		FeeType fee = ticketDto.getAllFeeTypeByNo(showTypeNo, dayTypeNo, showStartTimeNo, audienceTypeNo);
-		if(fee==null) {
+		if(fee.equals(null)) {
 			FeeType fees = FeeType.builder().showDayTypeNo(dayTypeNo).showTypeNo(showTypeNo).audienceTypeNo(audienceTypeNo).showStartTypeNo(showStartTimeNo)
 					.build();
 			if(audienceTypeNo == 1) {

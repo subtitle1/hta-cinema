@@ -30,7 +30,7 @@ import com.example.vo.ShowType;
 import com.example.vo.Ticket;
 import com.example.vo.TicketSeat;
 import com.example.web.form.ScreenListInsertForm;
-import com.example.web.form.TicketNoFrom;
+import com.example.web.form.TicketNoForm;
 
 @Service
 @Transactional
@@ -105,7 +105,7 @@ public class MovieRatingService {
 		  }
 		 return schedule;
 	}
-	public List<TicketSeat> getTicketNoByScheduleNo(TicketNoFrom form) {
+	public List<TicketSeat> getTicketNoByScheduleNo(TicketNoForm form) {
 		return showDto.getTicketNoByScheduleNo(form);
 	}
 }

@@ -346,13 +346,12 @@
 					buyer_tel:'${LOGIN_USER.phoneNumber}'//User전화번호
 					}, function (rsp) {
 					 let data = rsp;
-					 console.log(uid);
-					 	console.log(price)
+					 console.log(price)
 					 $("input[name=ticketingToTalPay]").value = $('p.discount-pay>em').text();
 					 $("input[name=userDiscountPoint]").value=$('p.total-pay>em').text();
 					 $.ajax({
 						 type:"POST",
-						 url:"/rest/ticketing/complete",
+						 url:"/rest/ticketing/complete"+'?'+data,
 						 contentType: "application/json; charset=UTF-8",
 						 data: JSON({
 							uid:rsp.imp_uid,

@@ -138,7 +138,7 @@
 	 	where screen_no = #{value}
 	 </select>
 	 <!-- 	public Ticket getTicketNoByScheduleNo(int scheduleNo);//스케쥴번호를 이용하여 티켓번호를 조회한다. -->
-	 <select id="getTicketNoByScheduleNo" parameterType="com.example.web.form.TicketNoFrom" resultType="com.example.vo.TicketSeat">
+	 <select id="getTicketNoByScheduleNo" parameterType="com.example.web.form.TicketNoForm" resultType="com.example.vo.TicketSeat">
 		select 
 	    t.ticket_no as TicketNo, 
 	    ts.ticket_seat_no as no

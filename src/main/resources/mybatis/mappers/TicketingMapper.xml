@@ -88,7 +88,7 @@
  </select>
  <!-- public void countUpdateTotalNumber(int movieNo);//영화관람자수 증가 -->
 	<update id="countUpdateTotalNumber" parameterType="com.example.vo.Movie">
-		update table movie
+		update movie
 		set movie_audience_total_number = #{movieAudienceTotalNumber}
 		where movie_no = #{no}
 	</update>
