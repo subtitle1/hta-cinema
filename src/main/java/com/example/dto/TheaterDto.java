@@ -41,11 +41,13 @@ public class TheaterDto {
 	private String movieName;
 	
 	private int screenTotalSeat;
-	
-	
-	
-	
-	//현재 좌석 어떻게 구하는지
+	private String ticketingDay;//날짜와 글자
+	private int ticketingsDay;//날짜
+	private int movieNo;//영화 번호 
+	private String day;////날짜와 글자
+	private String time;//시간
+	private int ratingNo;
+	private int dayNo;//요일 번호 
 		
 	
 }
