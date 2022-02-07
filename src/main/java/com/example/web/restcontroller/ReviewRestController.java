@@ -53,7 +53,7 @@ public class ReviewRestController {
 		List<ReviewDto> reviews = reviewService.getAllReviewsByMovie(criteria);
 		int totalReviews = reviewService.getAllReviewsByMovie(criteria).size();
 		
-		log.info("조건:", criteria);
+		log.info("조건:"+criteria);
 		
 		response.setStatus(true);
 		response.setItems(Map.of("pagination", pagination, "reviews", reviews, "totalReviews", totalReviews, "option", option));
@@ -70,23 +70,13 @@ public class ReviewRestController {
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		
-		Review review = Review.builder()
-				.movieNo(form.getMovieNo())
-				.customerNo(customer.getNo())
-				.reviewScore(form.getReviewScore())
-				.reviewContent(form.getReviewContent())
-				.build();
+		Review review = new Review();
+		BeanUtils.copyProperties(form, review);
+		review.setCustomerNo(customer.getNo());
 		
 		List<ReviewPoint> reviewPoints = new ArrayList<>();
 		List<Integer> points = form.getPointNo();
-		
-		for (Integer point : points) {
-			ReviewPoint reviewPoint = new ReviewPoint();
-			reviewPoint.setNo(review.getNo());
-			reviewPoint.setPointNo(point);
-			
-			reviewPoints.add(reviewPoint);
-		}
+		setReviewPoints(review, reviewPoints, points);
 		
 		Review savedReview = reviewService.addReview(review, reviewPoints);
 		
@@ -120,14 +110,7 @@ public class ReviewRestController {
 		
 		List<ReviewPoint> reviewPoints = new ArrayList<>();
 		List<Integer> points = form.getPointNo();
-		
-		for (Integer point : points) {
-			ReviewPoint reviewPoint = new ReviewPoint();
-			reviewPoint.setNo(review.getNo());
-			reviewPoint.setPointNo(point);
-			
-			reviewPoints.add(reviewPoint);
-		}
+		setReviewPoints(review, reviewPoints, points);
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		Review updatedReview = reviewService.updateReview(review, reviewPoints);
@@ -137,7 +120,7 @@ public class ReviewRestController {
 		
 		return response;
 	}
-	
+
 	@DeleteMapping("/review")
 	public Review delete(@LoginedUser Customer customer, long reviewNo) {
 		
@@ -160,5 +143,15 @@ public class ReviewRestController {
 	@GetMapping("/movieScore")
 	public String movieScore(int movieNo) {
 		return reviewService.getMovieScore(movieNo);
+	}
+	
+	private void setReviewPoints(Review review, List<ReviewPoint> reviewPoints, List<Integer> points) {
+		for (Integer point : points) {
+			ReviewPoint reviewPoint = new ReviewPoint();
+			reviewPoint.setNo(review.getNo());
+			reviewPoint.setPointNo(point);
+			
+			reviewPoints.add(reviewPoint);
+		}
 	}
 }

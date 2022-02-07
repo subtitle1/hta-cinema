@@ -108,7 +108,7 @@
 								<span class="red">*</span>
 							</th>
 							<td>
-								<input type="text" id="email" value="${LOGIN_USER.email }" class="form-control" maxlength="15"/>
+								<input type="text" id="email" value="${LOGIN_USER.email }" class="form-control"/>
 							</td>
 						</tr>
 						<tr>
