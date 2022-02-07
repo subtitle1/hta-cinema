@@ -28,16 +28,10 @@
 		<div class="row mypage">
 			<div class="col p-0 aside text-center mt-3">
 				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">고객센터 메인</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports/faq" class="nav-link p-0">자주 묻는 질문</a></li>
+					<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
 					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">이용약관</a></li>
 				</ul>
 			</div>
 			<div class="text-center mt-3 mb-3">
@@ -50,8 +44,17 @@
 	<div class="supports col-9">
 		<div class="row">
 			<div class="offset col-7 p-0" style="margin-left: 20px;">
-				<div class="mt-5 mb-5">
+				<div class="mt-5 mb-3">
 					<h1>자주 묻는 질문</h1>
+				</div>
+				<div class="rounded row p-3 mb-3">
+					<div class="col">
+						<span>질문을 검색해 보세요.</span>
+						<input id="search-input" type="text" class="form-control mt-2" placeholder="질문 검색">
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-primary btn-sm" style="margin-top: 34px;" id="btn-search">검색</button>
+					</div>
 				</div>
 				<div>
 					<nav>
@@ -64,6 +67,9 @@
 								aria-controls="nav-theater" aria-selected="false">극장</button>
 						</div>
 					</nav>
+				</div>
+				<div class="col mt-5 ms-3">
+					<span><span id="ask-type">전체 </span><strong id="count"></strong> 건</span>
 				</div>
 				<div id="faq-lists" class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
@@ -79,30 +85,15 @@
 						</div>
 					</div>
 				</div>
-				<%-- <c:if test="${pagination.totalRecords gt 0 }">
-					<!-- 페이지 내비게이션 표시 -->
-					<div class="row mt-3 mb-3">
-						<div class="col">
-							<nav>
-					  			<ul class="pagination justify-content-center">
-					    			<li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
-					      				<a class="page-link" href="/supports/faq?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
-					    			</li>
-				
-					    			<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-						    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-						    				<a class="page-link" href="/supports/faq?page=${num }" data-page="${num }">${num }</a>
-						    			</li>	    			
-					    			</c:forEach>
-				
-					    			<li class="page-item ${pagination.existNext ? '' : 'disabled' }">
-					      				<a class="page-link" href="/supports/faq?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
-					    			</li>
-					  			</ul>
-							</nav>
-						</div>
-					</div>
-				</c:if> --%>
+				<div class="row">
+					<div class="col">
+						<nav aria-label="Page navigation example">
+							<!-- ajax 페이지네이션 -->
+							<ul class="pagination justify-content-center">
+							</ul>
+						</nav>
+					</div>				
+				</div>
 			</div>
 		</div>
 	</div>
@@ -111,6 +102,7 @@
 <script type="text/javascript">
 	$(function() {
 		let option = "전체";
+		let keyword = '';
 		let currentPage = 1;
 		let $div = $("#faq-lists .faq");
 		
@@ -118,21 +110,37 @@
 		
 		$(".faq-list").click(function() {
 			option = $(this).attr('value');
+			$("#ask-type").text(option+' ');
+			
+			currentPage = 1;
 			$div.empty();
 		 	showFaqLists();
+		})
+		
+		$("#btn-search").click(function() {
+			keyword = $("#search-input").val();
+			
+			currentPage = 1;
+			$div.empty();
+			showFaqLists();
 		})
 		
 		function showFaqLists() {
 			$.ajax({
 				type: "get",
 				url: "/rest/supports/faq",
-				data: {option: option, page: currentPage},
+				data: {option: option, keyword: keyword, page: currentPage},
 				dataType: 'json',
 				success: function(response) {
 					let faqList = response.items.faqList;
 					
+					let paging = response.items.pagination;
+					let pageNav = "";
+					let ul = $(".pagination");
+					
+					$("#count").text(paging.totalRecords);
 					$.each(faqList, function(index, faq) {
-						console.log(faq);
+						
 						let output = "";
 						
 						output += 	"<div class='accordion accordion-flush mb-3' id='faqlist' style='border-bottom:1px solid #d5d5d5;'>"
@@ -164,9 +172,44 @@
                 
 						$div.append(output);
 					})
+					
+					// 이전 페이지
+					if (!paging.existPrev) {
+						pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>이전</a></li>"
+					} else {
+						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"' href='javascript:void(0)'>이전</a></li>"
+					}
+					
+					// 현재 페이지
+					if (paging.pageNo == 0) {
+						pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
+					} else {
+						for (let i = paging.beginPage; i <= paging.endPage; i++) {
+							if (currentPage == i) {
+								pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+							} else {
+								pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+							}
+						}
+					}
+					
+					// 다음 페이지
+					if (!paging.existNext) {
+						pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>다음</a></li>"
+					} else {
+						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"' href='javascript:void(0)'>다음</a></li>"
+					}
+					ul.html(pageNav);
 				}
 			})
 		}
+		
+		$(".pagination").on('click', '.page-link', function(e) {
+			e.preventDefault();
+			currentPage = $(this).attr("data-page");
+			$div.empty();
+			showFaqLists();
+		})
 	})
 </script>
 </html>

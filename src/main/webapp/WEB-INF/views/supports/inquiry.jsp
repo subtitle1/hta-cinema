@@ -27,16 +27,10 @@
 		<div class="row mypage">
 			<div class="col p-0 aside text-center mt-3">
 				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">고객센터 메인</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports/faq" class="nav-link p-0">자주 묻는 질문</a></li>
+					<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
 					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">이용약관</a></li>
 				</ul>
 			</div>
 			<div class="text-center mt-3 mb-3">
@@ -46,15 +40,15 @@
 		</div>
 	</div>
 	
-	<div class="supports col-9">
+	<div class="supports col-6">
 		<div class="row">
-			<div class="col">
+			<div class="col mt-3">
 				<h1>1:1 문의</h1>
 			</div>
 		</div>
 		<div>
 			<form id="qnaForm" action="/qna" method="post" enctype="multipart/form-data">
-				<table class="table">
+				<table class="table mt-3">
 					<colgroup>
 						<col style="width:150px;">
 						<col>

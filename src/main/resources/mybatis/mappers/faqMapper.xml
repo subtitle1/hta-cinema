@@ -8,11 +8,16 @@
 		<where>
 			<if test="option != null">
 				<choose>
+					<when test="option == '전체'">
+						faq_question like '%' || #{keyword} || '%'
+					</when>
 					<when test="option == '예매'">
 						question_type_no = 1
+						and faq_question like '%' || #{keyword} || '%'
 					</when>
 					<when test="option == '극장'">
 						question_type_no = 2
+						and faq_question like '%' || #{keyword} || '%'
 					</when>
 				</choose>
 			</if>
@@ -35,15 +40,18 @@
         	 	<if test="option != null">
         	 		<choose>
         	 			<when test="option == '전체'">
-			        		q.question_type_no = f.question_type_no)
+			        		q.question_type_no = f.question_type_no
+			        		and f.faq_question like '%' || #{keyword} || '%')
         	 			</when>
         	 			<when test="option == '예매'">
         	 				q.question_type_no = f.question_type_no
-			        		and q.question_type_no = 1)
+			        		and q.question_type_no = 1
+			        		and f.faq_question like '%' || #{keyword} || '%')
         	 			</when>
         	 			<when test="option == '극장'">
         	 				q.question_type_no = f.question_type_no
-			        		and q.question_type_no = 2)
+			        		and q.question_type_no = 2
+			        		and f.faq_question like '%' || #{keyword} || '%')
         	 			</when>
         	 		</choose>
         	 	</if>

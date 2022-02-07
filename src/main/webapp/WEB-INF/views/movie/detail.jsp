@@ -56,15 +56,15 @@
 		<div>
 			<nav>
 				<div class="nav nav-tabs nav-justified mt-5" id="nav-tab" role="tablist">
-					<button class="nav-link active" id="nav-main-tab"
+					<button class="nav-link active detail-info" id="nav-main-tab"
 						data-bs-toggle="tab" data-bs-target="#nav-main" type="button"
 						role="tab" aria-controls="nav-main" aria-selected="true">주요정보
 					</button>
-					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab"
+					<button class="nav-link detail-info" id="nav-review-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-review" type="button" role="tab"
 						aria-controls="nav-review" aria-selected="false">실관람평
 					</button>
-					<button class="nav-link" id="nav-video-tab" data-bs-toggle="tab"
+					<button class="nav-link detail-info" id="nav-video-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-video" type="button" role="tab"
 						aria-controls="nav-video" aria-selected="false">예고편
 					</button>
@@ -884,7 +884,6 @@
 				})
 			})
 		})
-		
 	})
 </script>
 </html>

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.FaqDto;
@@ -44,8 +43,8 @@ public class SupportsRestController {
 		
 		List<FaqDto> faqList = faqService.getAllFaq(criteria);
 		
-		log.info("페이지: ", criteria.getPage());
-		log.info("조건: ", criteria);
+		log.info("페이지: "+criteria.getPage());
+		log.info("조건: "+criteria);
 		
 		response.setStatus(true);
 		response.setItems(Map.of("pagination", pagination, "faqList", faqList, "option", option));
