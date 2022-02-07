@@ -125,7 +125,6 @@ li {
 			</ul>
 			<div id="tab-1" class="tab-content current">
 				<ul>
-
 					<c:forEach var="theater" items="${theaters.seoul}">
 						<li class="theaterName" style="width: 23.6%"><a
 							href="theater/detail.jsp?no=${theater.no}">${theater.name}</a></li>
