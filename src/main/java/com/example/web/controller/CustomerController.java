@@ -2,6 +2,7 @@ package com.example.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.dto.CustomerCriteria;
@@ -20,5 +21,10 @@ public class CustomerController {
 		SessionUtils.addAttribute("CUSTOMER_ID", customer.getId());
 		
 		return "/customer/resetPasswordForm";
+	}
+	
+	@GetMapping("/customer/signUp")
+	public String signUp() {
+		return "/customer/signUp";
 	}
 }

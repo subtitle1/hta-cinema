@@ -10,10 +10,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="/resources/css/common.css" />
-	<link rel="stylesheet" href="/resources/css/customer/findIdPassword.css" />
+	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
 	<div class="container">
 		<div class="content-wrap mx-auto">
 			<div class="row">
@@ -140,27 +141,13 @@
 			</div>
 		</div>
 	</div>
-	<!-- 에러 모달 -->
-	<div class="modal fade" id="modal-notice" data-bs-backdrop="static" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="noticeModalLabel">알림</h5>
-					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p id="span-notice-message"></p>
-					<div class="d-flex justify-content-center mt-3">
-						<button class="btn btn-primary" data-bs-dismiss="modal">확인</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 <script type="text/javascript">
 	$(function() {
-		let noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
+		// 4자리 난수, 1000 ~ 9999
+		const fourDigitRandomNumber = Math.floor(Math.random()*(9999 - 1000 + 1)) + 1000;
+		
+		const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
 			keyboard: false
 		});
 		
@@ -181,7 +168,7 @@
 								+ "가입일: " + createdDate;
 							document.getElementById("span-notice-message").innerHTML = message;
 						} else {
-							$("#input-findPassword-authenticationCode").attr("placeholder", "1234");
+							$("#input-findPassword-authenticationCode").attr("placeholder", fourDigitRandomNumber);
 							$("#btn-check-authentication").prop("disabled", false);
 							$("#form-findPassword").find("input:not(#input-findPassword-authenticationCode)").prop("readonly", true);
 							
@@ -207,7 +194,7 @@
 		$("#btn-check-authentication").click(function(event) {
 			let targetDiv = $(this).parent().parent();
 			
-			if ($("#input-findPassword-authenticationCode").val() === "1234") {
+			if ($("#input-findPassword-authenticationCode").val() == fourDigitRandomNumber) {
 				$("#btn-request-authentication").prop("disabled", true);
 				$("#btn-findPassword").prop("disabled", false);
 				targetDiv.remove();

@@ -10,10 +10,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="/resources/css/common.css" />
-	<link rel="stylesheet" href="/resources/css/customer/resetPassword.css" />
+	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
+	<link rel="stylesheet" href="/resources/css/customer/resetPasswordForm.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
+	<script type="text/javascript" src="/resources/js/customer/passwordValidation.js"></script>
 </head>
 <body>
+<%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
 	<div class="container">
 		<div class="content-wrap mx-auto">
 			<div class="row">
@@ -96,171 +99,68 @@
 	</div>
 </body>
 <script type="text/javascript">
-	$(function() {
-		// 비밀번호 유효성 검사를 위한 정규표현식들
-		const engReg = /[a-zA-Z]/;
-		const numReg = /[0-9]/;
-		const specialReg = /[~!@#$%^&*+=?_-]/;
-		const allowedReg = /^[a-zA-Z0-9~!@#$%^&*+=?_-]+$/;
-		
-		const newPasswordInput = $("#input-newPassword");
-		const newPasswordCheckInput = $("#input-newPassword-check");
-		const passwordErrorDiv = $("#div-password-error");
-		const matchErrorDiv = $("#div-match-error");
-		
-		const newPasswordInputTooltip = new bootstrap.Tooltip(newPasswordInput);
-		const newPasswordCheckInputTooltip = new bootstrap.Tooltip(newPasswordCheckInput);
-		
-		// 비밀번호 input에 잘못된 입력이 있을 때를 대비해 기존의 값을 저장하는 객체
-		const savedValue = {newPasswordInputSavedValue: "", newPasswordCheckInputSavedValue: ""};
-		
-		// 유효성 검사를 통과했는지 여부를 저장하는 변수로 true이면 통과한 것이다.
-		let passwordValidationFlag = false;
-		let passwordInputValueMatchFlag = false;
-		
-		/*
-		 * divElement: 에러 메세지를 표시할 엘리먼트, flag: true/false
-		 * flag에 따라 divElement의 바로 이전에 있는 엘리먼트의 클래스에 row-other를 제거하거나 추가한다.
-		 * flag에 따라 divElement의 hidden 속성을 추가하거나 제거한다.
-		 * flag가 true이면 divElement의 바로 이전에 있는 엘리먼트의 클래스에서 row-other를 제거하고
-		 *  divElement의 hidden 속성을 제거해서 보이게 한다.
-		 */
-		function showErrorMessage(divElement, flag) {
-			if (flag) {
-				divElement.prev().removeClass("row-other");
-				divElement.prop("hidden", false);
-			} else {
-				divElement.prev().addClass("row-other");
-				divElement.prop("hidden", true);
-			}
+$(function() {
+	const newPasswordInput = $("#input-newPassword");
+	const newPasswordCheckInput = $("#input-newPassword-check");
+	const passwordErrorDiv = $("#div-password-error");
+	const matchErrorDiv = $("#div-match-error");
+	
+	const newPasswordInputTooltip = new bootstrap.Tooltip(newPasswordInput);
+	const newPasswordCheckInputTooltip = new bootstrap.Tooltip(newPasswordCheckInput);
+	
+	const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
+		keyboard: false
+	});
+	const noticeModalElement = document.getElementById("span-notice-message");
+	
+	// 비밀번호와 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+	newPasswordInput.keyup(function(event) {
+		passwordCommonValidation($(this), true, newPasswordInputTooltip);
+		passwordValidation($(this), passwordErrorDiv);
+		passwordValueMatchValidation($(this), newPasswordCheckInput, matchErrorDiv);
+		if (isAllFlagTrue()) {
+			$("#btn-resetPassword").prop("disabled", false);
+		} else {
+			$("#btn-resetPassword").prop("disabled", true);
 		}
-		
-		
-		// 비밀번호와 비밀번호 확인의 값이 동일한지 체크하고 결과에 따라 에러 메세지를 보이거나 flag의 값을 변경한다.
-		// 비밀번호 확인 input의 값이 비어있으면 에러 메세지를 보이지 않는다.
-		function checkNewPasswordInputValueMatch() {
-			if (newPasswordCheckInput.val() === "") {
-				showErrorMessage(matchErrorDiv, false);
-				passwordInputValueMatchFlag = false;
-				return;
-			}
-			
-			if (newPasswordInput.val() === newPasswordCheckInput.val()) {
-				showErrorMessage(matchErrorDiv, false);
-				passwordInputValueMatchFlag = true;
-			} else {
-				showErrorMessage(matchErrorDiv, true);
-				passwordInputValueMatchFlag = false;
-			}
+	});
+	newPasswordCheckInput.keyup(function(event) {
+		passwordCommonValidation($(this), false, newPasswordCheckInputTooltip);
+		passwordValueMatchValidation(newPasswordInput, $(this), matchErrorDiv);
+		if (isAllFlagTrue()) {
+			$("#btn-resetPassword").prop("disabled", false);
+		} else {
+			$("#btn-resetPassword").prop("disabled", true);
 		}
+	});
+	
+	// 확인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 새 비밀번호를 서버로 보내고 처리 결과를 받아온다.
+	// 처리 결과가 성공이면 알림 모달을 통해 결과를 알리고, 모달의 버튼들에 홈페이지로 redirect하는 이벤트를 등록하기 위해 클래스를 추가한다.
+	// 처리 결과가 실패이면 알림 모달을 통해 에러 내용을 알려준다.
+	$("#btn-resetPassword").click(function(event) {
+		const jsonNewPasswordForm = $("#form-resetPassword").serializeArray();
 		
-		/*
-		 * inputElement: 유효성 검사를 실시할 inputElement
-		 * savedValueKey: 값을 저장할 savedValue 객체의 key
-		 * tooltip: input 엘리먼트에 해당하는 tooltip
-		 * 비밀번호와 비밀번호 확인에 동일하게 적용되는 유효성 검사이다.
-		 * 비밀번호에는 영문, 숫자, 일부 특수문자의 입력만 허용된다.
-		 * 비밀번호 input이 비어있거나 허용된 값만 있으면 savedValue 객체에 그 값을 저장한다.
-		 * 비밀번호 input에 허용되지 않는 값이 포함되어 있으면 이전으로 되돌리고 툴팁을 표시한다.
-		 * 마지막에는 비밀번호와 비밀번호 확인의 값이 동일한지 체크한다.
-		 */
-		function passwordCommonValidation(inputElement, savedValueKey, tooltip) {
-			const value = inputElement.val();
-			console.log("allowedReg.test: " + allowedReg.test(value));
-			
-			if (allowedReg.test(value) || value === "") {
-				savedValue[savedValueKey] = value;
-			} else {
-				inputElement.val(savedValue[savedValueKey]);
-				tooltip.show();
-				setTimeout(function() {
-					tooltip.hide();
-				}, 3000);
-				console.log("savedValue: " + savedValue[savedValueKey]);
-				clearTimeout();
-			}
-			
-			checkNewPasswordInputValueMatch();
-		}
-		
-		/*
-		 * 비밀번호에서만 적용되는 유효성 검사이다.
-		 * 비밀번호의 길이와 조합이 적절한지 확인한다.
-		 * 비밀번호는 10자리 이상, 16자리 이하만 가능하다.
-		 * 비밀번호는 영문, 숫자, 일부 특수문자 중 2가지 이상이 조합되어야 한다.
-		 * 유효성 검사 통과 여부에 따라 에러메세지를 표시하거나 flag의 값을 변경한다.
-		 */
-		function passwordValidation(inputElement) {
-			const value = inputElement.val();
-			
-			if (!(value.length >= 10 && value.length <= 16)) {
-				showErrorMessage(passwordErrorDiv, true);
-				return;
-			}
-			
-			let totalCombination = 0;
-			if (engReg.test(value)) {
-				totalCombination++;
-			}
-			if (numReg.test(value)) {
-				totalCombination++;
-			}
-			if (specialReg.test(value)) {
-				totalCombination++;
-			}
-			console.log("totalCombination: " + totalCombination);
-			if (totalCombination < 2) {
-				showErrorMessage(passwordErrorDiv, true);
-				passwordValidationFlag = false;
-			} else {
-				showErrorMessage(passwordErrorDiv, false);
-				passwordValidationFlag = true;
-			}
-		}
-		
-		// 모든 유효성 검사를 통과했는지 확인하고 결과에 따라 "확인" 버튼을 활성화/비활성화한다.
-		function checkAllFlagTrue() {
-			console.log("passwordValidationFlag: " + passwordValidationFlag);
-			console.log("passwordInputValueMatchFlag: " + passwordInputValueMatchFlag);
-			if (passwordValidationFlag && passwordInputValueMatchFlag) {
-				$("#btn-resetPassword").prop("disabled", false);
-			} else {
-				$("#btn-resetPassword").prop("disabled", true);
-			}
-		}
-		
-		// 비밀번호와 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		newPasswordInput.keyup(function(event) {
-			passwordCommonValidation($(this), "newPasswordInputSavedValue", newPasswordInputTooltip);
-			passwordValidation($(this));
-			checkAllFlagTrue();
-		});
-		newPasswordCheckInput.keyup(function(event) {
-			passwordCommonValidation($(this), "newPasswordCheckInputSavedValue", newPasswordCheckInputTooltip);
-			checkAllFlagTrue();
-		});
-		
-		$("#btn-resetPassword").click(function(event) {
-			let jsonNewPasswordForm = $("#form-resetPassword").serializeArray();
-			
-			$.ajax({
-				type: "post",
-				url: "/login",
-				data: jsonLoginForm,
-				dataType: "json",
-				success: function(response) {
-					if (response.status) {
-						checkSaveIdChecked();
-						
-						window.location.reload();
-					} else {
-						document.getElementById("span-login-error-message").innerHTML = response.error;
-
-						$("#btn-call-login-error").trigger("click");
-					}
+		$.ajax({
+			type: "post",
+			url: "/customer/resetPassword",
+			data: jsonNewPasswordForm,
+			dataType: "json",
+			success: function(response) {
+				if (response.status) {
+					noticeModalElement.innerHTML = response.items;
+					$("#modal-notice button").addClass("btn-redirect-home");
+				} else {
+					noticeModalElement.innerHTML = response.error;
 				}
-			});
+				noticeModal.show();
+			}
 		});
 	});
+	
+	// 알림 모달의 버튼들에 홈페이지로 redirect하는 이벤트를 등록한다.
+	$("#modal-notice").on("click", ".btn-redirect-home", function(event) {
+		location.replace("/");
+	});
+});
 </script>
 </html>

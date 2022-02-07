@@ -42,15 +42,21 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/customer/resetPassword")
-	public ResponseDto<Customer> restPassword(String id, String newPassword) {
-		ResponseDto<Customer> response = new ResponseDto<Customer>();
+	public ResponseDto<String> restPassword(String newPassword) {
+		ResponseDto<String> response = new ResponseDto<>();
 		
 		if (SessionUtils.getAttribute("CUSTOMER_ID") == null) {
 			throw new ErrorException("잘못된 접근입니다.");
 		}
 		
+		String id = (String)SessionUtils.getAttribute("CUSTOMER_ID");
 		customerService.updatePassword(id, newPassword);
 		SessionUtils.sessionInvalidate();
+		
+		response.setStatus(true);
+		response.setItems("비밀번호 변경이 완료되었습니다.<br>"
+				+ "재로그인해주세요.");
+		
 		return response;
 	}
 }
