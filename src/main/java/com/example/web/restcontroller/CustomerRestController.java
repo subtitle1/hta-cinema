@@ -2,6 +2,7 @@ package com.example.web.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.CustomerCriteria;
@@ -12,11 +13,12 @@ import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerRestController {
 	@Autowired
 	CustomerService customerService;
 	
-	@PostMapping("/customer/findIdPassword")
+	@PostMapping("/findIdPassword")
 	public ResponseDto<Customer> findIdPassword(CustomerCriteria criteria) {
 		ResponseDto<Customer> response = new ResponseDto<Customer>();
 		
@@ -41,7 +43,7 @@ public class CustomerRestController {
 		return response;
 	}
 	
-	@PostMapping("/customer/resetPassword")
+	@PostMapping("/resetPassword")
 	public ResponseDto<String> restPassword(String newPassword) {
 		ResponseDto<String> response = new ResponseDto<>();
 		
@@ -56,6 +58,16 @@ public class CustomerRestController {
 		response.setStatus(true);
 		response.setItems("비밀번호 변경이 완료되었습니다.<br>"
 				+ "재로그인해주세요.");
+		
+		return response;
+	}
+	
+	@PostMapping("/checkIdDuplicate")
+	public ResponseDto<Boolean> checkIdDuplicate(String id) {
+		ResponseDto<Boolean> response = new ResponseDto<>();
+		
+		response.setItems(customerService.checkIdDuplicate(id));
+		response.setStatus(true);
 		
 		return response;
 	}

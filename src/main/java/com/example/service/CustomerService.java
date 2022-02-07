@@ -48,4 +48,11 @@ public class CustomerService {
 		customer.setPassword(password);
 		customerMapper.updateCustomer(customer);
 	}
+	
+	// 같은 아이디가 존재하면 true를 반환한다.
+	public boolean checkIdDuplicate(String id) {
+		Customer customer = customerMapper.getCustomerById(id);
+		
+		return customer != null;
+	}
 }

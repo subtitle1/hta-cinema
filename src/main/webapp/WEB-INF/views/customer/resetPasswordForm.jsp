@@ -61,7 +61,7 @@
 				<div id="div-password-error" class="row p-0 row-other" hidden>
 					<div class="col-3 m-0 ps-3 py-3 col-label"></div>
 					<div class="col-9 align-self-center">
-						<span class="error">비밀번호는 영문, 숫자, 특수기호 중 2가지 이상을 조합해야 하며 10자리 이상 16자리 이하여야 합니다.</span>
+						<span class="error">비밀번호는 영문, 숫자, 특수기호 중 2가지 이상을 조합해야 하며 10자리 이상 16자리 이하만 가능합니다.</span>
 					</div>
 				</div>
 			</form>
@@ -85,7 +85,7 @@
 			<div class="row mt-3 mb-4">
 				<div class="col px-0 mx-0">
 					<ul>
-						<li>비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합 10자리 이상으로 설정해주세요.</li>
+						<li>비밀번호는 영문, 숫자, 특수기호 중 2가지 이상을 조합해야 하며 10자리 이상 16자리 이하만 가능합니다.</li>
 						<li>비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다.</li>
 					</ul>
 				</div>
