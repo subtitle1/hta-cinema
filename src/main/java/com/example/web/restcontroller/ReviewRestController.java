@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,11 +26,13 @@ import com.example.web.form.Criteria;
 import com.example.web.form.ReviewEditForm;
 import com.example.web.form.ReviewInsertForm;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/rest")
 public class ReviewRestController {
 	
-	static final Logger logger = LogManager.getLogger(ReviewRestController.class);
 	@Autowired
 	private ReviewService reviewService;
 				
@@ -52,6 +52,8 @@ public class ReviewRestController {
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		List<ReviewDto> reviews = reviewService.getAllReviewsByMovie(criteria);
 		int totalReviews = reviewService.getAllReviewsByMovie(criteria).size();
+		
+		log.info("조건:", criteria);
 		
 		response.setStatus(true);
 		response.setItems(Map.of("pagination", pagination, "reviews", reviews, "totalReviews", totalReviews, "option", option));

@@ -30,7 +30,7 @@
 					<li class=""><a href="#" class="nav-link p-0">고객센터 메인</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">자주 묻는 질문</a></li>
+					<li class=""><a href="/supports/faq" class="nav-link p-0">자주 묻는 질문</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
 					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
@@ -46,23 +46,21 @@
 		</div>
 	</div>
 	
-	<div class="supports">
-		<div class="border rounded p-4">
-			<div class="row">
-				<div class="col bolck-content">
-					<a href="#"><img alt="" src="/resources/images/supports/ico-faq.png">
-						<p class="mt-3">자주 묻는 질문</p>
-						<p>자주 묻는 질문을 확인해보세요.</p>
-					</a>
-				</div>
-				<div class="col bolck-content">
-					<a href="/supports/inquiry"><img alt="" src="/resources/images/supports/ico-oneandone.png">
-						<p class="mt-3">1:1 문의</p>
-						<p>해결되지 않은 문제가 있나요?<br>
-						일대일로 문의 주세요.
-						</p>
-					</a>
-				</div>
+	<div class="supports col-9">
+		<div class="row mt-3">
+			<div class="col bolck-content">
+				<a href="#"><img alt="" src="/resources/images/supports/ico-faq.png">
+					<p class="mt-3">자주 묻는 질문</p>
+					<p>자주 묻는 질문을 확인해보세요.</p>
+				</a>
+			</div>
+			<div class="col bolck-content">
+				<a href="/supports/inquiry"><img alt="" src="/resources/images/supports/ico-oneandone.png">
+					<p class="mt-3">1:1 문의</p>
+					<p>해결되지 않은 문제가 있나요?<br>
+					일대일로 문의 주세요.
+					</p>
+				</a>
 			</div>
 		</div>
 		<div class="row">

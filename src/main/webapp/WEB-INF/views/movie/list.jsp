@@ -180,15 +180,15 @@
 				output += "</div>";
 				
 				$div.append(output);
-				
 			});
 		}
 		
 		function refreshMovie() {
 			$("#searchMore").removeAttr("disabled");
+			$("#search-input").val('');
 			currentPage = 1;
 			$div.empty();
-			$("#search-input").val('');
+			
 			showMyMovies();
 			getMovieList();
 		}
@@ -234,6 +234,7 @@
 					let resultCount = response.total_results;
 					totalPage = Math.ceil(resultCount/20);
 					$("#count").text(resultCount);
+					showMyMovies();
 					showLists(response);
 				}
 			})

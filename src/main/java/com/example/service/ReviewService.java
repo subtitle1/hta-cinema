@@ -44,7 +44,6 @@ public class ReviewService {
 	 * @return 작성 리뷰
 	 */
 	public Review addReview(Review review, List<ReviewPoint> points) {
-		
 		try {
 			reviewMapper.insertReview(review);
 		 

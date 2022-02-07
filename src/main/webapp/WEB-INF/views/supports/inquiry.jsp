@@ -30,7 +30,7 @@
 					<li class=""><a href="#" class="nav-link p-0">고객센터 메인</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
-					<li class=""><a href="#" class="nav-link p-0">자주 묻는 질문</a></li>
+					<li class=""><a href="/supports/faq" class="nav-link p-0">자주 묻는 질문</a></li>
 				</ul>
 				<ul class="nav flex-column p-0">
 					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
@@ -53,7 +53,7 @@
 			</div>
 		</div>
 		<div>
-			<form action="/qna" method="post" enctype="multipart/form-data">
+			<form id="qnaForm" action="/qna" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<colgroup>
 						<col style="width:150px;">
@@ -79,7 +79,7 @@
 									</div>
 									<div class="col">
 										<select id="theater" name="theaterNo" class="form-select" disabled>
-											<option selected disabled>극장선택</option>
+											<option value="">극장선택</option>
 										</select>
 									</div>
 								</div>
@@ -92,7 +92,7 @@
 							</th>
 							<td colspan="3">
 								<select id="ask-type" name="qnaTypeNo" class="form-select">
-									<option selected disabled>문의유형 선택</option>
+									<option value="" selected disabled>문의유형선택</option>
 									<c:forEach var="category" items="${categories }">
 										<option value="${category.no }">${category.typeName }</option>
 									</c:forEach>
@@ -153,12 +153,12 @@
 							</th>
 							<td>
 								<div>
-									<p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 3개)</p>
+									<p>* 5M 이하의 파일만 첨부 가능합니다. (최대 3개)</p>
 									<p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
-									<input multiple="multiple" type="file" class="form-control" name="upfiles"/>
-									<label class="form-label"></label>
+									<button id="addFile" type="button" class="btn mb-3 btn-primary">파일 추가</button>
 								</div>
-								<div id="imgList"></div>
+								<div id="imgList">
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -188,29 +188,7 @@
 		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
 			keyboard: false
 		});
-		
-		$("#region").click(function() {
-			let $option = $("#theater");
-			let regionNo = $("#region option:selected").val();
-			
-			$("#theater").empty();
-			
-			
-			if (regionNo) {
-				$("#theater").prop("disabled", false);
-				
-				$.getJSON("/rest/theater", {regionNo: regionNo}, function(response) {
-					let theaters = response.items;
-					$.each(theaters, function(index, theater) {
-						let output = "";
-						output = "<option selected disabled>극장선택</option>";
-						output = "<option value='"+theater.no+"'>"+theater.name+"</option>";
-						$option.append(output);
-					})
-				})
-			}
-		})
-		
+
 		function showError(message) {
 			$("#span-error").text(message);
 			errorModal.show();
@@ -218,43 +196,122 @@
 			$("#submit").click(function() {
 				errorModal.hide();
 			})
-			return;
 		}
 		
 		$("#qna-submit").click(function() {
 			
-			if ($("#theater").val() == null) {
-				showError("문의 지점을 선택해 주세요.")
+			if (!$("#theater").val()) {
+				showError("문의 지점을 선택해 주세요.");
+				return;
 			}
 			
-			if ($("#ask-type").val() == null) {
-				showError("문의 유형을 선택해 주세요.")
+			if (!$("#ask-type").val()) {
+				showError("문의 유형을 선택해 주세요.");
+				return;
 			}
 			
-			if ($("#userName").val() == '') {
-				showError("사용자명을 입력해 주세요.")
+			if (!$("#userName").val()) {
+				showError("사용자명을 입력해 주세요.");
+				return;
 			}
 			
-			if ($("#email").val() == '') {
-				showError("이메일을 입력해 주세요.")
+			if (!$("#email").val()) {
+				showError("이메일을 입력해 주세요.");
+				return;
 			}
 			
-			if ($("#phone").val() == '') {
-				showError("휴대폰번호를 입력해 주세요.")
+			if (!$("#phone").val()) {
+				showError("휴대폰번호를 입력해 주세요.");
+				return;
 			}
 			
-			if ($("#title").val() == '') {
-				showError("제목을 입력해 주세요.")
+ 			if (!$("#title").val()) {
+				showError("제목을 입력해 주세요.");
+				return;
 			}
 			
-			if ($("#textarea").val() == '') {
-				showError("문의 내용을 입력해 주세요.")
+ 			if (!$("#textarea").val()) {
+				showError("문의 내용을 입력해 주세요.");
+				return;
 			}
 			
-			let filePath =  $("[name=upfiles]").val();
-			let fileArr = [];
-			let fileName = $("[name=upfiles]").val().split('\\').filter((item, index) => index == 2);
+ 			$("#qnaForm").submit();
+		})
+		
+		let count = 0;
+		$("#addFile").click(function() {
+			addFile();
+			count++;
 			
+			if (count >= 3) {
+				$(this).attr('disabled', true);
+			}
+		})
+
+	    function addFile() {
+	    	let html = "";
+
+	    	html += "<div class='list mb-2'>"
+	    	html += "<input multiple='multiple' type='file' class='border fileList' name='upfiles'/>"
+	    	html += "<button type='button' class='deleteFile mt ms-2 btn btn-sm btn-secondary'>삭제</button>";
+	    	html += "</div>"
+	    	
+	    	$("#imgList").append(html);
+	    }
+		
+		deleteFile();
+		
+	    function deleteFile() {
+	    	$("#imgList").on('click', ".deleteFile", function() {
+		    	let button = $(this);
+		    	button.closest('div').remove();
+		    	count--;
+		    	
+		    	if (count <= 3) {
+					$("#addFile").attr('disabled', false);
+				}
+		    })
+	    }
+	    
+	    $("#imgList").on('change', '.fileList', function() {
+	    	let maxSize = 5242880; // 5MB 파일 용량 제한
+			let files = $("[name=upfiles]");
+	    	
+	    	for (let i = 0; i <= files.length; i++) {
+				let size = files[i].files[0].size;
+				
+				if (size > maxSize) {
+					$(this).val('');
+					
+					showError("5MB 이상의 파일을 업로드할 수 없습니다.");
+					return;
+				}
+			}
+	    })
+		
+		function resetTheater() {
+			$('#theater option').remove();
+			$('#theater').append($('<option>').val('').text('극장선택'));
+			$('#theater').attr('disabled', true);
+		}
+		
+		$("#region").click(function() {
+			let $option = $("#theater");
+			let regionNo = $("#region option:selected").val();
+			
+			if (regionNo != '지역선택') {  
+				resetTheater();
+				$("#theater").attr("disabled", false);
+				
+				$.getJSON("/rest/theater", {regionNo: regionNo}, function(response) {
+					let theaters = response.items;
+					$.each(theaters, function(index, theater) {
+						let output = "";
+						output = "<option value='"+theater.no+"'>"+theater.name+"</option>";
+						$option.append(output);
+					})
+				})
+			}
 		})
 	})
 </script>

@@ -170,7 +170,6 @@
 						<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 						    <input type="radio" class="btn-check" name="option" value="date" id="date" autocomplete="off" checked>
 						    <label class="btn btn-outline-dark btn-sm" for="date">최신순</label>
-						
 						    <input type="radio" class="btn-check" name="option" value="rate" id="rate" autocomplete="off">
 						    <label class="btn btn-outline-dark btn-sm" for="rate">평점순</label>
 						</div>
@@ -428,7 +427,6 @@
          	}
      	});
    		
-		
 		// 1. 영화 상세 정보를 가져오는 url
 		$.ajax({
 			type: 'get',
@@ -650,8 +648,6 @@
 		
 		// 최신순, 평점순 정렬
 		$(":input[name=option]").click(function() {
-			let order = $("[name=option]:checked").val();
-			
 			currentPageNo = 1;
 			$(".review-box").empty();
 			getReviews();
@@ -662,26 +658,13 @@
 			let order = $("[name=option]:checked").val();
 			$.getJSON('/rest/review', {page: currentPageNo, option: order, movieNo: movieId}, function(response) {
 				let reviews = response.items.reviews;
-				
+
 				// 리뷰가 없을 때
 				if (reviews == "") {
 					$(".no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
 					$(".review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
 				// 리뷰가 있을 때
 				} else {
-					// 사용자가 작성한 리뷰가 있는지 조회
-					
-					$.ajax({
-						type: "get",
-						url: "/rest/myReview",
-						data: {movieNo: movieId},
-						dataType: 'json',
-						async: false,
-						success: function (response) {
-							reviewNo = response.items.review.reviewNo;
-						}
-					});
-					
 					$.each(reviews, function(index, review) {
 						let $reviewBox = $(".review-box");
 						let points = review.reviewPoints.map(point => point.pointName);
@@ -689,8 +672,7 @@
 						// 아이디 끝자리 비공개
 						let id = review.customerId;
 						let maskedId = id.substring(0, id.length - 2) + "**";
-
-						// rest로 회원정보 조회, response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
+						
 						let output = "<div class='row review-start text-center mt-3 mb-3'>"
 							output += "<div class='col-1'>"
 							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
@@ -725,7 +707,19 @@
 						$reviewBox.append(output);
 					});
 					
-					// 내가 작성한 리뷰에만 버튼 보이게 하기
+					// 로그인한 사용자가 작성한 리뷰가 있는지 조회
+					$.ajax({
+						type: "get",
+						url: "/rest/myReview",
+						data: {movieNo: movieId},
+						dataType: 'json',
+						async: false,
+						success: function (response) {
+							reviewNo = response.items.review.reviewNo;
+						}
+					});
+					
+					// 회원정보 조회 후 response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
 					let myReview = $("#review-"+reviewNo).data("review-no");
 				
 					let utilbtn = "";
@@ -869,6 +863,8 @@
 			let review = $(this);
 			
 			$("#span-error").text("정말 삭제하시겠습니까?");
+			$(".modal-footer").find('.btn-primary').text("확인");
+			
 			errorModal.show();
 			
 			$("#submit").click(function() {
