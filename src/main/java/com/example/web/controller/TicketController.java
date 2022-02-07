@@ -3,6 +3,7 @@ package com.example.web.controller;
 import java.text.DateFormat;
 
 
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Map;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,6 +42,7 @@ import com.example.exception.CustomException;
 import com.example.service.MovieRatingService;
 import com.example.service.MovieTicketService;
 import com.example.service.TicketingServiece;
+import com.example.utils.Scheduler;
 import com.example.utils.SessionUtils;
 import com.example.vo.AudienceType;
 import com.example.vo.Customer;
@@ -59,7 +62,7 @@ import com.example.web.form.InsertTicketForm;
 import com.example.web.form.ScreenListInsertForm;
 import com.example.web.form.ScreenListInsertForm.ScreenListInsertFormBuilder;
 import com.example.web.form.TicketForm;
-import com.example.web.form.TicketNoFrom;
+import com.example.web.form.TicketNoForm;
 import com.example.web.form.TicketingForm;
 import com.example.web.form.TicketingPayForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -80,6 +83,9 @@ public class TicketController {
 	private MovieTicketService movieTicketService;
 	@Autowired
 	private TicketingServiece ticketService;
+	@Autowired
+	private Scheduler scheduler;
+	//스케쥴러를 Autowired한다.
 	
 	
 	@GetMapping("/ticketing/screenList")
@@ -121,7 +127,7 @@ public class TicketController {
 		String month = ticket.getTicketingDay().substring(0, ticket.getTicketingDay().length()-2);
 		String day = ticket.getTicketingDay().substring(ticket.getTicketingDay().length()-2, ticket.getTicketingDay().length());
 		String totalDay = year+"-"+month+"-"+day;
-		TicketNoFrom ticketForm = TicketNoFrom.builder().movieNo(ticket.getMovieNo()).showScheduleNo(screens.getShowScheDuleNo()).build();
+		TicketNoForm ticketForm = TicketNoForm.builder().movieNo(ticket.getMovieNo()).showScheduleNo(screens.getShowScheDuleNo()).build();
 		List<TicketSeat> findTicketSeat = movieRatingService.getTicketNoByScheduleNo(ticketForm);
 		
 		model.addAttribute("screens", screens);
@@ -178,7 +184,8 @@ public class TicketController {
 	}
 
 	@GetMapping("/ticketing/ticketingPay")
-	public String ticketingPay(@ModelAttribute(value="formByPay") String jsonForm, Model model) throws JsonMappingException, JsonProcessingException {
+	public String ticketingPay(@ModelAttribute(value="formByPay") String jsonForm, Model model) throws JsonMappingException, JsonProcessingException,Exception {
+	
 		ObjectMapper mapper = new ObjectMapper();
 		TicketingPayForm form = mapper.readValue(jsonForm, TicketingPayForm.class);
 		TicketingPayForm forms = TicketingPayForm.builder().screenNo(form.getScreenNo()).feeByForm(form.getFeeByForm())
@@ -227,7 +234,14 @@ public class TicketController {
 		log.info("성인"+form.getAudult()+form.getAudultTotal());
 		log.info("청소년"+form.getBaby()+form.getBabyTotal());
 		log.info("노인"+form.getOld()+form.getOldTotal());
-		
+		//scheduler.startScheduler();//스케쥴러 시작
+		//List<String> seats = new ArrayList<>();
+		//for(TicketSeat seat : form.getSeatsKindByForm()) {
+		//	seats.add(seat.getNo());
+		//}
+		//int number = Integer.parseInt(form.getAudultTotal()) +  Integer.parseInt(form.getBabyTotal()) + Integer.parseInt(form.getOldTotal());
+		//TicketNoForm from = TicketNoForm.builder().movieNo(movieRating.getMovieNo()).customerNo(customer.getNo()).seatList(seats).movieAudienceTotalNumber(number).build();
+		//scheduler.deletedDto(from); //스케쥴러 지우는 부분
 		return "/ticketing/ticketingPay";
 	}
 	
@@ -254,12 +268,12 @@ public class TicketController {
 		//나중에 totalPay와 point, EarningPoint변경예정
 		//티켓을 저장한다.
 		Ticket findTicket = ticketService.saveTicket(tickets);
-		List<FeeType> fees = new ArrayList<>();
-		for(AudienceType audience : audiences) {
-			FeeType fee = ticketService.getFeeTypeByNo(ticket.getShowTypeNo(), showDay.getNo(), startTime.getNo(),audience.getNo());
-			fees.add(fee);
-			//관람료 구분에 입력한다.
-		}
+		//List<FeeType> fees = new ArrayList<>();
+		//for(AudienceType audience : audiences) {
+		//	FeeType fee = ticketService.getFeeTypeByNo(ticket.getShowTypeNo(), showDay.getNo(), startTime.getNo(),audience.getNo());
+		//		fees.add(fee);
+		//	//관람료 구분에 입력한다.
+		//} //에러나서 주석으로 처리함, 나중에 확인해야함(입력필요없으면 따로 입력안함)
 		List<TicketSeat> seatsKind = new ArrayList<>();
 		TicketSeat seats1 = TicketSeat.builder().ticketNo(findTicket.getNo()).no(ticket.getSeat1()).build();
 		TicketSeat seats2 = TicketSeat.builder().ticketNo(findTicket.getNo()).no(ticket.getSeat2()).build();
@@ -286,7 +300,7 @@ public class TicketController {
 			seatsKind.add(seat4);
 			ticketService.updateMovieTotalNumber(form.getMovieNo());
 		}
-		log.info("관람자구분" + fees);
+		//log.info("관람자구분" + fees);
 		log.info("일정조회" + showDay);
 		log.info("시작시간조회" + startTime);
 		log.info("관람자번호" + audiences);
@@ -294,7 +308,7 @@ public class TicketController {
 		log.info("좌석" + seatsKind);
 		log.info("영화번호" + ticket.getMovieNo());
 		
-		TicketingPayForm formByPay = TicketingPayForm.builder().feeByForm(fees)
+		TicketingPayForm formByPay = TicketingPayForm.builder()
 				.showDayByForm(showDay).startTimesByForm(startTime).audiencesByForm(audiences)
 				.findTicketByForm(findTicket).seatsKindByForm(seatsKind).movieNo(ticket.getMovieNo()).audult(form.getAdult()).audultTotal(form.getAdultCount()).screenNo(form.getScreenNo())
 				.baby(form.getBaby()).babyTotal(form.getBabyCount()).oldTotal(form.getOldCount()).old(form.getOld()).build();
