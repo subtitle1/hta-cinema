@@ -50,14 +50,13 @@
  	from audience_type
  	<choose>
  		<when test="list.size gt 1 and list != null">
- 			<foreach collection="list" item="item" open="(" separator="," close=")">
-	 		 where audience_type_name in #{list}
+ 			<foreach collection="list" item="items" open="(" separator="," close=")">
+	 		 where audience_type_name in #{items}
 	 		</foreach>
  		</when>
 	 	<otherwise>
 	 		where audience_type_name like '%' || #{list} || '%'
 	 	</otherwise>
-	 	
  	</choose>
  </select>
  <select id="getAudienceTypeNameByOne" parameterType="string" resultType="com.example.vo.AudienceType">
@@ -84,9 +83,9 @@
  <select id="getMovieByNo" parameterType="int" resultType="com.example.vo.Movie">
  	select movie_audience_total_number as movieAudienceTotalNumber
  	from movie
- 	where movie_no = ${value}
+ 	where movie_no = #{value}
  </select>
- <!-- public void countUpdateTotalNumber(int movieNo);//영화관람자수 증가 -->
+ <!-- 	public void countUpdateTotalNumber(Movie movie);//영화관람자수 증가-->
 	<update id="countUpdateTotalNumber" parameterType="com.example.vo.Movie">
 		update movie
 		set movie_audience_total_number = #{movieAudienceTotalNumber}
@@ -184,7 +183,7 @@
    		delete from ticket_seat where ticket_seat_no = #{value}
    </delete>
    <update id="updateticketByPoint" parameterType="com.example.vo.Ticket">
-   		update table ticket
+   		update ticket
    		set 
    		ticket_total_amount = #{TicketTotalAmount},
    		ticket_used_point = #{ticketUsedPoint},
@@ -210,15 +209,26 @@
    	values
    	(#{no},#{name},#{detailName})
    </insert>
-   <insert id="insertPointHistoryType" parameterType="com.example.vo.PointHistoryTypeDetail">
-   insert into point_history_type
-   	(point_history_type_name)
-   	values
-   	(#{name})
-   </insert>
+<!-- public PointHistoryType getType(String name); 
+	 public PointHistoryTypeDetail getDetailHistory(int no);
+-->
+	<select id="getType" parameterType="string" resultType="com.example.vo.PointHistoryType">
+		select
+		point_history_type_name as name
+		from point_history_type
+		where point_history_type_name like '%' || #{value} || '%'
+	</select>
+	<select id="getDetailHistory" parameterType="int" resultType="com.example.vo.PointHistoryTypeDetail">
+		select 
+		point_history_type_detail_no as no,
+		point_history_type_name as name,
+		point_history_type_detail_name as detailName 
+		from point_history_type_detail
+		where point_history_type_detail_no = #{value}
+	</select>
    <!-- public void updateCustomerPoint(int customerNo);//구매시 update될 customer의 point -->
    <update id="updateCustomerPoint" parameterType="com.example.vo.Customer">
-   	update table customer
+   	update customer
    	set customer_current_point = #{currentPoint}
    	where customer_no = #{no}
    </update>

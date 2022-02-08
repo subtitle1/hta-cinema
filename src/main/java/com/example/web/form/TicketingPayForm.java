@@ -25,13 +25,13 @@ import lombok.ToString;
 @ToString
 public class TicketingPayForm {
 
-	private List<FeeType> feeByForm;
 	private ShowDayType showDayByForm;
 	private ShowStartTimeType startTimesByForm;
-	private List<AudienceType> audiencesByForm;
-	private Ticket findTicketByForm;
 	private List<TicketAudience> ticketAudienceKindByForm;
-	private List<TicketSeat> seatsKindByForm;
+	private String seat1;
+	private String seat2;
+	private String seat3;
+	private String seat4;
 	private int movieNo;
 	private int screenNo;
 	private String audult;
@@ -40,4 +40,7 @@ public class TicketingPayForm {
 	private String babyTotal;
 	private String old;
 	private String oldTotal;
+	private long showScheduleNo;
+	private String ticketingPay;
+	
 }

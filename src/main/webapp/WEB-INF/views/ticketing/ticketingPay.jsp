@@ -55,9 +55,9 @@
                 <img src="${movie.ratingImageURL}" alt="count-age" class="count-age">
                 <p class="title-text">${movie.movieName}</p>
               		<p class="screen-system">예매 좌석 정보
-                	<c:forEach var="seat" items="${ticketSeat }">
-                	<c:if test="${not empty seat.no }">
-                		(${seat.no})
+                	<c:forEach var="seat" items="${seats }">
+                	<c:if test="${not empty seat }">
+                		(${seat})
                 	</c:if>
                 	</c:forEach>
                		 </p>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="total">
                     <p class="total-title">금액</p>
-                    <p class="total-pay"><em>${ticket.ticketTotalAmount }</em>원</p>
+                    <p class="total-pay"><em>${ticketingPay }</em>원</p>
                 </div>
                 <i class="fas fa-minus-circle"></i>
                 <div class="discount-total">
@@ -93,12 +93,12 @@
                 <div class="discount-content">
                     <div class="point">
                         <p class="use-point">포인트 적립</p>
-                        <p class="point-discount"><em>${ticket.ticketExpectedEarningPoint }</em>원</p>
+                        <p class="point-discount"><em>${point }</em>원</p>
                     </div>
                 </div>
                 <div class="final-pay">
                     <p class="final-title">최종결제금액</p>
-                    <p class="final-total"><em>${ticket.ticketTotalAmount }</em>원</p>
+                    <p class="final-total"><em>${ticketingPay }</em>원</p>
                 </div>
                 <div class="way-pay">
                     <p class="way-pay-title">결제수단</p>
@@ -120,17 +120,17 @@
         <form action="/ticketing/complete" method="post" id="form-submit">
         	<input type="hidden" name="theater"  value="${theater }"/>
         	<input type="hidden" name="screen"  value="${screen }"/>
-        	<input type="hidden" name="movie"  value="${movie }"/>
-        	<input type="hidden" name="ticketingPay"  value="${ticket.ticketTotalAmount }" />
-        	<input type="hidden" name="seatNumber" value="${ticketSeat }"/>
-        	<input type="hidden" name="userPoint"  value="${ticket.ticketExpectedEarningPoint }"/>
+        	<input type="hidden" name="movie"  value="${movie.movieNo }"/>
+        	<input type="hidden" name="ticketingPay"  value="${ticketingPay }" />
+        	<input type="hidden" name="seatList" value="${seatList }"/>
+        	<input type="hidden" name="userPoint"  value="${point }"/>
         	<input type="hidden" name="adult"  value="${audult }" />
         	<input type="hidden" name="baby"  value="${baby }" />
         	<input type="hidden" name="old"  value="${old }" />
         	<input type="hidden" name="showTime"  value="${showTime }" />
         	<input type="hidden" name="ticket"  value="${ticket }" />
-        	<input type="hidden" name="fee"  value="${fee }" />
         	<input type="hidden" name="startTime"  value="${startTime }" />
+        	<input type="hidden" name="showScheduleNo"  value="${showScheduleNo }" />
         </form>
     </div>
     <div id="point-modal">
@@ -309,8 +309,8 @@
 <script type="text/javascript">
 	$(function(){
 		   $(".btn-pay").click(function(){
-				if(!$('#userPhone').isEmpty()) {
-					if(!$('#userBirth').isEmpty()){
+				if(!$('#userPhone')==null) {
+					if(!$('#userBirth')==null){
 						$('button.button-request').attr('disabled','false');
 					}
 				}
@@ -332,13 +332,24 @@
 					if(rsp.success){ //결제 성공시: 결제 승인시 
 						$.ajax({
 							url:"/rest/ticketing/complete", //가맹점 서버
-							method:"POST",
+							method:"GET",
 							headers:{"Content-Type":"application/json"},
 							data:{
-								theater:$("input[name=theater]").val(),
-								screen:$("input[name=screen]").val()
+								movie:$("input[name=movie]").val(),
+								ticketingToTalPay:$('p.final-total>em').text(),	//최종금액
+								userDiscountPoint:$('p.point-discount>em').text(), //포인트적립
+								userPoint:$("p.discount-pay>em").text(),//할인적용금액(할인사용)
+								seatList:$("input[name=seatList]").val(),
+								ticketingPay:$("input[name=ticketingPay]").val(),//총금액
+								adult:$("input[name=adult]").val(),
+								baby:$("input[name=baby]").val(),
+								old:$("input[name=old]").val(),
+								startTime:$("input[name=startTime]").val(),
+								showScheduleNo:$("input[name=showScheduleNo]").val()
 							}
 						}).done(function(data){
+							alert("결제완료");
+							location.href="/";
 						 })
 					} else {
 				alert("결제에 실패하였습니다. 에러내용 :" +rsp.error_msg);   
