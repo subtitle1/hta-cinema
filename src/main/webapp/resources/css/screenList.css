@@ -176,11 +176,22 @@ strong{
     margin-top: 2px;
 }
 .choice-list{
-    width: 50px;
+    width: 120px;
     height: 65px;
     border: 1px solid rgb(201, 201, 201);
     float: left;
+    align-items: left;
     margin: 7.3px;
+    display:none;
+}
+.check-theater{
+	text-align: center;
+	align-items: center;
+	font-size: 30px;
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	border-radius: 100%;
 }
 img+.del{
     float: right;

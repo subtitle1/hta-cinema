@@ -83,6 +83,7 @@ public class TicketRestController {
 		  response.setItems(theaters);
 		  return response;
 	  }
+	  
 	  @PostMapping("/ticketing/complete")
 	  public void getTicketPay(InsertTicketForm form) {
 		  		

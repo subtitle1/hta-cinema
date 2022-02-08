@@ -217,10 +217,10 @@
             	<c:forEach var="noEamptys" items="${noEamptySeat }">
             		disabled.push("${noEamptys.no}");
             	</c:forEach>
+            	console.log(disabled);
 	            let seatrow = $('div.ptag').attr('data-row');	//열의좌석 꺼내왔을 때 변수에 저장seatcolumn
 	            let seatcolumn = $('div.ptag').attr('data-column');		//행의좌석 꺼내왔을 때 변수에 저장seatrow
-	            console.log(seatrow);
-	            console.log(seatcolumn);
+	           
 	            let max = new Map();
           		max.set("A",0);
           		max.set("B",1);
@@ -264,11 +264,15 @@
 			 	for(let i = 0; i < disabled.length;i++){
 			 		resultDisabledColumn.push(disabled[i].slice(0,1)); //장애인석 행을 나눔
 			 		disabledRow.push(parseInt(disabled[i].slice(1)));//숫자로 변환하는 메소드
+			 		console.log("행"+disabled[i].slice(0,1));
+			 		console.log("열"+disabled[i].slice(1));
 	           	}
 		        
 		     let disabledColumn = [];
 			for(let i = 0; i<resultDisabledColumn.length;i++){
 				disabledColumn.push(max.get(resultDisabledColumn[i]));
+				console.log("변경전"+resultDisabledColumn[i]);
+				console.log("변경후"+disabledColumn);
 			}		
 			 let noseatColumn = [];
 			for(let i = 0; i<resultNoSeatColumn.length;i++){
@@ -276,7 +280,6 @@
 			}	
 			
 			let resultRow = max.get(seatrow); 
-			console.log(resultRow);
 	        //이제 화면에 뿌릴예정
 	        let lefts = 106;
             let tops = 52;
@@ -306,28 +309,26 @@
 	       		}
 	       	lefts = 106;
             tops = 52;
-            for(let i = 0; i<disabledColumn.length; i++){
-            	div = document.createElement('div');
-	       		$el.append(div);
-            	for(let j = 0; j<disabledRow.length; j++) {
+            	for(let i = 0; i<disabledRow.length; i++) {
             		let addTop = tops +(disabledColumn[i]*20);
-					 let addLefts = lefts +(disabledRow[j]*20);
-					 input = document.createElement('input');
-	       			 mapping(input,disabledColumn[i],disabledRow[j]);
-	       			input.type = "button";
-	       			input.setAttribute('class','seat-condition-finish');
-	                 $(input).css('position','absolute');
-	                 $(input).css('width','22px');
-	                 $(input).css('heigh','18px');
-	                 $(input).css('disabled','disabled');
-	                 $(input).css('top',addTop+'px');
-	                 $(input).css('left',addLefts+'px');
-	                 $(input).css('margin','2px');
-	                 //input.setAttribute('onclick','ticketing()');
-	                 $el.append(input);
+    				let addLefts = lefts +(disabledRow[i]*20);
+    				 input = document.createElement('input');
+           			 mapping(input,disabledColumn[i],disabledRow[i]);
+           			 console.log("없는좌석컬럼"+disabledColumn[i]);
+           			 console.log("없는좌석행"+disabledRow[i]);
+           			input.type = "button";
+           			input.setAttribute('class','seat-condition-finish');
+                     $(input).css('position','absolute');
+                     $(input).css('width','22px');
+                     $(input).css('heigh','18px');
+                     $(input).css('disabled','disabled');
+                     $(input).css('top',addTop+'px');
+                     $(input).css('left',addLefts+'px');
+                     $(input).css('margin','2px');
+                     //input.setAttribute('onclick','ticketing()');
+                     $el.append(input);
 	                 addTop = 0;
 	                 addLefts = 0; 
-            	}
             }
             lefts = 106;
             tops = 52;
@@ -437,6 +438,10 @@
 	 					  $('input[name=adultCount]').val(0);
 	 					  let ticketPay = Number($('input[name=ticketingPay]').val())-13000;
     	    	          $('input[name=ticketingPay]').val(ticketPay);
+    	    	          $('div.seat-all').text('-');
+    	    	    	  $('div.seat-all').attr('class','seat-position');
+    	    	    	  $('input.seat-condition-choise').attr('class','seat-condition-common');
+    	    	    	   totalSeat = 0;
         			  }	 						
         				  $('em.adult_class').text(minusbtn);
     		   	          $('button.down:eq(0)').next().find('button').text(minusbtn);
@@ -446,6 +451,10 @@
     	    	          $('input[name=adultCount]').val(minusbtn);
     	    	          let ticketPay = Number($('input[name=ticketingPay]').val())-13000;
     	    	          $('input[name=ticketingPay]').val(ticketPay);
+    	    	          $('div.seat-all').text('-');
+    	    	    	   $('div.seat-all').attr('class','seat-position');
+    	    	    	   $('input.seat-condition-choise').attr('class','seat-condition-common');
+    	    	    	   totalSeat = 0;
         	} }
         		   else if(who === '청소년 좌석 선택 감소'){
         		   	if(now2 == '0'){
@@ -462,6 +471,10 @@
  	 					  $('input[name=babyCount]').val(0);
  	 					let ticketPay = Number($('input[name=ticketingPay]').val())-10000;
   	    	          $('input[name=ticketingPay]').val(ticketPay);
+  	    	       	  $('div.seat-all').text('-');
+		  	       	  $('div.seat-all').attr('class','seat-position');
+		  	          $('input.seat-condition-choise').attr('class','seat-condition-common');
+		  	       	   totalSeat = 0;
          			  }	 						
          				  $('em.baby_class').text(minusbtn);
      		   	          $('button.down:eq(1)').next().find('button').text(minusbtn);
@@ -471,6 +484,10 @@
      	    	          $('input[name=babyCount]').val(minusbtn);
      	    	          let ticketPay = Number($('input[name=ticketingPay]').val())-10000;
      	    	          $('input[name=ticketingPay]').val(ticketPay);
+     	    	          $('div.seat-all').text('-');
+     	    	    	  $('div.seat-all').attr('class','seat-position');
+     	    	    	  $('input.seat-condition-choise').attr('class','seat-condition-common');
+     	    	    	  totalSeat = 0;
          	} 
         	   } else if(who === '우대 좌석 선택 감소') { 
         		   if(now3 == '0'){
@@ -486,7 +503,11 @@
  	 					  $('em.old_class').remove();
  	 					  $('input[name=oldCount]').val(0);
  	 					let ticketPay = Number($('input[name=ticketingPay]').val())-5000;
-  	    	          $('input[name=ticketingPay]').val(ticketPay);
+  	    	            $('input[name=ticketingPay]').val(ticketPay);
+  	    	       		$('div.seat-all').text('-');
+		  	       	    $('div.seat-all').attr('class','seat-position');
+		  	       	    $('input.seat-condition-choise').attr('class','seat-condition-common');
+		  	       	    totalSeat = 0;
          			  }	 						
          				  $('em.old_class').text(minusbtn);
      		   	          $('button.down:eq(2)').next().find('button').text(minusbtn);
@@ -496,6 +517,10 @@
      	    	          $('input[name=oldCount]').val(minusbtn);
      	    	          let ticketPay = Number($('input[name=ticketingPay]').val())-5000;
      	    	          $('input[name=ticketingPay]').val(ticketPay);
+     	    	          $('div.seat-all').text('-');
+     	    	    	  $('div.seat-all').attr('class','seat-position');
+     	    	    	  $('input.seat-condition-choise').attr('class','seat-condition-common');
+     	    	    	  totalSeat = 0;
          	} 
         	   }
        })
