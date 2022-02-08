@@ -17,8 +17,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class TheaterTransportationDto {
 
-	private int theaterPublicTransportationNo;
-	private int publicTransportationTypeNo;
-	private String publicTransportationTypeName;
-	private String theaterPublicTransportationContent;
+	private int no;
+	private int typeNo;
+	private String typeName;
+	private String content;
 }

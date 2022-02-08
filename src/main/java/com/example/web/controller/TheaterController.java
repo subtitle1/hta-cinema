@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.dto.TheaterDto;
+import com.example.service.TheaterDetailService;
 import com.example.service.TheaterService;
 import com.example.vo.Theater;
 
@@ -18,6 +20,8 @@ public class TheaterController {
 	
 	@Autowired
 	TheaterService theaterService;
+	@Autowired
+	TheaterDetailService theaterDetailService;
 
 	@GetMapping("/list")
 	public String theaterlist(Model model) {
@@ -28,8 +32,9 @@ public class TheaterController {
 		return "/theater/list";
 	}
 	@GetMapping("/detail")
-	public String detail(int no) {
-		
+	public String detail(int no, Model model) {
+		TheaterDto theaterDto = theaterDetailService.getTheaterDto(no);
+		model.addAttribute("dto", theaterDto);
 		return "/theater/detail";
 	}
 	

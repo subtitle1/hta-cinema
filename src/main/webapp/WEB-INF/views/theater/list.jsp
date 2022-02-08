@@ -127,7 +127,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.seoul}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -135,7 +135,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.kyungki}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -143,7 +143,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.incheon}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -151,7 +151,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.daejeon}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -159,7 +159,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.busan}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 					<::after></::after>
 				</ul>
@@ -168,7 +168,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.kwangju}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 					<::after></::after>
 				</ul>
@@ -177,7 +177,7 @@ li {
 				<ul>
 					<c:forEach var="theater" items="${theaters.kangwon}">
 						<li class="theaterName" style="width: 23.6%"><a
-							href="theater/detail.jsp?no=${theater.no}"">${theater.name}</a></li>
+							href="detail?no=${theater.no }">${theater.name}</a></li>
 					</c:forEach>
 					<::after></::after>
 				</ul>
