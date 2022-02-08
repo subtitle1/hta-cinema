@@ -39,12 +39,13 @@ public interface TicketingMapper {
 	//예약된 좌석을 티켓번호로 조회한다.
 	public TicketSeat ticketSeatBySeat(TicketSeat seat);
 	public Movie getMovieByNo(int movieNo);//영화관람자수 조회
-	public void countUpdateTotalNumber(int movieNo);//영화관람자수 증가
+	public void countUpdateTotalNumber(Movie movie);//영화관람자수 증가
 	public void deleteticketSeatByNo(String no);//예약 취소시 삭제 
 	public void updateticketByPoint(Ticket ticket);//point사용시 수정될 ticket내용
 	public void insertPointHistory(PointHistory history);
 	public void insertPointHistoryDetail(PointHistoryTypeDetail detailHistory);
-	public void insertPointHistoryType(PointHistoryType type);
 	public void updateCustomerPoint(Customer customer);//구매시 update될 customer의 point
 	public Screen getScreenByNo(int screenNo);
+	public PointHistoryType getType(String name);
+	public PointHistoryTypeDetail getDetailHistory(int no);
 }

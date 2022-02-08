@@ -10,9 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.exception.MovieTicketingErrorException;
 import com.example.mapper.TheaterMapper;
 import com.example.mapper.TicketingMapper;
+import com.example.utils.SessionUtils;
 import com.example.vo.AudienceType;
+import com.example.vo.Customer;
 import com.example.vo.FeeType;
 import com.example.vo.Movie;
+import com.example.vo.PointHistory;
+import com.example.vo.PointHistoryType;
+import com.example.vo.PointHistoryTypeDetail;
 import com.example.vo.Screen;
 import com.example.vo.ShowDayType;
 import com.example.vo.ShowStartTimeType;
@@ -50,6 +55,14 @@ public class TicketingServiece {
 			return ticketByNo;
 		}
 	}
+	public Ticket updateTicket(Ticket ticket) {
+		Ticket ticketByNo = ticketDto.ticketByNo(ticket.getNo());
+		ticketByNo.setTicketUsedPoint(ticket.getTicketUsedPoint());
+		ticketByNo.setTicketTotalAmount(ticket.getTicketTotalAmount());
+		ticketByNo.setTicketExpectedEarningPoint(ticket.getTicketExpectedEarningPoint());
+		ticketDto.updateticketByPoint(ticketByNo);
+		return ticketDto.ticketByNo(ticketByNo.getNo());
+	}
 	public TicketAudience saveTicketAudience(TicketAudience audience) {
 		TicketAudience audienceBuilder = TicketAudience.builder().ticketNo(audience.getTicketNo()).audienceTypeNo(audience.getAudienceTypeNo())
 				.ticketNo(audience.getTicketNo()).totalNumber(audience.getTotalNumber()).build();
@@ -65,10 +78,12 @@ public class TicketingServiece {
 	public Movie getMovieTotalNumberByNo(int movieNo) {
 		return ticketDto.getMovieByNo(movieNo);
 	}
-	public void updateMovieTotalNumber(int movieNo){
+	public void updateMovieTotalNumber(int movieNo, int total){
 		Movie findMovie = ticketDto.getMovieByNo(movieNo); 
-		long number = (long)(findMovie.getMovieAudienceTotalNumber() + 1);
+		int number =findMovie.getMovieAudienceTotalNumber()+total;
 		findMovie.setMovieAudienceTotalNumber(number);
+		findMovie.setNo(movieNo);
+		ticketDto.countUpdateTotalNumber(findMovie);
 	}
 	public TicketSeat saveTicketSeat(TicketSeat seat) {
 		TicketSeat ticket = ticketDto.ticketSeatBySeat(seat);//동일한 좌석이 존재하면 저장하지 않기 위해 조회한다.
@@ -94,7 +109,7 @@ public class TicketingServiece {
 		} else if(baby.equals("청소년")) {
 			name.add("YOUTH");
 		}
-		if(name.size() > 1) {
+		if(name.size() >= 1) {
 			return ticketDto.getAudienceTypeName(name);
 		} else {
 			AudienceType type = null;
@@ -129,5 +144,18 @@ public class TicketingServiece {
 	}
 	public Screen getScreenByNo(int screenNo) {
 		return ticketDto.getScreenByNo(screenNo);
+	}
+	public void insertPointHistory(PointHistory pointHistory) {
+		 ticketDto.insertPointHistory(pointHistory);
+	}
+	public PointHistoryTypeDetail insertPointHistory(PointHistoryTypeDetail detail) {
+		ticketDto.insertPointHistoryDetail(detail);
+		return ticketDto.getDetailHistory(detail.getNo());
+	}
+	public PointHistoryType insertPointType(PointHistoryType type) {
+		return ticketDto.getType(type.getName());
+	}
+	public void updateCustomerPoint(Customer customer) {
+			ticketDto.updateCustomerPoint(customer);
 	}
 }

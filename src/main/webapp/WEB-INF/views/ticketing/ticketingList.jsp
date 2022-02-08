@@ -198,15 +198,19 @@
 <script type="text/javascript">
         $(function(){
         		
-        		//let today = new Date();
-        		//let date = today.getDate();
-        		//let month = today.getMonth()+1;
-        		//let year = today.getFullYear();
-        	//let spantext = year + '.' + month + '.' + date;
-        	//$('p.date').find('span').text(spantext);
-        	//$('button.now-time').click(function(){
-        		
-        	//});
+			//let apiKey ="935cc74a36fab18e33ea802df5ebd3f4";
+			//let imageUrl = "https://api.themoviedb.org/3/movie/";
+			//let movieId = $('input[name=movieNo]').val();
+
+				//$.ajax({
+				//	type:"get",
+				//	url: imageUrl+{movieId}+"/images?api_key=<<"+apiKey+">>&"language
+				//	success:function(response){
+				//		$('.img-card').find('img').attr('src',response.file_path);
+				//		console.log(response.file_path);
+				//	}
+				//})
+
         	
             $("#show-seat").append(function(){    
             	let noSeat = new Array();//빈 좌석
@@ -264,15 +268,11 @@
 			 	for(let i = 0; i < disabled.length;i++){
 			 		resultDisabledColumn.push(disabled[i].slice(0,1)); //장애인석 행을 나눔
 			 		disabledRow.push(parseInt(disabled[i].slice(1)));//숫자로 변환하는 메소드
-			 		console.log("행"+disabled[i].slice(0,1));
-			 		console.log("열"+disabled[i].slice(1));
 	           	}
 		        
 		     let disabledColumn = [];
 			for(let i = 0; i<resultDisabledColumn.length;i++){
 				disabledColumn.push(max.get(resultDisabledColumn[i]));
-				console.log("변경전"+resultDisabledColumn[i]);
-				console.log("변경후"+disabledColumn);
 			}		
 			 let noseatColumn = [];
 			for(let i = 0; i<resultNoSeatColumn.length;i++){
@@ -314,8 +314,6 @@
     				let addLefts = lefts +(disabledRow[i]*20);
     				 input = document.createElement('input');
            			 mapping(input,disabledColumn[i],disabledRow[i]);
-           			 console.log("없는좌석컬럼"+disabledColumn[i]);
-           			 console.log("없는좌석행"+disabledRow[i]);
            			input.type = "button";
            			input.setAttribute('class','seat-condition-finish');
                      $(input).css('position','absolute');
