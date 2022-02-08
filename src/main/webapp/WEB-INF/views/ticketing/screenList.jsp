@@ -55,17 +55,6 @@
                         목록에서 영화를 선택하세요</p>-->
                        <!--영화를 하나라도 선택했을 때--> 
                         <div class="choice-list" id="choiceMovieList-0">
-                            <img src="#">
-                            <!--영화 이미지 소스가 들어간다. 선택된 영화에만 button이 출력된다. -->
-                            <button type="button" class="del"></button>
-                        </div>
-                        <div class="choice-list" id="choiceMovieList-1">
-                             <!--영화 이미지 소스가 들어간다.-->
-                             <button type="button" class="del"></button>
-                        </div>
-                        <div class="choice-list" id="choiceMovieList-2">
-                             <!--영화 이미지 소스가 들어간다.-->
-                            <button type="button" class="del"></button>
                         </div>
                     </div>
                 </div>
@@ -229,13 +218,17 @@
 			let $movieButton = $(this);
 			let valueNo = $movieButton.val();
 			let attrNo =  $movieButton.attr('class');
+			let texts = $movieButton.find('.txt').text();
 			$('.explain-button p').css('display','none');
 			$('button.list-theater-button').css('display','flex');
+			$('#choiceMovieList-0').css('display','flex');
 			if($movieButton.hasClass('active')){
 				$('button.movie-button').removeClass('active');
+				$('#choiceMovieList-0').css('display','none');
 			} else{
 				$('button.movie-button').removeClass('active');
 				$movieButton.addClass('active');
+				$('#choiceMovieList-0').text(texts);
 			}
 			//아래에 클릭시 이미지가 뜨도록 	
 		})
@@ -254,13 +247,18 @@
 		//극장명을 클릭하면	
 		$('div.theater-choies').on('click','button.list-theater-button',function(){
 			let $dataAttr = $('div.movie-check');
+			$('p.check-content').css('display','none');
 			$dataAttr.empty();
 			let $btn = $(this);
+			let texts = $btn.text();
 			if($btn.hasClass('active')){
 				$('button.list-theater-button').removeClass('active');
+				$('.check-theater').css('display','none');
 			} else{
 				$('button.list-theater-button').removeClass('active');
 				$btn.addClass('active');
+				$('.check-theater').text(texts);
+				$('.check-theater').css('display','flex');
 			}
 			let day = $('button.mon.active').find('span.movie-week-of-day').text();
 			let dayNm = parseInt(day);

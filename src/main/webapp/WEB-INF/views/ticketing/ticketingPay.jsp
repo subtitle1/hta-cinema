@@ -309,69 +309,41 @@
 <script type="text/javascript">
 	$(function(){
 		   $(".btn-pay").click(function(){
-				if($('#userPhone')!== null) {
-					if($('#userBirth')!==null){
+				if(!$('#userPhone').isEmpty()) {
+					if(!$('#userBirth').isEmpty()){
 						$('button.button-request').attr('disabled','false');
-						let arr = new Array();
-						let obj = new Object();
-						obj.theater=$("input[name=theater]").val();
-						obj.screen=$("input[name=screen]").val();
-						obj.movie=$("input[name=movie]").val();
-						obj.ticketingToTalPay=$('p.final-total>em').text();
-						obj.userDiscountPoint=$('p.point-discount>em').text();
-						obj.ticketingPay=$("input[name=ticketingPay]").val();
-						obj.seatNumber=$("input[name=seatNumber]").val();
-						obj.userPoint=$("input[name=userPoint]").val();
-						obj.adult=$("input[name=adult]").val();
-						obj.baby=$("input[name=baby]").val();
-						obj.old=$("input[name=old]").val();
-						obj.showTime=$("input[name=showTime]").val();
-						obj.ticket=$("input[name=ticket]").val();
-						obj.fee=$("input[name=fee]").val();
-						obj.startTime=$("input[name=startTime]").val();
-						arr.push(obj);
-						
 					}
 				}
 		        let IMP = window.IMP; // 생략가능
 				IMP.init('imp28206043'); 
-				IMP.request_pay({
-					pg: 'kakao',
-					pay_method: 'card',
-					merchant_uid: 'merchant_' + new Date().getTime(),
-					name:$('p.title-text').text(),
-					amount: $('p.total-pay>em').text(),
+				IMP.request_pay({ //param
+					pg: 'kakao',//PG사
+					pay_method: 'card',//지불수단
+					merchant_uid: 'merchant_' + new Date().getTime(),//가맹점에서 구별하는 고유한 id
+					name:$('p.title-text').text(),//상품명
+					amount: $('p.final-total>em').text(),//총가격
+					point:$('p.total-pay>em').text(),//포인트 금액
+					total_amount:$('p.discount-pay>em').text(), //할인된 금액
 					buyer_name: '${LOGIN_USER.name}',//Username
 					buyer_email: '${LOGIN_USER.email}', //User이메일
 					buyer_tel:'${LOGIN_USER.phoneNumber}'//User전화번호
-					}, function (rsp) {
-					 let data = rsp;
-					 console.log(price)
-					 $("input[name=ticketingToTalPay]").value = $('p.discount-pay>em').text();
-					 $("input[name=userDiscountPoint]").value=$('p.total-pay>em').text();
-					 $.ajax({
-						 type:"POST",
-						 url:"/rest/ticketing/complete"+'?'+data,
-						 contentType: "application/json; charset=UTF-8",
-						 data: JSON({
-							uid:rsp.imp_uid,
-							price:rsp.paid_amount,
-							data:[
-							
-								{"ticketingToTalPay":$('p.final-total>em').text()},
-								{"userDiscountPoint":$('p.point-discount>em').text()},
-							
-								]			
-						 //포인트 적립과 총금액을 update해야함
-						 //스케쥴러로 계산안되면 취소작업해야함.
-					 })
-						 }).done(function(data){
-							 console.log(data);
-							 alert('결제완료');
+					
+					}, function (rsp){//콜백함수
+					if(rsp.success){ //결제 성공시: 결제 승인시 
+						$.ajax({
+							url:"/rest/ticketing/complete", //가맹점 서버
+							method:"POST",
+							headers:{"Content-Type":"application/json"},
+							data:{
+								theater:$("input[name=theater]").val(),
+								screen:$("input[name=screen]").val()
+							}
+						}).done(function(data){
 						 })
-					 location.href="/";
-				
-					})
+					} else {
+				alert("결제에 실패하였습니다. 에러내용 :" +rsp.error_msg);   
+		   }
+		  })
 		   });
 		   				
 		   $('#point-modal-show').click(function(){
