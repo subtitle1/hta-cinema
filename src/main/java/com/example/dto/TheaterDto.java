@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.example.vo.ShowSchedule;
+import com.example.vo.Theater;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,12 +20,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 public class TheaterDto {
-	private int no;
-	private String name;
-	private String streetAddress;
-	private int longitude;
-	private int latitude;
-	private int regionNo;
+	private Theater theater;
 	
 	private List<TheaterTransportationDto> transportationList;
 	
