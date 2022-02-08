@@ -229,11 +229,12 @@
 					query: keyword
 				},
 				success: function(response) {
-					$("#searchMore").removeAttr("disabled");
-					$div.empty();
 					let resultCount = response.total_results;
 					totalPage = Math.ceil(resultCount/20);
 					$("#count").text(resultCount);
+					
+					$("#searchMore").removeAttr("disabled");
+					$div.empty();
 					showMyMovies();
 					showLists(response);
 				}
