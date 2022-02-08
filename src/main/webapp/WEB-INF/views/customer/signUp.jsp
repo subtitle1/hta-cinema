@@ -125,7 +125,7 @@
 						<label for="input-email">이메일 주소</label>
 					</div>
 					<div class="col-9 align-self-center">
-						<input type="text" class="form-control" id="input-email" name="phoneNumber" placeholder="이메일 주소를 입력해주세요." maxlength="330" />
+						<input type="text" class="form-control" id="input-email" name="email" placeholder="이메일 주소를 입력해주세요." maxlength="330" />
 					</div>
 				</div>
 				<div id="div-email-error" class="row p-0 row-other" hidden>
@@ -288,7 +288,8 @@ $(function() {
 	});
 	
 	signUpButton.click(function() {
-		const jsonSignUpForm = ${"#form-signUp"}.serializeArray();
+		const jsonSignUpForm = $("#form-signUp").serializeArray();
+		console.log(jsonSignUpForm);
 		
 		$.ajax({
 			type: "post",
@@ -297,10 +298,9 @@ $(function() {
 			dataType: "json",
 			success: function(response) {
 				if (response.status) {
-					noticeModalElement.innerHTML = response.items;
-					$("#modal-notice button").addClass("btn-redirect-home");
+					noticeModalSpan.innerHTML = response.items;
 				} else {
-					noticeModalElement.innerHTML = response.error;
+					noticeModalSpan.innerHTML = response.error;
 				}
 				noticeModal.show();
 			}
