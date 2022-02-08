@@ -74,7 +74,9 @@
 						<div class=detail-info-wrap">
 							<h2 class="tit small mt70">시설안내</h2>
 							<h3 class="tit small">보유시설</h3>
-								<p>"${dto.Theater.getno }"</p>
+							<c:forEach var="facility" items="${dto.facilityList}">
+								<p>"${facility.facilityTypeName}"</p>
+							</c:forEach>
 
 							<h2 class="tit small mt70">교통안내</h2>
 							<h3 class="tit small">약도</h3>
@@ -85,7 +87,6 @@
 								<!-- 만약 아무대중교통도 없으면 대중교통 없다고 출력 -->
 								
 								<!-- 버스정보 있으면 출력 -->
-								<c:if test="${not empty dto }">
 								<div class="transportation-section">
 									<div class="icon-box">
 										<i class="iconset ico-bus" title="버스">버스</i>
@@ -97,7 +98,6 @@
 										</ul>
 									</div>
 								</div>
-								</c:if>
 								<!-- 여기까지 -->
 								
 								<!-- 지하철 정보 -->
