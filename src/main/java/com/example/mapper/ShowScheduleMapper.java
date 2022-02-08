@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.dto.ShowScheduleDto;
 
 public interface ShowScheduleMapper {
-	List<ShowScheduleDto> getAllScheduleByTheaterNo();
+	List<ShowScheduleDto> getAllScheduleByTheaterNo(int no);
 	
 	
 }

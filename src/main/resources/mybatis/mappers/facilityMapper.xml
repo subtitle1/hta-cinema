@@ -9,7 +9,7 @@
 		from 
 			FACILITY_TYPE ft, THEATER_FACILITY tf
 		where 
-			ft.THEATER_NO = tf.THEATER_NO
+			ft.FACILITY_TYPE_NO = tf.FACILITY_TYPE_NO
 			and theater_no = #{value}
 	</select>
 </mapper>

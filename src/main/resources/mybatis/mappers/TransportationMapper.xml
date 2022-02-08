@@ -4,17 +4,17 @@
 	
 	<select id="getAllTransportationByNo" parameterType="int" resultType="com.example.dto.TheaterTransportationDto">
 		select
-			ptt.PUBLIC_TRANSPORTATION_TYPE_NO			as publicTransportationTypeNo,
-			ptt.PUBLIC_TRANSPORTATION_TYPE_NAME			as publicTransportationTypeName,
-			tptc.THEATER_PUBLIC_TRANSPORTATION_NO		as theaterPublicTransportationNo,
-			tptc.THEATER_PUBLIC_TRANSPORTATION_CONTENT	as theaterPublicTransportationContent
+			ptt.PUBLIC_TRANSPORTATION_TYPE_NO			as typeNo,
+			ptt.PUBLIC_TRANSPORTATION_TYPE_NAME			as typeName,
+			tptc.THEATER_PUBLIC_TRANSPORTATION_NO		as no,
+			tptc.THEATER_PUBLIC_TRANSPORTATION_CONTENT	as content
 		from 	
 			THEATER_PUBLIC_TRANSPORTATION tpt,
 			PUBLIC_TRANSPORTATION_TYPE ptt,
 			THEATER_PUBLIC_TRANSPORTATION_CONTENT tptc
 		where 
 			tpt.THEATER_PUBLIC_TRANSPORTATION_NO = tptc.THEATER_PUBLIC_TRANSPORTATION_NO
-			and tpt.PUBLIC_TRANSPORTATION_TYPE_NO = ptt.THEATER_PUBLIC_TRANSPORTATION_NO
+			and tpt.PUBLIC_TRANSPORTATION_TYPE_NO = ptt.PUBLIC_TRANSPORTATION_TYPE_NO
 			and theater_no = #{value}
 	</select>
 </mapper>

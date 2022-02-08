@@ -26,6 +26,6 @@ public class TheaterDto {
 	
 	private List<TheaterFacilityDto> facilityList;
 	
-	private List<ShowSchedule> showScheduleList;
+	private List<ShowScheduleDto> showScheduleList;
 	private String movieName;
 }
