@@ -3,6 +3,13 @@
 <mapper namespace="com.example.mapper.FacilityMapper">
 
 	<select id="getAllFacilityByNo" parameterType="int" resultType="com.example.dto.TheaterFacilityDto">
-		
+		select
+			ft.FACILITY_TYPE_NO 			as facilityTypeNo,
+			ft.FACILITY_TYPE_NAME			as facilityTypeName
+		from 
+			FACILITY_TYPE ft, THEATER_FACILITY tf
+		where 
+			ft.THEATER_NO = tf.THEATER_NO
+			and theater_no = #{value}
 	</select>
 </mapper>

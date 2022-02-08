@@ -10,4 +10,10 @@
 		from movie
 		where movie_no = #{value}
 	</select>
+	<select id="getAllMovieNo" resultType="int">
+		select
+			MOVIE_NO as no
+		from
+			movie
+	</select>
 </mapper>
