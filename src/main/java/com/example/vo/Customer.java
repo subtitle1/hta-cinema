@@ -2,25 +2,30 @@ package com.example.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
-	private int no;
-	private int gradeNo;
+	private Integer no;
+	private Integer gradeNo;
 	private String id;
 	private String password;
 	private String name;
 	private String phoneNumber;
 	private String email;
 	private String streetAddress;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthDate;
-	private String gender;	// "남", "여"
-	private int currentPoint;
+	private Integer currentPoint;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date createdDate;
 	private String deleted;	// "Y"이면 삭제된 고객, "N"이면 정상 고객

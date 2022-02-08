@@ -55,4 +55,8 @@ public class CustomerService {
 		
 		return customer != null;
 	}
+	
+	public void insertCustomer(Customer customer) {
+		customerMapper.insertCustomer(customer);
+	}
 }

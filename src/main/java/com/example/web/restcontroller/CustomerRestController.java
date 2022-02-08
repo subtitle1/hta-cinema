@@ -81,4 +81,16 @@ public class CustomerRestController {
 		
 		return response;
 	}
+	
+	@PostMapping("/signUp")
+	public ResponseDto<String> signUp(Customer customer) {
+		ResponseDto<String> response = new ResponseDto<>();
+		
+		customerService.insertCustomer(customer);
+		
+		response.setStatus(true);
+		response.setItems("회원가입이 완료되었습니다.");
+		
+		return response;
+	}
 }

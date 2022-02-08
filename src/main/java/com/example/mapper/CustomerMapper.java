@@ -10,4 +10,5 @@ public interface CustomerMapper {
 	Customer getCustomerById(String id);
 	Customer getCustomerByCriteria(CustomerCriteria criteria);
 	void updateCustomer(Customer customer);
+	void insertCustomer(Customer customer);
 }
