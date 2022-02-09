@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +14,26 @@ import com.example.exception.ErrorException;
 import com.example.service.CustomerService;
 import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
+import com.example.web.form.CustomerLoginForm;
+import com.example.web.form.CustomerSignUpForm;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerRestController {
 	@Autowired
 	CustomerService customerService;
+	
+	@PostMapping("/login")
+	public ResponseDto<?> login(@RequestBody CustomerLoginForm form) {
+		ResponseDto<?> response = new ResponseDto<>();
+		
+		Customer customer = customerService.login(form);
+		SessionUtils.addAttribute("LOGIN_USER", customer);
+		
+		response.setStatus(true);
+		
+		return response;
+	}
 	
 	@PostMapping("/findIdPassword")
 	public ResponseDto<Customer> findIdPassword(CustomerCriteria criteria) {
@@ -83,10 +98,10 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/signUp")
-	public ResponseDto<String> signUp(Customer customer) {
+	public ResponseDto<String> signUp(@RequestBody CustomerSignUpForm form) {
 		ResponseDto<String> response = new ResponseDto<>();
 		
-		customerService.insertCustomer(customer);
+		customerService.insertCustomer(form);
 		
 		response.setStatus(true);
 		response.setItems("회원가입이 완료되었습니다.");

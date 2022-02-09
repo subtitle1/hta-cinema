@@ -288,23 +288,37 @@ $(function() {
 	});
 	
 	signUpButton.click(function() {
-		const jsonSignUpForm = $("#form-signUp").serializeArray();
-		console.log(jsonSignUpForm);
+		const jsonData = JSON.stringify({
+			"id": idInput.val(),
+			"password": passwordInput.val(),
+			"name": nameInput.val(),
+			"birthDate": birthDateInput.val(),
+			"phoneNumber": phoneNumberInput.val(),
+			"email": emailInput.val()
+			});
+		console.log(jsonData);
 		
 		$.ajax({
-			type: "post",
+			type: "POST",
 			url: "/customer/signUp",
-			data: jsonSignUpForm,
+			data: jsonData,
+			contentType: "application/json",
 			dataType: "json",
 			success: function(response) {
 				if (response.status) {
 					noticeModalSpan.innerHTML = response.items;
+					$("#modal-notice button").addClass("btn-redirect-home");
 				} else {
 					noticeModalSpan.innerHTML = response.error;
 				}
 				noticeModal.show();
 			}
 		});
+	});
+	
+	// 알림 모달의 버튼들에 홈페이지로 redirect하는 이벤트를 등록한다.
+	$("#modal-notice").on("click", ".btn-redirect-home", function(event) {
+		location.replace("/");
 	});
 });
 </script>

@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-@AllArgsConstructor
 public class Customer {
 	private Integer no;
 	private Integer gradeNo;
