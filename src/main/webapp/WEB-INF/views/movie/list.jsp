@@ -10,6 +10,7 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
+  	<script type="text/javascript" src="/resources/js/movie/movieFn.js"></script>
   	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <head>		
@@ -87,20 +88,7 @@
 		
 		getMovieList();
 		
-		function showMyMovies() {
-			$.ajax({
-				type: "get",
-				url: "/rest/myMovies",
-				success: function(response) {
-					if (response.status) {
-						let movieNo = (response.items.map(item => item.movieNo));
-						$.each(movieNo, function(index, movie) {
-							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
-						})
-					}
-				}
-			})
-		};
+		showMyMovies();
 		
 		function getMovieList() {
 			$.ajax({					
@@ -241,49 +229,8 @@
 			})
 		});
 		
-		// 좋아요 기능
-		$(".poster").on('click', '.btn-like', function() {
-			
-			let movieNo = $(this).attr("data-no");
-			let button = $(this);
-			let unlike = "/resources/images/movie/unlike.png";
-			let like = "/resources/images/movie/like.png";
-			
-			if (button.find('img').attr('src') == unlike) {
-				
-				$.ajax({
-					type: "post",
-					url: "/rest/like",
-					data: {movieNo: movieNo},
-					datType: "json",
-					success: function(response) {
-						if (response.error) {
-							$("#span-error").text(response.error);
-							errorModal.show();
-							
-							$("#submit").click(function() {
-								errorModal.hide();
-							})
-							
-							return;
-						}
-						button.find('span').text(response.items.likeCount);
-						button.find('img').attr("src", like);
-					}
-				})
-			} else {
-				$.ajax({
-					type: "delete",
-					url: "/rest/like",
-					data: {movieNo: movieNo},
-					datType: "json",
-					success: function(response) {
-						button.find('span').text(response.items.likeCount);
-						button.find('img').attr("src", unlike);
-					}
-				})
-			}
-		});
+		likeMovie();
+		
 	})
 </script>
 </html>
