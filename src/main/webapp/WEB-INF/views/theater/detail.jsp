@@ -37,7 +37,16 @@
 		<div class="list-tab">
 			<ul class="region-tab">
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-1">서울
-					<div id="tab-1" class="tab-content">1</div>
+					<div id="tab-1" class="tab-content">
+					<ul>
+						<c:forEach var="theater" items="${ dto.theater}">
+							<c:when test="theater.region == seoul">
+								<li class="theaterName" style="width: 23.6%"><a
+								href="detail?no=${theater.no }">${theater.name}</a></li>
+							</c:when>
+						</c:forEach>
+					</ul>
+					</div>
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-2">경기
 					<div id="tab-2" class="tab-content">2</div>
@@ -75,52 +84,132 @@
 							<h2 class="tit small mt70">시설안내</h2>
 							<h3 class="tit small">보유시설</h3>
 							<c:forEach var="facility" items="${dto.facilityList}">
-								<p>"${facility.facilityTypeName}"</p>
+								<div class="theater-facility">
+									<c:choose>
+										<c:when test="${facility.facilityTypeName} eq '일반상영관'">
+											<p>
+												<i class="iconset ico-facility-theater"></i>
+												"일반상영관"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "장애인석">
+											<p>
+												<i class="iconset ico-facility-disabled"></i>
+												"장애인석"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "컴포트">
+											<p>
+												<i class="iconset ico-facility-comfort"></i>
+												 "컴포트"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "MX">
+											<p>
+												<i class="iconset ico-facility-mx"></i>
+												"MX"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "부티크">
+											<p>
+												<i class="iconset ico-facility-boutique"></i>
+												"부티크"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "스위트룸">
+											<p>
+												<i class="iconset ico-facility-sweet"></i>
+												"스위트룸"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "로얄석">
+											<p>
+												<i class="iconset ico-facility-royal"></i>
+												"로얄석"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "커플석">
+											<p>
+												<i class="iconset ico-facility-couple"></i>
+												"커플석"
+											</p>
+										</c:when>
+										<c:when test="${facility.facilityTypeName} eq "발코니">
+											<p>
+												<i class="iconset ico-facility-balcony"></i>
+												"발코니"
+											</p>
+										</c:when>
+									</c:choose>
+								</div>
 							</c:forEach>
 
 							<h2 class="tit small mt70">교통안내</h2>
 							<h3 class="tit small">약도</h3>
-							<div>도로명주소</div>
+							<div>도로명주소:"${dto.theater.streetAddress }"</div>
+							<button class="btn-primary"><a>실시간 길 찾기<a/></button>
 							<div class="public-transportation">
 								<!-- 버스 정보 -->
-								
+
 								<!-- 만약 아무대중교통도 없으면 대중교통 없다고 출력 -->
-								
+
 								<!-- 버스정보 있으면 출력 -->
-								<div class="transportation-section">
-									<div class="icon-box">
-										<i class="iconset ico-bus" title="버스">버스</i>
-									</div>
-									<div class="info">
-										<p class="tit">버스</p>
-										<ul class="dot-list">
-											<li>버스 정보</li>
-										</ul>
-									</div>
-								</div>
-								<!-- 여기까지 -->
+								<c:forEach var="transportation"  items="${dto.transportationList}" >
 								
-								<!-- 지하철 정보 -->
-								<!-- 지하철 정보 있으면 출력 -->
-								<div class="transportation-section">
-								
-									<div class="icon-box">
-										<i class="iconset ico-metro" title="지하철">지하철</i>
+									<c:choose>
+										<c:when test="not empty "${transportation.typeName }" == "버스">
+											<div class="transportation-section">
+												<div class="icon-box">
+													<i class="iconset ico-bus" title="버스">버스</i>
+												</div>
+												<div class="info">
+													<p class="tit">버스</p>
+													<ul class="dot-list">
+														<li>버스 정보</li>
+													</ul>
+												</div>
+											</div>
+										</c:when>
+									<!-- 여기까지 -->
+	
+									<!-- 지하철 정보 -->
+									<!-- 지하철 정보 있으면 출력 -->
+									<div class="transportation-section">
+	
+										<div class="icon-box">
+											<i class="iconset ico-metro" title="지하철">지하철</i>
+										</div>
+										<div class="info">
+											<p class="tit">지하철</p>
+											<ul class="dot-list">
+												<li>지하철 정보</li>
+											</ul>
+										</div>
 									</div>
-									<div class="info">
-										<p class="tit">지하철</p>
-										<ul class="dot-list">
-											<li>지하철 정보</li>
-										</ul>
-									</div>
-								</div>
+									</c:choose>
+								</c:forEach>
 								<!-- 여기까지 -->
 							</div>
 						</div>
 					</div>
 				</div>
 				<div id="info-2" class="info-content">상영시간표</div>
-				<div id="info-3" class="info-content">관람료 표</div>
+				<div id="info-3" class="info-content">
+					<div class="fee-info">
+						<h2>영화관람료</h2>
+						<p>2D</p>
+						<div class="fee-table">
+							<div class="row">
+								<div class="col" width: 50%> 
+									 <table>
+									 	<thead>
+									 	</thead>
+									 </table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

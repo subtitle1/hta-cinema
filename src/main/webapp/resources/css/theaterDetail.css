@@ -157,3 +157,85 @@ h3.tit.small {
     font-size: 1.2em;
     color: #222;
 }
+
+.theater-facility {
+    overflow: hidden;
+    padding: 2px 0 0 0;
+}
+
+.theater-facility p {
+    float: left;
+    width: 111px;
+    margin: 0 30px 0 0;
+    padding: 0;
+    text-align: center;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.theater-facility p .iconset {
+    margin-bottom: 10px;
+}
+.iconset {
+    overflow: hidden;
+    display: inline-block;
+    margin: -1px 0 0 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+.ico-facility-theater {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-theater.png');
+}
+.ico-facility-sweet {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-sweet.png');
+}
+.ico-facility-royal {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-royal.png');
+}
+.ico-facility-mx {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-mx.png');
+}
+.ico-facility-disabled {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-disabled.png');
+}
+.ico-facility-couple {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-couple.png');
+}
+.ico-facility-comfort {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-comfort.png');
+}
+.ico-facility-boutique {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-boutique.png');
+}
+.ico-facility-balcony {
+    width: 111px;
+    height: 111px;
+	background-image: url('/resources/images/theater/ico-facility-balcony.png');
+}
+
