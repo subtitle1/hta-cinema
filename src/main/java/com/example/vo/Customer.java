@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
 	private Integer no;
