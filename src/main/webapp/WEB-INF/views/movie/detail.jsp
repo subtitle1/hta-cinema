@@ -14,6 +14,7 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
+  	<script type="text/javascript" src="/resources/js/movie/movieFn.js"></script>
   	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <style>
@@ -438,7 +439,7 @@
 			},
 			dataType: 'json',
 			success: function(movie) {
-				console.log(movie);
+
 				let imagePath = imageUrl + movie.poster_path;
 				let genres = movie.genres.map(genre => genre.name).join(", ");
 				
@@ -646,6 +647,7 @@
 		
 		let currentPageNo = 1;
 		getReviews();
+		showMyMovies();
 		
 		// 최신순, 평점순 정렬
 		$(":input[name=option]").click(function() {
@@ -739,40 +741,47 @@
 					}
 				}
 				
-				let paging = response.items.pagination;
-				let pageNav = "";
+				pagination(response);
 				
-				$(".reviewCount").text(paging.totalRecords);
-				let ul = $(".pagination");
-				
-				// 이전 페이지
-				if (!paging.existPrev) {
-					pageNav += "<li class='page-item disabled'><a class='page-link'>이전</a></li>"
-				} else {
-					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"'>이전</a></li>"
-				}
-				
-				// 현재 페이지
-				if (paging.pageNo == 0) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
-				} else {
-					for (let i = paging.beginPage; i <= paging.endPage; i++) {
-						if (currentPageNo == i) {
-							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
-						} else {
-							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
-						}
+			})
+		}
+		
+		// 페이지네이션 함수
+		// response에 해당하는 값으로 페이지네이션
+		function pagination(response) {
+			let paging = response.items.pagination;
+			let pageNav = "";
+			
+			$(".reviewCount").text(paging.totalRecords);
+			let ul = $(".pagination");
+			
+			// 이전 페이지
+			if (!paging.existPrev) {
+				pageNav += "<li class='page-item disabled'><a class='page-link'>이전</a></li>"
+			} else {
+				pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"'>이전</a></li>"
+			}
+			
+			// 현재 페이지
+			if (paging.pageNo == 0) {
+				pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
+			} else {
+				for (let i = paging.beginPage; i <= paging.endPage; i++) {
+					if (currentPageNo == i) {
+						pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
+					} else {
+						pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
 					}
 				}
-				
-				// 다음 페이지
-				if (!paging.existNext) {
-					pageNav += "<li class='page-item disabled'><a class='page-link'>다음</a></li>"
-				} else {
-					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"'>다음</a></li>"
-				}
-				ul.html(pageNav); // dom에 새로 생성한 html 컨텐츠가 추가되는 순간!
-			})
+			}
+			
+			// 다음 페이지
+			if (!paging.existNext) {
+				pageNav += "<li class='page-item disabled'><a class='page-link'>다음</a></li>"
+			} else {
+				pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"'>다음</a></li>"
+			}
+			ul.html(pageNav); // dom에 새로 생성한 html 컨텐츠가 추가되는 순간!
 		}
 		
 		// 페이지 버튼 클릭 시
@@ -838,25 +847,6 @@
 				})
 			}
 		});
-		
-		showMyMovies();
-
-		// 로그인 시 하트 표시
-		function showMyMovies() {
-			$.ajax({
-				type: "get",
-				url: "/rest/myMovies",
-				dataType: "json",
-				success: function(response) {
-					if (response.status) {
-						let movieNo = (response.items.map(item => item.movieNo));
-						$.each(movieNo, function(index, movie) {
-							$("#btn-"+movie).find('img').attr('src', "/resources/images/movie/like.png");
-						})
-					}
-				}
-			})
-		};
 		
 		// 리뷰 삭제
 		$(".review-box").on('click', '.delete', function() {
