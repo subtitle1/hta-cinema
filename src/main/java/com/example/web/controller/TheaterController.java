@@ -3,11 +3,13 @@ package com.example.web.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.TheaterDto;
 import com.example.service.TheaterDetailService;
@@ -32,7 +34,8 @@ public class TheaterController {
 		return "/theater/list";
 	}
 	@GetMapping("/detail")
-	public String detail(int no, Model model) {
+	public String detail(int no, Model model){
+						 
 		TheaterDto theaterDto = theaterDetailService.getTheaterDto(no);
 		model.addAttribute("dto", theaterDto);
 		return "/theater/detail";
