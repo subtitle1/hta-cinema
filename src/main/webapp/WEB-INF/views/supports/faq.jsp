@@ -43,7 +43,7 @@
 	
 	<div class="supports col-9">
 		<div class="row">
-			<div class="offset col-7 p-0" style="margin-left: 20px;">
+			<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
 				<div class="mt-5 mb-3">
 					<h1>자주 묻는 질문</h1>
 				</div>
@@ -52,7 +52,7 @@
 						<span>질문을 검색해 보세요.</span>
 						<input id="search-input" type="text" class="form-control mt-2" placeholder="질문 검색">
 					</div>
-					<div class="col">
+					<div class="col-2">
 						<button type="button" class="btn btn-primary btn-sm" style="margin-top: 34px;" id="btn-search">검색</button>
 					</div>
 				</div>
@@ -175,29 +175,29 @@
 					
 					// 이전 페이지
 					if (!paging.existPrev) {
-						pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>이전</a></li>"
+						pageNav += "<li class='page-item disabled'><a class='page-link'>이전</a></li>"
 					} else {
-						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"' href='javascript:void(0)'>이전</a></li>"
+						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"'>이전</a></li>"
 					}
 					
 					// 현재 페이지
 					if (paging.pageNo == 0) {
-						pageNav += "<li class='page-item disabled'><a class='page-link' href=''>1</a></li>"
+						pageNav += "<li class='page-item disabled'><a class='page-link'>1</a></li>"
 					} else {
 						for (let i = paging.beginPage; i <= paging.endPage; i++) {
 							if (currentPage == i) {
-								pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+								pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
 							} else {
-								pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+								pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
 							}
 						}
 					}
 					
 					// 다음 페이지
 					if (!paging.existNext) {
-						pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>다음</a></li>"
+						pageNav += "<li class='page-item disabled'><a class='page-link'>다음</a></li>"
 					} else {
-						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"' href='javascript:void(0)'>다음</a></li>"
+						pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"'>다음</a></li>"
 					}
 					ul.html(pageNav);
 				}

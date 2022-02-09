@@ -438,6 +438,7 @@
 			},
 			dataType: 'json',
 			success: function(movie) {
+				console.log(movie);
 				let imagePath = imageUrl + movie.poster_path;
 				let genres = movie.genres.map(genre => genre.name).join(", ");
 				
@@ -746,9 +747,9 @@
 				
 				// 이전 페이지
 				if (!paging.existPrev) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>이전</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link'>이전</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"' href='javascript:void(0)'>이전</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.prevPage+"'>이전</a></li>"
 				}
 				
 				// 현재 페이지
@@ -757,18 +758,18 @@
 				} else {
 					for (let i = paging.beginPage; i <= paging.endPage; i++) {
 						if (currentPageNo == i) {
-							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+							pageNav += "<li class='page-item active'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
 						} else {
-							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"' href='javascript:void(0)'>"+i+"</a></li>"
+							pageNav += "<li class='page-item'><a class='page-link' data-page='"+i+"'>"+i+"</a></li>"
 						}
 					}
 				}
 				
 				// 다음 페이지
 				if (!paging.existNext) {
-					pageNav += "<li class='page-item disabled'><a class='page-link' href='javascript:void(0)'>다음</a></li>"
+					pageNav += "<li class='page-item disabled'><a class='page-link'>다음</a></li>"
 				} else {
-					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"' href='javascript:void(0)'>다음</a></li>"
+					pageNav += "<li class='page-item'><a class='page-link' data-page='"+paging.nextPage+"'>다음</a></li>"
 				}
 				ul.html(pageNav); // dom에 새로 생성한 html 컨텐츠가 추가되는 순간!
 			})
