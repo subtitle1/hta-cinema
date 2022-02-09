@@ -144,12 +144,13 @@
 		
 		// 로그인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 서버에 아이디와 비밀번호를 전송하고 서버에서 로그인 처리 결과를 받아온다.
 		$("#btn-login").click(function(event) {
-			let jsonLoginForm = $("#form-login").serializeArray();
-
+			const jsonData = JSON.stringify({"id": idInput.val(), "password": passwordInput.val()});
+			
 			$.ajax({
-				type: "post",
-				url: "/login",
-				data: jsonLoginForm,
+				type: "POST",
+				url: "/customer/login",
+				data: jsonData,
+				contentType: "application/json",
 				dataType: "json",
 				success: function(response) {
 					if (response.status) {

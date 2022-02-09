@@ -68,12 +68,10 @@
 			customer_no = #{no}
 	</update>
 	
-	<insert id="insertCustomer" parameterType="com.example.vo.Customer">
-		insert into customer (customer_no, customer_grade_no, customer_id, customer_password, customer_name, 
-			customer_phone_number, customer_email, customer_street_address, customer_birth_date, 
-			customer_current_point, customer_created_date, customer_deleted, customer_deleted_date) 
-		values (customer_seq.nextval, #{gradeNo}, #{id}, #{password}, #{name}, #{phoneNumber}, 
-			#{email}, #{streetAddress}, #{birthDate}, #{currentPoint}, #{createdDate}, 
-			#{deleted}, #{deletedDate})
+	<insert id="insertCustomer" parameterType="com.example.web.form.CustomerSignUpForm">
+		insert into customer (customer_no, customer_id, customer_password, customer_name, 
+			customer_birth_date, customer_phone_number, customer_email) 
+		values (customer_seq.nextval, #{id}, #{password}, #{name}, #{birthDate}, 
+			#{phoneNumber}, #{email})
 	</insert>
 </mapper>

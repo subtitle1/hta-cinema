@@ -7,16 +7,18 @@ import com.example.dto.CustomerCriteria;
 import com.example.exception.ErrorException;
 import com.example.mapper.CustomerMapper;
 import com.example.vo.Customer;
+import com.example.web.form.CustomerLoginForm;
+import com.example.web.form.CustomerSignUpForm;
 
 @Service
 public class CustomerService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	public Customer login(String id, String password) {
-		Customer customer = customerMapper.getCustomerById(id);
+	public Customer login(CustomerLoginForm form) {
+		Customer customer = customerMapper.getCustomerById(form.getId());
 		
-		if (customer == null || !password.equals(customer.getPassword())) {
+		if (customer == null || !form.getPassword().equals(customer.getPassword())) {
 			throw new ErrorException("아이디 또는 비밀번호가 맞지 않습니다.<br>"
 					+ "로그인 정보를 다시 확인바랍니다.");
 		}
@@ -56,7 +58,7 @@ public class CustomerService {
 		return customer != null;
 	}
 	
-	public void insertCustomer(Customer customer) {
-		customerMapper.insertCustomer(customer);
+	public void insertCustomer(CustomerSignUpForm form) {
+		customerMapper.insertCustomer(form);
 	}
 }
