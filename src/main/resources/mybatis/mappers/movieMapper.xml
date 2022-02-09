@@ -16,4 +16,13 @@
 		from
 			movie
 	</select>
+	
+	<select id="getTop4" resultType="com.example.vo.Movie">
+		select ROWNUM, movie_no no, movie_name movieName, movie_total_liked likeCount
+		from 
+			(select movie_no, movie_name, movie_total_liked
+      		from movie
+      		order by MOVIE_TOTAL_LIKED desc)
+		where ROWNUM &lt;= 4
+	</select>
 </mapper>
