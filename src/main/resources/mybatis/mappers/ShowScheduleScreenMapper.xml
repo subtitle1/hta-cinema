@@ -7,7 +7,7 @@
 	public List<ShowScheduleScreenDto> ListByTheaterNo(@Param("movieNo") int movieNo ,@Param("theaterNo") int theaterNo);
  -->
  
- 	<select id="AllListByMovie" parameterType="int" resultType="com.example.dto.ShowScheduleScreenDto">
+ 	<select id="allListByMovie" parameterType="int" resultType="com.example.dto.ShowScheduleScreenDto">
  		select 
  			t.theater_no as theaterNo, 
  			t.theater_name as theaterName, 
@@ -24,13 +24,13 @@
 		and sc.special_screen_no = spe.special_screen_no
 		and movie_no = #{value}
  	</select>
- 	<select id="CountRegionByNo" parameterType="int" resultType="int">
+ 	<select id="countRegionByNo" parameterType="int" resultType="int">
  		select count(*) as total
 		from region r, theater t
 		where r.region_no = t.region_no
 		and r.region_no = #{value}
  	</select>
- 	<select id="ListByTheaterNo" parameterType="int" resultType="com.example.dto.ShowScheduleScreenDto">
+ 	<select id="listByTheaterNo" parameterType="int" resultType="com.example.dto.ShowScheduleScreenDto">
  		select 
  			t.theater_no as theaterNo,
  			t.theater_name as theaterName,
@@ -40,6 +40,7 @@
  			sc.screen_name as screenName, 
  			show.movie_no as movieNo, 
  			sc.screen_total_seat as screenTotalSeat,
+            show.show_schedule_no as showScheduleNo,
  			show.show_schedule_start_time as showScheduleStartTime, 
  			show.show_schedule_end_time as showScheduleEndTime,
  			mr.movie_rating_no as movieRatingNo,
@@ -58,4 +59,15 @@
 		and show.movie_no = #{movieNo}
 		and t.theater_no = #{theaterNo}
  	</select> 	 
+ 	<select id="getListByShowScheduleNo" parameterType="long" resultType="int">
+ 		select count(*)
+ 		from ticket t, ticket_seat ts
+ 		where t.ticket_no = ts.ticket_no
+ 		and t.show_schedule_no = #{value}
+ 	</select>
+ 	<select id="getListByscreenNo" parameterType="int" resultType="int">
+ 		select count(*)
+ 		from nonexistent_seat
+ 		where screen_no = #{value}
+ 	</select>
 </mapper>

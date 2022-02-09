@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import com.example.service.MovieTicketService;
 import com.example.service.TicketingServiece;
 import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
+import com.example.vo.NonExistentSeat;
 import com.example.vo.PointHistory;
 import com.example.vo.PointHistoryType;
 import com.example.vo.PointHistoryTypeDetail;
@@ -57,7 +59,7 @@ public class TicketRestController {
 	
 	  @GetMapping("/screenList")
 	  public ResponseDto<?>getAllList(@RequestParam("movieNo")int movieNo){
-	  List<ShowScheduleScreenDto> screens = movieticketService.AllListByMovie(movieNo); 
+	  List<ShowScheduleScreenDto> screens = movieticketService.allListByMovie(movieNo); 
 	  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
 	  response.setStatus(true);
 	  response.setItems(screens);
@@ -66,37 +68,57 @@ public class TicketRestController {
 	  
 	  @GetMapping("/theaterList")
 	  public ResponseDto<?>getAllListBytheaterNo(@RequestParam("movieNo") int movieNo, @RequestParam("theaterNo") int theaterNo, @RequestParam("timeNo") int timeNo, @RequestParam("dayNm") int day){
-		  List<ShowScheduleScreenDto> theaters = movieticketService.ListByTheaterNo(movieNo,theaterNo);
+		  List<ShowScheduleScreenDto> theaters = movieticketService.listByTheaterNo(movieNo,theaterNo);
+		  log.info("나오는 값"+theaters);
 		  List<ShowScheduleScreenDto> theater = new ArrayList<>();
 		  ResponseDto<List<ShowScheduleScreenDto>> response = new ResponseDto<>();
+		  int screenNo = 0;
+		  long showScheduleNo = 0;
+		  int totalSeat = 0;
 		  LocalDate now = LocalDate.now();
 		  int dayOfMonth = now.getDayOfMonth();
+		
 		  if(dayOfMonth != day) {
-			  response.setItems(theaters);
+			  for(ShowScheduleScreenDto sd : theaters) {
+					screenNo = sd.getScreenNo();
+					showScheduleNo = sd.getShowScheduleNo();
+					totalSeat = sd.getScreenTotalSeat();
+					 int notSeat = movieticketService.getlistnonExistentSeatByScreenNo(screenNo);
+					 int disabledSeat = movieticketService.getListTicketSeatByShowScheduleNo(showScheduleNo);
+					 sd.setReservableSeat(totalSeat-notSeat-disabledSeat);
+					 sd.setRealTotalSeat(totalSeat-notSeat);
+				  }
+			 
 			  response.setStatus(true);
+			  response.setItems(theaters);
 			  return response;
 			  
 		  } else {
-		  
 			  for(ShowScheduleScreenDto sc :theaters) {
 				  DateFormat dateFormat = new SimpleDateFormat("HH");
 				  String startTime = dateFormat.format(sc.getShowScheduleStartTime());
 				  int time = Integer.parseInt(startTime);
+				  screenNo = sc.getScreenNo();
+				  showScheduleNo = sc.getShowScheduleNo();
+				  int notSeat = movieticketService.getlistnonExistentSeatByScreenNo(screenNo);
+				  int disabledSeat = movieticketService.getListTicketSeatByShowScheduleNo(showScheduleNo);
+				  sc.setReservableSeat(sc.getScreenTotalSeat()-notSeat-disabledSeat);
+				  sc.setRealTotalSeat(sc.getScreenTotalSeat()-notSeat);
 				  log.info("시간은"+time);
 				  log.info("시간은"+timeNo);
 				 if(time>=timeNo) {
 					 theater.add(sc);
 				 } 
 			  }
-			  response.setStatus(true);
 			  response.setItems(theater);
+			  response.setStatus(true);
 			  log.info("시간은"+theater);
 			  return response;
 		  }
 	  }
 	  
 	  @GetMapping("/theater")
-	  public ResponseDto<?>getRegionBytheaterNo(@RequestParam(required=false, value="regionNo", defaultValue="10" ) int regionNo) {
+	  public ResponseDto<?>getRegionBytheaterNo(@RequestParam(required=false, value="regionNo", defaultValue="10") int regionNo) {
 		  List<Theater> theaters =  movieticketService.listByRegionNo(regionNo);
 		  ResponseDto<List<Theater>> response = new ResponseDto<>();
 		  response.setStatus(true);

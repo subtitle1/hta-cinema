@@ -13,9 +13,11 @@ import com.example.dto.ShowScheduleScreenDto;
 import com.example.mapper.MovieScheduleMapper;
 import com.example.mapper.ShowScheduleScreenMapper;
 import com.example.mapper.TheaterMapper;
+import com.example.vo.NonExistentSeat;
 import com.example.vo.Region;
 import com.example.vo.SpecialScreen;
 import com.example.vo.Theater;
+import com.example.vo.TicketSeat;
 
 @Service
 @Transactional
@@ -30,16 +32,21 @@ public class MovieTicketService {
 	@Autowired
 	private MovieScheduleMapper schedulDao;
 	
-	public List<ShowScheduleScreenDto> AllListByMovie(int movieNo){
-		return showDao.AllListByMovie(movieNo);
+	public List<ShowScheduleScreenDto> allListByMovie(int movieNo){
+		return showDao.allListByMovie(movieNo);
 	}
-	public int CountRegionByNo(int regionNo) {
-		return showDao.CountRegionByNo(regionNo);
+	public int countRegionByNo(int regionNo) {
+		return showDao.countRegionByNo(regionNo);
 	}
-	public List<ShowScheduleScreenDto> ListByTheaterNo(int movieNo, int theaterNo){
-		return showDao.ListByTheaterNo(movieNo, theaterNo);
+	public List<ShowScheduleScreenDto> listByTheaterNo(int movieNo, int theaterNo){
+		return showDao.listByTheaterNo(movieNo, theaterNo);
 	}
-	
+	public int getlistnonExistentSeatByScreenNo(int screenNo){
+		return showDao.getListByscreenNo(screenNo);
+	}
+	public int getListTicketSeatByShowScheduleNo(long showScheduleNo){
+		return showDao.getListByShowScheduleNo(showScheduleNo);
+	}
 	public List<Region> listByRegion(){
 		return theaterDao.getAllRegion();
 	}

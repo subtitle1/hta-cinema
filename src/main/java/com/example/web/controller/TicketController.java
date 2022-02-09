@@ -92,7 +92,7 @@ public class TicketController {
 		for(Region rs : regions) {
 			number = rs.no;
 		}
-		int countRegion = movieTicketService.CountRegionByNo(number);
+		int countRegion = movieTicketService.countRegionByNo(number);
 		log.info(movies.toString());
 		model.addAttribute("movies", movies);
 		model.addAttribute("regions", regions);

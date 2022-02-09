@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="img-card">
-                    <img src="/resources/images/btn/SXTvhvgm4fbptvsfROZJoGb0DHYqiB1V_150.jpg" alt="" class="img-movie">
+                    <img src="/resources/images/movie/no-graph03.jpg" alt="no-picture" id="img-movie">
                 </div>
                 <div>
                     <div class="kind-seat">
@@ -198,18 +198,24 @@
 <script type="text/javascript">
         $(function(){
         		
-			//let apiKey ="935cc74a36fab18e33ea802df5ebd3f4";
-			//let imageUrl = "https://api.themoviedb.org/3/movie/";
-			//let movieId = $('input[name=movieNo]').val();
-
-				//$.ajax({
-				//	type:"get",
-				//	url: imageUrl+{movieId}+"/images?api_key=<<"+apiKey+">>&"language
-				//	success:function(response){
-				//		$('.img-card').find('img').attr('src',response.file_path);
-				//		console.log(response.file_path);
-				//	}
-				//})
+			let apiKey ="935cc74a36fab18e33ea802df5ebd3f4";
+			let imageUrl = "https://image.tmdb.org/t/p/w500/";
+			let movieId = '${screens.movieNo }';
+			let detailUrl = "https://api.themoviedb.org/3/movie/" + movieId;
+				$.ajax({
+					type:'get',
+					url: detailUrl,
+					data: {
+						"api_key":"935cc74a36fab18e33ea802df5ebd3f4",
+						language: "ko-KR",
+						region: "KR"
+					},
+					dataType: 'json',
+					success:function(movie){
+						let imagePath = imageUrl + movie.poster_path;
+						$('#img-movie').attr('src',imagePath);
+					}
+					})
 
         	
             $("#show-seat").append(function(){    
@@ -395,7 +401,8 @@
 	           		$('em.old_class').text(plusbtn2);
 	           	} else {
 	           	 	$('p.count').append("<span class='old_class'>우대</span><em class='old_class'>"+plusbtn2+"</em>");
-	           	 	$('p.dot-list').text('우대요금으로 예매하신 고객님께서는 상영관입장시 증빙서류를 제시해 주시기 바랍니다.(미 지참시 입장제한)');
+	           	 	let oldDocument = '우대요금으로 예매하신 고객님께서는 상영관입장시 증빙서류를 제시해 주시기 바랍니다.(미 지참시 입장제한)';
+	           	 	$('p.dot-list').text(oldDocument);
 	           	 	$('#document-modal').css('display','flex');
 	           	}
 	        	let moneyOld = Number($('.money em').text())+5000;

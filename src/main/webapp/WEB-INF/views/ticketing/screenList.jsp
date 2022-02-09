@@ -55,6 +55,8 @@
                         목록에서 영화를 선택하세요</p>-->
                        <!--영화를 하나라도 선택했을 때--> 
                         <div class="choice-list" id="choiceMovieList-0">
+                        	<img id="picture" alt="no-pricture" src="/resources/images/movie/no-graph03.jpg">
+                        	<p id="picture-name">영화를 클릭하세요</p>
                         </div>
                     </div>
                 </div>
@@ -116,6 +118,13 @@
 </body>
 <script type="text/javascript">
 	$(function(){
+		
+		let apiKey ="935cc74a36fab18e33ea802df5ebd3f4";
+		let imageUrl = "https://image.tmdb.org/t/p/w500/";
+		let movieId = $('button.movie-button,active').val();
+		
+			
+		
 		
 		const dataDate = new Date();
 		let year = dataDate.getFullYear();
@@ -217,18 +226,34 @@
 		$('button.movie-button').click(function(){
 			let $movieButton = $(this);
 			let valueNo = $movieButton.val();
+			let texts = $movieButton.text();
 			let attrNo =  $movieButton.attr('class');
-			let texts = $movieButton.find('.txt').text();
 			$('.explain-button p').css('display','none');
 			$('button.list-theater-button').css('display','flex');
 			$('#choiceMovieList-0').css('display','flex');
 			if($movieButton.hasClass('active')){
 				$('button.movie-button').removeClass('active');
-				$('#choiceMovieList-0').css('display','none');
+				$('#picture').attr('src','/resources/images/movie/no-graph03.jpg');
+				$('#picture-name').text("영화를 선택하세요");
 			} else{
 				$('button.movie-button').removeClass('active');
 				$movieButton.addClass('active');
-				$('#choiceMovieList-0').text(texts);
+				let detailUrl = "https://api.themoviedb.org/3/movie/" + valueNo;
+				$.ajax({
+					type:'get',
+					url: detailUrl,
+					data: {
+						"api_key":"935cc74a36fab18e33ea802df5ebd3f4",
+						language: "ko-KR",
+						region: "KR"
+					},
+					dataType: 'json',
+					success:function(movie){
+						let imagePath = imageUrl + movie.poster_path;
+						$('#picture').attr('src',imagePath);
+					}
+					})
+					$('#picture-name').text(texts);
 			}
 			//아래에 클릭시 이미지가 뜨도록 	
 		})
@@ -269,7 +294,7 @@
 			let $theaterNames = $('div.theater-choies');
 			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo, timeNo: timeNo, dayNm:dayNm},function(response){
 					console.log(response.items);
-				$.each(response.items,function(index,theater){
+				$.each(response.items,function(index, theater){
 					let $list  = $('div.theater-choies');
 					let $movie = $('div.movie-check');
 					if(theater.showTypeSubTitle == 'Y'){
@@ -300,8 +325,8 @@
 		                input +=""+theater.screenName;      
 		                input +="</span>"; 
 		                input +="<span class='seat'>";    
-		                input +="<strong class='now' title='잔여좌석'>"+theater.screenTotalSeat+"</strong>";      
-		                input +="<em class='all' title='"+theater.screenTotalSeat+"'>/"+theater.screenTotalSeat+"</em>";      
+		                input +="<strong class='now' title='잔여좌석'>"+theater.reservableSeat+"</strong>";      
+		                input +="<em class='all' title='"+theater.realTotalSeat+"'>/"+theater.realTotalSeat+"</em>";      
 		                input +="</span>";   
 		                input +="</div>";
 		                input +="</button>";
