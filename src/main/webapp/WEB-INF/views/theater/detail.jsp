@@ -229,275 +229,25 @@
 				</div>
 			</div>
 			<div id="info-2" class="info-content">
-				<div class="theater-list">
-					<div class="theater-tit">
-						<p class="movie-grade age-all"></p>
-						<p>
-							<a href="/movie-detail?rpstMovieNo=${dto. }" title="나의 촛불 상세보기">나의
-								촛불</a>
-						</p>
-						<p class="infomation">
-							<span>상영중</span>/상영시간 88분
-						</p>
-					</div>
-					<div class="theater-type-box">
-						<div class="theater-type">
-							<p class="theater-name">4관</p>
-							<p class="chair">총 103석</p>
+				<div class="col-10">
+					<div class="show-schedule">
+						<div class="day">
+							<!-- 페이지 네이션으로 입력할 것 -->
+							<!--일에 따라서 class가 바뀐다. -->
+							<div class="month"></div>
+							<div class="now-day"></div>
 						</div>
-						<div class="theater-time">
-							<div class="theater-type-area">2D</div>
-							<div class="theater-time-box">
-								<table class="time-list-table">
-									<caption>상영시간을 보여주는 표 입니다.</caption>
-									<colgroup>
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-									</colgroup>
-									<tbody>
-										<tr>
-											<td class="" brch-no="1372" play-schdl-no="2202101372052"
-												rpst-movie-no="20005300" theab-no="04" play-de="20220210"
-												play-seq="3">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">14:10</p>
-															<p class="chair">14석</p>
-															<div class="play-time">
-																<p>14:10~15:48</p>
-																<p>3회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-											<td class="" brch-no="1372" play-schdl-no="2202101372050"
-												rpst-movie-no="20005300" theab-no="04" play-de="20220210"
-												play-seq="5">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">19:00</p>
-															<p class="chair">3석</p>
-															<div class="play-time">
-																<p>19:00~20:38</p>
-																<p>5회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="theater-type-box">
-						<div class="theater-type">
-							<p class="theater-name">6관</p>
-							<p class="chair">총 103석</p>
-						</div>
-						<div class="theater-time">
-							<div class="theater-type-area">2D</div>
-							<div class="theater-time-box">
-								<table class="time-list-table">
-									<caption>상영시간을 보여주는 표 입니다.</caption>
-									<colgroup>
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-									</colgroup>
-									<tbody>
-										<tr>
-											<td class="" brch-no="1372" play-schdl-no="2202101372053"
-												rpst-movie-no="20005300" theab-no="06" play-de="20220210"
-												play-seq="5">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">15:35</p>
-															<p class="chair">48석</p>
-															<div class="play-time">
-																<p>15:35~17:13</p>
-																<p>5회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-											<td class="" brch-no="1372" play-schdl-no="2202101372054"
-												rpst-movie-no="20005300" theab-no="06" play-de="20220210"
-												play-seq="7">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">20:05</p>
-															<p class="chair">45석</p>
-															<div class="play-time">
-																<p>20:05~21:43</p>
-																<p>7회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="theater-type-box">
-						<div class="theater-type">
-							<p class="theater-name">7관</p>
-							<p class="chair">총 104석</p>
-						</div>
-						<div class="theater-time">
-							<div class="theater-type-area">2D</div>
-							<div class="theater-time-box">
-								<table class="time-list-table">
-									<caption>상영시간을 보여주는 표 입니다.</caption>
-									<colgroup>
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-										<col style="width: 99px;">
-									</colgroup>
-									<tbody>
-										<tr>
-											<td class="" brch-no="1372" play-schdl-no="2202101372062"
-												rpst-movie-no="20005300" theab-no="07" play-de="20220210"
-												play-seq="1">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-sun"></i>
-															</div>
-															<p class="time">09:20</p>
-															<p class="chair">50석</p>
-															<div class="play-time">
-																<p>09:20~10:58</p>
-																<p>1회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-											<td class="" brch-no="1372" play-schdl-no="2202101372061"
-												rpst-movie-no="20005300" theab-no="07" play-de="20220210"
-												play-seq="2">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">11:10</p>
-															<p class="chair">71석</p>
-															<div class="play-time">
-																<p>11:10~12:48</p>
-																<p>2회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-											<td class="" brch-no="1372" play-schdl-no="2202101372056"
-												rpst-movie-no="20005300" theab-no="07" play-de="20220210"
-												play-seq="3">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">13:05</p>
-															<p class="chair">69석</p>
-															<div class="play-time">
-																<p>13:05~14:43</p>
-																<p>3회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-											<td class="" brch-no="1372" play-schdl-no="2202101372058"
-												rpst-movie-no="20005300" theab-no="07" play-de="20220210"
-												play-seq="5">
-												<div class="td-ab">
-													<div class="txt-center">
-														<a href="" title="영화예매하기">
-															<div class="ico-box">
-																<i class="iconset ico-off"></i>
-															</div>
-															<p class="time">18:05</p>
-															<p class="chair">61석</p>
-															<div class="play-time">
-																<p>18:05~19:43</p>
-																<p>5회차</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+						<div class="schedule-list">
+							
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="info-3" class="info-content">
-				<div class="fee-info">
-					<h2>영화관람료</h2>
-					<p>2D</p>
-					<div class="fee-table">
-						<div class="row">
-							<div class="col"width: 50%>
-								<table>
-									<thead>
-									</thead>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<div id="info-3" class="info-content">바카</div>
 		</div>
 	</div>
 	</div>
-	<script>
+	<script type="text/javascript">
 		$(document).ready(function() {
 			$('ul.info-tab li').click(function() {
 				var tab_id = $(this).attr('data-tab');
@@ -524,6 +274,86 @@
 				$('.tab-content').removeClass('current');
 			})
 		})
+		
+		const dataDate = new Date();
+		let year = dataDate.getFullYear();
+		let month = dataDate.getMonth();
+		let dataDay = dataDate.getDate();
+		let dayLabel = dataDate.getDay();
+		let dayNumber = Number(dataDay);
+		$('div.month').text((Number(month)+1)+"월");
+		
+		const reserveDate = $('div.now-day');
+		
+		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
+		let thisWeek = [];
+		let button = "";
+		let spanWeekOfDay = "";
+		let spanDay = "";
+		let div = "";
+		for(let i = dayNumber ; i<=dayNumber+11 ; i++) {
+			
+			div = document.createElement("div");
+			button = document.createElement("button");
+			spanWeekOfMonth = document.createElement("span");
+			spanWeekOfDay = document.createElement("span");
+			spanDay = document.createElement("strong");
+			spanWeekOfMonth.classList="movie-week-of-month";
+			spanWeekOfDay.classList = 'movie-week-of-day';
+			spanDay.classList ='movie-day';
+			let resultDay = new Date(year, month, i);
+			let yyyy = resultDay.getFullYear();
+			let mm = Number(resultDay.getMonth())+1;
+			let dd = resultDay.getDate();
+			let d = resultDay.getDay();
+			
+			mm = String(mm).length === 1 ? '0'+mm : mm;
+			dd = String(dd).length === 1 ? '0'+dd : dd;
+			d = String(d).length === 1 ? '0'+d : d;
+			spanWeekOfMonth.innerHTML = mm;
+			spanWeekOfDay.innerHTML = dd;
+			
+			button.append(spanWeekOfDay);
+			if(d == '01'){
+				d=weekOfDay[1];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '02'){
+				d=weekOfDay[2];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '03'){
+				d=weekOfDay[3];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '04'){
+				d=weekOfDay[4];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '05'){
+				d=weekOfDay[5];
+				button.classList = "mon";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '06'){
+				d=weekOfDay[6];
+				button.classList ="mon sat";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			} else if(d == '00'){
+				d=weekOfDay[0];
+				button.classList="mon sun";
+				button.setAttribute('data-day',yyyy+mm+dd+d);
+			}
+			if(i===dayNumber){
+				button.classList="mon active";
+				//해당날짜는 버튼이 눌려있게 설정함
+			}
+			spanDay.innerHTML = d;
+			button.append(spanDay);
+			reserveDate.append(button);
+			
+			
+			thisWeek[i] = yyyy + "-" + mm +'-' +dd +'-'+d ;
+		}
 	</script>
 </body>
 

@@ -5,19 +5,25 @@
 	<select id="getAllScheduleByTheaterNo" parameterType="int"
 		resultType="com.example.dto.ShowScheduleDto">
 		select
-			ss.SHOW_SCHEDULE_NO as no,
+			ss.SHOW_SCHEDULE_NO as showScheduleNo,
 			ss.SCREEN_NO as screenNo,
 			ss.MOVIE_NO as movieNo,
 			ss.SHOW_TYPE_NO as showTypeNo,
 			ss.SHOW_SCHEDULE_START_TIME as startTime,
 			ss.SHOW_SCHEDULE_END_TIME as endTime,
 			ss.SHOW_SCHEDULE_TIME_NO as timeNo,
-			m.MOVIE_NAME as movieName
+			m.MOVIE_NAME as movieName,
+			mr.MOVIE_RATING_NAME as ratingName,
+			mr.MOVIE_RATING_NO as ratingNo,
+			s.SCREEN_TOTAL_SEAT as totalSeat
 		from 
 			MOVIE m, SHOW_SCHEDULE ss,
-			SCREEN s,  THEATER t
+			SCREEN s,  THEATER t, MOVIE_RATING mr
+			
+			
 		where 
-			m.movie_no=ss.movie_no
+			m.MOVIE_RATING_NO = mr.MOVIE_RATING_NO
+			and m.movie_no=ss.movie_no
 			and ss.SCREEN_NO = s.SCREEN_NO
 			and s.THEATER_NO = t.THEATER_NO
 			and t.THEATER_NO = #{value}

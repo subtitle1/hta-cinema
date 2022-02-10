@@ -17,12 +17,18 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ShowScheduleDto {
 
-	private long no;
-	private int screenNo;
-	private int movieNo;
+	private int totalSeat;	//상영관이랑 조인
+	
+	
+	private String ratingName;//영화에 rating 조인
+	private String movieName;//영화랑 조인
+	private int ratingNo;
+	
+	private int timeNo;	//상영회차
+	private long showScheduleNo;
 	private int showTypeNo;
 	private Date startTime;
 	private Date endTime;
-	private int timeNo;
-	private String movieName;
+	private int screenNo;
+	private int movieNo;
 }
