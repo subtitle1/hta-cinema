@@ -44,6 +44,7 @@ function likeMovie() {
 	});
 }
 
+// 로그인한 사용자가 좋아요 한 영화 리스트
 function showMyMovies() {
 	$.ajax({
 		type: "get",

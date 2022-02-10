@@ -11,17 +11,23 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.CheckDto;
 import com.example.dto.PointStatDto;
 import com.example.dto.ReviewDto;
+import com.example.exception.ErrorException;
 import com.example.exception.ReviewErrorException;
 import com.example.mapper.ReviewMapper;
 import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
 import com.example.vo.ReviewPointType;
 import com.example.web.form.Criteria;
+import com.example.web.restcontroller.ReviewRestController;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class ReviewService {
 	
 	static final Logger logger = LogManager.getLogger(ReviewService.class);
@@ -190,5 +196,9 @@ public class ReviewService {
 		String averageScore = String.format("%.1f", (double) totalScore / (double) reviewCount);
 		
 		return averageScore;
+	}
+	
+	public CheckDto getQualification(int customerNo, int movieNo) {
+		return reviewMapper.getQualification(customerNo, movieNo);
 	}
 }

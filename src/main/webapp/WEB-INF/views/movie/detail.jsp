@@ -506,7 +506,7 @@
 		let action = '';
 		
 		// 관람평 쓰기 버튼 클릭 시
-		$(".review-btn").click(function() {
+		/* $(".review-btn").click(function() {
 			action = 'create';
 			
 			$.ajax({
@@ -516,6 +516,7 @@
 				dataType: 'json',
 				async: false,
 				success: function (response) {
+					console.log(response);
 					if (response.items.movieNo == movieId) {
 						$("#span-error").text("이미 작성한 관람평이 있습니다.");
 						errorModal.show();
@@ -524,6 +525,45 @@
 							errorModal.hide();
 						})
 					} 
+				},
+				error: function() {
+					reviewModal.show();
+				}
+			})
+		}) */
+
+		$(".review-btn").click(function() {
+			action = 'create';
+			
+			$.ajax({
+				type: "get",
+				url: "/rest/check",
+				data: {movieNo: movieId},
+				dataType: 'json',
+				async: false,
+				success: function (response) {
+					console.log(response);
+					let reviewNo2 = response.reviewNo;
+					
+					if (response == '') {
+						$("#span-error").text("실관람평은 ");
+						errorModal.show();
+						
+						$("#submit").click(function() {
+							errorModal.hide();
+						})
+						return;
+						
+					} else if (reviewNo2 == reviewNo) {
+						$("#span-error").text("이미 작성한 관람평이 있습니다.");
+						errorModal.show();
+						
+						$("#submit").click(function() {
+							errorModal.hide();
+						})
+						return;
+						
+					}
 				},
 				error: function() {
 					reviewModal.show();
