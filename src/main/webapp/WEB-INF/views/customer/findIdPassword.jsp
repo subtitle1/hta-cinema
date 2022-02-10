@@ -12,10 +12,6 @@
 	<link rel="stylesheet" href="/resources/css/common.css" />
 	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
-	<script type="text/javascript" src="/resources/js/customer/regExp.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/idValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/nameValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/phoneNumberValidation.js"></script>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
@@ -146,8 +142,13 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
+<script src="/resources/js/customer/regExp.js"></script>
+<script src="/resources/js/customer/idValidation.js"></script>
+<script src="/resources/js/customer/nameValidation.js"></script>
+<script src="/resources/js/customer/phoneNumberValidation.js"></script>
+<script>
 	$(function() {
+		const findIdNameInput = $("#input-findId-name");
 		const findPasswordIdInput = $("#input-findPassword-id");
 		const findPasswordNameInput = $("#input-findPassword-name");
 		
@@ -159,6 +160,11 @@
 		
 		const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
 			keyboard: false
+		});
+		
+		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		findIdNameInput.keyup(function() {
+			idKeyboardInputValidation($(this));
 		});
 		
 		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.

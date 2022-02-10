@@ -8,7 +8,7 @@
 				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form id = "form-login">
+				<form id="form-login">
 					<input type="text" class="form-control" name="id" placeholder="아이디" maxlength="12" />
 					<input type="password" class="form-control mt-3" name="password" placeholder="비밀번호" maxlength="12" />
 				</form>
@@ -47,10 +47,13 @@
 		</div>
 	</div>
 </div>
+<script src="/resources/js/customer/formToJson.js"></script>
 <script type="text/javascript">
 	$(function() {
-		let idInput = $("[name='id']");
-		let passwordInput = $("[name='password']");
+		const idInput = $("[name='id']");
+		const passwordInput = $("[name='password']");
+		
+		const loginButton = $("#btn-login");
 		
 		// 출처: https://ktko.tistory.com/entry/Cookie를-이용하여-아이디-저장하기 [KTKO 개발 블로그와 여행 일기]
 		let userInputId = getCookie("userInputId");
@@ -135,16 +138,16 @@
 				passwordInput.focus();
 			}
 		});
-		// 비밀번호 input에서 엔터키를 누르면 로그인 버튼이 클릭되어 로그인 form이 제출된다.
+		// 비밀번호 input에서 엔터키를 눌렀고 로그인 버튼이 활성화 상태라면, 로그인 버튼이 클릭되는 이벤트가 발생한다.
 		passwordInput.keyup(function(event) {
-			if (event.keyCode === 13) {
+			if (event.keyCode === 13 && !loginButton.prop("disabled")) {
 				$("#btn-login").trigger("click");
 			}
 		});
 		
 		// 로그인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 서버에 아이디와 비밀번호를 전송하고 서버에서 로그인 처리 결과를 받아온다.
-		$("#btn-login").click(function(event) {
-			const jsonData = JSON.stringify({"id": idInput.val(), "password": passwordInput.val()});
+		loginButton.click(function(event) {
+			const jsonData = JSON.stringify(formToJson($("#form-login")));
 			
 			$.ajax({
 				type: "POST",
