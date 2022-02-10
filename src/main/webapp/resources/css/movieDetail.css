@@ -65,14 +65,16 @@
     width: 100px;
 }
 
-.score-top p, .rating-top p {
+.score-top p, .rating-top p, .audience-top p {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-weight: 400px;
 	font-size: 15px;
 }
 
-.rating-top span {
+.rating-top span, .audience-top span {
 	color:white;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 18px;
 }
 
 .score-top span {
@@ -220,3 +222,9 @@
 	width: 80%;
     height: 80%;
 }
+
+.ticket a, .ticketing a {
+	text-decoration: none;
+	color: white;
+}
+

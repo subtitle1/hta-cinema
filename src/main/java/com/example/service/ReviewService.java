@@ -11,7 +11,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.dto.CheckDto;
 import com.example.dto.PointStatDto;
 import com.example.dto.ReviewDto;
 import com.example.exception.ErrorException;
@@ -21,7 +20,6 @@ import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
 import com.example.vo.ReviewPointType;
 import com.example.web.form.Criteria;
-import com.example.web.restcontroller.ReviewRestController;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -198,7 +196,36 @@ public class ReviewService {
 		return averageScore;
 	}
 	
-	public CheckDto getQualification(int customerNo, int movieNo) {
-		return reviewMapper.getQualification(customerNo, movieNo);
+	
+	/**
+	 * 사용자 번호로 해당 영화에 대한 예매 여부를 확인한다.
+	 * @param customerNo
+	 * @param movieNo
+	 * @return
+	 */
+	public boolean isReserved(int customerNo, int movieNo) {
+		String isReserved = reviewMapper.getQualification(customerNo, movieNo);
+		
+		if (isReserved == null) {
+			throw new ErrorException("관람평은 실관람 이후 작성 가능합니다.");
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * 사용자 번호와 영화 번호로 해당 영화에 작성한 리뷰가 있는지 확인한다.
+	 * @param customerNo
+	 * @param movieNo
+	 * @return
+	 */
+	public Review getReview(int customerNo, int movieNo) {
+		Review review = reviewMapper.getMyReviewByMovieNo(customerNo, movieNo);
+		
+		if (review != null) {
+			throw new ErrorException("이미 작성한 관람평이 있습니다.");
+		} 
+		
+		return review;
 	}
 }

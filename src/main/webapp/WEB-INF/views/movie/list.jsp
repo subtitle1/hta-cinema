@@ -68,7 +68,7 @@
 		</div>
 	</div>
 </div>
-
+<%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
 </body>
@@ -163,7 +163,7 @@
 				}
 				output += "<div class='d-flex'>";
 				output += "<button id='btn-"+ movie.id +"' class='btn btn-light btn-like col-5 mt-1 float-end' data-no='"+ movie.id +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+count+"</span></button>";
-				output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
+				output += "<button type='button' class='btn btn-primary ticket col-5 mt-1 float-end'><a href='/ticketing/screenList?no="+movie.id+"'>예매</a></button>";
 				output += "</div>";
 				output += "</div>";
 				
@@ -229,7 +229,48 @@
 			})
 		});
 		
-		likeMovie();
+		$(".poster").on('click', '.btn-like', function() {
+			
+			let movieNo = $(this).attr("data-no");
+			let button = $(this);
+			let unlike = "/resources/images/movie/unlike.png";
+			let like = "/resources/images/movie/like.png";
+			
+			if (button.find('img').attr('src') == unlike) {
+				
+				$.ajax({
+					type: "post",
+					url: "/rest/like",
+					data: {movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						if (response.error) {
+							$("#span-error").text(response.error);
+							errorModal.show();
+							
+							$("#submit").click(function() {
+								errorModal.hide();
+							})
+							
+							return;
+						}
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", like);
+					}
+				})
+			} else {
+				$.ajax({
+					type: "delete",
+					url: "/rest/like",
+					data: {movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", unlike);
+					}
+				})
+			}
+		});
 		
 	})
 </script>

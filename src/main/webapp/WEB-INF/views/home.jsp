@@ -16,45 +16,13 @@
 	<title>HTA CINEMA</title>
 </head>
 <style>
-p, a {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-
-.bg-light div {
-	width:250px;
-	margin-top: 30px;
-	margin-left: 50px;
-	margin-bottom: 10px;
-}
-
-.bg-light img {
-	margin-top: 50px;
-	width: 250px;
-}
-
 a { color: #fff; text-decoration: none;}
 
 a:hover { color: #fff; text-decoration: underline;}
 
-img {
-	margin-right: 10px;
-}
-
 </style>
 <body>
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-4">
-				<h5 class="text-center">
-					<c:if test="${not empty LOGIN_USER }">
-						<c:out value="${LOGIN_USER.name }님 " />
-						<c:out value="${message }" />
-					</c:if>
-				</h5>
-			</div>
-		</div>
-	</div>
 	<div class="mt-3 bg-dark movie-head">
 		<div class="container">
 			<div class="row" id="movie-head">
@@ -84,29 +52,29 @@ img {
 			</div>
 		</div>
 	</div>
-<!-- 	<div class="container mt-5 text-center">
-		<div class="row text-center">
-			<div class="col">
-				<a href="/supports/faq"><img alt="" src="/resources/images/supports/ico-faq.png">
-					<p style="color:black;" class="mt-3">자주 묻는 질문</p>
-				</a>
+	<div class="container">
+	 	<div class="container mt-5 text-center">
+	 		<div class="row">
+	 			<h4>궁금하신 점이 있으신가요?</h4>
+	 			<p>고객센터에 문의해 보세요.</p>
+	 		</div>
+			<div class="row text-center mt-3">
+				<div class="col"></div>
+				<div class="col">
+					<a href="/supports"><img alt="" src="/resources/images/supports/ico-faq.png">
+						<p style="color:black;" class="mt-3">자주 묻는 질문</p>
+					</a>
+				</div>
+				<div class="col">
+					<a href="/supports/inquiry"><img alt="" src="/resources/images/supports/ico-oneandone.png">
+						<p style="color:black;" class="mt-3">1:1 문의</p>
+					</a>
+				</div>
+				<div class="col"></div>
 			</div>
-			<div class="col">
-				<a href="/supports/inquiry"><img alt="" src="/resources/images/supports/ico-oneandone.png">
-					<p style="color:black;" class="mt-3">1:1 문의</p>
-				</a>
-			</div>
-		</div>
-	</div> -->
-<div class="bg-light mt-3 mb-3">
-	<div>
-		<img alt="" src="/resources/images/logo/logo-htacinema-purple.png">
+		</div> 
 	</div>
-	<div style="">
-		<p>이민철 | 김승희 | 김수경 | 백승욱</p>
-		<p>해당 사이트는 포트폴리오용입니다.</p>
-	</div>
-</div>
+<%@include file="common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="common/errorModal.jsp"%>
 </body>
@@ -149,7 +117,7 @@ img {
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
 					output += "<button id='btn-"+ movie.no +"' class='btn btn-outline-light btn-like col-5 mt-1 float-end' data-no='"+ movie.no +"' type='button' style='margin-right: 15px;'><img class='me-3' src='/resources/images/movie/unlike.png'><span>"+movie.likeCount+"</span></button>";
-					output += "<button data-no='"+ movie.no +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
+					output += "<button data-no='"+ movie.no +"' type='button' class='btn btn-primary col-5 mt-1 float-end'><a href='/ticketing/screenList?no="+movie.no+"'>예매</a></button>";
 					output += "</div>";
 					output += "</div>";
 					
@@ -160,7 +128,49 @@ img {
 		}
 		
 		showMyMovies();
-		likeMovie();
+		
+		$(".poster").on('click', '.btn-like', function() {
+			
+			let movieNo = $(this).attr("data-no");
+			let button = $(this);
+			let unlike = "/resources/images/movie/unlike.png";
+			let like = "/resources/images/movie/like.png";
+			
+			if (button.find('img').attr('src') == unlike) {
+				
+				$.ajax({
+					type: "post",
+					url: "/rest/like",
+					data: {movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						if (response.error) {
+							$("#span-error").text(response.error);
+							errorModal.show();
+							
+							$("#submit").click(function() {
+								errorModal.hide();
+							})
+							
+							return;
+						}
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", like);
+					}
+				})
+			} else {
+				$.ajax({
+					type: "delete",
+					url: "/rest/like",
+					data: {movieNo: movieNo},
+					datType: "json",
+					success: function(response) {
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", unlike);
+					}
+				})
+			}
+		});
 	})
 </script>
 </html>

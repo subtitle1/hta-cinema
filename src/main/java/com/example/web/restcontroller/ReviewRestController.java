@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.annotation.LoginedUser;
-import com.example.dto.CheckDto;
 import com.example.dto.PointStatDto;
 import com.example.dto.ResponseDto;
 import com.example.dto.ReviewDto;
@@ -93,6 +92,10 @@ public class ReviewRestController {
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		ReviewDto dto = reviewService.getMyReviewByMovieNo(customer.getNo(), movieNo);
+		
+		if (dto == null) {
+			throw new ErrorException("작성한 관람평이 조회되지 않습니다.");
+		}
 
 		response.setStatus(true);
 		response.setItems(Map.of("review", dto, "movieNo", movieNo));
@@ -148,17 +151,17 @@ public class ReviewRestController {
 	}
 	
 	@GetMapping("/check")
-	public CheckDto checkQualification(@LoginedUser Customer customer, int movieNo) {
-		CheckDto dto = reviewService.getQualification(customer.getNo(), movieNo);
-
-		if ("Y".equals(dto.getTicketCancelled())) {
-			throw new ErrorException("관람평은 실관람 이후 작성 가능합니다.");
-		}
+	public ResponseDto<Map<String, Object>> checkQualification(@LoginedUser Customer customer, int movieNo) {
 		
-		log.info("상태"+dto);
+		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		
+		boolean isReserved = reviewService.isReserved(customer.getNo(), movieNo); // N
+		Review review = reviewService.getReview(customer.getNo(), movieNo);
 		
-		return dto;
+		response.setStatus(true);
+		response.setItems(Map.of("review", review, "isReserved", isReserved));
+		
+		return response;
 	}
 	
 	private void setReviewPoints(Review review, List<ReviewPoint> reviewPoints, List<Integer> points) {
