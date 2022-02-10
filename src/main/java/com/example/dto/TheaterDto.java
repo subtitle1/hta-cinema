@@ -28,7 +28,6 @@ public class TheaterDto {
 	private List<TheaterFacilityDto> facilityList;
 	
 	private List<ShowScheduleDto> showScheduleList;
-	private String movieName;
 	public void setTheaterList(String string, List<Theater> theatersByRegion) {
 		// TODO Auto-generated method stub
 		
