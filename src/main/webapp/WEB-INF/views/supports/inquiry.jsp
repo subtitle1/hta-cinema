@@ -182,6 +182,7 @@
 			keyboard: false
 		});
 
+		// 에러창을 보여주는 모달
 		function showError(message) {
 			$("#span-error").text(message);
 			errorModal.show();

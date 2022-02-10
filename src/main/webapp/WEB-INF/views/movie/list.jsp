@@ -68,9 +68,9 @@
 		</div>
 	</div>
 </div>
+<%@include file="../common/errorModal.jsp"%>
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
 </body>
 <script type="text/javascript">
 	$(function () {
@@ -87,7 +87,6 @@
 		let totalPage = 0;
 		
 		getMovieList();
-		
 		showMyMovies();
 		
 		function getMovieList() {
@@ -196,6 +195,7 @@
 			refreshMovie();
 		});
 		
+		// 더보기 버튼 클릭 시
 		$("#searchMore").click(function() {
 			if (currentPage < totalPage) {
 				currentPage++;
@@ -205,6 +205,7 @@
 			}
 		})
 		
+		// 영화 검색 기능
 		$(".search-btn").click(function() {
 			let keyword = $("#search-input").val();
 			$.ajax({
@@ -229,6 +230,17 @@
 			})
 		});
 		
+		// 에러창을 보여주는 모달
+		function showError(message) {
+			$("#span-error").text(message);
+			errorModal.show();
+			
+			$("#submit").click(function() {
+				errorModal.hide();
+			})
+		}
+		
+		// 좋아요 기능
 		$(".poster").on('click', '.btn-like', function() {
 			
 			let movieNo = $(this).attr("data-no");
@@ -245,13 +257,7 @@
 					datType: "json",
 					success: function(response) {
 						if (response.error) {
-							$("#span-error").text(response.error);
-							errorModal.show();
-							
-							$("#submit").click(function() {
-								errorModal.hide();
-							})
-							
+							showError(response.error);
 							return;
 						}
 						button.find('span').text(response.items.likeCount);
@@ -271,7 +277,6 @@
 				})
 			}
 		});
-		
 	})
 </script>
 </html>
