@@ -42,7 +42,7 @@
                     </div>
                     <div class="movie-list">
 	                    <c:choose>
-	                    	<c:when test="${empty param.no }">
+	                    	<c:when test="${param.no eq 0}">
 	                    		<c:forEach var="movie" items="${movies}">
 			                    	<button class="movie-button" type="button" value="${movie.movieNo}" >
 			                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
@@ -53,7 +53,7 @@
 	                    	</c:when>
 	                    	<c:otherwise>
 	                    		<c:forEach var="movie" items="${movies}">
-			                    	<button class="movie-button" type="button" value="${movie.movieNo}" ${movie.movieNo eq param.no ? 'active' : '' } >
+			                    	<button class="movie-button ${movie.movieNo eq param.no ? 'active' : '' }" type="button" value="${movie.movieNo}"  >
 			                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
 			                            <span class="txt">${movie.movieName}</span>
 			                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
@@ -63,10 +63,6 @@
 	                    </c:choose>
                     </div>
                     <div class="movie-img">
-                        <!--영화 선택하지 않았을 때 -->
-                        <!--<p>모든영화<br>
-                        목록에서 영화를 선택하세요</p>-->
-                       <!--영화를 하나라도 선택했을 때--> 
                         <div class="choice-list" id="choiceMovieList-0">
                         	<img id="picture" alt="no-pricture" src="/resources/images/movie/no-graph03.jpg">
                         	<p id="picture-name">영화를 클릭하세요</p>
@@ -234,6 +230,31 @@
 			let $btnMon = $(this);
 			$btnMon.attr('class','mon');
 		})
+		$('button.movie-button').ready(function(){
+			let valueNo = $('button.movie-button,active').val();
+			let texts = $('button.movie-button.active').text();
+			let path = '${param.no}'
+			let detailUrl = 'https://api.themoviedb.org/3/movie/'+ path;
+			$('#choiceMovieList-0').css('display','flex');
+			$.ajax({
+				type:'get',
+				url: detailUrl,
+				data: {
+					"api_key":"935cc74a36fab18e33ea802df5ebd3f4",
+					language: "ko-KR",
+					region: "KR"
+				},
+				dataType: 'json',
+				success:function(movie){
+					let imagePath = imageUrl + movie.poster_path;
+					$('#picture').attr('src',imagePath);
+				}
+				})
+				$('#picture-name').text(texts);
+			
+			$('.explain-button').find('p').css('display','none');
+			$('.explain-button').find('.list-theater-button').css('display','flex');
+		})
 		
 		//영화버튼 클릭시 극장 정보 가져오기
 		$('button.movie-button').click(function(){
@@ -306,7 +327,6 @@
 			let regionNo = $('.list-theater-button.active').attr('data-region');
 			let $theaterNames = $('div.theater-choies');
 			$.getJSON('/rest/theaterList',{movieNo: movieNo, theaterNo: theaterNo, timeNo: timeNo, dayNm:dayNm},function(response){
-					console.log(response.items);
 				$.each(response.items,function(index, theater){
 					let $list  = $('div.theater-choies');
 					let $movie = $('div.movie-check');
@@ -421,7 +441,6 @@
 		     $('input[name=screenNo]').attr('value',screenNo);
 		     $('input[name=regionNo]').attr('value',regionNo);
 		     $('input[name=day]').attr('value',dayNo);
-		     console.log($('#form-post-List'));
 		     
 		     $('#form-post-List').submit();
 		})

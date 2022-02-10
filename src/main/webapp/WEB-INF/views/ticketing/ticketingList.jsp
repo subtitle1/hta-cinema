@@ -227,7 +227,6 @@
             	<c:forEach var="noEamptys" items="${noEamptySeat }">
             		disabled.push("${noEamptys.no}");
             	</c:forEach>
-            	console.log(disabled);
 	            let seatrow = $('div.ptag').attr('data-row');	//열의좌석 꺼내왔을 때 변수에 저장seatcolumn
 	            let seatcolumn = $('div.ptag').attr('data-column');		//행의좌석 꺼내왔을 때 변수에 저장seatrow
 	           
@@ -339,7 +338,6 @@
             let empty = "";
             for(let i = 0; i<noseatColumn.length; i++){
 					 empty =(resultNoSeatColumn[i]+noseatRow[i]);
-					 console.log(resultNoSeatColumn[i]+noseatRow[i]);
 					 let totalEmpty = $('input[value='+empty+']').remove();
 	                 addTop = 0;
 	                 addLefts = 0; 

@@ -85,7 +85,7 @@ public class TicketController {
 	private TicketingServiece ticketService;
 	
 	@GetMapping("/ticketing/screenList")
-	public String screenList(Model model) {
+	public String screenList(Model model,@RequestParam(value = "no", required = false, defaultValue = "0") int no) {
 		List<MovieRatingDto> movies = movieRatingService.getAllList();
 		List<Region> regions = movieTicketService.listByRegion();
 		int number = 0;
