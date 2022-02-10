@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.annotation.LoginedUser;
+import com.example.dto.CheckDto;
 import com.example.dto.PointStatDto;
 import com.example.dto.ResponseDto;
 import com.example.dto.ReviewDto;
 import com.example.exception.ErrorException;
+import com.example.exception.ReviewErrorException;
 import com.example.pagination.Pagination;
 import com.example.service.ReviewService;
 import com.example.vo.Customer;
@@ -143,6 +145,20 @@ public class ReviewRestController {
 	@GetMapping("/movieScore")
 	public String movieScore(int movieNo) {
 		return reviewService.getMovieScore(movieNo);
+	}
+	
+	@GetMapping("/check")
+	public CheckDto checkQualification(@LoginedUser Customer customer, int movieNo) {
+		CheckDto dto = reviewService.getQualification(customer.getNo(), movieNo);
+
+		if ("Y".equals(dto.getTicketCancelled())) {
+			throw new ErrorException("관람평은 실관람 이후 작성 가능합니다.");
+		}
+		
+		log.info("상태"+dto);
+		
+		
+		return dto;
 	}
 	
 	private void setReviewPoints(Review review, List<ReviewPoint> reviewPoints, List<Integer> points) {

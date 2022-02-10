@@ -143,4 +143,19 @@
 		where 
 			rn between #{beginIndex} and #{endIndex}
 	</select>
+	
+	<select id="getQualification" resultType="com.example.dto.CheckDto">
+		select 
+			s.movie_no movieNo, 
+			t.ticket_cancelled ticketCancelled, 
+			r.review_no reviewNo
+		from 
+			show_schedule s, ticket t, review r, customer c
+		where 
+			s.show_schedule_no = t.show_schedule_no
+			and t.customer_no = c.customer_no
+			and c.customer_no = r.customer_no
+			and c.customer_no = #{customerNo}
+			and s.movie_no = #{movieNo}
+	</select>
 </mapper>
