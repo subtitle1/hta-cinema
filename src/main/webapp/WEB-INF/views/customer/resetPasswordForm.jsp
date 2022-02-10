@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="stylesheet" href="/resources/css/customer/resetPasswordForm.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
+	<script type="text/javascript" src="/resources/js/customer/regExp.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/showErrorDiv.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/showTooltip.js"></script>
 	<script type="text/javascript" src="/resources/js/customer/passwordValidation.js"></script>
 </head>
 <body>
@@ -105,6 +108,8 @@ $(function() {
 	const passwordErrorDiv = $("#div-password-error");
 	const matchErrorDiv = $("#div-match-error");
 	
+	const resetPasswordButton = $("#btn-resetPassword");
+	
 	const newPasswordInputTooltip = new bootstrap.Tooltip(newPasswordInput);
 	const newPasswordCheckInputTooltip = new bootstrap.Tooltip(newPasswordCheckInput);
 	
@@ -113,25 +118,38 @@ $(function() {
 	});
 	const noticeModalElement = document.getElementById("span-notice-message");
 	
+	// 모든 유효성 검사 flag가 true인지 확인한다.
+	function isAllFlagTrue() {
+		return passwordLengthAndCombinationValidationFlag && passwordValueMatchValidationFlag
+	}
+	
+	// flag: true/false
+	// flag가 true이면 "확인" 버튼을 활성화한다.
+	function enableResetPasswordButton(flag) {
+		if (flag) {
+			resetPasswordButton.prop("disabled", false);
+		} else {
+			resetPasswordButton.prop("disabled", true);
+		}
+	}
+	
 	// 비밀번호와 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-	newPasswordInput.keyup(function(event) {
-		passwordCommonValidation($(this), true, newPasswordInputTooltip);
-		passwordValidation($(this), passwordErrorDiv);
-		passwordValueMatchValidation($(this), newPasswordCheckInput, matchErrorDiv);
-		if (isAllFlagTrue()) {
-			$("#btn-resetPassword").prop("disabled", false);
-		} else {
-			$("#btn-resetPassword").prop("disabled", true);
+	newPasswordInput.keyup(function() {
+		if (!passwordKeyboardInputValidation($(this), true)) {
+			showTooltip(newPasswordInputTooltip);
 		}
+		showErrorDiv(passwordErrorDiv, !passwordLengthAndCombinationValidation($(this)));
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation($(this), newPasswordCheckInput));
+		
+		enableResetPasswordButton(isAllFlagTrue());
 	});
-	newPasswordCheckInput.keyup(function(event) {
-		passwordCommonValidation($(this), false, newPasswordCheckInputTooltip);
-		passwordValueMatchValidation(newPasswordInput, $(this), matchErrorDiv);
-		if (isAllFlagTrue()) {
-			$("#btn-resetPassword").prop("disabled", false);
-		} else {
-			$("#btn-resetPassword").prop("disabled", true);
+	newPasswordCheckInput.keyup(function() {
+		if (!passwordKeyboardInputValidation($(this), false)) {
+			showTooltip(newPasswordCheckInputTooltip);
 		}
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation(newPasswordInput, $(this)));
+		
+		enableResetPasswordButton(isAllFlagTrue());
 	});
 	
 	// 확인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 새 비밀번호를 서버로 보내고 처리 결과를 받아온다.
