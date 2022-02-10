@@ -238,7 +238,24 @@
 							<div class="now-day"></div>
 						</div>
 						<div class="schedule-list">
-							
+							<div class="movie-option mb20">
+								<div class="option">
+									<ul>
+										<li><i class="iconset ico-stage" title="무대인사"></i>무대인사</li>
+										<li><i class="iconset ico-user" title="회원시사"></i>회원시사</li>
+										<li><i class="iconset ico-open" title="오픈시사"></i>오픈시사</li>
+										<li><i class="iconset ico-goods" title="굿즈패키지"></i>굿즈패키지</li>
+										<li><i class="iconset ico-singalong" title="싱어롱"></i>싱어롱</li>
+										<li><i class="iconset ico-gv" title="GV"></i>GV</li>
+										<li><i class="iconset ico-sun" title="조조"></i>조조</li>
+										<li><i class="iconset ico-brunch" title="브런치"></i>브런치</li>
+										<li><i class="iconset ico-moon" title="심야"></i>심야</li>
+									</ul>
+								</div>
+								<div class="rateing-lavel">
+									<a href="" class="" title="관람등급안내">관람등급안내</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -274,85 +291,84 @@
 				$('.tab-content').removeClass('current');
 			})
 		})
-		
+
 		const dataDate = new Date();
 		let year = dataDate.getFullYear();
 		let month = dataDate.getMonth();
 		let dataDay = dataDate.getDate();
 		let dayLabel = dataDate.getDay();
 		let dayNumber = Number(dataDay);
-		$('div.month').text((Number(month)+1)+"월");
-		
+		$('div.month').text((Number(month) + 1) + "월");
+
 		const reserveDate = $('div.now-day');
-		
-		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
+
+		const weekOfDay = [ "일", "월", "화", "수", "목", "금", "토" ];
 		let thisWeek = [];
 		let button = "";
 		let spanWeekOfDay = "";
 		let spanDay = "";
 		let div = "";
-		for(let i = dayNumber ; i<=dayNumber+11 ; i++) {
-			
+		for (let i = dayNumber; i <= dayNumber + 11; i++) {
+
 			div = document.createElement("div");
 			button = document.createElement("button");
 			spanWeekOfMonth = document.createElement("span");
 			spanWeekOfDay = document.createElement("span");
 			spanDay = document.createElement("strong");
-			spanWeekOfMonth.classList="movie-week-of-month";
+			spanWeekOfMonth.classList = "movie-week-of-month";
 			spanWeekOfDay.classList = 'movie-week-of-day';
-			spanDay.classList ='movie-day';
+			spanDay.classList = 'movie-day';
 			let resultDay = new Date(year, month, i);
 			let yyyy = resultDay.getFullYear();
-			let mm = Number(resultDay.getMonth())+1;
+			let mm = Number(resultDay.getMonth()) + 1;
 			let dd = resultDay.getDate();
 			let d = resultDay.getDay();
-			
-			mm = String(mm).length === 1 ? '0'+mm : mm;
-			dd = String(dd).length === 1 ? '0'+dd : dd;
-			d = String(d).length === 1 ? '0'+d : d;
+
+			mm = String(mm).length === 1 ? '0' + mm : mm;
+			dd = String(dd).length === 1 ? '0' + dd : dd;
+			d = String(d).length === 1 ? '0' + d : d;
 			spanWeekOfMonth.innerHTML = mm;
 			spanWeekOfDay.innerHTML = dd;
-			
+
 			button.append(spanWeekOfDay);
-			if(d == '01'){
-				d=weekOfDay[1];
+			if (d == '01') {
+				d = weekOfDay[1];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '02'){
-				d=weekOfDay[2];
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '02') {
+				d = weekOfDay[2];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '03'){
-				d=weekOfDay[3];
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '03') {
+				d = weekOfDay[3];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '04'){
-				d=weekOfDay[4];
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '04') {
+				d = weekOfDay[4];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '05'){
-				d=weekOfDay[5];
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '05') {
+				d = weekOfDay[5];
 				button.classList = "mon";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '06'){
-				d=weekOfDay[6];
-				button.classList ="mon sat";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
-			} else if(d == '00'){
-				d=weekOfDay[0];
-				button.classList="mon sun";
-				button.setAttribute('data-day',yyyy+mm+dd+d);
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '06') {
+				d = weekOfDay[6];
+				button.classList = "mon sat";
+				button.setAttribute('data-day', yyyy + mm + dd + d);
+			} else if (d == '00') {
+				d = weekOfDay[0];
+				button.classList = "mon sun";
+				button.setAttribute('data-day', yyyy + mm + dd + d);
 			}
-			if(i===dayNumber){
-				button.classList="mon active";
+			if (i === dayNumber) {
+				button.classList = "mon active";
 				//해당날짜는 버튼이 눌려있게 설정함
 			}
 			spanDay.innerHTML = d;
 			button.append(spanDay);
 			reserveDate.append(button);
-			
-			
-			thisWeek[i] = yyyy + "-" + mm +'-' +dd +'-'+d ;
+
+			thisWeek[i] = yyyy + "-" + mm + '-' + dd + '-' + d;
 		}
 	</script>
 </body>
