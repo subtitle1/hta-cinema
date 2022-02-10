@@ -12,6 +12,10 @@
 	<link rel="stylesheet" href="/resources/css/common.css" />
 	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
+	<script type="text/javascript" src="/resources/js/customer/regExp.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/idValidation.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/nameValidation.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/phoneNumberValidation.js"></script>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
@@ -144,11 +148,27 @@
 </body>
 <script type="text/javascript">
 	$(function() {
+		const findPasswordIdInput = $("#input-findPassword-id");
+		const findPasswordNameInput = $("#input-findPassword-name");
+		
+		const findPasswordRequestAuthenticationButton = $("#btn-request-authentication");
+		const findPasswordCheckAuthenticationButton = $("#btn-check-authentication");
+		
 		// 4자리 난수, 1000 ~ 9999
 		const fourDigitRandomNumber = Math.floor(Math.random()*(9999 - 1000 + 1)) + 1000;
 		
 		const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
 			keyboard: false
+		});
+		
+		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		findPasswordIdInput.keyup(function() {
+			idKeyboardInputValidation($(this));
+		});
+		
+		// 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		findPasswordNameInput.keyup(function() {
+			nameValidation($(this));
 		});
 		
 		function findIdPasswordAjax(formId) {
@@ -187,11 +207,11 @@
 			findIdPasswordAjax("form-findId");
 		});
 		
-		$("#btn-request-authentication").click(function(event) {
+		findPasswordRequestAuthenticationButton.click(function(event) {
 			findIdPasswordAjax("form-findPassword");
 		});
 		
-		$("#btn-check-authentication").click(function(event) {
+		findPasswordCheckAuthenticationButton.click(function(event) {
 			let targetDiv = $(this).parent().parent();
 			
 			if ($("#input-findPassword-authenticationCode").val() == fourDigitRandomNumber) {

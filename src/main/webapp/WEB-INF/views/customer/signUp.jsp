@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="/resources/js/customer/showTooltip.js"></script>
 	<script type="text/javascript" src="/resources/js/customer/idValidation.js"></script>
 	<script type="text/javascript" src="/resources/js/customer/passwordValidation.js"></script>
+	<script type="text/javascript" src="/resources/js/customer/nameValidation.js"></script>
 	<script type="text/javascript" src="/resources/js/customer/phoneNumberValidation.js"></script>
 	<script type="text/javascript" src="/resources/js/customer/emailValidation.js"></script>
 </head>
@@ -182,8 +183,10 @@ $(function() {
 	const passwordInputTooltip = new bootstrap.Tooltip(passwordInput);
 	const passwordCheckInputTooltip = new bootstrap.Tooltip(passwordCheckInput);
 	
+	// 아이디 중복확인을 통과하면 true가 되는 flag다.
 	let checkIdDuplicateFlag = false;
 	
+	// 모든 유효성 검사 flag가 true이고 input 값이 비어있지 않은지를 확인한다.
 	function isAllFlagTrue() {
 		return idLengthAndCombinationValidationFlag && checkIdDuplicateFlag 
 			&& passwordLengthAndCombinationValidationFlag && passwordValueMatchValidationFlag 
@@ -266,6 +269,8 @@ $(function() {
 	});
 	
 	nameInput.keyup(function() {
+		nameValidation($(this));
+		
 		enableSignUpButton(isAllFlagTrue());
 	});
 	
@@ -277,6 +282,7 @@ $(function() {
 	// input 값에 대해 유효성 검사를 실시한다.
 	phoneNumberInput.keyup(function() {
 		showErrorDiv(phoneNumberErrorDiv, !phoneNumberValidation($(this)));
+		
 		enableSignUpButton(isAllFlagTrue());
 	});
 	
@@ -284,9 +290,11 @@ $(function() {
 	// input 값에 대해 유효성 검사를 실시한다.
 	emailInput.keyup(function() {
 		showErrorDiv(emailErrorDiv, !emailValidation($(this)));
+		
 		enableSignUpButton(isAllFlagTrue());
 	});
 	
+	// "회원가입" 버튼을 클릭하면 실행되며, ajax 통신을 통해 서버에 form의 값들을 보내고 처리 결과를 받아와서 알림 모달에 표시한다.
 	signUpButton.click(function() {
 		const jsonData = JSON.stringify({
 			"id": idInput.val(),
@@ -296,7 +304,6 @@ $(function() {
 			"phoneNumber": phoneNumberInput.val(),
 			"email": emailInput.val()
 			});
-		console.log(jsonData);
 		
 		$.ajax({
 			type: "POST",

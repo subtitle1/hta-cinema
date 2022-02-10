@@ -11,7 +11,7 @@ const savedPasswordValue = {password: "", checkPassword: ""};
  * 반환값은 유효성 검사 통과 여부이다.
  * 비밀번호와 비밀번호 확인에 동일하게 적용되는 유효성 검사이다.
  * 비밀번호에는 영문, 숫자, 일부 특수문자의 입력만 허용된다.
- * 비밀번호 input에 비어있거나 허용된 값만 있으면 savedPasswordValue 객체에 그 값을 저장한다.
+ * 비밀번호 input이 비어있거나 허용된 값만 있으면 savedPasswordValue 객체에 그 값을 저장한다.
  * 비밀번호 input에 허용되지 않는 값이 포함되어 있으면 이전으로 되돌리고 툴팁을 표시한다.
  */
 function passwordKeyboardInputValidation(targetInput, isPassword) {
