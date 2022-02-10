@@ -135,27 +135,25 @@
 				</choose>
 				) rn,
       			r.review_no, c.customer_id, r.review_score, r.review_content
-      			from customer c, review r, movie m
+      		from 
+      			customer c, review r, movie m
       		where 
-	      			r.movie_no = m.movie_no
-	      			and c.customer_no = r.customer_no
+      			r.movie_no = m.movie_no
+      			and c.customer_no = r.customer_no
       			and m.movie_no = #{movieNo})
 		where 
 			rn between #{beginIndex} and #{endIndex}
 	</select>
 	
-	<select id="getQualification" resultType="com.example.dto.CheckDto">
+	<select id="getQualification" resultType="string">
 		select 
-			s.movie_no movieNo, 
-			t.ticket_cancelled ticketCancelled, 
-			r.review_no reviewNo
+   			t.ticket_cancelled ticketCancelled
 		from 
-			show_schedule s, ticket t, review r, customer c
+		    show_schedule s, ticket t
 		where 
-			s.show_schedule_no = t.show_schedule_no
-			and t.customer_no = c.customer_no
-			and c.customer_no = r.customer_no
-			and c.customer_no = #{customerNo}
+		    s.show_schedule_no = t.show_schedule_no
+			and t.customer_no = #{customerNo}
 			and s.movie_no = #{movieNo}
+			and t.ticket_cancelled = 'N'
 	</select>
 </mapper>

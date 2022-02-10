@@ -173,9 +173,8 @@
 		</div>
 	</div>
 </div>
-</body>
 <%@include file="../common/errorModal.jsp"%>
-
+</body>
 <script type="text/javascript">
 	$(function() {
 		

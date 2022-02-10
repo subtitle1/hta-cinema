@@ -16,6 +16,10 @@
 	box-shadow: none;
 }
 
+#navbar-top {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
 .btn-primary:disabled,
 .btn-primary:hover,
 .btn-primary:focus,
@@ -61,4 +65,21 @@
 	display: inline-block;
 	height: 15px;
 	border-left: 1px solid #d1d5dd;
+}
+
+/* footer */
+.footer p, a {
+	font-family: 'Nanum Gothic', sans-serif;
+	color: black;
+}
+
+.footer div {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.bg-light img {
+	width: 250px;
+	float: left;
+	margin-right: 20px;
 }

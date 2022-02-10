@@ -33,20 +33,25 @@
 							<img class='me-3' src='/resources/images/movie/unlike.png'><span style="color:white;" id="likeCount">0</span>
 						</button>
 						<div class="row" style="margin-top: 310px;">
-							<div class="col-2 score-top">
+							<div class="col-3 score-top">
 								<p>관람 평점</p>
 								<span class="score">-</span>
 							</div>
-							<div class="col-2 rating-top">
+							<div class="col-3 rating-top">
 								<p>예매율</p>
 								<img alt="" src="/resources/images/movie/ico-ticket-gray.png">
-								<span>-</span>
+								<span class="rating">-</span>
+							</div>
+							<div class="col-3 audience-top">
+								<p>누적관객수</p>
+								<img alt="" src="/resources/images/movie/ico-person.png">
+								<span class="audience">-</span>
 							</div>
 						</div>
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded float-end" id="poster" src="" style="width: 18rem;">
-						<button type='button' class='ticketing btn btn-primary mt-3 float-end'>예매</button>
+						<button type='button' class='ticketing btn btn-primary mt-3 float-end'><a href="/ticketing/screenList?no=${param.no }">예매</a></button>
 					</div>
 				</div>
 			</div>
@@ -121,16 +126,16 @@
 					<div class="col" style="text-align: center;">
 						<dl>
 							<dt>예매율</dt>
-							<dd>0%</dd>
+							<dd id="sales-rate">0%</dd>
 						</dl>
 						<div class="d-flex justify-content-center">
 							<div id="bar-graph">
 								<canvas id="barGraph" width="260" height="260"></canvas>
 							</div>
 							<!-- 데이터 없을 때 -->
-							<!-- <div class="no-graph3">
+							<div class="no-graph3">
 								<img alt="" src="/resources/images/movie/no-graph03.jpg">
-							</div>  -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -281,6 +286,7 @@
 			</div>
 		</div>
 	</div>
+<%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
 <script type="text/javascript">
@@ -357,7 +363,7 @@
 			        		   ticks: {
 			        			    beginAtZero: true,
 			        				max: 100,
-			        				min: 10,
+			        				min: 0,
 			        				stepSize: 20,
 			        		        callback: function() {return ""},
 			        		   }
@@ -372,6 +378,7 @@
 		}
 		
 		getScore();
+		
 		
 		// 영화 평점
 		function getScore() {
@@ -390,43 +397,69 @@
 			})
 		}
    		
-   		// 방사형 그래프
-   		let barChart = new Chart(document.getElementById("barGraph"), {
-   		type: 'bar',
-        data: { 
-        	labels: [
-                 //x 축
-                 '남성','여성'
-             ],
-             datasets: [{ 
-                     fill: false, 
-                     data: [
-                         100, 100 
-                     ],
-                     backgroundColor: [
-                         'rgba(255, 99, 132, 0.2)',
-                         'rgba(153, 102, 255, 0.2)',
-                     ],
-                     borderColor: [
-                         'rgba(255, 99, 132, 1)',
-                         'rgba(153, 102, 255, 1)',
-                     ],
-                     borderWidth: 1
-                 }]
-         	},
-         	options: {
-         		responsive: false,
-             	scales: {
-                	yAxes: [{
-                    	ticks: {
-                    		callback: function() {return ""},
-            		        backdropColor: "rgba(0, 0, 0, 0)",
-                        	beginAtZero: true
-                        }
-                    }]
-             	}
-         	}
-     	});
+		showBarGraph();
+		
+		// 바 그래프
+		function showBarGraph() {
+			$.ajax({
+				type: "get",
+				url: "/rest/rating",
+				data: {movieNo : movieId},
+				dataType: 'json',
+				success: function(response) {
+					
+					let rating = response.items.rating;
+					let totalAudience = response.items.totalAudience;
+					
+					$(".no-graph3").empty();
+					$(".audience").text(totalAudience.toLocaleString()+" 명");
+					$(".rating").text(rating + "%");
+					$("#sales-rate").text(rating + "%");
+			   		
+			   		let barChart = new Chart(document.getElementById("barGraph"), {
+			   		type: 'bar',
+			        data: { 
+			        	labels: [
+			                 //x 축
+			                 '예매율'
+			             ],
+			             datasets: [{ 
+			                     fill: false, 
+			                     data: [
+			                    	 rating
+			                     ],
+			                     backgroundColor: [
+			                         'rgba(153, 102, 255, 0.2)',
+			                     ],
+			                     borderColor: [
+			                         'rgba(153, 102, 255, 1)',
+			                     ],
+			                     borderWidth: 1
+			                 }]
+			         	},
+			         	options: {
+			         		responsive: false,
+			             	scales: {
+			                	yAxes: [{
+			                    	ticks: {
+			                    		beginAtZero: true,
+				        				max: 100,
+				        				min: 0,
+				        				stepSize: 20,
+			                    		// callback: function() {return ""},
+			            		        backdropColor: "rgba(0, 0, 0, 0)",
+			                        	beginAtZero: true
+			                        }
+			                    }]
+			             	}
+			         	}
+			     	});
+				}, 
+				error: function() {
+					$("#bar-graph").empty();
+				}
+			})
+		}
    		
 		// 1. 영화 상세 정보를 가져오는 url
 		$.ajax({
@@ -502,35 +535,103 @@
 			}
 		})
 		
+		// 리뷰 목록 출력
+		function getReviews() {
+			let order = $("[name=option]:checked").val();
+			$.getJSON('/rest/review', {page: currentPageNo, option: order, movieNo: movieId}, function(response) {
+				let reviews = response.items.reviews;
+
+				// 리뷰가 없을 때
+				if (reviews == "") {
+					$(".no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
+					$(".review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
+				// 리뷰가 있을 때
+				} else {
+					$.each(reviews, function(index, review) {
+						let $reviewBox = $(".review-box");
+						let points = review.reviewPoints.map(point => point.pointName);
+						
+						// 아이디 끝자리 비공개
+						let id = review.customerId;
+						let maskedId = id.substring(0, id.length - 2) + "**";
+						
+						let output = "<div class='row review-start text-center mt-3 mb-3'>"
+							output += "<div class='col-1'>"
+							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
+							output += "<span>"+maskedId+"</span>"
+							output += "</div>"
+							output += "<div id='review-"+review.reviewNo+"' data-review-no='"+review.reviewNo+"' class='col rounded border p-3' style='background-color: #f8f8fa'>"
+							output += "<div class='row'>"
+							output += "<div class='col-1 mt-3'>"
+							output += "<span id='txt'>관람평</span>"
+							output += "</div>"
+							output += "<div class='col-1 mt-1'>"
+							output += "<span id='score-txt'>"+ review.reviewScore +"</span>"
+							output += "</div>"
+							if (points[1] == null) {
+								output += "<div class='col-2 mt-3'>"
+								output += "<span id='points-txt'>"+ points[0] +"</span>"
+								output += "</div>"
+							} else {
+								output += "<div class='col-2 mt-1'>"
+								output += "<span id='points-txt'>"+ points[0] +"</span><br><span id='points-txt'>"+ points[1] +"</span>"
+								output += "</div>"
+							}
+							output += "<div class='col mt-3'>"
+							output += "<span>"+review.reviewContent+"</span>"
+							output += "</div>"
+							output += "<div class='col-1 dropstart util-btn-"+review.reviewNo+"' data-util-no='"+review.reviewNo+"'>"
+							output += "</div>"
+							output += "</div>"
+							output += "</div>"
+							output += "</div>"; 
+					
+						$reviewBox.append(output);
+					});
+					
+					// 로그인한 사용자가 작성한 리뷰가 있는지 조회
+					$.ajax({
+						type: "get",
+						url: "/rest/myReview",
+						data: {movieNo: movieId},
+						dataType: 'json',
+						async: false,
+						success: function (response) {
+							
+							if (response) {
+								reviewNo = response.items.review.reviewNo;
+							} else {
+								console.log("리뷰 ㄴㄴ");
+							}
+						}
+					});
+					
+					// 회원정보 조회 후 response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
+					let myReview = $("#review-"+reviewNo).data("review-no");
+				
+					let utilbtn = "";
+					let $btnDiv = $(".util-btn-"+reviewNo);
+					
+					if (myReview == reviewNo) {
+						utilbtn += `<button type='button' class='btn util-btn dropdown-toggle' id='utils' data-bs-toggle='dropdown' aria-expanded='false'>
+										<img src='/resources/images/movie/btn-alert.png'>
+									</button>
+									<ul class='dropdown-menu' aria-labelledby='utils'>
+										<button id='edit-btn' type='button' class='dropdown-item edit' href='#'>수정</button>
+										<button type='button' class='dropdown-item delete' href='#'>삭제</button>
+									</ul>`
+									
+						$btnDiv.append(utilbtn);
+					}
+				}
+				
+				pagination(response);
+				
+			})
+		}
+		
 		// 리뷰 삽입인지 수정인지 정의해 줄 전역변수
 		let action = '';
-		
-		// 관람평 쓰기 버튼 클릭 시
-		/* $(".review-btn").click(function() {
-			action = 'create';
-			
-			$.ajax({
-				type: "get",
-				url: "/rest/myReview",
-				data: {movieNo: movieId},
-				dataType: 'json',
-				async: false,
-				success: function (response) {
-					console.log(response);
-					if (response.items.movieNo == movieId) {
-						$("#span-error").text("이미 작성한 관람평이 있습니다.");
-						errorModal.show();
-						
-						$("#submit").click(function() {
-							errorModal.hide();
-						})
-					} 
-				},
-				error: function() {
-					reviewModal.show();
-				}
-			})
-		}) */
 
 		$(".review-btn").click(function() {
 			action = 'create';
@@ -543,26 +644,14 @@
 				async: false,
 				success: function (response) {
 					console.log(response);
-					let reviewNo2 = response.reviewNo;
-					
-					if (response == '') {
-						$("#span-error").text("실관람평은 ");
+					if (response.error) {
+						$("#span-error").text(response.error);
 						errorModal.show();
 						
 						$("#submit").click(function() {
 							errorModal.hide();
 						})
-						return;
-						
-					} else if (reviewNo2 == reviewNo) {
-						$("#span-error").text("이미 작성한 관람평이 있습니다.");
-						errorModal.show();
-						
-						$("#submit").click(function() {
-							errorModal.hide();
-						})
-						return;
-						
+						return; 
 					}
 				},
 				error: function() {
@@ -695,96 +784,6 @@
 			$(".review-box").empty();
 			getReviews();
 		})
-		
-		// 리뷰 목록 출력
-		function getReviews() {
-			let order = $("[name=option]:checked").val();
-			$.getJSON('/rest/review', {page: currentPageNo, option: order, movieNo: movieId}, function(response) {
-				let reviews = response.items.reviews;
-
-				// 리뷰가 없을 때
-				if (reviews == "") {
-					$(".no-review").text("에는 아직 등록된 리뷰가 존재하지 않습니다.");
-					$(".review-header").text("첫번째 관람평의 주인공이 되어 보세요!");
-				// 리뷰가 있을 때
-				} else {
-					$.each(reviews, function(index, review) {
-						let $reviewBox = $(".review-box");
-						let points = review.reviewPoints.map(point => point.pointName);
-						
-						// 아이디 끝자리 비공개
-						let id = review.customerId;
-						let maskedId = id.substring(0, id.length - 2) + "**";
-						
-						let output = "<div class='row review-start text-center mt-3 mb-3'>"
-							output += "<div class='col-1'>"
-							output += "<img src='/resources/images/movie/bg-photo.png' style='width: 50px;'><br>"
-							output += "<span>"+maskedId+"</span>"
-							output += "</div>"
-							output += "<div id='review-"+review.reviewNo+"' data-review-no='"+review.reviewNo+"' class='col rounded border p-3' style='background-color: #f8f8fa'>"
-							output += "<div class='row'>"
-							output += "<div class='col-1 mt-3'>"
-							output += "<span id='txt'>관람평</span>"
-							output += "</div>"
-							output += "<div class='col-1 mt-1'>"
-							output += "<span id='score-txt'>"+ review.reviewScore +"</span>"
-							output += "</div>"
-							if (points[1] == null) {
-								output += "<div class='col-2 mt-3'>"
-								output += "<span id='points-txt'>"+ points[0] +"</span>"
-								output += "</div>"
-							} else {
-								output += "<div class='col-2 mt-1'>"
-								output += "<span id='points-txt'>"+ points[0] +"</span><br><span id='points-txt'>"+ points[1] +"</span>"
-								output += "</div>"
-							}
-							output += "<div class='col mt-3'>"
-							output += "<span>"+review.reviewContent+"</span>"
-							output += "</div>"
-							output += "<div class='col-1 dropstart util-btn-"+review.reviewNo+"' data-util-no='"+review.reviewNo+"'>"
-							output += "</div>"
-							output += "</div>"
-							output += "</div>"
-							output += "</div>"; 
-					
-						$reviewBox.append(output);
-					});
-					
-					// 로그인한 사용자가 작성한 리뷰가 있는지 조회
-					$.ajax({
-						type: "get",
-						url: "/rest/myReview",
-						data: {movieNo: movieId},
-						dataType: 'json',
-						async: false,
-						success: function (response) {
-							reviewNo = response.items.review.reviewNo;
-						}
-					});
-					
-					// 회원정보 조회 후 response로 받은 reviewNo와 no가 같으면 유틸 버튼 표시
-					let myReview = $("#review-"+reviewNo).data("review-no");
-				
-					let utilbtn = "";
-					let $btnDiv = $(".util-btn-"+reviewNo);
-					
-					if (myReview == reviewNo) {
-						utilbtn += `<button type='button' class='btn util-btn dropdown-toggle' id='utils' data-bs-toggle='dropdown' aria-expanded='false'>
-										<img src='/resources/images/movie/btn-alert.png'>
-									</button>
-									<ul class='dropdown-menu' aria-labelledby='utils'>
-										<button id='edit-btn' type='button' class='dropdown-item edit' href='#'>수정</button>
-										<button type='button' class='dropdown-item delete' href='#'>삭제</button>
-									</ul>`
-									
-						$btnDiv.append(utilbtn);
-					}
-				}
-				
-				pagination(response);
-				
-			})
-		}
 		
 		// 페이지네이션 함수
 		// response에 해당하는 값으로 페이지네이션

@@ -25,4 +25,15 @@
       		order by MOVIE_TOTAL_LIKED desc)
 		where ROWNUM &lt;= 4
 	</select>
+	
+	<select id="getTotalAudience" resultType="int">
+		select sum(movie_audience_total_number)
+		from movie
+	</select>
+	
+	<select id="getAudienceCountByMovieNo" parameterType="int" resultType="int">
+		select movie_audience_total_number
+		from movie
+		where movie_no = #{value}
+	</select>
 </mapper>

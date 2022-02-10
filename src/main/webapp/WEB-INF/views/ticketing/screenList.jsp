@@ -41,13 +41,26 @@
                         <button class="movie-name-button" type="button">전체</button>
                     </div>
                     <div class="movie-list">
-                    <c:forEach var="movie" items="${movies}">
-                    	<button class="movie-button" type="button" value="${movie.movieNo}" >
-                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
-                            <span class="txt">${movie.movieName}</span>
-                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
-                        </button>
-                    </c:forEach>
+	                    <c:choose>
+	                    	<c:when test="${empty param.no }">
+	                    		<c:forEach var="movie" items="${movies}">
+			                    	<button class="movie-button" type="button" value="${movie.movieNo}" >
+			                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
+			                            <span class="txt">${movie.movieName}</span>
+			                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
+			                        </button>
+			                    </c:forEach>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<c:forEach var="movie" items="${movies}">
+			                    	<button class="movie-button" type="button" value="${movie.movieNo}" ${movie.movieNo eq param.no ? 'active' : '' } >
+			                            <img src="${movie.ratingImageURL} " alt="${movie.ratingName}"/>
+			                            <span class="txt">${movie.movieName}</span>
+			                            <img src="/resources/images/btn/ico-heart.png" alt="heart" class="buttonicon">
+			                        </button>
+			                    </c:forEach>
+	                    	</c:otherwise>
+	                    </c:choose>
                     </div>
                     <div class="movie-img">
                         <!--영화 선택하지 않았을 때 -->

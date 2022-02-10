@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.dto.CheckDto;
-import com.example.dto.PointStatDto;
 import com.example.dto.ReviewDto;
 import com.example.vo.Review;
 import com.example.vo.ReviewPoint;
@@ -33,7 +31,6 @@ public interface ReviewMapper {
 							@Param("pointNo") int pointNo);
 	int getReviewScore(int movieNo);
 	String getPointNameByPointNo(int pointNo);
-	CheckDto getQualification(@Param("customerNo") int customerNo, 
+	String getQualification(@Param("customerNo") int customerNo, 
 							@Param("movieNo") int movieNo);
-	
 }

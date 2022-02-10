@@ -21,4 +21,18 @@ public class MovieService {
 	public List<Movie> getTop4() {
 		return movieMapper.getTop4();
 	}
+	
+	public String getSalesRating(int movieNo) {
+		int totalAudience = movieMapper.getTotalAudience();
+		int movieAudience = movieMapper.getAudienceCountByMovieNo(movieNo);
+		
+		double rating = (double) movieAudience * 100 / totalAudience;
+		String formattedRating = String.format("%.1f", rating);
+		
+		return formattedRating;
+	}
+	
+	public int getTotalAudience(int movieNo) {
+		return movieMapper.getAudienceCountByMovieNo(movieNo);
+	}
 }

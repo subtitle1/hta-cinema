@@ -12,4 +12,6 @@ public interface MovieMapper {
 	Movie getMovieLikeCount(int movieNo);
 	List<Integer> getAllMovieNo();
 	List<Movie> getTop4();
+	int getTotalAudience();
+	int getAudienceCountByMovieNo(int movieNo);
 }

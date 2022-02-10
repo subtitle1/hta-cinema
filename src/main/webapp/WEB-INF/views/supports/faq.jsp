@@ -19,80 +19,82 @@
 <%@include file="../common/tags.jsp" %>
 <%@include file="../common/navbar.jsp"%>
 <div class="container">
-	<div class="menu mt-5">
-		<div>
-			<div class="col p-0 page-title text-center">
-				<h3>고객센터</h3>
+	<div>
+		<div class="menu mt-5">
+			<div>
+				<div class="col p-0 page-title text-center">
+					<h3>고객센터</h3>
+				</div>
+			</div>
+			<div class="row mypage">
+				<div class="col p-0 aside text-center mt-3">
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
+					</ul>
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
+					</ul>
+				</div>
+				<div class="text-center mt-3 mb-3">
+					<span>HTA CINEMA 고객센터</span>
+					<span>10:30~18:30</span>
+				</div>
 			</div>
 		</div>
-		<div class="row mypage">
-			<div class="col p-0 aside text-center mt-3">
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
-				</ul>
-			</div>
-			<div class="text-center mt-3 mb-3">
-				<span>HTA CINEMA 고객센터</span>
-				<span>10:30~18:30</span>
-			</div>
-		</div>
-	</div>
-	
-	<div class="supports col-9">
-		<div class="row">
-			<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
-				<div class="mt-5 mb-3">
-					<h1>자주 묻는 질문</h1>
-				</div>
-				<div class="rounded row p-3 mb-3">
-					<div class="col">
-						<span>질문을 검색해 보세요.</span>
-						<input id="search-input" type="text" class="form-control mt-2" placeholder="질문 검색">
+		
+		<div class="supports col-9">
+			<div class="row">
+				<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
+					<div class="mt-5 mb-3">
+						<h1>자주 묻는 질문</h1>
 					</div>
-					<div class="col-2">
-						<button type="button" class="btn btn-primary btn-sm" style="margin-top: 34px;" id="btn-search">검색</button>
-					</div>
-				</div>
-				<div>
-					<nav>
-						<div class="nav nav-tabs nav-justified mt-3" id="nav-tab" role="tablist">
-							<button class="nav-link active faq-list" name="option" value="전체" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button"
-								role="tab" aria-controls="nav-all" aria-selected="true">전체</button>
-							<button class="nav-link faq-list" name="option" value="예매" id="nav-ticket-tab" data-bs-toggle="tab" data-bs-target="#nav-ticket" type="button" role="tab"
-								aria-controls="nav-ticket" aria-selected="false">영화예매</button>
-							<button class="nav-link faq-list" name="option" value="극장" id="nav-theater-tab" data-bs-toggle="tab" data-bs-target="#nav-theater" type="button" role="tab"
-								aria-controls="nav-theater" aria-selected="false">극장</button>
+					<div class="rounded row p-3 mb-3">
+						<div class="col">
+							<span>질문을 검색해 보세요.</span>
+							<input id="search-input" type="text" class="form-control mt-2" placeholder="질문 검색">
 						</div>
-					</nav>
-				</div>
-				<div class="col mt-5 ms-3">
-					<span><span id="ask-type">전체 </span><strong id="count"></strong> 건</span>
-				</div>
-				<div id="faq-lists" class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-						<div class="row mt-3 faq">
+						<div class="col-2">
+							<button type="button" class="btn btn-primary btn-sm" style="margin-top: 34px;" id="btn-search">검색</button>
 						</div>
 					</div>
-					<div class="ms-4 tab-pane fade" id="nav-ticket" role="tabpanel" aria-labelledby="nav-ticket-tab">
-						<div class="row mt-3 faq">
-						</div>
-					</div>
-					<div class="ms-4 tab-pane fade" id="nav-theater" role="tabpanel" aria-labelledby="nav-theater-tab">
-						<div class="row mt-3 faq">
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<nav aria-label="Page navigation example">
-							<!-- ajax 페이지네이션 -->
-							<ul class="pagination justify-content-center">
-							</ul>
+					<div>
+						<nav>
+							<div class="nav nav-tabs nav-justified mt-3" id="nav-tab" role="tablist">
+								<button class="nav-link active faq-list" name="option" value="전체" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button"
+									role="tab" aria-controls="nav-all" aria-selected="true">전체</button>
+								<button class="nav-link faq-list" name="option" value="예매" id="nav-ticket-tab" data-bs-toggle="tab" data-bs-target="#nav-ticket" type="button" role="tab"
+									aria-controls="nav-ticket" aria-selected="false">영화예매</button>
+								<button class="nav-link faq-list" name="option" value="극장" id="nav-theater-tab" data-bs-toggle="tab" data-bs-target="#nav-theater" type="button" role="tab"
+									aria-controls="nav-theater" aria-selected="false">극장</button>
+							</div>
 						</nav>
-					</div>				
+					</div>
+					<div class="col mt-5 ms-3">
+						<span><span id="ask-type">전체 </span><strong id="count"></strong> 건</span>
+					</div>
+					<div id="faq-lists" class="tab-content" id="nav-tabContent">
+						<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+							<div class="row mt-3 faq">
+							</div>
+						</div>
+						<div class="ms-4 tab-pane fade" id="nav-ticket" role="tabpanel" aria-labelledby="nav-ticket-tab">
+							<div class="row mt-3 faq">
+							</div>
+						</div>
+						<div class="ms-4 tab-pane fade" id="nav-theater" role="tabpanel" aria-labelledby="nav-theater-tab">
+							<div class="row mt-3 faq">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<nav aria-label="Page navigation example">
+								<!-- ajax 페이지네이션 -->
+								<ul class="pagination justify-content-center">
+								</ul>
+							</nav>
+						</div>				
+					</div>
 				</div>
 			</div>
 		</div>
