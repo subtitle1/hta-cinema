@@ -16,6 +16,11 @@
 	<title>HTA CINEMA</title>
 </head>
 <style>
+
+p, a {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
 a { color: #fff; text-decoration: none;}
 
 a:hover { color: #fff; text-decoration: underline;}

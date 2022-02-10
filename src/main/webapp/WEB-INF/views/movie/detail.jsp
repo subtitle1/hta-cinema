@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>HTA CINEMA</title>
+  	<script type="text/javascript" src="/resources/js/movie/movieFn.js"></script>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -14,7 +15,6 @@
   	<link rel="stylesheet" href="/resources/css/movieList.css" />
   	<link rel="stylesheet" href="/resources/css/navbar.css" />
   	<link rel="stylesheet" href="/resources/css/common.css" />
-  	<script type="text/javascript" src="/resources/js/movie/movieFn.js"></script>
   	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 </head>
 <style>
@@ -308,6 +308,8 @@
 		});
 		
 		showPointGraph();
+		getScore();
+		showBarGraph();
 		
 		Chart.defaults.global.legend.display = false; // 차트 범례 제거
 		// 포인트 차트 데이터
@@ -377,9 +379,6 @@
 			})
 		}
 		
-		getScore();
-		
-		
 		// 영화 평점
 		function getScore() {
 			$.ajax({
@@ -397,8 +396,6 @@
 			})
 		}
    		
-		showBarGraph();
-		
 		// 바 그래프
 		function showBarGraph() {
 			$.ajax({
@@ -407,53 +404,58 @@
 				data: {movieNo : movieId},
 				dataType: 'json',
 				success: function(response) {
-					
+
 					let rating = response.items.rating;
 					let totalAudience = response.items.totalAudience;
 					
-					$(".no-graph3").empty();
 					$(".audience").text(totalAudience.toLocaleString()+" 명");
 					$(".rating").text(rating + "%");
 					$("#sales-rate").text(rating + "%");
+					
+					if (rating == 0.0) {
+						$("#bar-graph").empty();
+					} else {
+						$(".no-graph3").empty();
+				   		let barChart = new Chart(document.getElementById("barGraph"), {
+				   		type: 'bar',
+				        data: { 
+				        	labels: [
+				                 //x 축
+				                 '예매율'
+				             ],
+				             datasets: [{ 
+				                     fill: false, 
+				                     data: [
+				                    	 rating
+				                     ],
+				                     backgroundColor: [
+				                         'rgba(153, 102, 255, 0.2)',
+				                     ],
+				                     borderColor: [
+				                         'rgba(153, 102, 255, 1)',
+				                     ],
+				                     borderWidth: 1
+				                 }]
+				         	},
+				         	options: {
+				         		responsive: false,
+				             	scales: {
+				                	yAxes: [{
+				                    	ticks: {
+				                    		beginAtZero: true,
+					        				max: 100,
+					        				min: 0,
+					        				stepSize: 20,
+				                    		// callback: function() {return ""},
+				            		        backdropColor: "rgba(0, 0, 0, 0)",
+				                        	beginAtZero: true
+				                        }
+				                    }]
+				             	}
+				         	}
+				     	});
+					}
 			   		
-			   		let barChart = new Chart(document.getElementById("barGraph"), {
-			   		type: 'bar',
-			        data: { 
-			        	labels: [
-			                 //x 축
-			                 '예매율'
-			             ],
-			             datasets: [{ 
-			                     fill: false, 
-			                     data: [
-			                    	 rating
-			                     ],
-			                     backgroundColor: [
-			                         'rgba(153, 102, 255, 0.2)',
-			                     ],
-			                     borderColor: [
-			                         'rgba(153, 102, 255, 1)',
-			                     ],
-			                     borderWidth: 1
-			                 }]
-			         	},
-			         	options: {
-			         		responsive: false,
-			             	scales: {
-			                	yAxes: [{
-			                    	ticks: {
-			                    		beginAtZero: true,
-				        				max: 100,
-				        				min: 0,
-				        				stepSize: 20,
-			                    		// callback: function() {return ""},
-			            		        backdropColor: "rgba(0, 0, 0, 0)",
-			                        	beginAtZero: true
-			                        }
-			                    }]
-			             	}
-			         	}
-			     	});
 				}, 
 				error: function() {
 					$("#bar-graph").empty();
@@ -600,9 +602,7 @@
 							
 							if (response) {
 								reviewNo = response.items.review.reviewNo;
-							} else {
-								console.log("리뷰 ㄴㄴ");
-							}
+							} 
 						}
 					});
 					
@@ -630,6 +630,16 @@
 			})
 		}
 		
+		// 에러창을 보여주는 모달
+		function showError(message) {
+			$("#span-error").text(message);
+			errorModal.show();
+			
+			$("#submit").click(function() {
+				errorModal.hide();
+			})
+		}
+		
 		// 리뷰 삽입인지 수정인지 정의해 줄 전역변수
 		let action = '';
 
@@ -645,12 +655,7 @@
 				success: function (response) {
 					console.log(response);
 					if (response.error) {
-						$("#span-error").text(response.error);
-						errorModal.show();
-						
-						$("#submit").click(function() {
-							errorModal.hide();
-						})
+						showError(response.error);
 						return; 
 					}
 				},
@@ -747,8 +752,7 @@
 							getReviews();
 						} 
 						else {
-							$("#span-error").text(response.error);
-							errorModal.show();
+							showError(response.error);
 						}
 					}
 				})
@@ -842,7 +846,7 @@
 			}
 		})
 		
-		// 좋아요
+		// 좋아요 기능
 		$("#btn-"+movieId).click(function() {
 			
 			let movieNo = $(this).attr("data-no");
@@ -859,13 +863,7 @@
 					dataType: "json",
 					success: function(response) {
 						if (response.error) {
-							$("#span-error").text(response.error);
-							errorModal.show();
-							
-							$("#submit").click(function() {
-								errorModal.hide();
-							})
-							
+							showError(response.error);
 							return;
 						}
 						
