@@ -285,3 +285,101 @@ p {
     font-size: medium;
     padding-bottom: 30px;
 }
+.movie-option .option {
+    float: left;
+}
+.movie-option{
+	display: flex;
+	width: 110%;
+}
+
+.movie-option .option ul li {
+    float: left;
+    margin-right: 15px;
+    line-height: 1em;
+}
+
+.movie-option .option .iconset {
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
+.movie-option .option .iconset {
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
+.iconset {
+    overflow: hidden;
+    display: inline-block;
+    margin: -1px 0 0 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ico-stage {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option01.png);
+}
+
+.ico-user {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option02.png);
+}
+
+.ico-open {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option03.png);
+}
+
+.ico-goods {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option04.png);
+}
+   
+.ico-singalong {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option05.png);
+    
+}
+.ico-gv {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option06.png);
+    
+}
+.ico-sun {
+    width: 14px;
+    height: 14px;
+    background-image: url(/resources/images/theater/ico-greeting-option-sun.png);
+}
+.ico-brunch {
+    width: 14px;
+    height: 14px;
+    background-image: url(/resources/images/theater/ico-time-brunch.png);
+    
+}
+.ico-moon {
+    width: 12px;
+    height: 12px;
+    background-image: url(/resources/images/theater/ico-greeting-option-moon.png);
+}
+
+.movie-option .rateing-lavel {
+    float: right;
+    margin:0 0 0 auto;
+}
