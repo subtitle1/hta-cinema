@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
-@Slf4j
 public class ReviewService {
 	
 	static final Logger logger = LogManager.getLogger(ReviewService.class);
