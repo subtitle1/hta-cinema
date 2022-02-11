@@ -61,7 +61,7 @@
 								<label for="input-findId-birthDate">생년월일</label>
 							</div>
 							<div class="col-9 align-self-center">
-								<input type="number" class="form-control" id="input-findId-birthDate" name="birthDate" placeholder="생년월일 앞8자리" />
+								<input type="text" class="form-control" id="input-findId-birthDate" name="birthDate" placeholder="생년월일 앞8자리" maxlength="8" />
 							</div>
 						</div>
 						<div id="div-birthDate-error" class="row p-0 row-other" hidden>
@@ -75,7 +75,13 @@
 								<label for="input-findId-phoneNumber">휴대폰 번호</label>
 							</div>
 							<div class="col-9 align-self-center">
-								<input type="number" class="form-control" id="input-findId-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" maxlength="11" />
+								<input type="text" class="form-control" id="input-findId-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" maxlength="11" />
+							</div>
+						</div>
+						<div id="div-findId-phoneNumber-error" class="row p-0 row-other" hidden>
+							<div class="col-3 m-0 ps-3 py-3 col-label"></div>
+							<div class="col-9 align-self-center">
+								<span class="error">잘못된 휴대폰 번호 형식입니다.</span>
 							</div>
 						</div>
 						<div class="row mt-4">
@@ -114,7 +120,7 @@
 								<label for="input-findPassword-phoneNumber">휴대폰 번호</label>
 							</div>
 							<div class="col-6 align-self-center">
-								<input type="number" class="form-control" id="input-findPassword-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" />
+								<input type="text" class="form-control" id="input-findPassword-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" maxlength="11" />
 							</div>
 							<div class="col-3 align-self-center">
 								<button id="btn-request-authentication" type="button" class="btn btn-primary">인증요청</button>
@@ -149,45 +155,62 @@
 	</div>
 </body>
 <script src="/resources/js/customer/regExp.js"></script>
-<script type="text/javascript" src="/resources/js/customer/showErrorDiv.js"></script>
+<script src="/resources/js/customer/showErrorDiv.js"></script>
+<script src="/resources/js/customer/onlyNumberAllowedValidation.js"></script>
 <script src="/resources/js/customer/nameValidation.js"></script>
 <script src="/resources/js/customer/birthDateValidation.js"></script>
+<script src="/resources/js/customer/findIdPasswordPhoneNumberValidation.js"></script>
 <script src="/resources/js/customer/idValidation.js"></script>
 <script src="/resources/js/customer/phoneNumberValidation.js"></script>
 <script>
 	$(function() {
 		const findIdNameInput = $("#input-findId-name");
 		const findIdBirthDateInput = $("#input-findId-birthDate");
+		const findIdPhoneNumberInput = $("#input-findId-phoneNumber");
 		const findPasswordIdInput = $("#input-findPassword-id");
 		const findPasswordNameInput = $("#input-findPassword-name");
 		
 		const birthDateErrorDiv = $("#div-birthDate-error");
+		const findIdPhoneNumberErrorDiv = $("#div-findId-phoneNumber-error");
 		
 		const findPasswordRequestAuthenticationButton = $("#btn-request-authentication");
 		const findPasswordCheckAuthenticationButton = $("#btn-check-authentication");
-		
-		// 4자리 난수, 1000 ~ 9999
-		const fourDigitRandomNumber = Math.floor(Math.random()*(9999 - 1000 + 1)) + 1000;
 		
 		const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
 			keyboard: false
 		});
 		
-		// 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		// 인증번호에 사용되는 4자리 난수, 1000 ~ 9999
+		const fourDigitRandomNumber = Math.floor(Math.random()*(9999 - 1000 + 1)) + 1000;
+		
+		// 유효성 검사를 통과했는지 여부를 저장하는 변수로 true이면 통과한 것이다.
+		let findIdPhoneNumberValidationFlag = false;
+		let findPasswordPhoneNumberValidationFlag = false;
+		
+		// 아이디 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findIdNameInput.keyup(function() {
 			nameValidation($(this));
 		});
 		
+		// 아이디 찾기의 생년월일에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findIdBirthDateInput.keyup(function() {
+			onlyNumberAllowedValidation($(this));
 			showErrorDiv(birthDateErrorDiv, !birthDateValidation($(this)));
 		});
 		
-		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		// 아이디 찾기의 휴대폰 번호에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		findIdPhoneNumberInput.keyup(function() {
+			onlyNumberAllowedValidation($(this));
+			findIdPhoneNumberValidationFlag = findIdPasswordPhoneNumberValidation($(this));
+			showErrorDiv(findIdPhoneNumberErrorDiv, !findIdPhoneNumberValidationFlag);
+		});
+		
+		// 비밀번호 찾기의 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findPasswordIdInput.keyup(function() {
 			idKeyboardInputValidation($(this));
 		});
 		
-		// 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		// 비밀번호 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findPasswordNameInput.keyup(function() {
 			nameValidation($(this));
 		});

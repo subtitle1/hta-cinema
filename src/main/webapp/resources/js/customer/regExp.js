@@ -2,6 +2,7 @@
 const engReg = /[a-zA-Z]/;
 const numReg = /[0-9]/;
 const specialReg = /[~!@#$%^&*+=?_-]/;
+const onlyNumberReg = /^[0-9]+$/;
 const idReg = /^[a-zA-Z0-9]+$/;
 const passwordReg = /^[a-zA-Z0-9~!@#$%^&*+=?_-]+$/;
 const nameReg = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]+$/;
