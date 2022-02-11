@@ -26,7 +26,7 @@ public class FaqService {
 	}
 	
 	public List<FaqDto> getAllFaq(FaqCriteria criteria) {
-		logger.info("조건", criteria);
+		logger.info("조건"+criteria);
 		return faqMapper.getAllFaq(criteria);
 	}
 }
