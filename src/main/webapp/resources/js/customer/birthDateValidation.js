@@ -14,12 +14,8 @@ function birthDateValidation(inputElement) {
 	const birthYear = Number(value.substr(0, 4));
     const birthMonth = Number(value.substr(4, 2));
     const birthDay = Number(value.substr(6, 2));
-	console.log("year: " + birthYear);
-	console.log("month: " + birthMonth);
-	console.log("day: " + birthDay);
 
 	const todayDate = new Date();
-    const todayYear = todayDate.getFullYear();
 	
 	const daysPerMonth = {1: 31, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
 	
@@ -50,7 +46,7 @@ function birthDateValidation(inputElement) {
 		console.log("false7");
 		return false;
 	}
-	if (!isLeapYear(todayYear) && birthDay === 29) {
+	if (!isLeapYear(birthYear) && birthDay === 29) {
 		console.log("false8");
 		return false;
 	}
