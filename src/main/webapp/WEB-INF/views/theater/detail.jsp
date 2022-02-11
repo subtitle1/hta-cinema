@@ -36,7 +36,7 @@
 			<ul class="region-tab">
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-1">서울
 					<div id="tab-1" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.seoul}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
@@ -46,7 +46,7 @@
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-2">경기
 					<div id="tab-2" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.kyungki}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
@@ -56,12 +56,12 @@
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-3">인천
 					<div id="tab-3" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.incheon}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
 							</c:forEach>
-						</ul>
+						</ul class="depth1">
 					</div>
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-4">대전
@@ -76,7 +76,7 @@
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-5">부산
 					<div id="tab-5" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.busan}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
@@ -86,7 +86,7 @@
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-6">광주
 					<div id="tab-6" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.kwangju}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
@@ -96,7 +96,7 @@
 				</li>
 				<li class="tab-link" style="width: 11.8%" data-tab="tab-7">강원
 					<div id="tab-7" class="tab-content">
-						<ul>
+						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.kangwon}">
 								<li class="theaterName" style="width: 23.6%"><a
 									href="detail?no=${theater.no}">${theater.name}</a></li>
@@ -254,6 +254,25 @@
 								</div>
 								<div class="rateing-lavel">
 									<a href="" class="" title="관람등급안내">관람등급안내</a>
+								</div>
+							</div>
+							
+							
+							<div class="reserve theater-list-box">
+							
+								<div class="tab-block tab-layer mb30" style="display: none;">
+									<ul></ul>
+								</div>
+								<div class="theater-list">
+									<div class="theater-tit">
+										<p class="movie-grade ${showSchedule.ratingNo }"></p>
+										<p>
+											<a href="/movie-detail?MovieNo=${showSchedule.movieNo }" title="355 상세보기">"${showSchedule.movieName }"</a>
+										</p>
+										<p class="infomation">
+											<span>상영중</span>/상영시간 "${schedule.startTime }"
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>

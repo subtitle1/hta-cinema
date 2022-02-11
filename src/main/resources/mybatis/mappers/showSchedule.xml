@@ -4,6 +4,7 @@
 
 	<select id="getAllScheduleByTheaterNo" parameterType="int"
 		resultType="com.example.dto.ShowScheduleDto">
+		
 		select
 			ss.SHOW_SCHEDULE_NO as showScheduleNo,
 			ss.SCREEN_NO as screenNo,
@@ -27,6 +28,7 @@
 			and ss.SCREEN_NO = s.SCREEN_NO
 			and s.THEATER_NO = t.THEATER_NO
 			and t.THEATER_NO = #{value}
+		
 	</select>
 
 </mapper>
