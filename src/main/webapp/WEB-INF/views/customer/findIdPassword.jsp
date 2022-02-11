@@ -64,6 +64,12 @@
 								<input type="number" class="form-control" id="input-findId-birthDate" name="birthDate" placeholder="생년월일 앞8자리" />
 							</div>
 						</div>
+						<div id="div-birthDate-error" class="row p-0 row-other" hidden>
+							<div class="col-3 m-0 ps-3 py-3 col-label"></div>
+							<div class="col-9 align-self-center">
+								<span class="error">잘못된 생년월일 형식입니다.</span>
+							</div>
+						</div>
 						<div class="row p-0 row-other">
 							<div class="col-3 m-0 ps-3 py-3 col-label">
 								<label for="input-findId-phoneNumber">휴대폰 번호</label>
@@ -143,14 +149,19 @@
 	</div>
 </body>
 <script src="/resources/js/customer/regExp.js"></script>
-<script src="/resources/js/customer/idValidation.js"></script>
+<script type="text/javascript" src="/resources/js/customer/showErrorDiv.js"></script>
 <script src="/resources/js/customer/nameValidation.js"></script>
+<script src="/resources/js/customer/birthDateValidation.js"></script>
+<script src="/resources/js/customer/idValidation.js"></script>
 <script src="/resources/js/customer/phoneNumberValidation.js"></script>
 <script>
 	$(function() {
 		const findIdNameInput = $("#input-findId-name");
+		const findIdBirthDateInput = $("#input-findId-birthDate");
 		const findPasswordIdInput = $("#input-findPassword-id");
 		const findPasswordNameInput = $("#input-findPassword-name");
+		
+		const birthDateErrorDiv = $("#div-birthDate-error");
 		
 		const findPasswordRequestAuthenticationButton = $("#btn-request-authentication");
 		const findPasswordCheckAuthenticationButton = $("#btn-check-authentication");
@@ -162,9 +173,13 @@
 			keyboard: false
 		});
 		
-		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+		// 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findIdNameInput.keyup(function() {
-			idKeyboardInputValidation($(this));
+			nameValidation($(this));
+		});
+		
+		findIdBirthDateInput.keyup(function() {
+			showErrorDiv(birthDateErrorDiv, !birthDateValidation($(this)));
 		});
 		
 		// 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.

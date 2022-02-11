@@ -120,7 +120,6 @@
 						<span class="error">잘못된 휴대폰 번호 형식입니다.</span>
 					</div>
 				</div>
-				
 				<div class="row p-0 row-other">
 					<div class="col-3 m-0 ps-3 py-3 col-label">
 						<label for="input-email">이메일 주소</label>
