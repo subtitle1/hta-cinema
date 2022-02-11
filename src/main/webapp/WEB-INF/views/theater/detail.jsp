@@ -265,12 +265,12 @@
 								</div>
 								<div class="theater-list">
 									<div class="theater-tit">
-										<p class="movie-grade ${showSchedule.ratingNo }"></p>
+										<p class="movie-grade"></p>
 										<p>
-											<a href="/movie-detail?MovieNo=${showSchedule.movieNo }" title="355 상세보기">"${showSchedule.movieName }"</a>
+											<a href="/movie-detail?MovieNo=" title="355 상세보기"></a>
 										</p>
 										<p class="infomation">
-											<span>상영중</span>/상영시간 "${schedule.startTime }"
+											<span>상영중</span>/상영시간 
 										</p>
 									</div>
 								</div>
@@ -279,7 +279,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="info-3" class="info-content">바카</div>
+			<div id="info-3" class="info-content">가격</div>
 		</div>
 	</div>
 	</div>

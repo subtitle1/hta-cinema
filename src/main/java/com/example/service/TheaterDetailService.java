@@ -49,7 +49,7 @@ public class TheaterDetailService {
 		theaterDto.setTheater(theaterMapper.getTheaterByNo(no));
 		theaterDto.setTransportationList(transportationMapper.getAllTransportationByNo(no));
 		theaterDto.setFacilityList(facilityMapper.getAllFacilityByNo(no));
-		theaterDto.setShowScheduleList(showScheduleMapper.getAllScheduleByTheaterNo(no));
+		//theaterDto.setShowScheduleList(showScheduleMapper.getAllScheduleByTheaterNo(no));
 		/*
 		List<Integer> allMovieNo = movieMapper.getAllMovieNo();
 		for(int movieNo: allMovieNo) {
