@@ -630,7 +630,7 @@
 			})
 		}
 		
-		// 에러창을 보여주는 모달
+		// 에러창을 보여주는 모달 함수
 		function showError(message) {
 			$("#span-error").text(message);
 			errorModal.show();
@@ -646,6 +646,11 @@
 		$(".review-btn").click(function() {
 			action = 'create';
 			
+			// 박스 초기화
+			$(":input[name=reviewScore]:checked").val("");
+			$(":checkbox[name=pointNo]:checked").prop('check', false);
+			$("#review-content").val("");
+			
 			$.ajax({
 				type: "get",
 				url: "/rest/check",
@@ -653,7 +658,6 @@
 				dataType: 'json',
 				async: false,
 				success: function (response) {
-					console.log(response);
 					if (response.error) {
 						showError(response.error);
 						return; 
@@ -682,7 +686,7 @@
 
 					// 리뷰 수정 시 이전에 입력, 선택했던 값 출력
 					$(":input[name=reviewScore][value="+reviewScore+"]").prop("checked", true);
-					$("#review-content").text(response.items.review.reviewContent);
+					$("#review-content").text(reviewContent);
 					$(":input[name=pointNo]").each(function() {
 						reviewPoints.forEach(function(item) {
 							$(":input[name=pointNo][value="+item+"]").prop("checked", true);
@@ -784,8 +788,8 @@
 		
 		// 최신순, 평점순 정렬
 		$(":input[name=option]").click(function() {
-			currentPageNo = 1;
 			$(".review-box").empty();
+			currentPageNo = 1;
 			getReviews();
 		})
 		
@@ -846,10 +850,15 @@
 			}
 		})
 		
+		function toggleHeart(response, src) {
+			button.find('span').text(response.items.likeCount);
+			button.find('img').attr("src", src);
+		}
+		
 		// 좋아요 기능
 		$("#btn-"+movieId).click(function() {
 			
-			let movieNo = $(this).attr("data-no");
+			// let movieNo = $(this).attr("data-no");
 			let button = $(this);
 			let unlike = "/resources/images/movie/unlike.png";
 			let like = "/resources/images/movie/like.png";
@@ -866,9 +875,7 @@
 							showError(response.error);
 							return;
 						}
-						
-						button.find('span').text(response.items.likeCount);
-						button.find('img').attr("src", like);
+						toggleHeart(response, like);
 					}
 				})
 			} else {
@@ -878,8 +885,7 @@
 					data: {movieNo: movieId},
 					dataType: "json",
 					success: function(response) {
-						button.find('span').text(response.items.likeCount);
-						button.find('img').attr("src", unlike);
+						toggleHeart(response, unlike);
 					}
 				})
 			}

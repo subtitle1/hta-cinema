@@ -17,7 +17,6 @@ import com.example.dto.PointStatDto;
 import com.example.dto.ResponseDto;
 import com.example.dto.ReviewDto;
 import com.example.exception.ErrorException;
-import com.example.exception.ReviewErrorException;
 import com.example.pagination.Pagination;
 import com.example.service.ReviewService;
 import com.example.vo.Customer;
