@@ -176,10 +176,21 @@ h2{
     font-size: 10px;
     margin-left: 10%;
 }
-.btn-final>button{
+.btn-final>button,.btn-final>a{
     width: 50%;
     height: 30px;
     display: inline-block;
+}
+a.btn-pre{
+    text-decoration-line : none;
+    text-align: center;
+    align-items: center;
+}
+a.btn-pre:hover{
+    text-decoration : none;
+    text-align: center;
+    align-items: center;
+    color: white;
 }
 .btn-pre{
     float: left;

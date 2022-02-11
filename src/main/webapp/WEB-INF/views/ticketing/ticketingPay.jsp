@@ -105,7 +105,7 @@
                     <p class="way-pay-content">카카오페이결제</p>
                 </div>
                 <div class="btn-final">
-                    <button class="btn-pre" type="button">이전</button>
+                    <a class="btn-pre" href="javascript:history.back();">이전</a>
                     <c:choose>
                     <c:when test="${not empty LOGIN_USER }">
                     	 <button class="btn-pay" type="button">결제</button>
@@ -356,7 +356,6 @@
 		   }
 		  })
 		   });
-		   				
 		   $('#point-modal-show').click(function(){
 			   $('#point-modal').css("display","flex");
 		   });
