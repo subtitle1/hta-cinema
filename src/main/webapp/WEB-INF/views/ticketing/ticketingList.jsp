@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <a href="/ticketing/screenList" class="button" id="pagePrevious" title="이전">이전</a>
+                    <a href="javascript:history.back();" class="button" id="pagePrevious" title="이전">이전</a>
                       <c:choose>
 	                    <c:when test="${empty LOGIN_USER }">
 	                    	<a href="#" class="button" id="pageNext-1" data-bs-toggle="modal" data-bs-target="#modal-login-form">
@@ -179,6 +179,7 @@
       	<input type="hidden" name="showScheDuleNo" value="${screens.showScheDuleNo }" />
       	<input type="hidden" name="date" value="${date2 }" />
       	<input type="hidden" name="dayName" value="${day.name }" />
+      	<input type="hidden" name="time" value="${dataClock }" />
     </form>
 	<div id="document-modal">
         <div class="document-modal">
@@ -585,11 +586,12 @@
        })
        $('div#show-seat').on("click","input[type=button].seat-condition-choise",function(){
     	   let $choiesSeat = $(this);
+    	   let valueString = $choiesSeat.val();
     	   $choiesSeat.attr('class','seat-condition-common');
 		   $choiesSeat.css('color','white');
-		   $('div.seat-all:last').attr("구매가능좌석");
-		   $('div.seat-all:last').text('-');
-		   $('div.seat-all:last').attr('class','seat-position');
+		   $('div.seat-all:contains('+valueString+')').attr("구매가능좌석");
+		   $('div.seat-all:contains('+valueString+')').attr('class','seat-position').text('-');
+		   $('div.seat-all:contains('+valueString+')').text('-');
 		   $('input[name=seat-No'+totalSeat+']').val("");
 		   totalSeat--;
        })
