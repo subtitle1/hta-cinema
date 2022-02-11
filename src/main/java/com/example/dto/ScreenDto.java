@@ -16,11 +16,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class ShowScheduleDto {
+public class ScreenDto {
 
-	private int movieNo;
-	private String movieName;	
-	private int ratingNo;
-	private String ratingName;
-	private List<ScreenDto> screenList;
+	private int screenNo;
+	private String screenName;
+	private int totalSeat;	//상영관이랑 조인
+	private int showTypeNo;
+	private int showTypeName;
+	private List<ScheduleDto> scheduleList; 
 }
