@@ -378,8 +378,63 @@ ol, ul {
     height: 12px;
     background-image: url(/resources/images/theater/ico-greeting-option-moon.png);
 }
-
-.movie-option .rateing-lavel {
-    float: right;
-    margin:0 0 0 auto;
+.tab-content{
+    border-bottom: 1px solid rgba(255,255,255,.15);
 }
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.tab-content>li {
+    float: left;
+    margin-left: 72px;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.tab-link>li>.depth1 {
+    position: relative;
+    display: block;
+    color: #fff;
+    line-height: 60px;
+    padding: 0 5px;
+}
+.tab-content{
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 500%;
+    padding: 25px 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+}
+
+.theaterName{
+    float: left;
+    margin: 5px 0;
+}
+
+li.theaterName.on a {
+    color: #01738b!important;
+}
+
