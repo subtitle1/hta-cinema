@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,13 @@ import org.springframework.ui.Model;
 import com.example.dto.TheaterDto;
 import com.example.mapper.FacilityMapper;
 import com.example.mapper.MovieMapper;
+import com.example.mapper.ScheduleMapper;
+import com.example.mapper.ScreenMapper;
 import com.example.mapper.ShowScheduleMapper;
 import com.example.mapper.ShowScheduleScreenMapper;
 import com.example.mapper.TheaterMapper;
 import com.example.mapper.TransportationMapper;
+import com.example.vo.Movie;
 import com.example.vo.Theater;
 
 @Service
@@ -30,7 +34,11 @@ public class TheaterDetailService {
 	private MovieMapper movieMapper;
 	@Autowired
 	private TheaterMapper theaterMapper;
-	
+	@Autowired
+	private ScheduleMapper scheduleMapper;
+	@Autowired
+	private ScreenMapper screenMapper;
+	@Autowired
 	public TheaterDto getTheaterDto(int no) {
 		
 		TheaterDto theaterDto = new TheaterDto();
@@ -49,6 +57,14 @@ public class TheaterDetailService {
 		theaterDto.setTheater(theaterMapper.getTheaterByNo(no));
 		theaterDto.setTransportationList(transportationMapper.getAllTransportationByNo(no));
 		theaterDto.setFacilityList(facilityMapper.getAllFacilityByNo(no));
+		List<Integer> movieList = new ArrayList<Integer>();
+		movieList=movieMapper.getAllMovieNo();
+		for(int movieNo: movieList) {
+			
+		}
+		
+		
+		
 		//theaterDto.setShowScheduleList(showScheduleMapper.getAllScheduleByTheaterNo(no));
 		/*
 		List<Integer> allMovieNo = movieMapper.getAllMovieNo();
