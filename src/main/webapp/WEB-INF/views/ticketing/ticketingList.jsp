@@ -673,7 +673,24 @@
         	 array.push($('div.seat-all:eq(2)').text());
         	 array.push($('div.seat-all:eq(3)').text());
         	 let seatArray = $('input[name="seats[]"]').val(array);
-        	 $('#form-seat-ticket').submit();
+        	 let count = $('div.seat-all').length;
+        	 let now1 = $('button.now:eq(0)').text();
+	      	 let now2 = $('button.now:eq(1)').text();
+	      	 let now3 = $('button.now:eq(2)').text();
+	      	 let totalnow = parseInt(now1) + parseInt(now2) + parseInt(now3);
+        	 if(count === totalnow){
+ 				if(totalnow == '0'){
+ 				$('p.dot-list').text('좌석을 확인해주세요');
+ 		    	$('#document-modal').css('display','flex');
+ 		    	return; 
+        		 }
+        		 $('#form-seat-ticket').submit();
+        	 } else {
+        		 $('p.dot-list').text('좌석을 확인해주세요');
+	    		 $('#document-modal').css('display','flex');
+	    		 return;
+        	 }
+        	 
          })
          
         
