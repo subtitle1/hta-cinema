@@ -13,14 +13,6 @@
 	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="stylesheet" href="/resources/css/customer/signUp.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
-	<script type="text/javascript" src="/resources/js/customer/regExp.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/showErrorDiv.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/showTooltip.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/idValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/passwordValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/nameValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/phoneNumberValidation.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/emailValidation.js"></script>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
@@ -154,7 +146,15 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
+<script src="/resources/js/customer/regExp.js"></script>
+<script src="/resources/js/customer/showErrorDiv.js"></script>
+<script src="/resources/js/customer/showTooltip.js"></script>
+<script src="/resources/js/customer/idValidation.js"></script>
+<script src="/resources/js/customer/passwordValidation.js"></script>
+<script src="/resources/js/customer/nameValidation.js"></script>
+<script src="/resources/js/customer/phoneNumberValidation.js"></script>
+<script src="/resources/js/customer/emailValidation.js"></script>
+<script>
 $(function() {
 	const idInput = $("#input-id");
 	const passwordInput = $("#input-password");
