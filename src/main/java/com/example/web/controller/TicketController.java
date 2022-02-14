@@ -106,16 +106,18 @@ public class TicketController {
 		//좌석꺼내기, 영화꺼내기 그리고 모델에 담기 
 		ObjectMapper mapper = new ObjectMapper();
 		TicketForm ticket = mapper.readValue(forms, TicketForm.class);
-		ScreenListInsertForm form = ScreenListInsertForm.builder().screenNo(ticket.getScreenNo())
+		ScreenListInsertForm form = ScreenListInsertForm.builder().screenNo(ticket.getScreenNo()).showScheduleNo(ticket.getShowScheduleNo())
 				.movieNo(ticket.getMovieNo()).showTypeNo(ticket.getShowTypeNo()).theaterNo(ticket.getTheaterNo()).dayNo(ticket.getShowDayTypeNo())
 				.day(ticket.getDay()).time(ticket.getShowTime()).build();
-			MovieScheduleDto screens = movieRatingService.getScheduleList(form);
+		log.info("빈좌석",ticket.getShowScheduleNo());
+		MovieScheduleDto screens = movieRatingService.getScheduleList(form);
 		MovieRatingDto movieRated = movieRatingService.getListByMovieNo(form.getMovieNo());//영화 번호로 관람에 대해서 조회
 		ShowDayType days = movieRatingService.getShowDayType(form.getDay());	//일자 조회
 		List<AudienceType> audience = movieRatingService.getAudienceType(movieRated.getRatingNo());//관람자 조회
 		ShowType showType = movieRatingService.getShowTypeByNo(form.getShowTypeNo());
 		Screen realySeat = movieRatingService.getScreenByNo(form.getScreenNo(), form.getTheaterNo());
 		List<NonExistentSeat> emptySeat = movieRatingService.getNonExistentSeat(form.getScreenNo());//빈좌석 조회
+		log.info("빈좌석",form.getScreenNo());
 		//티켓조회 후 예약된 좌석 출력하기
 		SimpleDateFormat format = new SimpleDateFormat("yyyy");
 		Date time = new Date();
@@ -124,8 +126,9 @@ public class TicketController {
 		String day = ticket.getTicketingDay().substring(ticket.getTicketingDay().length()-2, ticket.getTicketingDay().length());
 		String totalDay = year+"-"+month+"-"+day;
 		TicketNoForm ticketForm = TicketNoForm.builder().movieNo(ticket.getMovieNo()).showScheduleNo(screens.getShowScheDuleNo()).build();
+		log.info("티켓확인",ticketForm);
 		List<TicketSeat> findTicketSeat = movieRatingService.getTicketNoByScheduleNo(ticketForm);
-		
+		log.info("티켓확인2",findTicketSeat);
 		model.addAttribute("screens", screens);
 		model.addAttribute("ratied", movieRated);
 		model.addAttribute("emptySeat", emptySeat);//빈좌석
@@ -155,8 +158,9 @@ public class TicketController {
 		form.setDay(result);
 		form.setTicketingDay(result1);
 		ShowDayType day = movieRatingService.getShowDayType(form.getDay());
+		log.info("값확인",form.getShowScheduleNo());
 		ScreenListInsertForm save = ScreenListInsertForm.builder().movieNo(form.getMovieNo()).day(form.getDay()).ratingNo(form.getRatingNo())
-		.regionNo(form.getRegionNo()).screenNo(form.getScreenNo()).showTypeNo(form.getShowTypeNo())
+		.regionNo(form.getRegionNo()).screenNo(form.getScreenNo()).showTypeNo(form.getShowTypeNo()).showScheduleNo(form.getShowScheduleNo())
 		.theaterNo(form.getTheaterNo()).ticketingDay(form.getTicketingDay()).time(form.getTime()).dayNo(day.getNo()).build();
 		MovieScheduleDto movieSchedul = movieRatingService.getScheduleList(save);
 		DateFormat dateFormat = new SimpleDateFormat("HH");
@@ -169,6 +173,7 @@ public class TicketController {
 		forms.setShowTypeNo(save.getShowTypeNo());
 		forms.setShowTime(showTime);
 		forms.setDay(save.getDay());
+		forms.setShowScheduleNo(save.getShowScheduleNo());
 		log.info(result);
 		log.info(result1);
 		log.info("보낸일자"+result1);

@@ -58,6 +58,7 @@
 		and show.show_type_no = st.show_type_no
 		and show.movie_no = #{movieNo}
 		and t.theater_no = #{theaterNo}
+		 order by show.show_schedule_start_time asc
  	</select> 	 
  	<select id="getListByShowScheduleNo" parameterType="long" resultType="int">
  		select count(*)
