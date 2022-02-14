@@ -488,6 +488,7 @@
 				$("#runtime").text(movie.runtime);
 				$("#openDt").text(movie.release_date);
 			},
+			// api에서 제공하는 영화 중 일부는 상세 정보를 제공하지 않는 경우도 있다
 			error: function() {
 				let $div1 = $("#movie-head");
 				let $div2 = $("#info-lists");
@@ -643,13 +644,10 @@
 		// 리뷰 삽입인지 수정인지 정의해 줄 전역변수
 		let action = '';
 
+		// 관람평 쓰기 버튼 클릭 시 예매 여부, 작성한 리뷰 여부를 확인한다
+		// 예매하지 않았거나 이미 작성한 리뷰가 있을 때 exception 발생
 		$(".review-btn").click(function() {
 			action = 'create';
-			
-			// 박스 초기화
-			$(":input[name=reviewScore]:checked").val("");
-			$(":checkbox[name=pointNo]:checked").prop('check', false);
-			$("#review-content").val("");
 			
 			$.ajax({
 				type: "get",
@@ -658,13 +656,12 @@
 				dataType: 'json',
 				async: false,
 				success: function (response) {
-					if (response.error) {
+					if (response.items) {
+						reviewModal.show();
+					} else {
 						showError(response.error);
 						return; 
 					}
-				},
-				error: function() {
-					reviewModal.show();
 				}
 			})
 		})

@@ -21,8 +21,6 @@ import com.example.vo.ReviewPoint;
 import com.example.vo.ReviewPointType;
 import com.example.web.form.Criteria;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 @Transactional
 public class ReviewService {
@@ -58,14 +56,11 @@ public class ReviewService {
 		return reviewMapper.getReviewByNo(review.getNo());
 	}
 
-	private void setReviewPoints(Review review, List<ReviewPoint> points) {
-		for (ReviewPoint point : points) {
-			point.setNo(review.getNo());
-			point.setPointNo(point.getPointNo());
-			reviewMapper.insertReviewPoint(point); 
-		}
-	}
-	
+	/**
+	 * 영화에 해당하는 리뷰 개수를 반환한다.
+	 * @param movieNo
+	 * @return
+	 */
 	public int getTotalRecords(int movieNo) {
 		return reviewMapper.getTotalReviewsByMovieNo(movieNo);
 	}
@@ -81,8 +76,8 @@ public class ReviewService {
 		
 		for (ReviewDto review: reviews) {
 			List<ReviewPointType> pointTypes = reviewMapper.getPointNamesByReviewNo(review.getReviewNo());
-			List<ReviewPointType> points = new ArrayList<>();
 			
+			List<ReviewPointType> points = new ArrayList<>();
 			for (ReviewPointType point : pointTypes) {
 				points.add(point);
 			}
@@ -92,7 +87,6 @@ public class ReviewService {
 		
 		return reviews;
 	}
-	
 
 	/**
 	 * 고객번호와 영화번호에 해당하는 리뷰 정보를 반환한다.
@@ -195,7 +189,6 @@ public class ReviewService {
 		return averageScore;
 	}
 	
-	
 	/**
 	 * 사용자 번호로 해당 영화에 대한 예매 여부를 확인한다.
 	 * @param customerNo
@@ -203,13 +196,8 @@ public class ReviewService {
 	 * @return
 	 */
 	public boolean isReserved(int customerNo, int movieNo) {
-		String isReserved = reviewMapper.getQualification(customerNo, movieNo);
-		
-		if (isReserved == null) {
-			throw new ErrorException("관람평은 실관람 이후 작성 가능합니다.");
-		} else {
-			return true;
-		}
+		List<String> isReserved = reviewMapper.getQualification(customerNo, movieNo);
+		return !isReserved.isEmpty();
 	}
 	
 	/**
@@ -218,13 +206,16 @@ public class ReviewService {
 	 * @param movieNo
 	 * @return
 	 */
-	public Review getReview(int customerNo, int movieNo) {
+	public boolean isWrited(int customerNo, int movieNo) {
 		Review review = reviewMapper.getMyReviewByMovieNo(customerNo, movieNo);
-		
-		if (review != null) {
-			throw new ErrorException("이미 작성한 관람평이 있습니다.");
-		} 
-		
-		return review;
+		return review == null;
+	}
+
+	private void setReviewPoints(Review review, List<ReviewPoint> points) {
+		for (ReviewPoint point : points) {
+			point.setNo(review.getNo());
+			point.setPointNo(point.getPointNo());
+			reviewMapper.insertReviewPoint(point); 
+		}
 	}
 }
