@@ -1,5 +1,6 @@
 package com.example.web.restcontroller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.example.dto.CustomerCriteria;
 import com.example.dto.ResponseDto;
 import com.example.exception.ErrorException;
 import com.example.service.CustomerService;
+import com.example.utils.SHA256Utils;
 import com.example.utils.SessionUtils;
 import com.example.vo.Customer;
 import com.example.web.form.CustomerLoginForm;
@@ -24,7 +26,7 @@ public class CustomerRestController {
 	CustomerService customerService;
 	
 	@PostMapping("/login")
-	public ResponseDto<?> login(@RequestBody CustomerLoginForm form) {
+	public ResponseDto<?> login(@RequestBody CustomerLoginForm form) throws NoSuchAlgorithmException {
 		ResponseDto<?> response = new ResponseDto<>();
 		
 		Customer customer = customerService.login(form);
@@ -36,7 +38,7 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/findIdPassword")
-	public ResponseDto<Customer> findIdPassword(CustomerCriteria criteria) {
+	public ResponseDto<Customer> findIdPassword(@RequestBody CustomerCriteria criteria) {
 		ResponseDto<Customer> response = new ResponseDto<Customer>();
 		
 		Customer customer = customerService.findIdPassword(criteria);
@@ -61,7 +63,7 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/resetPassword")
-	public ResponseDto<String> restPassword(String newPassword) {
+	public ResponseDto<String> restPassword(@RequestBody HashMap<String, String> request) throws NoSuchAlgorithmException {
 		ResponseDto<String> response = new ResponseDto<>();
 		
 		if (SessionUtils.getAttribute("CUSTOMER_ID") == null) {
@@ -69,7 +71,7 @@ public class CustomerRestController {
 		}
 		
 		String id = (String)SessionUtils.getAttribute("CUSTOMER_ID");
-		customerService.updatePassword(id, newPassword);
+		customerService.updatePassword(id, SHA256Utils.encrypt(request.get("newPassword")));
 		SessionUtils.sessionInvalidate();
 		
 		response.setStatus(true);

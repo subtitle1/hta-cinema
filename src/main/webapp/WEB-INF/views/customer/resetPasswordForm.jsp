@@ -13,10 +13,6 @@
 	<link rel="stylesheet" href="/resources/css/customer/customerCommon.css" />
 	<link rel="stylesheet" href="/resources/css/customer/resetPasswordForm.css" />
 	<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
-	<script type="text/javascript" src="/resources/js/customer/regExp.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/showErrorDiv.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/showTooltip.js"></script>
-	<script type="text/javascript" src="/resources/js/customer/passwordValidation.js"></script>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/noticeModal.jsp"%>
@@ -101,7 +97,14 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
+<script src="/resources/js/customer/regExp.js"></script>
+<script src="/resources/js/customer/showErrorDiv.js"></script>
+<script src="/resources/js/customer/showTooltip.js"></script>
+<script src="/resources/js/customer/enableButton.js"></script>
+<script src="/resources/js/customer/ValidationWithSave.js"></script>
+<script src="/resources/js/customer/PasswordValidation.js"></script>
+<script src="/resources/js/customer/formToJson.js"></script>
+<script>
 $(function() {
 	const newPasswordInput = $("#input-newPassword");
 	const newPasswordCheckInput = $("#input-newPassword-check");
@@ -116,59 +119,74 @@ $(function() {
 	const noticeModal = new bootstrap.Modal(document.getElementById("modal-notice"), {
 		keyboard: false
 	});
-	const noticeModalElement = document.getElementById("span-notice-message");
+	const noticeModalMessageSpan = document.getElementById("span-notice-message");
+	
+	const newPasswordValidationWithSave = new ValidationWithSave(newPasswordInput, passwordReg);
+	const newPasswordCheckValidationWithSave = new ValidationWithSave(newPasswordCheckInput, passwordReg);
+	const newPasswordValidation = new PasswordValidation(newPasswordInput, englishReg, numberReg, specialReg);
+	
+	let passwordValueMatchValidationFlag = false;
 	
 	// 모든 유효성 검사 flag가 true인지 확인한다.
 	function isAllFlagTrue() {
-		return passwordLengthAndCombinationValidationFlag && passwordValueMatchValidationFlag
+		return newPasswordValidationWithSave.flag 
+			&& newPasswordCheckValidationWithSave.flag
+			&& newPasswordValidation.flag
+			&& passwordValueMatchValidationFlag
 	}
 	
-	// flag: true/false
-	// flag가 true이면 "확인" 버튼을 활성화한다.
-	function enableResetPasswordButton(flag) {
-		if (flag) {
-			resetPasswordButton.prop("disabled", false);
+	// 비밀번호와 비밀번호 확인 input의 값이 일치하면 flag를 true로 변경한다.
+	function passwordValueMatchValidation() {
+		if (newPasswordInput.val() === newPasswordCheckInput.val()) {
+			passwordValueMatchValidationFlag = true;
 		} else {
-			resetPasswordButton.prop("disabled", true);
+			passwordValueMatchValidationFlag = false;
 		}
 	}
 	
-	// 비밀번호와 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
+	// 비밀번호에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 	newPasswordInput.keyup(function() {
-		if (!passwordKeyboardInputValidation($(this), true)) {
+		newPasswordValidationWithSave.test();
+		newPasswordValidation.test();
+		passwordValueMatchValidation();
+		if (!newPasswordValidationWithSave.flag) {
 			showTooltip(newPasswordInputTooltip);
 		}
-		showErrorDiv(passwordErrorDiv, !passwordLengthAndCombinationValidation($(this)));
-		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation($(this), newPasswordCheckInput));
+		showErrorDiv(passwordErrorDiv, !newPasswordValidation.flag);
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
 		
-		enableResetPasswordButton(isAllFlagTrue());
+		enableButton(resetPasswordButton, isAllFlagTrue());
 	});
+	// 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 	newPasswordCheckInput.keyup(function() {
-		if (!passwordKeyboardInputValidation($(this), false)) {
-			showTooltip(newPasswordCheckInputTooltip);
+		newPasswordCheckValidationWithSave.test();
+		passwordValueMatchValidation();
+		if (!newPasswordCheckValidationWithSave.flag) {
+			showTooltip(newPasswordInputTooltip);
 		}
-		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation(newPasswordInput, $(this)));
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
 		
-		enableResetPasswordButton(isAllFlagTrue());
+		enableButton(resetPasswordButton, isAllFlagTrue());
 	});
 	
 	// 확인 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 새 비밀번호를 서버로 보내고 처리 결과를 받아온다.
 	// 처리 결과가 성공이면 알림 모달을 통해 결과를 알리고, 모달의 버튼들에 홈페이지로 redirect하는 이벤트를 등록하기 위해 클래스를 추가한다.
 	// 처리 결과가 실패이면 알림 모달을 통해 에러 내용을 알려준다.
 	$("#btn-resetPassword").click(function(event) {
-		const jsonNewPasswordForm = $("#form-resetPassword").serializeArray();
+		const jsonData = JSON.stringify(formToJson($("#form-resetPassword")));
 		
 		$.ajax({
 			type: "post",
 			url: "/customer/resetPassword",
-			data: jsonNewPasswordForm,
+			data: jsonData,
+			contentType: "application/json",
 			dataType: "json",
 			success: function(response) {
 				if (response.status) {
-					noticeModalElement.innerHTML = response.items;
+					noticeModalMessageSpan.innerHTML = response.items;
 					$("#modal-notice button").addClass("btn-redirect-home");
 				} else {
-					noticeModalElement.innerHTML = response.error;
+					noticeModalMessageSpan.innerHTML = response.error;
 				}
 				noticeModal.show();
 			}

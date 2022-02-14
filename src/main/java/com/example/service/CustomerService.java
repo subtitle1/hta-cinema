@@ -1,11 +1,14 @@
 package com.example.service;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.CustomerCriteria;
 import com.example.exception.ErrorException;
 import com.example.mapper.CustomerMapper;
+import com.example.utils.SHA256Utils;
 import com.example.vo.Customer;
 import com.example.web.form.CustomerLoginForm;
 import com.example.web.form.CustomerSignUpForm;
@@ -15,10 +18,19 @@ public class CustomerService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	public Customer login(CustomerLoginForm form) {
+	public Customer login(CustomerLoginForm form) throws NoSuchAlgorithmException {
 		Customer customer = customerMapper.getCustomerById(form.getId());
+		String CustomerPassword = customer.getPassword();
+		String formPassword = form.getPassword();
+		String encryptedFormPassword;
 		
-		if (customer == null || !form.getPassword().equals(customer.getPassword())) {
+		if (CustomerPassword.length() == 64) {
+			encryptedFormPassword = SHA256Utils.encrypt(formPassword);
+		} else {
+			encryptedFormPassword = formPassword;
+		}
+		
+		if (customer == null || !CustomerPassword.equals(encryptedFormPassword)) {
 			throw new ErrorException("아이디 또는 비밀번호가 맞지 않습니다.<br>"
 					+ "로그인 정보를 다시 확인바랍니다.");
 		}
@@ -33,9 +45,7 @@ public class CustomerService {
 		Customer customer = customerMapper.getCustomerByCriteria(criteria);
 		
 		if (customer == null) {
-			 throw new ErrorException("해당정보로 가입된 사용자를 찾을 수 없습니다.<br>"
-			 		+ "<br>"
-			 		+ "탈퇴여부 및 재가입 가능한 일자를 확인하고 싶으시면 본인인증을 통하여 확인 가능합니다.");
+			 throw new ErrorException("해당정보로 가입된 사용자를 찾을 수 없습니다.");
 		}
 		
 		return customer;
