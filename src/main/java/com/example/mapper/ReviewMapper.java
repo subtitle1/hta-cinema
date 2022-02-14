@@ -31,6 +31,6 @@ public interface ReviewMapper {
 							@Param("pointNo") int pointNo);
 	int getReviewScore(int movieNo);
 	String getPointNameByPointNo(int pointNo);
-	String getQualification(@Param("customerNo") int customerNo, 
-							@Param("movieNo") int movieNo);
+	List<String> getQualification(@Param("customerNo") int customerNo, 
+							      @Param("movieNo") int movieNo);
 }

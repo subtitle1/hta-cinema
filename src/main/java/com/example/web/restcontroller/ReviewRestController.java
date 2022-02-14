@@ -1,6 +1,7 @@
 package com.example.web.restcontroller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.example.dto.PointStatDto;
 import com.example.dto.ResponseDto;
 import com.example.dto.ReviewDto;
 import com.example.exception.ErrorException;
+import com.example.exception.ReviewErrorException;
 import com.example.pagination.Pagination;
 import com.example.service.ReviewService;
 import com.example.vo.Customer;
@@ -91,10 +93,6 @@ public class ReviewRestController {
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
 		ReviewDto dto = reviewService.getMyReviewByMovieNo(customer.getNo(), movieNo);
-		
-		if (dto == null) {
-			throw new ErrorException("작성한 관람평이 조회되지 않습니다.");
-		}
 
 		response.setStatus(true);
 		response.setItems(Map.of("review", dto, "movieNo", movieNo));
@@ -153,12 +151,25 @@ public class ReviewRestController {
 	public ResponseDto<Map<String, Object>> checkQualification(@LoginedUser Customer customer, int movieNo) {
 		
 		ResponseDto<Map<String, Object>> response = new ResponseDto<>();
+		HashMap<String, Object> items = new HashMap<>();
 		
-		boolean isReserved = reviewService.isReserved(customer.getNo(), movieNo); // N
-		Review review = reviewService.getReview(customer.getNo(), movieNo);
+		boolean isReserved = reviewService.isReserved(customer.getNo(), movieNo);
+		boolean isWrited = reviewService.isWrited(customer.getNo(), movieNo);
+		
+		if (isReserved) {
+			items.put("message", true);
+		} else {
+			throw new ReviewErrorException("관람평은 실관람 이후 작성 가능합니다.");
+		}
+		
+		if (isWrited) {
+			items.put("message", true);
+		} else {
+			throw new ReviewErrorException("이미 작성한 관람평이 있습니다.");
+		}
 		
 		response.setStatus(true);
-		response.setItems(Map.of("review", review, "isReserved", isReserved));
+		response.setItems(items);
 		
 		return response;
 	}
