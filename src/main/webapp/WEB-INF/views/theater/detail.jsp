@@ -266,57 +266,23 @@
 								<!-- 관람등급 사진 -->
 									<p class="movie-grade age-12"></p>
 									<p>
-										<a href="/movie-detail?rpstMovieNo=22000100"
-											title="${showSchedule.showDto.movieName } 상세보기"> "${showSchedule.showDto.movieName }"</a>
+										<a href="/movie/detail?no=${showSchedule.showDto.movieNo }"
+											title="${showSchedule.showDto.movieName } 상세보기"> ${showSchedule.showDto.movieName }</a>
 									</p>
 								</div>
 								<c:forEach var="screen" items="${showSchedule.screenList}">
 								
 								<div class="theater-type-box">
 									<div class="theater-type">
-										<p class="theater-name">"${screen.screenName}"</p>
-										<p class="chair">총 "${screen.totalSeat}"</p>
+										<p class="theater-name">${screen.screenName}</p><br>
+										<p class="chair">총 ${screen.totalSeat}</p>
 									</div>
 									<div class="theater-time">
-										<div class="theater-type-area">"${screen.showTypeName}"</div>
+										<div class="theater-type-area">${screen.showTypeName}</div>
 										<div class="theater-time-box">
 											<c:forEach var="schedule" items="${screen.scheduleList}">
-											<table class="time-list-table">
-												<caption>상영시간을 보여주는 표 입니다.</caption>
-												<colgroup>
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-													<col style="width: 99px;">
-												</colgroup>
-												<tbody>
-													<tr>
-														<td class="" brch-no="1372" play-schdl-no="2202121372012"
-															rpst-movie-no="22000100" theab-no="03" play-de="20220212"
-															play-seq="6">
-															<div class="td-ab">
-																<div class="txt-center">
-																	<a href="" title="영화예매하기">
-																		<div class="ico-box">
-																			<i class="iconset ico-off"></i>
-																		</div>
-																		<p class="time">21:00</p>
-																		<p class="chair">144석</p>
-																		<div class="play-time">
-																			<p>21:00~23:17</p>
-																			<p>"${schedule.timeNo}"</p>																		</div>
-																	</a>
-																</div>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-												</c:forEach>
+												<p>${schedule.timeNo}</p>
+											</c:forEach>
 										</div>
 									</div>
 								</div>
