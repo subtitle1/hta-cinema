@@ -438,3 +438,14 @@ li.theaterName.on a {
     color: #01738b!important;
 }
 
+.theater-tit {
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    padding: 10px 20px;
+    background-color: #f7f8f9;
+    border-top: 1px solid #eaeaea!important;
+    border-bottom: 1px solid #eaeaea;
+    margin-top: -1px!important;
+    margin-bottom: 20px;
+}

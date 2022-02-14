@@ -64,23 +64,32 @@ public class TheaterDetailService {
 		theaterDto.setTransportationList(transportationMapper.getAllTransportationByNo(no));
 		theaterDto.setFacilityList(facilityMapper.getAllFacilityByNo(no));
 		
+		//전체를 포함한 ShowScheduleDto list
 		List<ShowScheduleDto> showScheduleList = new ArrayList<ShowScheduleDto>();
+		//영화번호를 뽑을 showDto
 		List<ShowDto> showDto = showScheduleMapper.getAllScheduleByTheaterNo(no);
 		//List<ScreenDto> dto = new ArrayList<ScreenDto>();
-		
+		//모든 영화번호를 for로 돌리기돌려서 
 		for(ShowDto movie: showDto) {
-			
+			//전체 데이터를 담을 ShowScheduleDto
 			ShowScheduleDto showScheduleDto = new ShowScheduleDto();
 			//List<ScreenDto> dto = new ArrayList<ScreenDto>();
-
-			List<ScreenDto> screenList = screenScheduleMapper.getAllScreenByTheaterNo(no, movie.getMovieNo());
 			
+			//showScheduleDto.setScreenList에 screenlist 담아주기
+			List<ScreenDto> screenList = screenScheduleMapper.getAllScreenByTheaterNo(no, movie.getMovieNo());
 			showScheduleDto.setScreenList(screenList);
+			
+			//showScheduleDto.setScreenList에 movie 담아주기
 			showScheduleDto.setShowDto(movie);
+			
 			for(ScreenDto screen: screenList) {
-				ScreenDto screenDto = new ScreenDto();
-				screenDto.setScheduleList(scheduleMapper.getAllScheduleByTheaterNo(no, movie.getMovieNo(), screen.getScreenNo()));
+				List<ScheduleDto> scheduleList =scheduleMapper.getAllScheduleByTheaterNo(no, movie.getMovieNo(), screen.getScreenNo());
+				screen.setScheduleList(scheduleList);
+				
+				//ScreenDto screenDto = new ScreenDto();
+				//screenDto.setScheduleList(scheduleMapper.getAllScheduleByTheaterNo(no, movie.getMovieNo(), screen.getScreenNo()));
 				//dto.add(screenDto);
+				//screenList.add(screenDto);
 			}
 			//showScheduleDto.setScreenList(dto);
 			showScheduleDto.setScreenList(screenList);
