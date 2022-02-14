@@ -58,45 +58,5 @@
 		from
 			region
 	</select>
-	<!-- 
-	<selec00lect
-			theater_no 								as theaterNo,
-			theater_name 							as theaterName,
-			theater_street_address 					as theaterStreetAddress,
-			theater_longitude 						as theaterLongitude,
-			theater_latitude 						as theaterLatitude,
-			region_no 								as regionNo,
-			THEATER_PUBLIC_TRANSPORTATION_NO 		as theaterPublicTransportationNo,
-			PUBLIC_TRANSPORTATION_TYPE_NO 			as publicTransportationTypeNo,
-			FACILITY_TYPE_NO 						as facilityTypeNo,
-			SCREEN_NO as screenNo,
-			SHOW_SCHEDULE_NO 						as showScheduleNo,
-			
-			
-			PUBLIC_TRANSPORTATION_TYPE_NAME			as publicTransportationTypeName;
-			THEATER_PUBLIC_TRANSPORTATION_CONTENT	as theaterPublicTransportationContent;
-			
-			FACILITY_TYPE_NAME						as facilityTypeName;
-			
-			MOVIE_NO								as MovieNo;
-			SCREEN_NO								as screenNo;
-			SHOW_TYPE_NO							as showTypeNo;
-			SHOW_SCHEDULE_TIME_NO					as showScheduleTimeNo;
-			SHOW_SCHEDULE_START_TIME				as showScheduleStartTime;
-			SHOW_SCHEDULE_END_TIME					as showScheduleEndTime;
-			MOVIE_NAME								as movieName;
-			
-			SCREEN_TOTAL_SEAT						as screenTotalSeat;
-			 ticketingDay;//날짜와 글자
-			 ticketingsDay;//날짜
-			 movieNo;//영화 번호 
-			 day;////날짜와 글자
-			 time;//시간
-			 ratingNo;
-			 dayNo;//요일 번호 
-		from
-			
-	</select> 
-	 -->
 	
 </mapper>

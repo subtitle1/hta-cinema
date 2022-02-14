@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.ScheduleMapper">
 
-	<select id="getAllScheduleByTheaterNo" parameterType="map"
+	<select id="getAllScheduleByTheaterNo"
 		resultType="com.example.dto.ScheduleDto">
 		
 		select
@@ -18,8 +18,10 @@
 			ss.SHOW_TYPE_NO = st.SHOW_TYPE_NO 
 			and ss.movie_no = m.movie_no
             and s.screen_no = ss.screen_no
-			and t.THEATER_NO = #{theaterNo}
+			and s.THEATER_NO = #{theaterNo}
 			and m.movie_no = #{movieNo}
+			and s.screen_no =#{screenNo}
+			
 		
 	</select>
 </mapper>
