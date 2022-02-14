@@ -40,6 +40,7 @@
  		and sc.movie_no = #{movieNo}
  		and sc.show_type_no = #{showTypeNo}
  		and s.theater_no = #{theaterNo}
+ 		and sc.show_schedule_no = #{showScheduleNo}
  	</select>
  	<select id="getStartTimeType" parameterType="string" resultType="com.example.vo.ShowStartTimeType">
  		select

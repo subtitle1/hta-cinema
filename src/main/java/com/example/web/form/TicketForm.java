@@ -22,4 +22,5 @@ public class TicketForm {
 	private int theaterNo;
 	private String day;
 	private String ticketingDay;
+	private long showScheduleNo;
 }

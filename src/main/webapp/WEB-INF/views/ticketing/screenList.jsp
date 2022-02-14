@@ -123,6 +123,7 @@
       	<input type="hidden" name="showTypeNo" value="" />
       	<input type="hidden" name="screenNo" value="" />
       	<input type="hidden" name="regionNo" value="" />
+      	<input type="hidden" name="showScheduleNo" value="" />
       </form>
 </body>
 <script type="text/javascript">
@@ -272,6 +273,7 @@
 			} else{
 				$('button.movie-button').removeClass('active');
 				$movieButton.addClass('active');
+				$('#picture-name').text(texts);
 				let detailUrl = "https://api.themoviedb.org/3/movie/" + valueNo;
 				$.ajax({
 					type:'get',
@@ -287,7 +289,6 @@
 						$('#picture').attr('src',imagePath);
 					}
 					})
-					$('#picture-name').text(texts);
 			}
 			//아래에 클릭시 이미지가 뜨도록 	
 		})
@@ -343,7 +344,7 @@
 						
 						//스케쥴에 출력되는 값 --> 나중에 시간설정 후 옮겨 놓을 것 
 						let input ="<button type='button'  class='btn-on' value="+theater.showScheduleStartTime+" >";
-		                input += "<div class='legend' data-screenNo="+theater.screenNo+"></div>";
+		                input += "<div class='legend' data-screenNo="+theater.screenNo+" data-showScheDuleNo="+theater.showScheduleNo+"></div>";
 		                input += "<span class='time'>";
 		                input +="<strong title='상영시작' data-time="+theater.showScheduleStartTime+"'>"+theater.showScheduleStartTime+"</strong>";
 		                input +="<em title='상영종료'>~"+theater.showScheduleEndTime+"</em>";
@@ -433,6 +434,7 @@
 			 let screenNo = $movie.find('.legend').attr('data-screenno');
 			 let regionNo = $movie.find('.title').attr('data-regionno');
 			 let dayNo = $('button.mon.active').attr('data-day');
+			 let showScheduleNo = $movie.find('.legend').attr('data-showScheDuleNo');
 			 $('input[name=movieNo]').attr('value',movieNo);
 			 $('input[name=theaterNo]').attr('value',theaterNo);
 			 $('input[name=ratingNo]').attr('value',ratingNo);
@@ -441,7 +443,7 @@
 		     $('input[name=screenNo]').attr('value',screenNo);
 		     $('input[name=regionNo]').attr('value',regionNo);
 		     $('input[name=day]').attr('value',dayNo);
-		     
+		     $('input[name=showScheduleNo]').attr('value',showScheduleNo);
 		     $('#form-post-List').submit();
 		})
 	})

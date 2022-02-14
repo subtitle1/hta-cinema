@@ -32,4 +32,5 @@ public class ScreenListInsertForm {
 	private int regionNo;
 	private int showTypeNo;
 	private int dayNo;//요일 번호 
+	private long showScheduleNo;
 }
