@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mapper.ScreenMapper">
-<select id="getAllScreenByTheaterNo" parameterType="map" 
+<mapper namespace="com.example.mapper.ScreenScheduleMapper">
+<select id="getAllScreenByTheaterNo" 
 		resultType="com.example.dto.ScreenDto" >
 	
 		select
@@ -17,7 +17,7 @@
 			and ss.SCREEN_NO = s.SCREEN_NO
 			and s.THEATER_NO = #{theaterNo}
 			and ss.movie_no = #{movieNo} 
-			and ss.SHOW_SCHEDULE_START_TIME = #{startTime}
+			
 </select>
 
 </mapper>

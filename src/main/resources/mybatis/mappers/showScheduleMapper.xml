@@ -3,7 +3,7 @@
 <mapper namespace="com.example.mapper.ShowScheduleMapper">
 
 	<select id="getAllScheduleByTheaterNo" parameterType="int"
-		resultType="com.example.dto.ShowScheduleDto">
+		resultType="com.example.dto.ShowDto">
 		
 		select
 			ss.MOVIE_NO as movieNo,

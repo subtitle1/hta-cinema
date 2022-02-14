@@ -18,9 +18,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ShowScheduleDto {
 
-	private int movieNo;
-	private String movieName;	
-	private int ratingNo;
-	private String ratingName;
+	private ShowDto showDto;
 	private List<ScreenDto> screenList;
 }
