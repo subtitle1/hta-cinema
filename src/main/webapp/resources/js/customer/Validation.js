@@ -10,7 +10,7 @@ class Validation {
 	
 	// flag에 대한 getter
 	get flag() {
-		console.log("getflag")
+		console.log("flag: " + this._flag);
 		return this._flag;
 	}
 	

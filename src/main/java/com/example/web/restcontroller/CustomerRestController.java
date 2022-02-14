@@ -100,9 +100,10 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/signUp")
-	public ResponseDto<String> signUp(@RequestBody CustomerSignUpForm form) {
+	public ResponseDto<String> signUp(@RequestBody CustomerSignUpForm form) throws NoSuchAlgorithmException {
 		ResponseDto<String> response = new ResponseDto<>();
 		
+		form.setPassword(SHA256Utils.encrypt(form.getPassword()));
 		customerService.insertCustomer(form);
 		
 		response.setStatus(true);

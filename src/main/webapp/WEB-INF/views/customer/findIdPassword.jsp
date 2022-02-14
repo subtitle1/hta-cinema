@@ -199,11 +199,11 @@
 		const findIdNameValidationWithSave = new ValidationWithSave(findIdNameInput, nameReg);
 		const findIdBirthDateOnlyNumberAllowedValidationWithSave = new ValidationWithSave(findIdBirthDateInput, onlyNumberReg);
 		const findIdBirthDateValidation = new BirthDateValidation(findIdBirthDateInput);
-		const findIdPhoneNumberOnlyNumberAllowedValidationWithSave = new ValidationWithSave(findIdPhoneNumberInput, onlyNumberReg);
+		const findIdPhoneNumberValidationWithSave = new ValidationWithSave(findIdPhoneNumberInput, onlyNumberReg);
 		const findIdPhoneNumberValidation = new Validation(findIdPhoneNumberInput, phoneNumberReg);
 		const findPasswordIdValidationWithSave = new ValidationWithSave(findPasswordIdInput, idReg);
 		const findPasswordNameValidationWithSave = new ValidationWithSave(findPasswordNameInput, nameReg);
-		const findPasswordPhoneNumberOnlyNumberAllowedValidationWithSave = new ValidationWithSave(findPasswordPhoneNumberInput, onlyNumberReg);
+		const findPasswordPhoneNumberValidationWithSave = new ValidationWithSave(findPasswordPhoneNumberInput, onlyNumberReg);
 		const findPasswordPhoneNumberValidation = new Validation(findPasswordPhoneNumberInput, phoneNumberReg);
 		
 		// 인증번호
@@ -219,14 +219,14 @@
 		
 		// 아이디 찾기의 모든 유효성 검사 flag가 true인지 확인한다.
 		function isFindIdAllFlagTrue() {
-			return findIdNameValidationWithSave.flag 
+			return findIdNameValidationWithSave.flag
 				&& findIdBirthDateValidation.flag
 				&& findIdPhoneNumberValidation.flag;
 		}
 		
 		// 비밀번호 찾기의 모든 유효성 검사 flag가 true인지 확인한다.
 		function isFindPasswordAllFlagTrue() {
-			return findPasswordIdValidationWithSave.flag 
+			return findPasswordIdValidationWithSave.flag
 				&& findPasswordNameValidationWithSave.flag
 				&& findPasswordPhoneNumberValidation.flag;
 		}
@@ -234,6 +234,7 @@
 		// 아이디 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findIdNameInput.keyup(function() {
 			findIdNameValidationWithSave.test();
+			
 			enableButton(findIdButton, isFindIdAllFlagTrue());
 		});
 		
@@ -241,14 +242,16 @@
 		findIdBirthDateInput.keyup(function() {
 			findIdBirthDateOnlyNumberAllowedValidationWithSave.test();
 			findIdBirthDateValidation.test();
+			
 			showErrorDiv(findIdBirthDateErrorDiv, !findIdBirthDateValidation.flag);
 			enableButton(findIdButton, isFindIdAllFlagTrue());
 		});
 		
 		// 아이디 찾기의 휴대폰 번호에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findIdPhoneNumberInput.keyup(function() {
-			findIdPhoneNumberOnlyNumberAllowedValidationWithSave.test();
+			findIdPhoneNumberValidationWithSave.test();
 			findIdPhoneNumberValidation.test();
+			
 			showErrorDiv(findIdPhoneNumberErrorDiv, !findIdPhoneNumberValidation.flag);
 			enableButton(findIdButton, isFindIdAllFlagTrue());
 		});
@@ -256,19 +259,22 @@
 		// 비밀번호 찾기의 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findPasswordIdInput.keyup(function() {
 			findPasswordIdValidationWithSave.test();
+			
 			enableButton(findPasswordRequestAuthenticationButton, isFindPasswordAllFlagTrue());
 		});
 		
 		// 비밀번호 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findPasswordNameInput.keyup(function() {
 			findPasswordNameValidationWithSave.test();
+			
 			enableButton(findPasswordRequestAuthenticationButton, isFindPasswordAllFlagTrue());
 		});
 		
 		// 비밀번호 찾기의 휴대폰 번호에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 		findPasswordPhoneNumberInput.keyup(function() {
-			findPasswordPhoneNumberOnlyNumberAllowedValidationWithSave.test();
+			findPasswordPhoneNumberValidationWithSave.test();
 			findPasswordPhoneNumberValidation.test();
+			
 			showErrorDiv(findPasswordPhoneNumberErrorDiv, !findPasswordPhoneNumberValidation.flag);
 			enableButton(findPasswordRequestAuthenticationButton, isFindPasswordAllFlagTrue());
 		});

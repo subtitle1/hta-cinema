@@ -103,7 +103,7 @@
 						<label for="input-phoneNumber">휴대폰 번호</label>
 					</div>
 					<div class="col-9 align-self-center">
-						<input type="number" class="form-control" id="input-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" maxlength="11" />
+						<input type="text" class="form-control" id="input-phoneNumber" name="phoneNumber" placeholder="'-' 없이 입력" maxlength="11" />
 					</div>
 				</div>
 				<div id="div-phoneNumber-error" class="row p-0 row-other" hidden>
@@ -148,12 +148,13 @@
 </body>
 <script src="/resources/js/customer/regExp.js"></script>
 <script src="/resources/js/customer/showErrorDiv.js"></script>
+<script src="/resources/js/customer/showTopRowErrorDiv.js"></script>
 <script src="/resources/js/customer/showTooltip.js"></script>
-<script src="/resources/js/customer/idValidation.js"></script>
-<script src="/resources/js/customer/passwordValidation.js"></script>
-<script src="/resources/js/customer/nameValidation.js"></script>
-<script src="/resources/js/customer/phoneNumberValidation.js"></script>
-<script src="/resources/js/customer/emailValidation.js"></script>
+<script src="/resources/js/customer/enableButton.js"></script>
+<script src="/resources/js/customer/Validation.js"></script>
+<script src="/resources/js/customer/ValidationWithSave.js"></script>
+<script src="/resources/js/customer/IdValidation.js"></script>
+<script src="/resources/js/customer/PasswordValidation.js"></script>
 <script>
 $(function() {
 	const idInput = $("#input-id");
@@ -182,42 +183,51 @@ $(function() {
 	const passwordInputTooltip = new bootstrap.Tooltip(passwordInput);
 	const passwordCheckInputTooltip = new bootstrap.Tooltip(passwordCheckInput);
 	
+	const idValidationWithSave = new ValidationWithSave(idInput, idReg);
+	const idValidation = new IdValidation(idInput, englishReg, numberReg);
+	const passwordValidationWithSave = new ValidationWithSave(passwordInput, passwordReg);
+	const passwordValidation = new PasswordValidation(passwordInput, englishReg, numberReg, specialReg);
+	const passwordCheckValidationWithSave = new ValidationWithSave(passwordCheckInput, passwordReg);
+	const nameValidationWithSave = new ValidationWithSave(nameInput, nameReg);
+	const phoneNumberValidationWithSave = new ValidationWithSave(phoneNumberInput, onlyNumberReg);
+	const phoneNumberValidation = new Validation(phoneNumberInput, phoneNumberReg);
+	const emailValidation = new Validation(emailInput, emailReg);
+	
 	// 아이디 중복확인을 통과하면 true가 되는 flag다.
-	let checkIdDuplicateFlag = false;
+	let idDuplicateValidationFlag = false;
+	// 비밀번호와 비밀번호 확인이 일치하면 true가 되는 falg다.
+	let passwordValueMatchValidationFlag = false;
 	
 	// 모든 유효성 검사 flag가 true이고 input 값이 비어있지 않은지를 확인한다.
 	function isAllFlagTrue() {
-		return idLengthAndCombinationValidationFlag && checkIdDuplicateFlag 
-			&& passwordLengthAndCombinationValidationFlag && passwordValueMatchValidationFlag 
-			&& nameInput.val() !== "" 
-			&& birthDateInput.val() !== "" 
-			&& phoneNumberValidationFlag 
-			&& emailValidationFlag
+		return idValidation.flag && idDuplicateValidationFlag
+			&& passwordValidation.flag && passwordValueMatchValidationFlag
+			&& nameValidationWithSave.flag
+			&& birthDateInput.val() !== ""
+			&& phoneNumberValidation.flag
+			&& emailValidation.flag
 	}
 	
-	// flag: true/false
-	// flag가 true이면 "회원가입" 버튼을 활성화한다.
-	function enableSignUpButton(flag) {
-		if (flag) {
-			signUpButton.prop("disabled", false);
+	// 비밀번호와 비밀번호 확인 input의 값이 일치하면 flag를 true로 변경한다.
+	function passwordValueMatchValidation() {
+		if (passwordInput.val() === passwordCheckInput.val()) {
+			passwordValueMatchValidationFlag = true;
 		} else {
-			signUpButton.prop("disabled", true);
+			passwordValueMatchValidationFlag = false;
 		}
 	}
 	
 	// 아이디에 키보드 입력이 있을 때마다 실행된다.
 	// input 값에 대해 유효성 검사를 실시하고 결과에 따라 "중복확인" 버튼을 활성화/비활성화한다.
 	idInput.keyup(function() {
-		showErrorDiv(idErrorDiv, !idKeyboardInputValidation($(this)));
-		showErrorDiv(idErrorDiv, !idLengthAndCombinationValidation($(this)));
+		idDuplicateValidationFlag = false;
 		
-		if (isAllIdFlagTrue()) {
-			checkIdDuplicateButton.prop("disabled", false);
-		} else {
-			checkIdDuplicateButton.prop("disabled", true);
-		}
+		idValidationWithSave.test();
+		idValidation.test();
 		
-		enableSignUpButton(isAllFlagTrue());
+		showTopRowErrorDiv(idErrorDiv, !idValidation.flag);
+		enableButton(checkIdDuplicateButton, idValidation.flag);
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
 	// "중복확인" 버튼을 클릭했을 때 실행되며, ajax 통신을 통해 서버로 아이디를 보내고 아이디 중복 여부를 받아온다.
@@ -234,63 +244,68 @@ $(function() {
 					let {items:{isIdDuplicate, message}} = response;
 					
 					console.log("isIdDuplicate: " + isIdDuplicate);
-					console.log("message" + message);
-					checkIdDuplicateFlag = !isIdDuplicate;
+					console.log("message: " + message);
+					idDuplicateValidationFlag = !isIdDuplicate;
 					noticeModalSpan.innerHTML = message;
+					
+					enableButton(signUpButton, isAllFlagTrue());
 				} else {
 					noticeModalSpan.innerHTML = "통신 실패";
 				}
 				noticeModal.show();
 			}
 		});
-		
-		enableSignUpButton(isAllFlagTrue());
 	});
 	
 	// 비밀번호와 비밀번호 확인에 키보드 입력이 있을 때마다 실행된다.
 	// input 값에 대해 유효성 검사를 실시하고 결과에 따라 "회원가입" 버튼을 활성화/비활성화한다.
 	passwordInput.keyup(function() {
-		if (!passwordKeyboardInputValidation($(this), true)) {
+		if (!passwordValidationWithSave.test()) {
 			showTooltip(passwordInputTooltip);
 		}
-		showErrorDiv(passwordErrorDiv, !passwordLengthAndCombinationValidation($(this)));
-		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation($(this), passwordCheckInput));
+		passwordValidation.test();
+		passwordValueMatchValidation();
 		
-		enableSignUpButton(isAllFlagTrue());
+		showErrorDiv(passwordErrorDiv, !passwordValidation.flag);
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	passwordCheckInput.keyup(function() {
-		if (!passwordKeyboardInputValidation($(this), false)) {
+		if (!passwordCheckValidationWithSave.test()) {
 			showTooltip(passwordCheckInputTooltip);
 		}
-		showErrorDiv(matchErrorDiv, !passwordValueMatchValidation(passwordInput, $(this)));
+		passwordValueMatchValidation();
 		
-		enableSignUpButton(isAllFlagTrue());
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
+	// 이름에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
 	nameInput.keyup(function() {
-		nameValidation($(this));
+		nameValidationWithSave.test();
 		
-		enableSignUpButton(isAllFlagTrue());
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
 	birthDateInput.change(function() {
-		enableSignUpButton(isAllFlagTrue());
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
-	// 핸드폰 번호에 키보드 입력이 있을 때마다 실행된다.
-	// input 값에 대해 유효성 검사를 실시한다.
+	// 핸드폰 번호에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
 	phoneNumberInput.keyup(function() {
-		showErrorDiv(phoneNumberErrorDiv, !phoneNumberValidation($(this)));
+		phoneNumberValidationWithSave.test();
+		phoneNumberValidation.test();
 		
-		enableSignUpButton(isAllFlagTrue());
+		showErrorDiv(phoneNumberErrorDiv, !phoneNumberValidation.flag);
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
-	// 이메일에 키보드 입력이 있을 때마다 실행된다.
-	// input 값에 대해 유효성 검사를 실시한다.
+	// 이메일에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
 	emailInput.keyup(function() {
-		showErrorDiv(emailErrorDiv, !emailValidation($(this)));
+		emailValidation.test();
 		
-		enableSignUpButton(isAllFlagTrue());
+		showErrorDiv(emailErrorDiv, !emailValidation.flag);
+		enableButton(signUpButton, isAllFlagTrue());
 	});
 	
 	// "회원가입" 버튼을 클릭하면 실행되며, ajax 통신을 통해 서버에 form의 값들을 보내고 처리 결과를 받아와서 알림 모달에 표시한다.

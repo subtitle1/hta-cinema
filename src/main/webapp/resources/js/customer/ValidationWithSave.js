@@ -17,9 +17,9 @@ class ValidationWithSave {
 	
 	/* 
 	 * 유효성 검사를 실시한다.
-	 * input 값이 비어있으면 savedValue에 현재 input 값을 저장하고 flag를 false로 변경한다.
-	 * 검사를 통과하면 savedValue에 현재 input 값을 저장하고 flag를 true로 변경한다.
-     * 검사를 통과하지 못하면 input 값을 savedValue로 변경하고 flag를 true로 변경한다.
+	 * input 값이 비어있으면 savedValue에 현재 input 값을 저장하고 flag를 false로 변경하고 true를 반환한다.
+	 * 검사를 통과하면 savedValue에 현재 input 값을 저장하고 flag를 true로 변경하고 true를 반환한다.
+     * 검사를 통과하지 못하면 input 값을 savedValue로 변경하고 flag를 true로 변경하고 false를 반환한다.
 	 */
 	test() {
 		const value = this._inputElement.val();
@@ -27,12 +27,21 @@ class ValidationWithSave {
 		if (value === "") {
 			this._savedValue = value;
 			this._flag = false;
+			console.log("savedValue: " + this._savedValue);
+			console.log("test 결과: " + this._flag);
+			return true;
 		} else if (this._regExp.test(value)) {
 			this._savedValue = value;
 			this._flag = true;
+			console.log("savedValue: " + this._savedValue);
+			console.log("test 결과: " + this._flag);
+			return true;
 		} else {
 			this._inputElement.val(this._savedValue);
 			this._flag = true;
+			console.log("savedValue: " + this._savedValue);
+			console.log("test 결과: " + this._flag);
+			return false;
 		}
 		console.log("savedValue: " + this._savedValue);
 		console.log("test 결과: " + this._flag);

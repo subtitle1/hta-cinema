@@ -122,9 +122,10 @@ $(function() {
 	const noticeModalMessageSpan = document.getElementById("span-notice-message");
 	
 	const newPasswordValidationWithSave = new ValidationWithSave(newPasswordInput, passwordReg);
-	const newPasswordCheckValidationWithSave = new ValidationWithSave(newPasswordCheckInput, passwordReg);
 	const newPasswordValidation = new PasswordValidation(newPasswordInput, englishReg, numberReg, specialReg);
+	const newPasswordCheckValidationWithSave = new ValidationWithSave(newPasswordCheckInput, passwordReg);
 	
+	// 비밀번호와 비밀번호 확인이 일치하면 true가 되는 falg다.
 	let passwordValueMatchValidationFlag = false;
 	
 	// 모든 유효성 검사 flag가 true인지 확인한다.
@@ -149,6 +150,7 @@ $(function() {
 		newPasswordValidationWithSave.test();
 		newPasswordValidation.test();
 		passwordValueMatchValidation();
+		
 		if (!newPasswordValidationWithSave.flag) {
 			showTooltip(newPasswordInputTooltip);
 		}
@@ -161,6 +163,7 @@ $(function() {
 	newPasswordCheckInput.keyup(function() {
 		newPasswordCheckValidationWithSave.test();
 		passwordValueMatchValidation();
+		
 		if (!newPasswordCheckValidationWithSave.flag) {
 			showTooltip(newPasswordInputTooltip);
 		}
