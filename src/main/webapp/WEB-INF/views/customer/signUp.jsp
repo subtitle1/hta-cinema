@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title></title>
+	<title>HTA CINEMA</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -126,6 +126,7 @@
 						<span class="error">잘못된 이메일 형식입니다.</span>
 					</div>
 				</div>
+				<!-- 
 				<div class="row p-0 mb-4 row-other">
 					<div class="col-3 m-0 ps-3 py-3 col-label">
 						<label>나만의<br>메가박스</label>
@@ -137,7 +138,8 @@
 						<button id="btn-set" type="button" class="btn btn-primary" disabled>설정</button>
 					</div>
 				</div>
-				<div class="row">
+				 -->
+				<div class="row mt-4">
 					<div class="d-grid col-6 mx-auto">
 						<button id="btn-signUp" type="button" class="btn btn-primary btn-lg" disabled>회원가입</button>
 					</div>
