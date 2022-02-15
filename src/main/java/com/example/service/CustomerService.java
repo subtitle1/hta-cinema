@@ -20,6 +20,15 @@ public class CustomerService {
 	
 	public Customer login(CustomerLoginForm form) throws NoSuchAlgorithmException {
 		Customer customer = customerMapper.getCustomerById(form.getId());
+		
+		if (customer == null) {
+			throw new ErrorException("아이디 또는 비밀번호가 맞지 않습니다.<br>"
+					+ "로그인 정보를 다시 확인바랍니다.");
+		}
+		if ("Y".equals(customer.getDeleted())) {
+			throw new ErrorException("탈퇴 처리된 회원입니다.");
+		}
+		
 		String CustomerPassword = customer.getPassword();
 		String formPassword = form.getPassword();
 		String encryptedFormPassword;
@@ -30,12 +39,9 @@ public class CustomerService {
 			encryptedFormPassword = formPassword;
 		}
 		
-		if (customer == null || !CustomerPassword.equals(encryptedFormPassword)) {
+		if (!CustomerPassword.equals(encryptedFormPassword)) {
 			throw new ErrorException("아이디 또는 비밀번호가 맞지 않습니다.<br>"
 					+ "로그인 정보를 다시 확인바랍니다.");
-		}
-		if ("Y".equals(customer.getDeleted())) {
-			throw new ErrorException("탈퇴 처리된 회원입니다.");
 		}
 		
 		return customer;

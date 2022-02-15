@@ -51,7 +51,7 @@
 						<label for="input-newPassword">새 비밀번호</label>
 					</div>
 					<div class="col-9 align-self-center">
-						<input type="password" class="form-control" id="input-newPassword" name="newPassword" 
+						<input type="text" class="form-control" id="input-newPassword" name="newPassword" 
 						placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
 						data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
 						title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
@@ -69,7 +69,7 @@
 					<label for="input-check-newPassword">새 비밀번호 확인</label>
 				</div>
 				<div class="col-9 align-self-center">
-					<input type="password" class="form-control" id="input-newPassword-check" 
+					<input type="text" class="form-control" id="input-newPassword-check" 
 					placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
 					data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
 					title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
@@ -101,7 +101,7 @@
 <script src="/resources/js/customer/showErrorDiv.js"></script>
 <script src="/resources/js/customer/showTooltip.js"></script>
 <script src="/resources/js/customer/enableButton.js"></script>
-<script src="/resources/js/customer/ValidationWithSave.js"></script>
+<script src="/resources/js/customer/PasswordValidationWithSave.js"></script>
 <script src="/resources/js/customer/PasswordValidation.js"></script>
 <script src="/resources/js/customer/formToJson.js"></script>
 <script>
@@ -121,9 +121,9 @@ $(function() {
 	});
 	const noticeModalMessageSpan = document.getElementById("span-notice-message");
 	
-	const newPasswordValidationWithSave = new ValidationWithSave(newPasswordInput, passwordReg);
+	const newPasswordValidationWithSave = new PasswordValidationWithSave(newPasswordInput, koreanReg, passwordReg);
 	const newPasswordValidation = new PasswordValidation(newPasswordInput, englishReg, numberReg, specialReg);
-	const newPasswordCheckValidationWithSave = new ValidationWithSave(newPasswordCheckInput, passwordReg);
+	const newPasswordCheckValidationWithSave = new PasswordValidationWithSave(newPasswordCheckInput, koreanReg, passwordReg);
 	
 	// 비밀번호와 비밀번호 확인이 일치하면 true가 되는 falg다.
 	let passwordValueMatchValidationFlag = false;
@@ -146,29 +146,25 @@ $(function() {
 	}
 	
 	// 비밀번호에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-	newPasswordInput.keyup(function() {
-		newPasswordValidationWithSave.test();
+	newPasswordInput.on("input", function() {
+		if (!newPasswordValidationWithSave.test()) {
+			showTooltip(newPasswordInputTooltip);
+		}
 		newPasswordValidation.test();
 		passwordValueMatchValidation();
 		
-		if (!newPasswordValidationWithSave.flag) {
-			showTooltip(newPasswordInputTooltip);
-		}
 		showErrorDiv(passwordErrorDiv, !newPasswordValidation.flag);
 		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
-		
 		enableButton(resetPasswordButton, isAllFlagTrue());
 	});
 	// 비밀번호 확인에 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
 	newPasswordCheckInput.keyup(function() {
-		newPasswordCheckValidationWithSave.test();
-		passwordValueMatchValidation();
-		
-		if (!newPasswordCheckValidationWithSave.flag) {
+		if (!newPasswordCheckValidationWithSave.test()) {
 			showTooltip(newPasswordInputTooltip);
 		}
-		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
+		passwordValueMatchValidation();
 		
+		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
 		enableButton(resetPasswordButton, isAllFlagTrue());
 	});
 	

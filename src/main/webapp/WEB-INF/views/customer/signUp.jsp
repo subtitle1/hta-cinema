@@ -53,7 +53,7 @@
 						<label for="input-password">비밀번호</label>
 					</div>
 					<div class="col-9 align-self-center">
-						<input type="password" class="form-control" id="input-password" name="password" 
+						<input type="text" class="form-control" id="input-password" name="password" 
 						placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
 						data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
 						title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
@@ -70,7 +70,7 @@
 						<label for="input-password-check">비밀번호 확인</label>
 					</div>
 					<div class="col-9 align-self-center">
-						<input type="password" class="form-control" id="input-password-check" 
+						<input type="text" class="form-control" id="input-password-check" 
 						placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합" maxlength="16" 
 						data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" 
 						title="비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ & * + = - ? _ 입니다." />
@@ -155,6 +155,7 @@
 <script src="/resources/js/customer/ValidationWithSave.js"></script>
 <script src="/resources/js/customer/IdValidation.js"></script>
 <script src="/resources/js/customer/PasswordValidation.js"></script>
+<script src="/resources/js/customer/PasswordValidationWithSave.js"></script>
 <script>
 $(function() {
 	const idInput = $("#input-id");
@@ -185,9 +186,9 @@ $(function() {
 	
 	const idValidationWithSave = new ValidationWithSave(idInput, idReg);
 	const idValidation = new IdValidation(idInput, englishReg, numberReg);
-	const passwordValidationWithSave = new ValidationWithSave(passwordInput, passwordReg);
+	const passwordValidationWithSave = new PasswordValidationWithSave(passwordInput, koreanReg, passwordReg);
 	const passwordValidation = new PasswordValidation(passwordInput, englishReg, numberReg, specialReg);
-	const passwordCheckValidationWithSave = new ValidationWithSave(passwordCheckInput, passwordReg);
+	const passwordCheckValidationWithSave = new PasswordValidationWithSave(passwordCheckInput, koreanReg, passwordReg);
 	const nameValidationWithSave = new ValidationWithSave(nameInput, nameReg);
 	const phoneNumberValidationWithSave = new ValidationWithSave(phoneNumberInput, onlyNumberReg);
 	const phoneNumberValidation = new Validation(phoneNumberInput, phoneNumberReg);
@@ -219,7 +220,7 @@ $(function() {
 	
 	// 아이디에 키보드 입력이 있을 때마다 실행된다.
 	// input 값에 대해 유효성 검사를 실시하고 결과에 따라 "중복확인" 버튼을 활성화/비활성화한다.
-	idInput.keyup(function() {
+	idInput.on("input", function() {
 		idDuplicateValidationFlag = false;
 		
 		idValidationWithSave.test();
@@ -259,7 +260,7 @@ $(function() {
 	
 	// 비밀번호와 비밀번호 확인에 키보드 입력이 있을 때마다 실행된다.
 	// input 값에 대해 유효성 검사를 실시하고 결과에 따라 "회원가입" 버튼을 활성화/비활성화한다.
-	passwordInput.keyup(function() {
+	passwordInput.on("input", function() {
 		if (!passwordValidationWithSave.test()) {
 			showTooltip(passwordInputTooltip);
 		}
@@ -270,7 +271,7 @@ $(function() {
 		showErrorDiv(matchErrorDiv, !passwordValueMatchValidationFlag);
 		enableButton(signUpButton, isAllFlagTrue());
 	});
-	passwordCheckInput.keyup(function() {
+	passwordCheckInput.on("input", function() {
 		if (!passwordCheckValidationWithSave.test()) {
 			showTooltip(passwordCheckInputTooltip);
 		}
@@ -281,7 +282,7 @@ $(function() {
 	});
 	
 	// 이름에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
-	nameInput.keyup(function() {
+	nameInput.on("input", function() {
 		nameValidationWithSave.test();
 		
 		enableButton(signUpButton, isAllFlagTrue());
@@ -292,7 +293,7 @@ $(function() {
 	});
 	
 	// 핸드폰 번호에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
-	phoneNumberInput.keyup(function() {
+	phoneNumberInput.on("input", function() {
 		phoneNumberValidationWithSave.test();
 		phoneNumberValidation.test();
 		
@@ -301,7 +302,7 @@ $(function() {
 	});
 	
 	// 이메일에 키보드 입력이 있을 때마다 실행되며, input 값에 대해 유효성 검사를 실시한다.
-	emailInput.keyup(function() {
+	emailInput.on("input", function() {
 		emailValidation.test();
 		
 		showErrorDiv(emailErrorDiv, !emailValidation.flag);

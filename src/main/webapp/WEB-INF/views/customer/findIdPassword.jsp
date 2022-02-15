@@ -232,14 +232,14 @@
 		}
 		
 		// 아이디 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findIdNameInput.keyup(function() {
+		findIdNameInput.on("input", function() {
 			findIdNameValidationWithSave.test();
 			
 			enableButton(findIdButton, isFindIdAllFlagTrue());
 		});
 		
 		// 아이디 찾기의 생년월일에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findIdBirthDateInput.keyup(function() {
+		findIdBirthDateInput.on("input", function() {
 			findIdBirthDateOnlyNumberAllowedValidationWithSave.test();
 			findIdBirthDateValidation.test();
 			
@@ -248,7 +248,7 @@
 		});
 		
 		// 아이디 찾기의 휴대폰 번호에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findIdPhoneNumberInput.keyup(function() {
+		findIdPhoneNumberInput.on("input", function() {
 			findIdPhoneNumberValidationWithSave.test();
 			findIdPhoneNumberValidation.test();
 			
@@ -257,21 +257,21 @@
 		});
 		
 		// 비밀번호 찾기의 아이디에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findPasswordIdInput.keyup(function() {
+		findPasswordIdInput.on("input", function() {
 			findPasswordIdValidationWithSave.test();
 			
 			enableButton(findPasswordRequestAuthenticationButton, isFindPasswordAllFlagTrue());
 		});
 		
 		// 비밀번호 찾기의 이름에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findPasswordNameInput.keyup(function() {
+		findPasswordNameInput.on("input", function() {
 			findPasswordNameValidationWithSave.test();
 			
 			enableButton(findPasswordRequestAuthenticationButton, isFindPasswordAllFlagTrue());
 		});
 		
 		// 비밀번호 찾기의 휴대폰 번호에 키보드 입력이 있을 때마다 실행되며 input 값에 대해 유효성 검사를 실시한다.
-		findPasswordPhoneNumberInput.keyup(function() {
+		findPasswordPhoneNumberInput.on("input", function() {
 			findPasswordPhoneNumberValidationWithSave.test();
 			findPasswordPhoneNumberValidation.test();
 			
@@ -320,8 +320,7 @@
 					findPasswordCheckAuthenticationButton.prop("disabled", true);
 					
 					findPasswordCheckAuthenticationErrorDiv.find("span").text("유효시간이 초과되었습니다. 인증번호 재전송을 통해 다시 인증해주세요.");
-					findPasswordCheckAuthenticationErrorDiv.prop("hidden", false);
-					findPasswordCheckAuthenticationErrorDiv.prev().removeClass("row-other");
+					showErrorDiv(findPasswordCheckAuthenticationErrorDiv, true);
 					
 					clearInterval(remainTimeInterval);
 				}
@@ -364,6 +363,9 @@
 		
 		// 비밀번호 찾기의 "인증요청" 버튼을 누를 때마다 실행되며, isCustomerExist가 true일 경우 ajax 통신을 생략한다.
 		findPasswordRequestAuthenticationButton.click(function(event) {
+			findPasswordAuthenticationCodeInput.val("");
+			showErrorDiv(findPasswordCheckAuthenticationErrorDiv, false);
+			
 			if (isCustomerExist) {
 				clearInterval(remainTimeInterval);
 				passedRequestAuthentication();
