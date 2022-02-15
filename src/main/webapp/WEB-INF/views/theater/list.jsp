@@ -31,6 +31,10 @@ button {
 	vertical-align: middle;
 	background-color: #fff;
 }
+a{
+	text-decoration: none;
+	color: black;
+}
 
 ul.tabs {
 	margin: 0px;
