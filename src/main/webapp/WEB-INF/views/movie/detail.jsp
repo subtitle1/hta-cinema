@@ -677,6 +677,8 @@
 				dataType: 'json',
 				success: function(response) {
 					
+					$("#error-txt").empty();
+					
 					let reviewScore = response.items.review.reviewScore;
 					let reviewContent = response.items.review.reviewContent;
 					let reviewPoints = response.items.review.reviewPoints.map(point => point.no);
