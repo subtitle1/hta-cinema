@@ -847,15 +847,10 @@
 			}
 		})
 		
-		function toggleHeart(response, src) {
-			button.find('span').text(response.items.likeCount);
-			button.find('img').attr("src", src);
-		}
-		
 		// 좋아요 기능
 		$("#btn-"+movieId).click(function() {
 			
-			// let movieNo = $(this).attr("data-no");
+			let movieNo = $(this).attr("data-no");
 			let button = $(this);
 			let unlike = "/resources/images/movie/unlike.png";
 			let like = "/resources/images/movie/like.png";
@@ -872,7 +867,8 @@
 							showError(response.error);
 							return;
 						}
-						toggleHeart(response, like);
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", like);
 					}
 				})
 			} else {
@@ -882,7 +878,8 @@
 					data: {movieNo: movieId},
 					dataType: "json",
 					success: function(response) {
-						toggleHeart(response, unlike);
+						button.find('span').text(response.items.likeCount);
+						button.find('img').attr("src", unlike);
 					}
 				})
 			}
