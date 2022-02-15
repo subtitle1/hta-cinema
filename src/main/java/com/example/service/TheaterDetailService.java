@@ -45,7 +45,7 @@ public class TheaterDetailService {
 	@Autowired
 	private ScreenScheduleMapper screenScheduleMapper;
 
-	public TheaterDto getTheaterDto(int no) {
+	public TheaterDto getTheaterDto(int no, String showDate) {
 		
 		TheaterDto theaterDto = new TheaterDto();
 		Map<String, List<Theater>> map = new HashMap<String, List<Theater>>();
@@ -67,7 +67,7 @@ public class TheaterDetailService {
 		//전체를 포함한 ShowScheduleDto list
 		List<ShowScheduleDto> showScheduleList = new ArrayList<ShowScheduleDto>();
 		//영화번호를 뽑을 showDto
-		List<ShowDto> showDto = showScheduleMapper.getAllScheduleByTheaterNo(no);
+		List<ShowDto> showDto = showScheduleMapper.getAllScheduleByTheaterNo(no, showDate);
 		//List<ScreenDto> dto = new ArrayList<ScreenDto>();
 		//모든 영화번호를 for로 돌리기돌려서 
 		for(ShowDto movie: showDto) {
@@ -76,14 +76,14 @@ public class TheaterDetailService {
 			//List<ScreenDto> dto = new ArrayList<ScreenDto>();
 			
 			//showScheduleDto.setScreenList에 screenlist 담아주기
-			List<ScreenDto> screenList = screenScheduleMapper.getAllScreenByTheaterNo(no, movie.getMovieNo());
+			List<ScreenDto> screenList = screenScheduleMapper.getAllScreenByTheaterNo(no, movie.getMovieNo(), showDate);
 			showScheduleDto.setScreenList(screenList);
 			
 			//showScheduleDto.setScreenList에 movie 담아주기
 			showScheduleDto.setShowDto(movie);
 			
 			for(ScreenDto screen: screenList) {
-				List<ScheduleDto> scheduleList =scheduleMapper.getAllScheduleByTheaterNo(no, movie.getMovieNo(), screen.getScreenNo());
+				List<ScheduleDto> scheduleList =scheduleMapper.getAllScheduleByTheaterNo(no, movie.getMovieNo(), screen.getScreenNo(), showDate);
 				screen.setScheduleList(scheduleList);
 				
 				//ScreenDto screenDto = new ScreenDto();

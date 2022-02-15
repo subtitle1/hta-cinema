@@ -5,6 +5,7 @@
 		resultType="com.example.dto.ScreenDto" >
 	
 		select
+		distinct
 			s.SCREEN_NO			as screenNo,
 			s.SCREEN_NAME			as screenName,
 			s.SCREEN_TOTAL_SEAT	as totalSeat,
@@ -15,8 +16,9 @@
 		where
 			st.SHOW_TYPE_NO=ss.SHOW_TYPE_NO
 			and ss.SCREEN_NO = s.SCREEN_NO
-			and s.THEATER_NO = #{theaterNo}
+			and s.THEATER_NO = #{no}
 			and ss.movie_no = #{movieNo} 
+			and to_char(ss.SHOW_SCHEDULE_START_TIME, 'yyyyMMdd') =	#{showDate}
 			
 </select>
 
