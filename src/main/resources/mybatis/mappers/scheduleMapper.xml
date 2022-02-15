@@ -6,6 +6,7 @@
 		resultType="com.example.dto.ScheduleDto">
 		
 		select
+			
 			ss.SHOW_SCHEDULE_NO as showScheduleNo,
 			ss.SHOW_TYPE_NO as showTypeNo,
 			ss.SHOW_SCHEDULE_START_TIME as startTime,
@@ -18,9 +19,10 @@
 			ss.SHOW_TYPE_NO = st.SHOW_TYPE_NO 
 			and ss.movie_no = m.movie_no
             and s.screen_no = ss.screen_no
-			and s.THEATER_NO = #{theaterNo}
+			and s.THEATER_NO = #{no}
 			and m.movie_no = #{movieNo}
 			and s.screen_no =#{screenNo}
+			and to_char(ss.SHOW_SCHEDULE_START_TIME, 'yyyyMMdd') =	#{showDate}
 			
 		
 	</select>

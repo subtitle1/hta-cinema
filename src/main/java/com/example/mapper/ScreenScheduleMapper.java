@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Param;
 import com.example.dto.ScreenDto;
 
 public interface ScreenScheduleMapper {
-	public List<ScreenDto> getAllScreenByTheaterNo(@Param("theaterNo") int theaterNo, @Param("movieNo") int movieNo);  
+	public List<ScreenDto> getAllScreenByTheaterNo(@Param("no") int theaterNo, @Param("movieNo") int movieNo, @Param("showDate")String showDate);  
 }

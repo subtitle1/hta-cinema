@@ -402,6 +402,13 @@
 
 			thisWeek[i] = yyyy + "-" + mm + '-' + dd + '-' + d;
 		}
+		
+		$(".button.mon").click(function() {
+			var no = $(":input[name=theaterNo]").val();
+			var day = $(this).attr('data-day').substr(0, 8);
+			location.href = "detail?no=" + no + "&showDate=" + day;
+		});
+		
 	</script>
 </body>
 
