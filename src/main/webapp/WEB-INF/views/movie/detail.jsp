@@ -656,6 +656,7 @@
 				dataType: 'json',
 				async: false,
 				success: function (response) {
+					console.log(response);
 					if (response.items) {
 						reviewModal.show();
 					} else {
@@ -676,6 +677,8 @@
 				data: {movieNo: movieId},
 				dataType: 'json',
 				success: function(response) {
+					
+					$("#error-txt").empty();
 					
 					let reviewScore = response.items.review.reviewScore;
 					let reviewContent = response.items.review.reviewContent;

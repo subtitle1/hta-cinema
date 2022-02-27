@@ -6,6 +6,7 @@
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <title>Page Title</title>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="/resources/css/navbar.css" />
 <link rel="stylesheet" href="/resources/css/common.css" />
 <link
@@ -24,7 +25,9 @@
 <body>
 	<%@include file="../common/tags.jsp"%>
 	<%@include file="../common/navbar.jsp"%>
+	
 	<div class="container">
+		<input type="hidden" name="no" value="${param.no }">
 		<div class="row">
 			<ul class="theater-menu">
 				<li><a href="/theater/list">전체극장</a></li>
@@ -68,7 +71,7 @@
 					<div id="tab-4" class="tab-content">
 						<ul>
 							<c:forEach var="theater" items="${dto.theaterList.daejeon}">
-								<li class="theaterName" style="width: 23.6%"><a
+								<li class="theaterName" style="width: 23.6%"><a class="movieName"
 									href="detail?no=${theater.no}">${theater.name}</a></li>
 							</c:forEach>
 						</ul>
@@ -98,21 +101,21 @@
 					<div id="tab-7" class="tab-content">
 						<ul class="depth1">
 							<c:forEach var="theater" items="${dto.theaterList.kangwon}">
-								<li class="theaterName" style="width: 23.6%"><a
-									href="detail?no=${theater.no}">${theater.name}</a></li>
+								<li class="theaterName" style="width: 23.6%" ><a 
+									 href="detail?no=${theater.no}">${theater.name}</a></li>
 							</c:forEach>
 						</ul>
 					</div>
 				</li>
 			</ul>
-			<h2 class=movie-name>영화이름</h2>
+			<h2 class="movie-name">${dto.theater.name}</h2>
 		</div>
 
 
 		<div class="inner-wrap pt40">
 			<ul class="info-tab">
-				<li class="tab-info current" data-tab="info-1">극장정보</li>
-				<li class="tab-info" data-tab="info-2">상영시간표</li>
+				<li class="tab-info ${empty param.showDate ? 'current' : '' }" data-tab="info-1">극장정보</li>
+				<li class="tab-info ${not empty param.showDate ? 'current' : '' }" data-tab="info-2">상영시간표</li>
 				<li class="tab-info" data-tab="info-3">관람료</li>
 			</ul>
 			<div class="contents-wrap">
@@ -229,7 +232,7 @@
 				</div>
 			</div>
 			
-			
+
 			<div id="info-2" class="info-content">
 				<div class="col-10">
 					<div class="show-schedule">
@@ -259,35 +262,73 @@
 								</div>
 							</div>
 
-							<c:forEach var="showSchedule" items="${dto.showScheduleList}" >
-							
-							<div class="theater-list">
-								<div class="theater-tit">
-								<!-- 관람등급 사진 -->
-									<p class="movie-grade age-12"></p>
-									<p>
-										<a href="/movie/detail?no=${showSchedule.showDto.movieNo }"
-											title="${showSchedule.showDto.movieName } 상세보기"> ${showSchedule.showDto.movieName }</a>
-									</p>
-								</div>
-								<c:forEach var="screen" items="${showSchedule.screenList}">
-								
-								<div class="theater-type-box">
-									<div class="theater-type">
-										<p class="theater-name">${screen.screenName}</p><br>
-										<p class="chair">총 ${screen.totalSeat}</p>
+							<c:forEach var="showSchedule" items="${dto.showScheduleList}">
+
+								<div class="theater-list">
+									<div class="theater-tit">
+										<!-- 관람등급 사진 -->
+										<p class="movie-grade age-12"></p>
+										<p>
+											<a href="/movie/detail?no=${showSchedule.showDto.movieNo }"
+												title="${showSchedule.showDto.movieName } 상세보기">
+												${showSchedule.showDto.movieName }</a>
+										</p>
 									</div>
-									<div class="theater-time">
-										<div class="theater-type-area">${screen.showTypeName}</div>
-										<div class="theater-time-box">
-											<c:forEach var="schedule" items="${screen.scheduleList}">
-												<p>${schedule.timeNo}</p>
-											</c:forEach>
+									<c:forEach var="screen" items="${showSchedule.screenList}">
+
+										<div class="theater-type-box">
+											<div class="theater-type">
+												<p class="theater-name">${screen.screenName}</p>
+												<br>
+												<p class="chair">총 ${screen.totalSeat}</p>
+											</div>
+											<div class="theater-time">
+												<div class="theater-type-area">${screen.showTypeName}</div>
+												<div class="theater-time-box">
+													<c:forEach var="schedule" items="${screen.scheduleList}">
+
+
+														<table class="time-list-table">
+															<caption>상영시간을 보여주는 표 입니다.</caption>
+															<colgroup>
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+																<col style="width: 99px;">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<td class="" brch-no="1372"
+																		play-schdl-no="2202151372020" rpst-movie-no="22000800"
+																		theab-no="05" play-de="20220215" play-seq="2">
+																		<div class="td-ab">
+																			<div class="txt-center">
+																				<a href="/ticketing/screenList" title="영화예매하기">
+																				
+																					<p class="time"><fmt:formatDate value="${schedule.startTime}" pattern="hh:mm" />~</p>
+																					<p class="time"><fmt:formatDate value="${schedule.endTime}" pattern="hh:mm" /></p>
+																					
+																					<div class="play-time">
+																						<p></p>
+																						<p>${schedule.timeNo}회차</p>
+																					</div>
+																				</a>
+																			</div>
+																		</div>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</c:forEach>
+												</div>
+											</div>
 										</div>
-									</div>
+									</c:forEach>
 								</div>
-								</c:forEach>
-							</div>
 							</c:forEach>
 						</div>
 					</div>
@@ -306,6 +347,28 @@
 				$("#" + tab_id).addClass('current');
 			})
 		})
+		
+		var currentTabId = $('ul.info-tab li.current').attr('data-tab');
+		$('.info-content').removeClass('current');
+		$("#" + currentTabId).addClass('current');
+		
+		$(document).ready(function() {
+
+			$('div.play-time ').mouseover(function() {
+				var tab_id = $(this).attr('data-tab');
+
+				$('ul.region-tab li').removeClass('current');
+				$('.tab-content').removeClass('current');
+
+				$(this).addClass('current');
+				$("#" + tab_id).addClass('current');
+			})
+			$('ul.region-tab li').mouseleave(function() {
+				$('ul.region-tab li').removeClass('current');
+				$('.tab-content').removeClass('current');
+			})
+		})
+		
 
 		$(document).ready(function() {
 
@@ -323,6 +386,8 @@
 				$('.tab-content').removeClass('current');
 			})
 		})
+		
+		
 
 		const dataDate = new Date();
 		let year = dataDate.getFullYear();
@@ -340,6 +405,8 @@
 		let spanWeekOfDay = "";
 		let spanDay = "";
 		let div = "";
+		
+		
 		for (let i = dayNumber; i <= dayNumber + 11; i++) {
 
 			div = document.createElement("div");
@@ -402,13 +469,17 @@
 
 			thisWeek[i] = yyyy + "-" + mm + '-' + dd + '-' + d;
 		}
-		
-		$(".button.mon").click(function() {
-			var no = $(":input[name=theaterNo]").val();
+
+		$("button.mon").click(function() {
+			var no = $(":input[name=no]").val();
 			var day = $(this).attr('data-day').substr(0, 8);
 			location.href = "detail?no=" + no + "&showDate=" + day;
 		});
 		
+		function sendName(theaterName) {
+			const movieName = document.querySelector('.movie-name');
+			movieName.innerText = theaterName;
+		}
 	</script>
 </body>
 
