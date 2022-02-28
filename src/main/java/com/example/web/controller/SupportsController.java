@@ -9,9 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.service.FaqService;
+import com.example.service.ChatroomService;
 import com.example.service.QnaService;
 import com.example.service.TheaterService;
+import com.example.vo.ChatRoom;
 import com.example.vo.QnaType;
 import com.example.vo.Region;
 
@@ -22,6 +23,8 @@ public class SupportsController {
 	private TheaterService theaterService;
 	@Autowired
 	private QnaService qnaService;
+	@Autowired
+	private ChatroomService chatroomService;
 	
 	static final Logger logger = LogManager.getLogger(SupportsController.class);
 	
@@ -40,5 +43,16 @@ public class SupportsController {
 		model.addAttribute("categories", categories);
 		
 		return "/supports/inquiry";
+	}
+	
+	@GetMapping("/supports/chat")
+	public String chat(Model model) {
+		// List<ChatRoom> chatLists = chatroomService.
+		return "/supports/chat";
+	}
+	
+	@GetMapping("/supports/chatroom")
+	public String chatRoom() {
+		return "/supports/chatroom";
 	}
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ChatRoomMapper">
+
+	<insert id="insertChatroom" parameterType="com.example.vo.ChatRoom">
+		insert into chatroom
+			(chatroom_no, 
+			admin_no, 
+			customer_no, 
+			updated_date)
+		values
+			(chatroom_no_seq.nextval chatroomNo,
+			#{adminNo},
+			#{customerNo},
+			sysdate)
+	</insert>
+	
+	<select id="getChatroomByNo" parameterType="long" resultType="com.example.vo.ChatRoom">
+		select 
+			chatroom_no chatroomNo,
+			admin_no adminNo,
+			customer_no customerNo,
+			updated_date updatedDate
+	</select>
+	
+	<select id="getChatListsByCustomerNo" parameterType="int" resultType="com.example.vo.ChatRoom">
+		select 
+			chatroom_no chatroomNo, 
+			admin_no adminNo, 
+			customer_no customerNo,
+			updated_date updatedDate
+		from 
+			chatroom
+		where 
+			customer_no = #{value};
+	</select>
+</mapper>
