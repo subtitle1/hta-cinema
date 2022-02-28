@@ -2,19 +2,22 @@ package com.example.vo;
 
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Getter
-@Setter
-@ToString
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class ChatRoom {
 
 	private long chatroomNo;
 	private int adminNo;
 	private int customerNo;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Date updatedDate;
 }
