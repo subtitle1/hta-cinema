@@ -50,20 +50,27 @@
 				<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
 					<c:choose>
 						<c:when test="${not empty LOGIN_USER }">
-							<div class="mt-4 mb-3">
-								<button class="btn-primary btn-sm">새 채팅 문의 등록</button>
+							<div class="mt-5 mb-3">
+								<button class="startChat btn-primary btn-sm">새 채팅 문의 등록</button>
 							</div>
 							<div class="mt-4 mb-3">
 								<span>일대일 채팅 문의를 남겨 보세요.</span>
 							</div>
-							<c:if test="${empty chatList }">
-							
-							</c:if>
-							<div class="mb-3 bg-light" id="chatroom" style = "width:400px; height: 600px; border:1px solid;"></div>
-							<div>
-								<input type="text" id="message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요." autofocus>
-								<button class="btn btn-primary btn-sm" id="send">전송</button>
-							</div>
+							<c:choose>
+								<c:when test="${empty chatList }">
+									<span>등록된 1:1 채팅 문의가 존재하지 않습니다.</span>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="chat" items="${chatList }">
+										<a href="/supports/chatroom?no=${chat.chatroomNo }">
+											<div class="bg-light mb-3">
+												<span>${chat.chatroomNo }</span>
+												<span>문의</span>
+											</div>
+										</a>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 						<c:otherwise>
 							<p>로그인한 사용자만 사용하실 수 있는 페이지입니다.</p>		
@@ -76,5 +83,18 @@
 </div>
 </body>
 <script type="text/javascript">
+	$(function() {
+		$(".startChat").click(function() {
+			$.ajax({
+				type: "post",
+				url: "/supports/chatroom",
+				dataType: 'json',
+				success: function(response) {
+					console.log(response);
+					// bg-light에 append
+				}
+			})
+		})
+	})
 </script>
 </html>
