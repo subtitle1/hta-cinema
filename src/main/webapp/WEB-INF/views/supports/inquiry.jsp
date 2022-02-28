@@ -19,26 +19,29 @@
 <%@include file="../common/navbar.jsp"%>
 <div class="container">
 	<div class="menu mt-5">
-		<div>
-			<div class="col p-0 page-title text-center">
-				<h3>고객센터</h3>
+			<div>
+				<div class="col p-0 page-title text-center">
+					<h3>고객센터</h3>
+				</div>
+			</div>
+			<div class="row mypage">
+				<div class="col p-0 aside text-center mt-3">
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
+					</ul>
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
+					</ul>
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports/chat" class="nav-link p-0">채팅 문의</a></li>
+					</ul>
+				</div>
+				<div class="text-center mt-3 mb-3">
+					<span>HTA CINEMA 고객센터</span>
+					<span>10:30~18:30</span>
+				</div>
 			</div>
 		</div>
-		<div class="row mypage">
-			<div class="col p-0 aside text-center mt-3">
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports" class="nav-link p-0">자주 묻는 질문</a></li>
-				</ul>
-				<ul class="nav flex-column p-0">
-					<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
-				</ul>
-			</div>
-			<div class="text-center mt-3 mb-3">
-				<span>HTA CINEMA 고객센터</span>
-				<span>10:30~18:30</span>
-			</div>
-		</div>
-	</div>
 	
 	<div class="supports col-6">
 		<div class="row">

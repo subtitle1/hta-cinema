@@ -34,6 +34,9 @@
 					<ul class="nav flex-column p-0">
 						<li class=""><a href="/supports/inquiry" class="nav-link p-0">1:1 문의</a></li>
 					</ul>
+					<ul class="nav flex-column p-0">
+						<li class=""><a href="/supports/chat" class="nav-link p-0">채팅 문의</a></li>
+					</ul>
 				</div>
 				<div class="text-center mt-3 mb-3">
 					<span>HTA CINEMA 고객센터</span>
