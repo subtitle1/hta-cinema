@@ -65,9 +65,10 @@
 										<a href="/supports/chatroom?no=${chat.chatroomNo }">
 											<div class="bg-light mb-3">
 												<span>${chat.chatroomNo }</span>
-												<span>문의</span>
+												<span>1:1 채팅</span>
 											</div>
 										</a>
+										<div class="append-list"></div>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -90,8 +91,17 @@
 				url: "/supports/chatroom",
 				dataType: 'json',
 				success: function(response) {
-					console.log(response);
-					// bg-light에 append
+					let $div = $(".append-list");
+					let output = "";
+					
+					output += "<a href='/supports/chatroom?no="+response.chatroomNo+"'>"
+					output += "<div class='bg-light mb-3'>"
+					output += "<span>"+response.chatroomNo+"</span>"
+					output += "<span> 1:1 채팅</span>"
+					output += "</div>";
+					output += "</a>";
+					
+					$div.append(output);
 				}
 			})
 		})

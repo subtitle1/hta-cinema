@@ -45,6 +45,7 @@
 			<optional>true</optional>
 		</dependency>
 		
+		<!-- 웹소캣 설정 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -61,6 +62,13 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.2.1</version>
+		</dependency>
+		
+		<!-- json-simple 설정 -->
+		<dependency>
+		  <groupId>com.googlecode.json-simple</groupId>
+		  <artifactId>json-simple</artifactId>
+		  <version>1.1.1</version>
 		</dependency>
 		
 		<!--

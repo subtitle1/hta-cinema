@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.mapper.ChatRoomMapper;
 import com.example.vo.ChatRoom;
+import com.example.vo.Message;
 
 @Service
 @Transactional
@@ -28,4 +29,7 @@ public class ChatroomService {
 		return chatroomMapper.getChatListsByCustomerNo(no);
 	}
 	
+	public void insertMessage(Message message) {
+		chatroomMapper.insertMessage(message);
+	}
 }
