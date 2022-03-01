@@ -39,4 +39,17 @@
 		where 
 			customer_no = #{value}
 	</select>
+	
+	<insert id="insertMessage" parameterType="com.example.vo.Message">
+		insert into messages
+			(chatroom_no, 
+			customer_no,
+			content,
+			sending_date)
+		values
+			(#{chatroomNo},
+			#{customerNo},
+			#{content},
+			sysdate)
+	</insert>
 </mapper>

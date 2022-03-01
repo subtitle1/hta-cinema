@@ -50,7 +50,11 @@
 				<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
 					<c:choose>
 						<c:when test="${not empty LOGIN_USER }">
+							<input type="hidden" id="sessionId" value="">
+							<input type="hidden" id="chatroomNo" value="${param.no}">
 							<div class="mb-3 mt-5 bg-light" id="chatroom" style = "width:400px; height: 600px; border:1px solid;">
+								<div id="chatting" class="chatting">
+								</div>
 							</div>
 							<div>
 								<input type="text" id="message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요." autofocus>
@@ -68,6 +72,92 @@
 </div>
 </body>
 <script type="text/javascript">
+		
+	let customerNo = "${LOGIN_USER.no}";
+	let chatroomNo = $("#chatroomNo").val();
+	let ws;
+	
+	$(document).ready(function () {
+		
+		if (ws) {
+			ws.close();
+		}
+		
+		ws = new WebSocket("ws://localhost/chatting/"+chatroomNo);
+		console.log('웹소켓 열림');
+		console.log(customerNo);
+		console.log(chatroomNo);
+		wsEvt();
+	});
+	
+	function wsEvt() {
+		ws.onopen = function(data){
+			//소켓이 열리면 동작
+		}
+		
+		ws.onmessage = function(data) {
 
+			console.log('메세지 받기 시도');
+			var msg = JSON.parse(data.data);
+			console.log(msg);
+			
+			if(msg.type == "getId"){
+				var si = msg.sessionId != null ? msg.sessionId : "";
+				
+				if(si != ''){
+					$("#sessionId").val(si); 
+					console.log('1');
+				}
+				
+			} else if (msg.type == "message") {
+				
+				if (msg.sessionId == $("#sessionId").val()){
+					console.log('2');
+					$("#chatting").append("<p class='me'>나 : " + msg.msg + "</p>");	
+				} else {
+					console.log(msg);
+					$("#chatting").append("<p class='others'> 다른 사람 : " + msg.msg + "</p>");
+				}
+					
+			} else {
+				console.warn("unknown type!")
+			}
+		}
+	}
+	
+	let message = document.getElementById("message");
+	message.addEventListener("keydown", function(e){
+		if(e.keyCode == 13){ 
+			send();
+		}
+	});
+
+	function send() {
+		let msg = {
+			type: "message",
+			roomNumber: chatroomNo,
+			sessionId : $("#sessionId").val(),
+			customerNo : customerNo,
+			msg : $("#message").val()
+		}
+		
+		ws.send(JSON.stringify(msg));
+		
+		/* $.ajax({
+			type: "post",
+			url: "/supports/message",
+			data: JSON.stringify(
+					{
+						chatroomNo: chatroomNo, 
+						customerNo: customerNo, 
+						content: $("#message").val()
+						}
+					),
+			contentType: "application/json",
+			dataType: 'json'
+		}) */
+		
+		$('#message').val("");
+	}
 </script>
 </html>
