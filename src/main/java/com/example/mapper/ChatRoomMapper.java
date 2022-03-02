@@ -14,4 +14,5 @@ public interface ChatRoomMapper {
 	ChatRoom getChatroomByNo(long no);
 	List<ChatRoom> getChatListsByCustomerNo(int no);
 	void insertMessage(Message message);
+	List<ChatRoom> getAllChatRooms();
 }

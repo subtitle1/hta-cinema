@@ -52,4 +52,14 @@
 			#{content},
 			sysdate)
 	</insert>
+	
+	<select id="getAllChatRooms" resultType="com.example.vo.ChatRoom">
+		select 
+		    chatroom_no chatroomNo,
+		    admin_no adminNo,
+		    customer_no customerNo,
+		    updated_date updatedDate
+		from 
+			chatroom
+	</select>
 </mapper>

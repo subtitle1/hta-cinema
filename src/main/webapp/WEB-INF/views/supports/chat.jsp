@@ -49,7 +49,28 @@
 			<div class="row">
 				<div class="offset ms-4 col-7 p-0" style="margin-left: 20px;">
 					<c:choose>
-						<c:when test="${not empty LOGIN_USER }">
+						<c:when test="${LOGIN_USER.no eq 100000048 }">
+							<c:choose>
+								<c:when test="${empty chatList }">
+									<span>등록된 1:1 채팅 문의가 존재하지 않습니다.</span>
+								</c:when>
+								<c:otherwise>
+									<div class="mt-5 mb-3">
+										<span>현재 등록된 1:1 문의입니다.</span>
+									</div>
+									<c:forEach var="chat" items="${chatList }">
+										<a href="/supports/chatroom?no=${chat.chatroomNo }">
+											<div class="bg-light mb-3">
+												<span>${chat.chatroomNo }</span>
+												<span>1:1 채팅</span>
+											</div>
+										</a>
+										<div class="append-list"></div>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>	
+						</c:when>
+						<c:otherwise>
 							<div class="mt-5 mb-3">
 								<button class="startChat btn-primary btn-sm">새 채팅 문의 등록</button>
 							</div>
@@ -71,10 +92,7 @@
 										<div class="append-list"></div>
 									</c:forEach>
 								</c:otherwise>
-							</c:choose>
-						</c:when>
-						<c:otherwise>
-							<p>로그인한 사용자만 사용하실 수 있는 페이지입니다.</p>		
+							</c:choose>	
 						</c:otherwise>
 					</c:choose>
 				</div>
