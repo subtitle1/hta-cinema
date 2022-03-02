@@ -32,4 +32,8 @@ public class ChatroomService {
 	public void insertMessage(Message message) {
 		chatroomMapper.insertMessage(message);
 	}
+	
+	public List<ChatRoom> getAllChatrooms() {
+		return chatroomMapper.getAllChatRooms();
+	}
 }

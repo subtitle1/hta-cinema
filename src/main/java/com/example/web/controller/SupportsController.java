@@ -55,8 +55,12 @@ public class SupportsController {
 	
 	@GetMapping("/chat")
 	public String chat(Model model, @LoginedUser Customer customer) {
-		List<ChatRoom> chatList = chatroomService.getChatListsByCustomerNo(customer.getNo());
-		model.addAttribute("chatList", chatList);
+		
+		if (customer.getNo() == 100000048) {
+			model.addAttribute("chatList", chatroomService.getAllChatrooms());
+		} else {
+			model.addAttribute("chatList", chatroomService.getChatListsByCustomerNo(customer.getNo()));
+		}
 		return "/supports/chat";
 	}
 	
